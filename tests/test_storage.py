@@ -4,6 +4,7 @@ from nlp_arxiv_daily.storage import (
     _current_yymm,
     _yymm_to_archive_basename,
     bucket_by_month,
+    write_keyword_day_snapshots,
     write_papers_split,
 )
 
@@ -206,3 +207,33 @@ class TestWritePapersSplitRoundTrip:
         )
         main = json.loads(open(paths["main"]).read())
         assert list(main.keys()) == ["NLP", "Surprise"]
+
+
+class TestWriteKeywordDaySnapshots:
+    def test_writes_keyword_folders_by_snapshot_date(self, tmp_path):
+        write_keyword_day_snapshots(
+            [{"NLP": {"2605.00001": "row-1"}, "Question Answering": {"2605.00002": "row-2"}}],
+            str(tmp_path),
+            snapshot_date="20260531",
+        )
+
+        nlp = json.loads(open(tmp_path / "NLP" / "20260531" / "papers.json").read())
+        qa = json.loads(open(tmp_path / "Question Answering" / "20260531" / "papers.json").read())
+        assert nlp == {"2605.00001": "row-1"}
+        assert qa == {"2605.00002": "row-2"}
+
+    def test_rerun_same_day_merges_snapshot_file(self, tmp_path):
+        docs_dir = str(tmp_path)
+        write_keyword_day_snapshots(
+            [{"NLP": {"2605.00001": "row-1"}}],
+            docs_dir,
+            snapshot_date="20260531",
+        )
+        write_keyword_day_snapshots(
+            [{"NLP": {"2605.00002": "row-2"}}],
+            docs_dir,
+            snapshot_date="20260531",
+        )
+
+        merged = json.loads(open(tmp_path / "NLP" / "20260531" / "papers.json").read())
+        assert merged == {"2605.00001": "row-1", "2605.00002": "row-2"}

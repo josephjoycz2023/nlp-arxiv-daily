@@ -38,6 +38,10 @@ def _current_yymm() -> str:
     return f"{today.year % 100:02d}{today.month:02d}"
 
 
+def _current_yyyymmdd() -> str:
+    return datetime.date.today().strftime("%Y%m%d")
+
+
 def _load_papers_json(path: str, into: dict) -> None:
     if not os.path.exists(path):
         return
@@ -59,6 +63,44 @@ def _ordered_bucket(bucket: PapersByKeyword, keyword_order: list[str] | None) ->
         if k not in ordered:
             ordered[k] = v
     return ordered
+
+
+def _load_json_dict(path: str) -> dict:
+    if not os.path.exists(path):
+        return {}
+    with open(path) as f:
+        content = f.read()
+    return json.loads(content) if content else {}
+
+
+def write_keyword_day_snapshots(
+    new_papers_list: list[PapersByKeyword],
+    docs_dir: str,
+    *,
+    snapshot_date: str | None = None,
+    keyword_order: list[str] | None = None,
+) -> None:
+    """Persist per-keyword daily snapshots under docs/<keyword>/<YYYYMMDD>/papers.json.
+
+    Re-runs on the same date merge into the same `papers.json`, making the
+    write idempotent for repeated local fetches on one day.
+    """
+    if snapshot_date is None:
+        snapshot_date = _current_yyyymmdd()
+
+    ordered_batches = new_papers_list
+    if keyword_order:
+        ordered_batches = [_ordered_bucket(batch, keyword_order) for batch in new_papers_list]
+
+    for batch in ordered_batches:
+        for keyword, papers in batch.items():
+            day_dir = os.path.join(docs_dir, keyword, snapshot_date)
+            os.makedirs(day_dir, exist_ok=True)
+            snapshot_path = os.path.join(day_dir, "papers.json")
+            existing = _load_json_dict(snapshot_path)
+            existing.update(papers)
+            with open(snapshot_path, "w") as f:
+                json.dump(existing, f)
 
 
 def write_papers_split(

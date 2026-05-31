@@ -15,6 +15,7 @@ from __future__ import annotations
 import argparse
 import datetime
 import logging
+import os
 import sys
 from collections.abc import Iterator
 
@@ -25,7 +26,7 @@ from nlp_arxiv_daily.fetcher import (
     fetch_papers_in_range,
 )
 from nlp_arxiv_daily.renderer import json_to_md, render_archive_pages
-from nlp_arxiv_daily.storage import write_papers_split
+from nlp_arxiv_daily.storage import write_keyword_day_snapshots, write_papers_split
 
 
 def cmd_fetch(config: dict) -> None:
@@ -54,6 +55,12 @@ def cmd_fetch(config: dict) -> None:
             keyword_order=keyword_order,
         )
     if config["publish_gitpage"]:
+        docs_dir = os.path.dirname(config["json_gitpage_path"]) or "."
+        write_keyword_day_snapshots(
+            data_collector_web,
+            docs_dir,
+            keyword_order=keyword_order,
+        )
         write_papers_split(
             data_collector_web,
             config["json_gitpage_path"],
@@ -195,6 +202,12 @@ def cmd_backfill(
                 keyword_order=keyword_order,
             )
         if config["publish_gitpage"] and month_data_web:
+            docs_dir = os.path.dirname(config["json_gitpage_path"]) or "."
+            write_keyword_day_snapshots(
+                month_data_web,
+                docs_dir,
+                keyword_order=keyword_order,
+            )
             write_papers_split(
                 month_data_web,
                 config["json_gitpage_path"],
