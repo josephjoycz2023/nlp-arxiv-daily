@@ -4,7 +4,7 @@ import logging
 
 import yaml
 
-from nlp_arxiv_daily.fetcher import fetch_papers
+from nlp_arxiv_daily.fetcher import configure_hf_papers, fetch_papers
 from nlp_arxiv_daily.types import Paper
 
 
@@ -66,6 +66,8 @@ def load_config(config_file: str) -> dict:
 
     with open(config_file) as f:
         config = yaml.load(f, Loader=yaml.FullLoader)
+        config.setdefault("enable_hf_papers", True)
+        configure_hf_papers(config["enable_hf_papers"])
         config["kv"] = pretty_filters(**config)
         logging.info(f"config = {config}")
     return config

@@ -47,11 +47,18 @@ BACKFILL_DEFAULT_MAX_RESULTS = 2000
 # enough that a daily run finishes in seconds.
 HF_MIN_INTERVAL_SECONDS = 0.5
 _hf_last_call_ts: float = 0.0
+HF_PAPERS_ENABLED = True
 
 # Module-level singleton so every keyword in cmd_fetch shares the same
 # client, and the arxiv library's per-client rate limiter governs *across*
 # keyword boundaries (not just within a single fetch_papers call).
 _DAILY_CLIENT: arxiv.Client | None = None
+
+
+def configure_hf_papers(enabled: bool) -> None:
+    """Allow callers to disable HF Papers enrichment in network-restricted envs."""
+    global HF_PAPERS_ENABLED
+    HF_PAPERS_ENABLED = enabled
 
 
 def _get_daily_client() -> arxiv.Client:
@@ -113,14 +120,15 @@ def find_code_link(arxiv_id: str, summary: str | None = None) -> str | None:
     whole daily run, so retry-exhausted errors are swallowed and the
     summary fallback still gets a chance.
     """
-    try:
-        payload = _hf_lookup(arxiv_id)
-        if payload:
-            repo = payload.get("githubRepo")
-            if repo:
-                return repo
-    except (requests.RequestException, requests.HTTPError) as e:
-        logging.warning(f"HF Papers lookup failed for {arxiv_id}: {e}")
+    if HF_PAPERS_ENABLED:
+        try:
+            payload = _hf_lookup(arxiv_id)
+            if payload:
+                repo = payload.get("githubRepo")
+                if repo:
+                    return repo
+        except (requests.RequestException, requests.HTTPError) as e:
+            logging.warning(f"HF Papers lookup failed for {arxiv_id}: {e}")
 
     if summary:
         m = GITHUB_URL_RE.search(summary)

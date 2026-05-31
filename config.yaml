@@ -1,4 +1,4 @@
-user_name: "monologg"
+user_name: "josephjoycz2023"
 repo_name: "nlp-arxiv-daily"
 show_authors: True
 show_links: True
@@ -7,6 +7,7 @@ max_results: 10
 
 publish_readme: False
 publish_gitpage: True
+enable_hf_papers: False
 
 # file paths — current month JSON + monthly archive snapshots consumed by
 # the Astro site under web/. The README-flavored paths were removed when

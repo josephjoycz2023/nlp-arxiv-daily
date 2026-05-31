@@ -105,6 +105,10 @@ class TestLoadConfig:
         config = load_config(config_file)
         assert config["kv"]["QA"] == "QA"
 
+    def test_defaults_hf_lookup_to_enabled(self, config_file):
+        config = load_config(config_file)
+        assert config["enable_hf_papers"] is True
+
 
 class _FakeResponse:
     def __init__(self, status_code: int, payload: dict | None = None):

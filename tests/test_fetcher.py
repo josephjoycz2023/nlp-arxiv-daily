@@ -554,3 +554,17 @@ class TestFindCodeLinkRetry:
         # Persistent 429: graceful degradation — return None, don't raise.
         assert fetcher.find_code_link("2604.00003") is None
         assert calls["n"] >= 2  # actually retried, not a single failure
+class TestFindCodeLinkDisabled:
+    def test_skips_hf_lookup_when_disabled(self, monkeypatch):
+        fetcher.configure_hf_papers(False)
+        called = {"n": 0}
+
+        def fake_get(url, timeout):  # noqa: ARG001
+            called["n"] += 1
+            raise AssertionError("HF lookup should be skipped when disabled")
+
+        monkeypatch.setattr(fetcher.requests, "get", fake_get)
+
+        summary = "Code: https://github.com/acme/proj"
+        assert fetcher.find_code_link("2604.99999", summary=summary) == "https://github.com/acme/proj"
+        assert called["n"] == 0
