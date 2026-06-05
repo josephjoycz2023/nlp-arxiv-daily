@@ -19,31 +19,37 @@ import os
 import sys
 from collections.abc import Iterator
 
-from nlp_arxiv_daily.core import get_daily_papers, load_config, papers_to_legacy_rows
+from nlp_arxiv_daily.core import load_config, papers_to_legacy_rows
 from nlp_arxiv_daily.fetcher import (
+    ArxivRateLimitExceeded,
     BACKFILL_DEFAULT_MAX_RESULTS,
     BACKFILL_RATE_LIMIT_SECONDS,
+    ensure_arxiv_preflight,
+    fetch_papers,
     fetch_papers_in_range,
 )
 from nlp_arxiv_daily.renderer import json_to_md, render_archive_pages
-from nlp_arxiv_daily.storage import write_keyword_day_snapshots, write_papers_split
+from nlp_arxiv_daily.storage import write_papers_split, write_topic_paper_files
+from nlp_arxiv_daily.types import Paper
 
 
 def cmd_fetch(config: dict) -> None:
-    """Query arxiv for every keyword in `config["kv"]`, persist JSON splits."""
+    """Query arxiv for every keyword in `config["kv"]`, persist outputs."""
     keywords = config["kv"]
     max_results = config["max_results"]
     keyword_order = list(keywords.keys())
 
     data_collector = []
-    data_collector_web = []
+    papers_by_topic: dict[str, list[Paper]] = {}
 
+    ensure_arxiv_preflight()
     logging.info("GET daily papers begin")
     for topic, keyword in keywords.items():
         logging.info(f"Keyword: {topic}")
-        data, data_web = get_daily_papers(topic, query=keyword, max_results=max_results)
+        papers = fetch_papers(query=keyword, max_results=max_results)
+        papers_by_topic[topic] = papers
+        data, _ = papers_to_legacy_rows(papers, topic)
         data_collector.append(data)
-        data_collector_web.append(data_web)
         logging.info("")
     logging.info("GET daily papers end")
 
@@ -56,17 +62,7 @@ def cmd_fetch(config: dict) -> None:
         )
     if config["publish_gitpage"]:
         docs_dir = os.path.dirname(config["json_gitpage_path"]) or "."
-        write_keyword_day_snapshots(
-            data_collector_web,
-            docs_dir,
-            keyword_order=keyword_order,
-        )
-        write_papers_split(
-            data_collector_web,
-            config["json_gitpage_path"],
-            config["archive_gitpage_json_dir"],
-            keyword_order=keyword_order,
-        )
+        write_topic_paper_files(papers_by_topic, docs_dir)
 
 
 def cmd_render(config: dict) -> None:
@@ -137,7 +133,7 @@ def cmd_backfill(
     start: datetime.date,
     end: datetime.date,
     max_results: int = BACKFILL_DEFAULT_MAX_RESULTS,
-    delay_seconds: int = BACKFILL_RATE_LIMIT_SECONDS,
+    delay_seconds: float = BACKFILL_RATE_LIMIT_SECONDS,
     only_keywords: list[str] | None = None,
 ) -> None:
     """Fetch every (keyword × month) in [start, end] and merge into the archive.
@@ -165,6 +161,7 @@ def cmd_backfill(
     months = list(_iter_month_ranges(start, end))
     logging.info(f"BACKFILL begin: {start.isoformat()} → {end.isoformat()} ({len(months)} months)")
 
+    ensure_arxiv_preflight()
     failed_queries: list[str] = []
     for month_start, month_end in months:
         logging.info(f"=== {month_start.strftime('%Y-%m')} ===")
@@ -173,7 +170,7 @@ def cmd_backfill(
         # month, not the whole backfill. write_papers_split is idempotent so
         # restarting the same range merges cleanly.
         month_data: list = []
-        month_data_web: list = []
+        month_papers_by_topic: dict[str, list[Paper]] = {}
         for topic, keyword in keywords.items():
             logging.info(f"Keyword: {topic}")
             try:
@@ -190,9 +187,9 @@ def cmd_backfill(
                 logging.warning(f"BACKFILL skip {tag}: {e}")
                 failed_queries.append(tag)
                 continue
-            data, data_web = papers_to_legacy_rows(papers, topic)
+            month_papers_by_topic[topic] = papers
+            data, _ = papers_to_legacy_rows(papers, topic)
             month_data.append(data)
-            month_data_web.append(data_web)
 
         if config["publish_readme"] and month_data:
             write_papers_split(
@@ -201,19 +198,9 @@ def cmd_backfill(
                 config["archive_readme_json_dir"],
                 keyword_order=keyword_order,
             )
-        if config["publish_gitpage"] and month_data_web:
+        if config["publish_gitpage"] and month_papers_by_topic:
             docs_dir = os.path.dirname(config["json_gitpage_path"]) or "."
-            write_keyword_day_snapshots(
-                month_data_web,
-                docs_dir,
-                keyword_order=keyword_order,
-            )
-            write_papers_split(
-                month_data_web,
-                config["json_gitpage_path"],
-                config["archive_gitpage_json_dir"],
-                keyword_order=keyword_order,
-            )
+            write_topic_paper_files(month_papers_by_topic, docs_dir)
         logging.info(f"checkpoint flushed for {month_start.strftime('%Y-%m')}")
 
     if failed_queries:
@@ -258,9 +245,9 @@ def build_parser() -> argparse.ArgumentParser:
     )
     backfill.add_argument(
         "--delay-seconds",
-        type=int,
+        type=float,
         default=BACKFILL_RATE_LIMIT_SECONDS,
-        help=f"per-request gap to the arxiv API (default: {BACKFILL_RATE_LIMIT_SECONDS}s). Bump on 429s.",
+        help=f"per-request gap to the arxiv API (default: {BACKFILL_RATE_LIMIT_SECONDS}s, minimum enforced: 3.5s).",
     )
     backfill.add_argument(
         "--keywords",
@@ -281,23 +268,27 @@ def main(argv: list[str] | None = None) -> int:
     config = load_config(args.config_path)
     command = args.command or "run"
 
-    if command == "backfill":
-        end = args.end if args.end is not None else _current_month_first()
-        only_keywords = [k.strip() for k in args.keywords.split(",")] if args.keywords else None
-        cmd_backfill(
-            config,
-            start=args.start,
-            end=end,
-            max_results=args.max_results,
-            delay_seconds=args.delay_seconds,
-            only_keywords=only_keywords,
-        )
-        return 0
+    try:
+        if command == "backfill":
+            end = args.end if args.end is not None else _current_month_first()
+            only_keywords = [k.strip() for k in args.keywords.split(",")] if args.keywords else None
+            cmd_backfill(
+                config,
+                start=args.start,
+                end=end,
+                max_results=args.max_results,
+                delay_seconds=args.delay_seconds,
+                only_keywords=only_keywords,
+            )
+            return 0
 
-    # Resolve handler at call time so tests can monkeypatch cmd_* on this module.
-    handler = {"run": cmd_run, "fetch": cmd_fetch, "render": cmd_render}[command]
-    handler(config)
-    return 0
+        # Resolve handler at call time so tests can monkeypatch cmd_* on this module.
+        handler = {"run": cmd_run, "fetch": cmd_fetch, "render": cmd_render}[command]
+        handler(config)
+        return 0
+    except ArxivRateLimitExceeded as e:
+        logging.error(str(e))
+        return 1
 
 
 if __name__ == "__main__":

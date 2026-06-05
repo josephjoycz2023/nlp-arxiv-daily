@@ -51,10 +51,8 @@ def workspace(tmp_path):
     """Create a complete config + dir layout the CLI expects."""
     docs = tmp_path / "docs"
     archive = docs / "archive"
-    archive_web = docs / "archive-web"
     docs.mkdir()
     archive.mkdir()
-    archive_web.mkdir()
 
     cfg = tmp_path / "config.yaml"
     cfg.write_text(
@@ -74,11 +72,9 @@ def workspace(tmp_path):
             md_gitpage_path: "{docs / "index.md"}"
             archive_readme_json_dir: "{archive}"
             archive_readme_md_dir: "{archive}"
-            archive_gitpage_json_dir: "{archive_web}"
-            archive_gitpage_md_dir: "{archive_web}"
             keywords:
-              "NLP":
-                filters: ["NLP"]
+              "agent":
+                filters: ["LLM Agent", "Agentic"]
             """
         ).strip()
     )
@@ -86,11 +82,9 @@ def workspace(tmp_path):
         "config": str(cfg),
         "docs": docs,
         "archive": archive,
-        "archive_web": archive_web,
         "readme": tmp_path / "README.md",
         "index": docs / "index.md",
         "main_json": docs / "main.json",
-        "main_web_json": docs / "main-web.json",
     }
 
 
@@ -133,7 +127,7 @@ class TestEndToEndPipeline:
                 entry_id="http://arxiv.org/abs/2508.12345v2",
             ),
         ]
-        _patch_arxiv(monkeypatch, {"NLP": results})
+        _patch_arxiv(monkeypatch, {'"LLM Agent" OR Agentic': results})
 
         # Force "today" through the storage current_yymm, since the renderer's
         # date-now is purely cosmetic ("Updated on YYYY.MM.DD") and doesn't
@@ -147,27 +141,28 @@ class TestEndToEndPipeline:
 
         # JSON splits: current month in main, older months in archive
         main_json = json.loads(Path(workspace["main_json"]).read_text())
-        assert "NLP" in main_json
-        assert "2604.00001" in main_json["NLP"]
+        assert "agent" in main_json
+        assert "2604.00001" in main_json["agent"]
         # March + August must NOT be in the current-month main
-        assert "2603.00099" not in main_json["NLP"]
-        assert "2508.12345" not in main_json["NLP"]
+        assert "2603.00099" not in main_json["agent"]
+        assert "2508.12345" not in main_json["agent"]
 
         march_archive = json.loads((workspace["archive"] / "2026-03.json").read_text())
-        assert "2603.00099" in march_archive["NLP"]
+        assert "2603.00099" in march_archive["agent"]
 
         aug_archive = json.loads((workspace["archive"] / "2025-08.json").read_text())
-        assert "2508.12345" in aug_archive["NLP"]
+        assert "2508.12345" in aug_archive["agent"]
 
-        # Same split semantics for the gitpage (web) flavor
-        web_json = json.loads(Path(workspace["main_web_json"]).read_text())
-        assert "2604.00001" in web_json["NLP"]
-        web_march = json.loads((workspace["archive_web"] / "2026-03.json").read_text())
-        assert "2603.00099" in web_march["NLP"]
+        april_paper = json.loads((workspace["docs"] / "agent" / "20260422" / "2604.00001.json").read_text())
+        march_paper = json.loads((workspace["docs"] / "agent" / "20260315" / "2603.00099.json").read_text())
+        aug_paper = json.loads((workspace["docs"] / "agent" / "20250805" / "2508.12345.json").read_text())
+        assert april_paper["title"] == "April Paper"
+        assert march_paper["title"] == "March Paper"
+        assert aug_paper["title"] == "August Paper"
 
         # README markdown rendered for the README flavor.
         readme = workspace["readme"].read_text()
-        assert "## NLP" in readme
+        assert "## agent" in readme
         assert "April Paper" in readme
         # README's main page only shows current month
         assert "March Paper" not in readme
@@ -190,10 +185,6 @@ class TestEndToEndPipeline:
         archive_index = (workspace["archive"] / "index.md").read_text()
         assert archive_index.index("2026-03") < archive_index.index("2025-08")
 
-        # Gitpage archive directory has JSON only — no markdown.
-        assert (workspace["archive_web"] / "2026-03.json").exists()
-        assert not (workspace["archive_web"] / "2026-03.md").exists()
-
     def test_fetch_then_render_separately_matches_run(self, monkeypatch, workspace):
         """`fetch` followed by `render` must produce the same artifacts as `run`."""
         results = [
@@ -204,7 +195,7 @@ class TestEndToEndPipeline:
                 entry_id="http://arxiv.org/abs/2604.00001v1",
             ),
         ]
-        _patch_arxiv(monkeypatch, {"NLP": results})
+        _patch_arxiv(monkeypatch, {'"LLM Agent" OR Agentic': results})
         from nlp_arxiv_daily import storage
 
         monkeypatch.setattr(storage, "_current_yymm", lambda: "2604")
@@ -213,6 +204,7 @@ class TestEndToEndPipeline:
         cli.main(["--config_path", workspace["config"], "fetch"])
         # After fetch, JSON exists but markdown shouldn't yet
         assert workspace["main_json"].exists()
+        assert (workspace["docs"] / "agent" / "20260422" / "2604.00001.json").exists()
         assert not workspace["readme"].exists()
         assert not workspace["index"].exists()
 
@@ -301,11 +293,15 @@ class TestBackfillE2E:
 
         # Each month became its own archive JSON
         aug = json.loads((workspace["archive"] / "2025-08.json").read_text())
-        assert "2508.00001" in aug["NLP"]
+        assert "2508.00001" in aug["agent"]
         sep = json.loads((workspace["archive"] / "2025-09.json").read_text())
-        assert "2509.00099" in sep["NLP"]
+        assert "2509.00099" in sep["agent"]
         octj = json.loads((workspace["archive"] / "2025-10.json").read_text())
-        assert "2510.12345" in octj["NLP"]
+        assert "2510.12345" in octj["agent"]
+
+        assert (workspace["docs"] / "agent" / "20250812" / "2508.00001.json").exists()
+        assert (workspace["docs"] / "agent" / "20250905" / "2509.00099.json").exists()
+        assert (workspace["docs"] / "agent" / "20251030" / "2510.12345.json").exists()
 
         # And rendered markdown for each
         aug_md = (workspace["archive"] / "2025-08.md").read_text()

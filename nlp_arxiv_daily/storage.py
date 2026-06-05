@@ -5,7 +5,7 @@ import json
 import os
 import re
 
-from nlp_arxiv_daily.types import PapersByKeyword, PapersByMonth
+from nlp_arxiv_daily.types import Paper, PapersByKeyword, PapersByMonth
 
 
 ARXIV_KEY_RE = re.compile(r"^(\d{4})\.\d{4,5}")
@@ -71,6 +71,37 @@ def _load_json_dict(path: str) -> dict:
     with open(path) as f:
         content = f.read()
     return json.loads(content) if content else {}
+
+
+def _topic_dir_name(topic: str) -> str:
+    slug = re.sub(r"[^a-z0-9]+", "-", topic.strip().lower()).strip("-")
+    return slug or "unknown-topic"
+
+
+def _paper_basic_info(paper: Paper) -> dict[str, str | None]:
+    return {
+        "paper_id": paper.paper_id,
+        "published_date": paper.update_time.isoformat(),
+        "title": paper.title,
+        "authors": f"{paper.first_author} et.al.",
+        "paper_url": paper.paper_url,
+        "code_link": paper.code_link,
+    }
+
+
+def write_topic_paper_files(
+    papers_by_topic: dict[str, list[Paper]],
+    docs_dir: str,
+) -> None:
+    """Persist per-paper JSON files under docs/<topic>/<YYYYMMDD>/<paper_id>.json."""
+    for topic, papers in papers_by_topic.items():
+        topic_dir = os.path.join(docs_dir, _topic_dir_name(topic))
+        for paper in papers:
+            day_dir = os.path.join(topic_dir, paper.update_time.strftime("%Y%m%d"))
+            os.makedirs(day_dir, exist_ok=True)
+            paper_path = os.path.join(day_dir, f"{paper.paper_id}.json")
+            with open(paper_path, "w") as f:
+                json.dump(_paper_basic_info(paper), f, indent=2)
 
 
 def write_keyword_day_snapshots(

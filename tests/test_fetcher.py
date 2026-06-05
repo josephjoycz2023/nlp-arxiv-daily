@@ -6,7 +6,10 @@ import requests
 
 from nlp_arxiv_daily import fetcher
 from nlp_arxiv_daily.fetcher import (
+    ARXIV_MIN_INTERVAL_SECONDS,
+    ArxivRateLimitExceeded,
     _strip_version_suffix,
+    ensure_arxiv_preflight,
     fetch_papers,
     fetch_papers_in_range,
     get_authors,
@@ -103,6 +106,75 @@ class TestGetAuthors:
                 return "X"
 
         assert get_authors([A(), A()]) == "X, X"
+
+
+class TestArxivPreflight:
+    def test_runs_once_and_sleeps_before_first_fetch(self, monkeypatch):
+        calls = {"n": 0}
+        sleeps: list[float] = []
+
+        class _FakeResponse:
+            status_code = 200
+            text = "ok"
+
+            def raise_for_status(self):
+                pass
+
+        class _FakeSession:
+            def get(self, url, headers, timeout):  # noqa: ARG002
+                calls["n"] += 1
+                return _FakeResponse()
+
+        monkeypatch.setattr(fetcher.requests, "Session", lambda: _FakeSession())
+        monkeypatch.setattr(fetcher.time, "sleep", lambda seconds: sleeps.append(seconds))
+
+        ensure_arxiv_preflight()
+        ensure_arxiv_preflight()
+
+        assert calls["n"] == 1
+        assert sleeps == [ARXIV_MIN_INTERVAL_SECONDS]
+
+    def test_aborts_on_rate_exceeded_response(self, monkeypatch):
+        sleeps: list[float] = []
+
+        class _FakeResponse:
+            status_code = 503
+            text = "Rate exceeded. Please try again later."
+
+            def raise_for_status(self):
+                raise AssertionError("rate-limited preflight should short-circuit before raise_for_status")
+
+        class _FakeSession:
+            def get(self, url, headers, timeout):  # noqa: ARG002
+                return _FakeResponse()
+
+        monkeypatch.setattr(fetcher.requests, "Session", lambda: _FakeSession())
+        monkeypatch.setattr(fetcher.time, "sleep", lambda seconds: sleeps.append(seconds))
+
+        with pytest.raises(ArxivRateLimitExceeded):
+            ensure_arxiv_preflight()
+
+        assert sleeps == []
+
+    def test_continues_on_timeout_after_warning(self, monkeypatch, caplog):
+        calls = {"n": 0}
+        sleeps: list[float] = []
+
+        class _FakeSession:
+            def get(self, url, headers, timeout):  # noqa: ARG002
+                calls["n"] += 1
+                raise requests.ReadTimeout("timed out")
+
+        monkeypatch.setattr(fetcher.requests, "Session", lambda: _FakeSession())
+        monkeypatch.setattr(fetcher.time, "sleep", lambda seconds: sleeps.append(seconds))
+
+        with caplog.at_level("WARNING"):
+            ensure_arxiv_preflight()
+            ensure_arxiv_preflight()
+
+        assert calls["n"] == 1
+        assert sleeps == [ARXIV_MIN_INTERVAL_SECONDS]
+        assert "preflight failed" in caplog.text
 
 
 class TestFetchPapers:
@@ -216,7 +288,22 @@ class TestFetchPapersInRange:
         # the API's published 3s minimum between requests.
         kwargs = captured["client_kwargs"]
         assert kwargs is not None
-        assert kwargs.get("delay_seconds", 0) >= 3
+        assert kwargs.get("delay_seconds", 0) >= ARXIV_MIN_INTERVAL_SECONDS
+
+    def test_clamps_backfill_delay_to_minimum(self, monkeypatch):
+        _silence_code_link(monkeypatch)
+        captured = _patch_arxiv(monkeypatch, [])
+
+        fetch_papers_in_range(
+            query="NLP",
+            start=datetime.date(2025, 8, 1),
+            end=datetime.date(2025, 8, 31),
+            delay_seconds=1,
+        )
+
+        kwargs = captured["client_kwargs"]
+        assert kwargs is not None
+        assert kwargs.get("delay_seconds") == ARXIV_MIN_INTERVAL_SECONDS
 
     def test_returns_typed_papers_for_in_range_results(self, monkeypatch):
         _silence_code_link(monkeypatch)
@@ -390,6 +477,40 @@ class TestFetchPapersSharedClient:
         fetch_papers(query="a", max_results=1)
         fetch_papers(query="b", max_results=1)
         # Singleton: arxiv.Client(...) constructed once, reused across keywords.
+        assert ctor_calls["n"] == 1
+
+
+class TestFetchPapersInRangeSharedClient:
+    def test_reuses_client_across_backfill_calls(self, monkeypatch):
+        _silence_code_link(monkeypatch)
+        ctor_calls = {"n": 0}
+
+        class _CountingClient:
+            def results(self, search):  # noqa: ARG002
+                return iter([])
+
+        def fake_ctor(**_kwargs):
+            ctor_calls["n"] += 1
+            return _CountingClient()
+
+        monkeypatch.setattr(fetcher.arxiv, "Client", fake_ctor)
+        monkeypatch.setattr(
+            fetcher.arxiv,
+            "Search",
+            lambda query, max_results, sort_by: type("S", (), {})(),
+        )
+
+        fetch_papers_in_range(
+            query="x",
+            start=datetime.date(2025, 8, 1),
+            end=datetime.date(2025, 8, 31),
+        )
+        fetch_papers_in_range(
+            query="y",
+            start=datetime.date(2025, 9, 1),
+            end=datetime.date(2025, 9, 30),
+        )
+
         assert ctor_calls["n"] == 1
 
 

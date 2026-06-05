@@ -15,6 +15,9 @@ def _reset_fetcher_module_state(monkeypatch):
     bleed state or actually sleep between retry attempts.
 
     - `_DAILY_CLIENT`: shared arxiv client across keywords
+    - `_BACKFILL_CLIENTS`: shared arxiv clients across backfill queries
+    - `_ARXIV_PREFLIGHT_DONE`: startup preflight guard
+    - `_ARXIV_PREFLIGHT_SESSION`: cached requests.Session for preflight
     - `_hf_last_call_ts`: HuggingFace Papers throttle window
     - tenacity `.wait` on retried functions: replaced with wait_none()
     """
@@ -23,6 +26,9 @@ def _reset_fetcher_module_state(monkeypatch):
     from nlp_arxiv_daily import fetcher
 
     monkeypatch.setattr(fetcher, "_DAILY_CLIENT", None, raising=False)
+    monkeypatch.setattr(fetcher, "_BACKFILL_CLIENTS", {}, raising=False)
+    monkeypatch.setattr(fetcher, "_ARXIV_PREFLIGHT_DONE", False, raising=False)
+    monkeypatch.setattr(fetcher, "_ARXIV_PREFLIGHT_SESSION", None, raising=False)
     monkeypatch.setattr(fetcher, "_hf_last_call_ts", 0.0, raising=False)
     for fn in (
         getattr(fetcher, "fetch_papers", None),

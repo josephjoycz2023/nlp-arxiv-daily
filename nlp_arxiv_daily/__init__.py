@@ -19,6 +19,7 @@ from nlp_arxiv_daily.storage import (
     bucket_by_month,
     update_json_file,
     write_papers_split,
+    write_topic_paper_files,
 )
 from nlp_arxiv_daily.types import KeywordConfig, Paper, PapersByKeyword, PapersByMonth
 
@@ -48,4 +49,5 @@ __all__ = [
     "sort_papers",
     "update_json_file",
     "write_papers_split",
+    "write_topic_paper_files",
 ]

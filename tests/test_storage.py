@@ -1,12 +1,14 @@
+import datetime
 import json
 
 from nlp_arxiv_daily.storage import (
     _current_yymm,
     _yymm_to_archive_basename,
     bucket_by_month,
-    write_keyword_day_snapshots,
     write_papers_split,
+    write_topic_paper_files,
 )
+from nlp_arxiv_daily.types import Paper
 
 
 class TestYymmHelpers:
@@ -209,31 +211,69 @@ class TestWritePapersSplitRoundTrip:
         assert list(main.keys()) == ["NLP", "Surprise"]
 
 
-class TestWriteKeywordDaySnapshots:
-    def test_writes_keyword_folders_by_snapshot_date(self, tmp_path):
-        write_keyword_day_snapshots(
-            [{"NLP": {"2605.00001": "row-1"}, "Question Answering": {"2605.00002": "row-2"}}],
+class TestWriteTopicPaperFiles:
+    def test_writes_each_paper_into_topic_and_publish_date_dirs(self, tmp_path):
+        write_topic_paper_files(
+            {
+                "agent": [
+                    Paper(
+                        paper_id="2605.00086",
+                        title="NorBERTo",
+                        first_author="Enzo S. N. Silva",
+                        update_time=datetime.date(2026, 4, 30),
+                        paper_url="http://arxiv.org/abs/2605.00086v1",
+                        code_link=None,
+                        arxiv_short_id="2605.00086v1",
+                    )
+                ]
+            },
             str(tmp_path),
-            snapshot_date="20260531",
         )
 
-        nlp = json.loads(open(tmp_path / "NLP" / "20260531" / "papers.json").read())
-        qa = json.loads(open(tmp_path / "Question Answering" / "20260531" / "papers.json").read())
-        assert nlp == {"2605.00001": "row-1"}
-        assert qa == {"2605.00002": "row-2"}
+        payload = json.loads(open(tmp_path / "agent" / "20260430" / "2605.00086.json").read())
+        assert payload == {
+            "paper_id": "2605.00086",
+            "published_date": "2026-04-30",
+            "title": "NorBERTo",
+            "authors": "Enzo S. N. Silva et.al.",
+            "paper_url": "http://arxiv.org/abs/2605.00086v1",
+            "code_link": None,
+        }
 
-    def test_rerun_same_day_merges_snapshot_file(self, tmp_path):
+    def test_topic_names_are_slugged_for_directory_names(self, tmp_path):
+        write_topic_paper_files(
+            {
+                "LLM Agent": [
+                    Paper(
+                        paper_id="2605.00001",
+                        title="Agent Paper",
+                        first_author="Alice",
+                        update_time=datetime.date(2026, 5, 1),
+                        paper_url="http://arxiv.org/abs/2605.00001v1",
+                        code_link="https://github.com/foo/bar",
+                        arxiv_short_id="2605.00001v1",
+                    )
+                ]
+            },
+            str(tmp_path),
+        )
+
+        payload = json.loads(open(tmp_path / "llm-agent" / "20260501" / "2605.00001.json").read())
+        assert payload["code_link"] == "https://github.com/foo/bar"
+
+    def test_rerun_overwrites_same_paper_file_idempotently(self, tmp_path):
         docs_dir = str(tmp_path)
-        write_keyword_day_snapshots(
-            [{"NLP": {"2605.00001": "row-1"}}],
-            docs_dir,
-            snapshot_date="20260531",
+        paper = Paper(
+            paper_id="2605.00086",
+            title="NorBERTo",
+            first_author="Enzo S. N. Silva",
+            update_time=datetime.date(2026, 4, 30),
+            paper_url="http://arxiv.org/abs/2605.00086v1",
+            code_link=None,
+            arxiv_short_id="2605.00086v1",
         )
-        write_keyword_day_snapshots(
-            [{"NLP": {"2605.00002": "row-2"}}],
-            docs_dir,
-            snapshot_date="20260531",
-        )
+        write_topic_paper_files({"agent": [paper]}, docs_dir)
+        write_topic_paper_files({"agent": [paper]}, docs_dir)
 
-        merged = json.loads(open(tmp_path / "NLP" / "20260531" / "papers.json").read())
-        assert merged == {"2605.00001": "row-1", "2605.00002": "row-2"}
+        payload = json.loads(open(tmp_path / "agent" / "20260430" / "2605.00086.json").read())
+        assert payload["title"] == "NorBERTo"

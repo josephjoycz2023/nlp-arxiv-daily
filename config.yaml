@@ -9,9 +9,9 @@ publish_readme: False
 publish_gitpage: True
 enable_hf_papers: False
 
-# file paths — current month JSON + monthly archive snapshots consumed by
-# the Astro site under web/. The README-flavored paths were removed when
-# README.md became a static project page (publish_readme: False).
+# publish_gitpage uses the directory containing `json_gitpage_path`
+# as the docs root, and writes per-paper files under
+# docs/<topic>/<YYYYMMDD>/<paper_id>.json.
 json_gitpage_path: "./docs/nlp-arxiv-daily-web.json"
 md_gitpage_path: "./docs/index.md"
 archive_gitpage_json_dir: "./docs/archive-web"
@@ -19,76 +19,15 @@ archive_gitpage_md_dir: "./docs/archive-web"
 
 # keywords to search
 keywords:
-  "NLP":
-    filters: ["NLP", "Natural Language Processing"]
-
-  # --- LLM core ---
-  "LLM":
-    filters: ["Large Language Model", "Large Language Models", "LLM"]
-  "LLM Agent":
-    filters: ["LLM Agent", "Language Agent", "Autonomous Agent", "AI Agent", "Agentic"]
-  "Multi-Agent":
-    filters: ["Multi-Agent", "Multi Agent System", "Multi-Agent System"]
-  "RAG":
-    filters: ["Retrieval-Augmented Generation", "Retrieval Augmented Generation", "RAG"]
-  "Reasoning":
-    filters: ["LLM Reasoning", "Chain-of-Thought", "Chain of Thought", "Reasoning Model"]
-  "Tool Use":
-    filters: ["Tool Use", "Function Calling", "Tool-Augmented LLM"]
-
-  # --- LLM applications / characteristics ---
-  "Multimodal LLM":
-    filters: ["Multimodal LLM", "Vision-Language Model", "Vision Language Model", "VLM", "MLLM"]
-  "Long Context":
-    filters: ["Long Context", "Long-Context"]
-  "LLM Efficiency":
-    filters: ["LoRA", "PEFT", "Parameter-Efficient Fine-Tuning", "Quantization"]
-  "Alignment":
-    filters: ["RLHF", "DPO", "Preference Learning", "LLM Alignment"]
-  "Hallucination":
-    filters: ["Hallucination", "Faithfulness", "Factuality"]
-  "LLM Safety":
-    filters: ["Jailbreak", "LLM Safety", "Red Teaming", "Adversarial Attack"]
-  "LLM Evaluation":
-    filters: ["LLM Evaluation", "LLM Benchmark", "LLM-as-a-Judge", "LLM as a Judge"]
-  "Code LLM":
-    filters: ["Code Generation", "Code LLM", "Program Synthesis"]
-  "Speech LLM":
-    filters: ["Speech Language Model", "Speech LLM", "Spoken Language Model"]
-
-  # --- Domain ---
-  "Legal NLP":
-    filters: ["Legal NLP", "Legal Language", "Legal Text"]
-  "Medical NLP":
-    filters: ["Medical LLM", "Clinical NLP", "Biomedical NLP", "Clinical Language Model"]
-  "Multilingual NLP":
-    filters: ["Multilingual NLP", "Low-Resource Language", "Cross-Lingual"]
-
-  # --- Classic NLP tasks ---
-  "Named Entity Recognition":
-    filters: ["Named Entity Recognition"]
-  "Information Extraction":
+  "agent":
     filters:
       [
-        "Information Extraction",
-        "Automatic Summary",
-        "Title Generation",
-        "Event Extraction",
+        "LLM Agent",
+        "Language Agent",
+        "Autonomous Agent",
+        "AI Agent",
+        "Agentic",
+        "Multi-Agent",
+        "Multi Agent System",
+        "Multi-Agent System",
       ]
-  "Text Classification":
-    filters:
-      [
-        "Text Classification",
-        "Topic Labeling",
-        "News Classification",
-        "Dialog Act Classification",
-        "Natural Language Inference",
-        "Relation Classification",
-        "Event Prediction",
-      ]
-  "Question Answering":
-    filters: ["QA", "Question Answering"]
-  "Sentiment Analysis":
-    filters: ["Sentiment Analysis"]
-  "Knowledge Graph":
-    filters: ["Knowledge Graph", "Knowledge Graphs"]

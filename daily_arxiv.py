@@ -26,6 +26,7 @@ from nlp_arxiv_daily import (
     sort_papers,
     update_json_file,
     write_papers_split,
+    write_topic_paper_files,
 )
 from nlp_arxiv_daily.__main__ import main
 
@@ -47,6 +48,7 @@ __all__ = [
     "sort_papers",
     "update_json_file",
     "write_papers_split",
+    "write_topic_paper_files",
 ]
 
 

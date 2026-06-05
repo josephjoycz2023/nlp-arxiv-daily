@@ -23,13 +23,15 @@ from nlp_arxiv_daily.types import Paper
 HF_PAPERS_API = "https://huggingface.co/api/papers/"
 REQUEST_TIMEOUT = 10
 GITHUB_URL_RE = re.compile(r"https?://github\.com/[\w.-]+/[\w.-]+")
+ARXIV_PREFLIGHT_QUERY = "all:electron"
+ARXIV_MIN_INTERVAL_SECONDS = 3.5
 
 # arxiv API publishes a 3s minimum between requests, but multi-keyword
 # back-to-back fetches and bulk backfill pagination both trigger 429s in
 # practice — and GH Actions IPs get throttled harder than typical clients,
 # so we go well above the published minimum.
-DAILY_RATE_LIMIT_SECONDS = 15
-BACKFILL_RATE_LIMIT_SECONDS = 5
+DAILY_RATE_LIMIT_SECONDS = 15.0
+BACKFILL_RATE_LIMIT_SECONDS = 5.0
 # arxiv.Client default is 3 in-library retries (fixed interval); bump it
 # before our outer tenacity retry kicks in.
 DAILY_NUM_RETRIES = 10
@@ -53,6 +55,13 @@ HF_PAPERS_ENABLED = True
 # client, and the arxiv library's per-client rate limiter governs *across*
 # keyword boundaries (not just within a single fetch_papers call).
 _DAILY_CLIENT: arxiv.Client | None = None
+_BACKFILL_CLIENTS: dict[float, arxiv.Client] = {}
+_ARXIV_PREFLIGHT_DONE = False
+_ARXIV_PREFLIGHT_SESSION: requests.Session | None = None
+
+
+class ArxivRateLimitExceeded(RuntimeError):
+    """Raised when arXiv preflight detects the API is already rate limiting us."""
 
 
 def configure_hf_papers(enabled: bool) -> None:
@@ -61,15 +70,72 @@ def configure_hf_papers(enabled: bool) -> None:
     HF_PAPERS_ENABLED = enabled
 
 
+def _effective_arxiv_delay_seconds(delay_seconds: float) -> float:
+    return max(delay_seconds, ARXIV_MIN_INTERVAL_SECONDS)
+
+
 def _get_daily_client() -> arxiv.Client:
     global _DAILY_CLIENT
     if _DAILY_CLIENT is None:
         _DAILY_CLIENT = arxiv.Client(
             page_size=DAILY_PAGE_SIZE,
-            delay_seconds=DAILY_RATE_LIMIT_SECONDS,
+            delay_seconds=_effective_arxiv_delay_seconds(DAILY_RATE_LIMIT_SECONDS),
             num_retries=DAILY_NUM_RETRIES,
         )
     return _DAILY_CLIENT
+
+
+def _get_backfill_client(delay_seconds: float) -> arxiv.Client:
+    effective_delay = _effective_arxiv_delay_seconds(delay_seconds)
+    client = _BACKFILL_CLIENTS.get(effective_delay)
+    if client is None:
+        client = arxiv.Client(
+            delay_seconds=effective_delay,
+            num_retries=BACKFILL_NUM_RETRIES,
+        )
+        _BACKFILL_CLIENTS[effective_delay] = client
+    return client
+
+
+def _get_arxiv_preflight_session() -> requests.Session:
+    global _ARXIV_PREFLIGHT_SESSION
+    if _ARXIV_PREFLIGHT_SESSION is None:
+        _ARXIV_PREFLIGHT_SESSION = requests.Session()
+    return _ARXIV_PREFLIGHT_SESSION
+
+
+def _is_arxiv_rate_limited_response(resp: requests.Response) -> bool:
+    return resp.status_code == 429 or "rate exceeded" in getattr(resp, "text", "").lower()
+
+
+def ensure_arxiv_preflight() -> None:
+    """Probe arXiv once per process before bulk fetching.
+
+    This guard is intentionally best-effort: only a clear rate-limit signal
+    should abort the run. Network timeouts and transient 5xxs are logged and
+    then we fall through to the regular fetch path, which already has its own
+    retry/backoff behavior.
+    """
+    global _ARXIV_PREFLIGHT_DONE
+    if _ARXIV_PREFLIGHT_DONE:
+        return
+
+    try:
+        resp = _get_arxiv_preflight_session().get(
+            arxiv.Client.query_url_format.format(
+                f"search_query={ARXIV_PREFLIGHT_QUERY}&start=0&max_results=1"
+            ),
+            headers={"user-agent": "nlp-arxiv-daily/1.0"},
+            timeout=REQUEST_TIMEOUT,
+        )
+        if _is_arxiv_rate_limited_response(resp):
+            raise ArxivRateLimitExceeded("arXiv preflight hit rate limiting ('Rate exceeded'); aborting fetch.")
+        resp.raise_for_status()
+    except requests.RequestException as e:
+        logging.warning(f"arXiv preflight failed ({e}); continuing to normal fetch path.")
+
+    _ARXIV_PREFLIGHT_DONE = True
+    time.sleep(ARXIV_MIN_INTERVAL_SECONDS)
 
 
 def get_authors(authors: Iterable, first_author: bool = False) -> str:
@@ -211,7 +277,7 @@ def fetch_papers_in_range(
     start: datetime.date,
     end: datetime.date,
     max_results: int = BACKFILL_DEFAULT_MAX_RESULTS,
-    delay_seconds: int = BACKFILL_RATE_LIMIT_SECONDS,
+    delay_seconds: float = BACKFILL_RATE_LIMIT_SECONDS,
 ) -> list[Paper]:
     """
     Same as `fetch_papers`, but constrained to arxiv submissions in
@@ -228,9 +294,6 @@ def fetch_papers_in_range(
     )
     composite = f"({query}) AND {range_clause}"
 
-    client = arxiv.Client(
-        delay_seconds=delay_seconds,
-        num_retries=BACKFILL_NUM_RETRIES,
-    )
+    client = _get_backfill_client(delay_seconds)
     search = arxiv.Search(query=composite, max_results=max_results, sort_by=arxiv.SortCriterion.SubmittedDate)
     return [_result_to_paper(r) for r in client.results(search)]

@@ -13,6 +13,7 @@ import textwrap
 import pytest
 
 from nlp_arxiv_daily import cli
+from nlp_arxiv_daily.fetcher import ArxivRateLimitExceeded
 
 
 @pytest.fixture
@@ -27,6 +28,13 @@ def fake_config_file(tmp_path):
     (json_dir / "main.json").write_text("{}")
     (json_dir / "main-web.json").write_text("{}")
 
+    json_main = (json_dir / "main.json").as_posix()
+    json_main_web = (json_dir / "main-web.json").as_posix()
+    readme_path = (tmp_path / "README.md").as_posix()
+    md_gitpage_path = (json_dir / "index.md").as_posix()
+    archive_dir_path = archive_dir.as_posix()
+    archive_web_dir_path = archive_web_dir.as_posix()
+
     cfg = tmp_path / "config.yaml"
     cfg.write_text(
         textwrap.dedent(
@@ -39,14 +47,14 @@ def fake_config_file(tmp_path):
             max_results: 1
             publish_readme: true
             publish_gitpage: true
-            json_readme_path: "{json_dir / "main.json"}"
-            json_gitpage_path: "{json_dir / "main-web.json"}"
-            md_readme_path: "{tmp_path / "README.md"}"
-            md_gitpage_path: "{json_dir / "index.md"}"
-            archive_readme_json_dir: "{archive_dir}"
-            archive_readme_md_dir: "{archive_dir}"
-            archive_gitpage_json_dir: "{archive_web_dir}"
-            archive_gitpage_md_dir: "{archive_web_dir}"
+            json_readme_path: "{json_main}"
+            json_gitpage_path: "{json_main_web}"
+            md_readme_path: "{readme_path}"
+            md_gitpage_path: "{md_gitpage_path}"
+            archive_readme_json_dir: "{archive_dir_path}"
+            archive_readme_md_dir: "{archive_dir_path}"
+            archive_gitpage_json_dir: "{archive_web_dir_path}"
+            archive_gitpage_md_dir: "{archive_web_dir_path}"
             keywords:
               "NLP":
                 filters: ["NLP"]
@@ -73,6 +81,10 @@ class TestArgparser:
     def test_config_path_override(self):
         ns = cli.build_parser().parse_args(["--config_path", "x.yaml", "fetch"])
         assert ns.config_path == "x.yaml"
+
+    def test_backfill_delay_seconds_accepts_float(self):
+        ns = cli.build_parser().parse_args(["backfill", "--start", "2025-08", "--delay-seconds", "3.5"])
+        assert ns.delay_seconds == 3.5
 
 
 class TestDispatch:
@@ -114,6 +126,7 @@ class TestCommandIsolation:
 
         monkeypatch.setattr("nlp_arxiv_daily.cli.json_to_md", boom)
         monkeypatch.setattr("nlp_arxiv_daily.cli.render_archive_pages", boom)
+        monkeypatch.setattr(cli, "ensure_arxiv_preflight", lambda: None)
 
         # Mock fetch_papers so no network
         from nlp_arxiv_daily import fetcher
@@ -130,6 +143,26 @@ class TestCommandIsolation:
 
         monkeypatch.setattr(fetcher.arxiv, "Search", _FakeSearch)
         cli.main(["--config_path", fake_config_file, "fetch"])
+
+    def test_fetch_runs_preflight_before_fetching(self, monkeypatch, fake_config_file):
+        order: list[str] = []
+
+        monkeypatch.setattr(cli, "ensure_arxiv_preflight", lambda: order.append("preflight"))
+        monkeypatch.setattr(cli, "fetch_papers", lambda **kwargs: order.append("fetch") or [])
+
+        cli.main(["--config_path", fake_config_file, "fetch"])
+
+        assert order[:2] == ["preflight", "fetch"]
+
+    def test_fetch_exits_on_rate_limited_preflight(self, monkeypatch, fake_config_file):
+        monkeypatch.setattr(
+            cli,
+            "ensure_arxiv_preflight",
+            lambda: (_ for _ in ()).throw(ArxivRateLimitExceeded("Rate exceeded")),
+        )
+        monkeypatch.setattr(cli, "fetch_papers", lambda **kwargs: pytest.fail("fetch should not run after preflight failure"))
+
+        assert cli.main(["--config_path", fake_config_file, "fetch"]) == 1
 
 
 class TestCmdRunInvocation:
