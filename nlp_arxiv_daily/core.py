@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+import os
 
 import yaml
 
@@ -9,6 +10,30 @@ from nlp_arxiv_daily.types import Paper
 
 
 logging.basicConfig(format="[%(asctime)s %(levelname)s] %(message)s", datefmt="%m/%d/%Y %H:%M:%S", level=logging.INFO)
+
+
+def _load_yaml_dict(path: str) -> dict:
+    with open(path) as f:
+        data = yaml.load(f, Loader=yaml.FullLoader)
+    return data or {}
+
+
+def _merge_local_config(config: dict, config_file: str) -> dict:
+    config_dir = os.path.dirname(os.path.abspath(config_file))
+    local_config_file = os.path.join(config_dir, "config.local.yaml")
+    if os.path.abspath(config_file) == os.path.abspath(local_config_file) or not os.path.exists(local_config_file):
+        return config
+
+    merged = dict(config)
+    merged.update(_load_yaml_dict(local_config_file))
+    return merged
+
+
+def _redact_config_for_logging(config: dict) -> dict:
+    redacted = dict(config)
+    if redacted.get("openai_api_key"):
+        redacted["openai_api_key"] = "***redacted***"
+    return redacted
 
 
 def papers_to_legacy_rows(papers: list[Paper], topic: str) -> tuple[dict, dict]:
@@ -64,12 +89,17 @@ def load_config(config_file: str) -> dict:
             keywords[k] = parse_filters(v["filters"])
         return keywords
 
-    with open(config_file) as f:
-        config = yaml.load(f, Loader=yaml.FullLoader)
-        config.setdefault("enable_hf_papers", True)
-        configure_hf_papers(config["enable_hf_papers"])
-        config["kv"] = pretty_filters(**config)
-        logging.info(f"config = {config}")
+    config = _load_yaml_dict(config_file)
+    config = _merge_local_config(config, config_file)
+    config.setdefault("openai_api_key", os.getenv("OPENAI_API_KEY", ""))
+    config.setdefault("openai_model", "gpt-5-mini")
+    config.setdefault("openai_base_url", "https://api.openai.com/v1")
+    config.setdefault("openai_timeout", 60)
+    config.setdefault("openai_instructions", "")
+    config.setdefault("enable_hf_papers", True)
+    configure_hf_papers(config["enable_hf_papers"])
+    config["kv"] = pretty_filters(**config)
+    logging.info(f"config = {_redact_config_for_logging(config)}")
     return config
 
 

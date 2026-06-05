@@ -9,6 +9,12 @@ publish_readme: False
 publish_gitpage: True
 enable_hf_papers: False
 
+openai_api_key: ""
+openai_model: "gpt-5-mini"
+openai_base_url: "https://api.openai.com/v1"
+openai_timeout: 60
+openai_instructions: ""
+
 # publish_gitpage uses the directory containing `json_gitpage_path`
 # as the docs root, and writes per-paper files under
 # docs/<topic>/<YYYYMMDD>/<paper_id>.json.

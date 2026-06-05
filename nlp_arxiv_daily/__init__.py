@@ -8,6 +8,7 @@ from nlp_arxiv_daily.fetcher import (
     find_code_link,
     get_authors,
 )
+from nlp_arxiv_daily.openai_client import OpenAIConfigError, OpenAITextClient, request_openai_text
 from nlp_arxiv_daily.renderer import (
     json_to_md,
     render_archive_pages,
@@ -28,6 +29,8 @@ __all__ = [
     "ARXIV_KEY_RE",
     "GITHUB_URL_RE",
     "HF_PAPERS_API",
+    "OpenAIConfigError",
+    "OpenAITextClient",
     "REQUEST_TIMEOUT",
     "KeywordConfig",
     "Paper",
@@ -44,6 +47,7 @@ __all__ = [
     "get_daily_papers",
     "json_to_md",
     "load_config",
+    "request_openai_text",
     "render_archive_pages",
     "render_index",
     "sort_papers",

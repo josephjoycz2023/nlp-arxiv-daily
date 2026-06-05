@@ -109,6 +109,44 @@ class TestLoadConfig:
         config = load_config(config_file)
         assert config["enable_hf_papers"] is True
 
+    def test_loads_openai_defaults(self, config_file):
+        config = load_config(config_file)
+        assert config["openai_api_key"] == ""
+        assert config["openai_model"] == "gpt-5-mini"
+        assert config["openai_base_url"] == "https://api.openai.com/v1"
+        assert config["openai_timeout"] == 60
+
+    def test_merges_config_local_override(self, tmp_path):
+        config_file = tmp_path / "config.yaml"
+        local_config_file = tmp_path / "config.local.yaml"
+        config_file.write_text(
+            textwrap.dedent(
+                """
+                user_name: "monologg"
+                repo_name: "nlp-arxiv-daily"
+                show_authors: true
+                show_links: true
+                show_badge: false
+                max_results: 10
+                publish_readme: true
+                publish_gitpage: true
+                json_readme_path: "./docs/a.json"
+                json_gitpage_path: "./docs/b.json"
+                md_readme_path: "README.md"
+                md_gitpage_path: "./docs/index.md"
+                keywords:
+                  "NLP":
+                    filters: ["NLP"]
+                """
+            ).strip()
+        )
+        local_config_file.write_text('openai_api_key: "local-key"\nopenai_model: "gpt-5"\n')
+
+        config = load_config(str(config_file))
+
+        assert config["openai_api_key"] == "local-key"
+        assert config["openai_model"] == "gpt-5"
+
 
 class _FakeResponse:
     def __init__(self, status_code: int, payload: dict | None = None):
