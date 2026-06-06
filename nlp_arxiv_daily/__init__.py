@@ -1,3 +1,9 @@
+from nlp_arxiv_daily.ai_filter import (
+    build_digest_for_date,
+    filter_level1_for_date,
+    load_research_profile,
+    review_level2_for_date,
+)
 from nlp_arxiv_daily.cli import cmd_fetch, cmd_render, cmd_run
 from nlp_arxiv_daily.core import demo, get_daily_papers, load_config
 from nlp_arxiv_daily.fetcher import (
@@ -8,7 +14,7 @@ from nlp_arxiv_daily.fetcher import (
     find_code_link,
     get_authors,
 )
-from nlp_arxiv_daily.openai_client import OpenAIConfigError, OpenAITextClient, request_openai_text
+from nlp_arxiv_daily.openai_client import OpenAIConfigError, OpenAITextClient, request_openai_json, request_openai_text
 from nlp_arxiv_daily.renderer import (
     json_to_md,
     render_archive_pages,
@@ -37,7 +43,9 @@ __all__ = [
     "PapersByKeyword",
     "PapersByMonth",
     "bucket_by_month",
+    "build_digest_for_date",
     "cmd_fetch",
+    "filter_level1_for_date",
     "cmd_render",
     "cmd_run",
     "demo",
@@ -47,8 +55,11 @@ __all__ = [
     "get_daily_papers",
     "json_to_md",
     "load_config",
+    "load_research_profile",
+    "request_openai_json",
     "request_openai_text",
     "render_archive_pages",
+    "review_level2_for_date",
     "render_index",
     "sort_papers",
     "update_json_file",

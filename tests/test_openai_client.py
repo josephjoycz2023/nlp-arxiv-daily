@@ -5,6 +5,7 @@ from nlp_arxiv_daily.openai_client import (
     OpenAIConfigError,
     OpenAIResponseError,
     OpenAITextClient,
+    request_openai_json,
     request_openai_text,
 )
 
@@ -104,6 +105,71 @@ class TestOpenAITextClient:
         with pytest.raises(OpenAIResponseError):
             client.complete("say hi")
 
+    def test_posts_json_schema_and_parses_json(self):
+        session = _FakeSession(
+            _FakeResponse(
+                {
+                    "output": [
+                        {
+                            "content": [
+                                {"type": "output_text", "text": '{"answer":"ok"}'},
+                            ]
+                        }
+                    ]
+                }
+            )
+        )
+        client = OpenAITextClient(
+            api_key="test-key",
+            model="gpt-5-mini",
+            base_url="https://api.openai.com/v1",
+            timeout=60,
+            session=session,
+        )
+
+        payload = client.complete_json(
+            "return json",
+            schema={"type": "object", "properties": {"answer": {"type": "string"}}, "required": ["answer"]},
+            schema_name="answer_schema",
+        )
+
+        assert payload == {"answer": "ok"}
+        assert session.calls[0]["json"]["format"] == {
+            "type": "json_schema",
+            "name": "answer_schema",
+            "schema": {"type": "object", "properties": {"answer": {"type": "string"}}, "required": ["answer"]},
+            "strict": True,
+        }
+
+    def test_raises_when_json_response_is_invalid(self):
+        session = _FakeSession(
+            _FakeResponse(
+                {
+                    "output": [
+                        {
+                            "content": [
+                                {"type": "output_text", "text": "not json"},
+                            ]
+                        }
+                    ]
+                }
+            )
+        )
+        client = OpenAITextClient(
+            api_key="test-key",
+            model="gpt-5-mini",
+            base_url="https://api.openai.com/v1",
+            timeout=60,
+            session=session,
+        )
+
+        with pytest.raises(OpenAIResponseError):
+            client.complete_json(
+                "return json",
+                schema={"type": "object", "properties": {"answer": {"type": "string"}}, "required": ["answer"]},
+                schema_name="answer_schema",
+            )
+
 
 class TestRequestOpenAIText:
     def test_one_shot_helper_uses_config(self, monkeypatch):
@@ -135,4 +201,37 @@ class TestRequestOpenAIText:
         )
 
         assert text == "done"
+        assert session.calls[0]["json"]["input"] == "prompt"
+
+    def test_one_shot_json_helper_uses_config(self, monkeypatch):
+        session = _FakeSession(
+            _FakeResponse(
+                {
+                    "output": [
+                        {
+                            "content": [
+                                {"type": "output_text", "text": '{"answer":"done"}'},
+                            ]
+                        }
+                    ]
+                }
+            )
+        )
+
+        monkeypatch.setattr("nlp_arxiv_daily.openai_client.requests.Session", lambda: session)
+
+        payload = request_openai_json(
+            "prompt",
+            {
+                "openai_api_key": "cfg-key",
+                "openai_model": "gpt-5-mini",
+                "openai_base_url": "https://api.openai.com/v1",
+                "openai_timeout": 30,
+                "openai_instructions": "",
+            },
+            schema={"type": "object", "properties": {"answer": {"type": "string"}}, "required": ["answer"]},
+            schema_name="answer_schema",
+        )
+
+        assert payload == {"answer": "done"}
         assert session.calls[0]["json"]["input"] == "prompt"

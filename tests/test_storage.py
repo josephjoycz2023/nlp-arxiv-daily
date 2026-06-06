@@ -233,11 +233,16 @@ class TestWriteTopicPaperFiles:
         payload = json.loads(open(tmp_path / "agent" / "20260430" / "2605.00086.json").read())
         assert payload == {
             "paper_id": "2605.00086",
+            "arxiv_short_id": "2605.00086v1",
             "published_date": "2026-04-30",
             "title": "NorBERTo",
             "authors": "Enzo S. N. Silva et.al.",
+            "authors_full": [],
             "paper_url": "http://arxiv.org/abs/2605.00086v1",
+            "pdf_url": "",
             "code_link": None,
+            "abstract": "",
+            "categories": [],
         }
 
     def test_topic_names_are_slugged_for_directory_names(self, tmp_path):

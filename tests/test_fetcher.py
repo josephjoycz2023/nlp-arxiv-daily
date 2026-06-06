@@ -28,6 +28,8 @@ class _FakeArxivResult:
         published: datetime.datetime | None = None,
         entry_id: str = "http://arxiv.org/abs/X",
         summary: str = "no code link here",
+        categories: list[str] | None = None,
+        pdf_url: str | None = None,
     ):
         self._short_id = short_id
         self.title = title
@@ -38,6 +40,9 @@ class _FakeArxivResult:
         self.published = published or self.updated
         self.entry_id = entry_id
         self.summary = summary
+        self.categories = categories or ["cs.CL"]
+        self.primary_category = self.categories[0]
+        self.pdf_url = pdf_url or entry_id.replace("/abs/", "/pdf/") + ".pdf"
 
     def get_short_id(self):
         return self._short_id
@@ -203,6 +208,9 @@ class TestFetchPapers:
         assert p.update_time == datetime.date(2026, 4, 22)
         assert p.paper_url == "http://arxiv.org/abs/2604.21637v1"
         assert p.code_link is None
+        assert p.abstract == "no code link here"
+        assert p.categories == ("cs.CL",)
+        assert p.pdf_url == "http://arxiv.org/pdf/2604.21637v1.pdf"
 
     def test_uses_published_not_updated_for_display_date(self, monkeypatch):
         """Backfill regression: a Aug-2025 submission with a Jan-2026 revision

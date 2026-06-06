@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import json
+
 import requests
 
 
@@ -16,14 +18,21 @@ class OpenAIResponseError(RuntimeError):
 
 def _extract_output_text(payload: dict) -> str:
     parts: list[str] = []
+    refusals: list[str] = []
     for item in payload.get("output", []):
         for content in item.get("content", []):
             if content.get("type") == "output_text":
                 text = content.get("text", "")
                 if text:
                     parts.append(text)
+            if content.get("type") == "refusal":
+                refusal_text = content.get("text", "")
+                if refusal_text:
+                    refusals.append(refusal_text)
     if parts:
         return "".join(parts).strip()
+    if refusals:
+        raise OpenAIResponseError(f"OpenAI response was a refusal: {' '.join(refusals).strip()}")
     raise OpenAIResponseError("OpenAI response did not contain any output_text content.")
 
 
@@ -75,6 +84,48 @@ class OpenAITextClient:
         if self._instructions:
             payload["instructions"] = self._instructions
 
+        return self._post(payload)
+
+    def complete_json(
+        self,
+        prompt: str,
+        *,
+        schema: dict,
+        schema_name: str,
+        schema_description: str = "",
+        strict: bool = True,
+    ) -> dict:
+        if not prompt.strip():
+            raise ValueError("prompt must not be empty.")
+        if not schema_name.strip():
+            raise ValueError("schema_name must not be empty.")
+
+        payload = {
+            "model": self._model,
+            "input": prompt,
+            "format": {
+                "type": "json_schema",
+                "name": schema_name,
+                "schema": schema,
+                "strict": strict,
+            },
+        }
+        if schema_description.strip():
+            payload["format"]["description"] = schema_description.strip()
+        if self._instructions:
+            payload["instructions"] = self._instructions
+
+        raw_text = self._post(payload)
+        try:
+            parsed = json.loads(raw_text)
+        except json.JSONDecodeError as e:
+            raise OpenAIResponseError("OpenAI response did not contain valid JSON.") from e
+        if not isinstance(parsed, dict):
+            raise OpenAIResponseError("OpenAI response JSON root must be an object.")
+        return parsed
+
+    def _post(self, payload: dict) -> str:
+
         resp = self._session.post(
             f"{self._base_url}{OPENAI_RESPONSES_PATH}",
             headers={
@@ -91,3 +142,22 @@ class OpenAITextClient:
 def request_openai_text(prompt: str, config: dict) -> str:
     """One-shot convenience helper for callers that do not need client reuse."""
     return OpenAITextClient.from_config(config).complete(prompt)
+
+
+def request_openai_json(
+    prompt: str,
+    config: dict,
+    *,
+    schema: dict,
+    schema_name: str,
+    schema_description: str = "",
+    strict: bool = True,
+) -> dict:
+    """One-shot JSON helper for callers that want schema-validated model output."""
+    return OpenAITextClient.from_config(config).complete_json(
+        prompt,
+        schema=schema,
+        schema_name=schema_name,
+        schema_description=schema_description,
+        strict=strict,
+    )

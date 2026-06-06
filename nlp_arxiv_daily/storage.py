@@ -81,11 +81,16 @@ def _topic_dir_name(topic: str) -> str:
 def _paper_basic_info(paper: Paper) -> dict[str, str | None]:
     return {
         "paper_id": paper.paper_id,
+        "arxiv_short_id": paper.arxiv_short_id,
         "published_date": paper.update_time.isoformat(),
         "title": paper.title,
         "authors": f"{paper.first_author} et.al.",
+        "authors_full": list(paper.authors),
         "paper_url": paper.paper_url,
+        "pdf_url": paper.pdf_url,
         "code_link": paper.code_link,
+        "abstract": paper.abstract,
+        "categories": list(paper.categories),
     }
 
 

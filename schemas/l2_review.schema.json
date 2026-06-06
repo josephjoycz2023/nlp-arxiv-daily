@@ -1,0 +1,86 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "decision": {
+      "type": "string",
+      "enum": ["highlight", "normal", "archive_only"]
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["must_read", "useful", "background", "skip"]
+    },
+    "summary_cn": {
+      "type": "string"
+    },
+    "research_goal_cn": {
+      "type": "string"
+    },
+    "method_cn": {
+      "type": "string"
+    },
+    "experiment_cn": {
+      "type": "string"
+    },
+    "result_cn": {
+      "type": "string"
+    },
+    "landing_value_cn": {
+      "type": "string"
+    },
+    "scores": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "relevance": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "credibility": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "landing_feasibility": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "actionability": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        }
+      },
+      "required": [
+        "relevance",
+        "credibility",
+        "landing_feasibility",
+        "actionability"
+      ]
+    },
+    "risks_cn": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "recommended_action_cn": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "decision",
+    "priority",
+    "summary_cn",
+    "research_goal_cn",
+    "method_cn",
+    "experiment_cn",
+    "result_cn",
+    "landing_value_cn",
+    "scores",
+    "risks_cn",
+    "recommended_action_cn"
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "overview_cn": {
+      "type": "string"
+    },
+    "must_read": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "paper_id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "summary_cn": {
+            "type": "string"
+          },
+          "why_relevant_cn": {
+            "type": "string"
+          },
+          "recommended_action_cn": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "paper_id",
+          "title",
+          "summary_cn",
+          "why_relevant_cn",
+          "recommended_action_cn"
+        ]
+      }
+    },
+    "worth_archiving": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "paper_id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "reason_cn": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "paper_id",
+          "title",
+          "reason_cn"
+        ]
+      }
+    },
+    "rejected_themes_cn": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "overview_cn",
+    "must_read",
+    "worth_archiving",
+    "rejected_themes_cn"
+  ]
+}

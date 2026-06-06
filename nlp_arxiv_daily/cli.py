@@ -19,11 +19,12 @@ import os
 import sys
 from collections.abc import Iterator
 
+from nlp_arxiv_daily.ai_filter import build_digest_for_date, filter_level1_for_date, review_level2_for_date
 from nlp_arxiv_daily.core import load_config, papers_to_legacy_rows
 from nlp_arxiv_daily.fetcher import (
-    ArxivRateLimitExceeded,
     BACKFILL_DEFAULT_MAX_RESULTS,
     BACKFILL_RATE_LIMIT_SECONDS,
+    ArxivRateLimitExceeded,
     ensure_arxiv_preflight,
     fetch_papers,
     fetch_papers_in_range,
@@ -106,6 +107,29 @@ def cmd_run(config: dict) -> None:
     cmd_render(config)
 
 
+def cmd_run_personalized(config: dict, *, run_date: datetime.date | None = None) -> None:
+    """Fetch, render, then run the personalized AI pipeline for one date."""
+    if run_date is None:
+        run_date = datetime.date.today()
+    cmd_fetch(config)
+    cmd_render(config)
+    filter_level1_for_date(config, run_date)
+    review_level2_for_date(config, run_date)
+    build_digest_for_date(config, run_date)
+
+
+def cmd_filter_l1(config: dict, *, run_date: datetime.date) -> None:
+    filter_level1_for_date(config, run_date)
+
+
+def cmd_review_l2(config: dict, *, run_date: datetime.date) -> None:
+    review_level2_for_date(config, run_date)
+
+
+def cmd_build_digest(config: dict, *, run_date: datetime.date) -> None:
+    build_digest_for_date(config, run_date)
+
+
 def _parse_yyyy_mm(value: str) -> datetime.date:
     """`"2025-08"` → date(2025, 8, 1). Raises argparse-friendly ValueError."""
     try:
@@ -113,6 +137,13 @@ def _parse_yyyy_mm(value: str) -> datetime.date:
         return datetime.date(int(year_str), int(month_str), 1)
     except (ValueError, AttributeError) as e:
         raise argparse.ArgumentTypeError(f"expected YYYY-MM, got {value!r}") from e
+
+
+def _parse_yyyy_mm_dd(value: str) -> datetime.date:
+    try:
+        return datetime.date.fromisoformat(value)
+    except ValueError as e:
+        raise argparse.ArgumentTypeError(f"expected YYYY-MM-DD, got {value!r}") from e
 
 
 def _iter_month_ranges(start: datetime.date, end: datetime.date) -> Iterator[tuple[datetime.date, datetime.date]]:
@@ -221,8 +252,21 @@ def build_parser() -> argparse.ArgumentParser:
     )
     sub = parser.add_subparsers(dest="command")
     sub.add_parser("run", help="fetch then render (default)")
+    personalized = sub.add_parser("run-personalized", help="fetch, render, and build the personalized AI digest")
+    personalized.add_argument(
+        "--date",
+        type=_parse_yyyy_mm_dd,
+        default=None,
+        help="snapshot date to review in YYYY-MM-DD (default: today)",
+    )
     sub.add_parser("fetch", help="fetch arxiv + persist JSON splits")
     sub.add_parser("render", help="render persisted JSON to markdown")
+    filter_l1 = sub.add_parser("filter-l1", help="run abstract-level L1 filtering on one snapshot date")
+    filter_l1.add_argument("--date", required=True, type=_parse_yyyy_mm_dd, help="snapshot date in YYYY-MM-DD")
+    review_l2 = sub.add_parser("review-l2", help="run full-paper L2 review on one snapshot date")
+    review_l2.add_argument("--date", required=True, type=_parse_yyyy_mm_dd, help="snapshot date in YYYY-MM-DD")
+    build_digest = sub.add_parser("build-digest", help="build the personalized daily digest for one snapshot date")
+    build_digest.add_argument("--date", required=True, type=_parse_yyyy_mm_dd, help="snapshot date in YYYY-MM-DD")
 
     backfill = sub.add_parser("backfill", help="fetch a date range and merge into archive")
     backfill.add_argument(
@@ -280,6 +324,18 @@ def main(argv: list[str] | None = None) -> int:
                 delay_seconds=args.delay_seconds,
                 only_keywords=only_keywords,
             )
+            return 0
+        if command == "run-personalized":
+            cmd_run_personalized(config, run_date=args.date)
+            return 0
+        if command == "filter-l1":
+            cmd_filter_l1(config, run_date=args.date)
+            return 0
+        if command == "review-l2":
+            cmd_review_l2(config, run_date=args.date)
+            return 0
+        if command == "build-digest":
+            cmd_build_digest(config, run_date=args.date)
             return 0
 
         # Resolve handler at call time so tests can monkeypatch cmd_* on this module.

@@ -1,0 +1,71 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "decision": {
+      "type": "string",
+      "enum": ["reject", "archive_only", "level2"]
+    },
+    "matched_tracks": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "scores": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "topic_relevance": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4
+        },
+        "scenario_fit": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4
+        },
+        "landing_potential": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4
+        },
+        "abstract_evidence_strength": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4
+        },
+        "distance_penalty": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4
+        }
+      },
+      "required": [
+        "topic_relevance",
+        "scenario_fit",
+        "landing_potential",
+        "abstract_evidence_strength",
+        "distance_penalty"
+      ]
+    },
+    "total_score": {
+      "type": "integer"
+    },
+    "reason_cn": {
+      "type": "string"
+    },
+    "archive_reason_cn": {
+      "type": ["string", "null"]
+    }
+  },
+  "required": [
+    "decision",
+    "matched_tracks",
+    "scores",
+    "total_score",
+    "reason_cn",
+    "archive_reason_cn"
+  ]
+}

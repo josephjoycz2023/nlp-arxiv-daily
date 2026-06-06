@@ -23,6 +23,7 @@ from nlp_arxiv_daily.types import Paper
 HF_PAPERS_API = "https://huggingface.co/api/papers/"
 REQUEST_TIMEOUT = 10
 GITHUB_URL_RE = re.compile(r"https?://github\.com/[\w.-]+/[\w.-]+")
+ARXIV_QUERY_URL_FORMAT = "https://export.arxiv.org/api/query?{}"
 ARXIV_PREFLIGHT_QUERY = "all:electron"
 ARXIV_MIN_INTERVAL_SECONDS = 3.5
 
@@ -122,9 +123,7 @@ def ensure_arxiv_preflight() -> None:
 
     try:
         resp = _get_arxiv_preflight_session().get(
-            arxiv.Client.query_url_format.format(
-                f"search_query={ARXIV_PREFLIGHT_QUERY}&start=0&max_results=1"
-            ),
+            ARXIV_QUERY_URL_FORMAT.format(f"search_query={ARXIV_PREFLIGHT_QUERY}&start=0&max_results=1"),
             headers={"user-agent": "nlp-arxiv-daily/1.0"},
             timeout=REQUEST_TIMEOUT,
         )
@@ -225,6 +224,10 @@ def _result_to_paper(result) -> Paper:
     paper_id = _strip_version_suffix(short_id)
     first_author = get_authors(result.authors, first_author=True)
     update_time = result.published.date()
+    categories = tuple(getattr(result, "categories", None) or [getattr(result, "primary_category", "")])
+    pdf_url = getattr(result, "pdf_url", "") or result.entry_id.replace("/abs/", "/pdf/")
+    if pdf_url and not pdf_url.endswith(".pdf"):
+        pdf_url = f"{pdf_url}.pdf"
 
     logging.info(f"Time = {update_time} title = {result.title} author = {first_author}")
 
@@ -235,6 +238,10 @@ def _result_to_paper(result) -> Paper:
         update_time=update_time,
         paper_url=result.entry_id,
         code_link=find_code_link(paper_id, summary=result.summary),
+        abstract=result.summary,
+        authors=tuple(str(author) for author in result.authors),
+        categories=tuple(category for category in categories if category),
+        pdf_url=pdf_url,
         arxiv_short_id=short_id,
     )
 

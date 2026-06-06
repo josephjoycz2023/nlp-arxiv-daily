@@ -13,6 +13,10 @@ class Paper:
     update_time: date
     paper_url: str
     code_link: str | None
+    abstract: str = ""
+    authors: tuple[str, ...] = ()
+    categories: tuple[str, ...] = ()
+    pdf_url: str = ""
     arxiv_short_id: str = ""  # raw arxiv short id incl. version, e.g. "2108.09112v1"
 
 

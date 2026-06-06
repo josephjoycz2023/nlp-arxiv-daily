@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import logging
 import os
+import re
 
 import yaml
 
@@ -13,8 +14,21 @@ logging.basicConfig(format="[%(asctime)s %(levelname)s] %(message)s", datefmt="%
 
 
 def _load_yaml_dict(path: str) -> dict:
-    with open(path) as f:
-        data = yaml.load(f, Loader=yaml.FullLoader)
+    with open(path, encoding="utf-8") as f:
+        content = f.read()
+    try:
+        data = yaml.load(content, Loader=yaml.FullLoader)
+    except yaml.YAMLError:
+        # Windows paths in double-quoted YAML scalars use backslashes, but YAML
+        # interprets them as escapes (`\U`, `\t`, ...). Normalize only after a
+        # parse failure so existing POSIX configs remain unchanged.
+        normalized = re.sub(
+            r'(^\s*[^#\n][^:\n]*:\s*)"([^"\n]*\\[^"\n]*)"',
+            lambda match: f'{match.group(1)}"{match.group(2).replace("\\", "/")}"',
+            content,
+            flags=re.MULTILINE,
+        )
+        data = yaml.load(normalized, Loader=yaml.FullLoader)
     return data or {}
 
 
@@ -96,6 +110,14 @@ def load_config(config_file: str) -> dict:
     config.setdefault("openai_base_url", "https://api.openai.com/v1")
     config.setdefault("openai_timeout", 60)
     config.setdefault("openai_instructions", "")
+    config.setdefault("research_profile_path", "configs/research_profile.yaml")
+    config.setdefault("personalized_docs_dir", "./docs/personalized")
+    config.setdefault("l1_prompt_path", "prompts/l1_abstract_filter.md")
+    config.setdefault("l2_prompt_path", "prompts/l2_paper_review.md")
+    config.setdefault("digest_prompt_path", "prompts/daily_digest.md")
+    config.setdefault("l1_schema_path", "schemas/l1_score.schema.json")
+    config.setdefault("l2_schema_path", "schemas/l2_review.schema.json")
+    config.setdefault("digest_schema_path", "schemas/digest.schema.json")
     config.setdefault("enable_hf_papers", True)
     configure_hf_papers(config["enable_hf_papers"])
     config["kv"] = pretty_filters(**config)

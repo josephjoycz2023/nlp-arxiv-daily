@@ -70,9 +70,20 @@ class TestArgparser:
         assert ns.command is None  # main() coerces to "run"
 
     def test_subcommands_recognized(self):
-        for sub in ("run", "fetch", "render"):
-            ns = cli.build_parser().parse_args([sub])
-            assert ns.command == sub
+        ns = cli.build_parser().parse_args(["run"])
+        assert ns.command == "run"
+        ns = cli.build_parser().parse_args(["fetch"])
+        assert ns.command == "fetch"
+        ns = cli.build_parser().parse_args(["render"])
+        assert ns.command == "render"
+        ns = cli.build_parser().parse_args(["run-personalized"])
+        assert ns.command == "run-personalized"
+        ns = cli.build_parser().parse_args(["filter-l1", "--date", "2026-06-06"])
+        assert ns.command == "filter-l1"
+        ns = cli.build_parser().parse_args(["review-l2", "--date", "2026-06-06"])
+        assert ns.command == "review-l2"
+        ns = cli.build_parser().parse_args(["build-digest", "--date", "2026-06-06"])
+        assert ns.command == "build-digest"
 
     def test_config_path_default(self):
         ns = cli.build_parser().parse_args([])
@@ -85,6 +96,9 @@ class TestArgparser:
     def test_backfill_delay_seconds_accepts_float(self):
         ns = cli.build_parser().parse_args(["backfill", "--start", "2025-08", "--delay-seconds", "3.5"])
         assert ns.delay_seconds == 3.5
+
+    def test_parse_yyyy_mm_dd(self):
+        assert cli._parse_yyyy_mm_dd("2026-06-06") == datetime.date(2026, 6, 6)
 
 
 class TestDispatch:
@@ -106,6 +120,24 @@ class TestDispatch:
         monkeypatch.setattr(cli, "cmd_fetch", lambda config: called.append(("fetch", config)))
         cli.main(["--config_path", fake_config_file, "fetch"])
         assert called and called[0][0] == "fetch"
+
+    def test_main_filter_l1_dispatches(self, monkeypatch, fake_config_file):
+        called = []
+        monkeypatch.setattr(cli, "cmd_filter_l1", lambda config, *, run_date: called.append(("filter-l1", run_date)))
+        cli.main(["--config_path", fake_config_file, "filter-l1", "--date", "2026-06-06"])
+        assert called == [("filter-l1", datetime.date(2026, 6, 6))]
+
+    def test_main_review_l2_dispatches(self, monkeypatch, fake_config_file):
+        called = []
+        monkeypatch.setattr(cli, "cmd_review_l2", lambda config, *, run_date: called.append(("review-l2", run_date)))
+        cli.main(["--config_path", fake_config_file, "review-l2", "--date", "2026-06-06"])
+        assert called == [("review-l2", datetime.date(2026, 6, 6))]
+
+    def test_main_build_digest_dispatches(self, monkeypatch, fake_config_file):
+        called = []
+        monkeypatch.setattr(cli, "cmd_build_digest", lambda config, *, run_date: called.append(("build-digest", run_date)))
+        cli.main(["--config_path", fake_config_file, "build-digest", "--date", "2026-06-06"])
+        assert called == [("build-digest", datetime.date(2026, 6, 6))]
 
 
 class TestCommandIsolation:
