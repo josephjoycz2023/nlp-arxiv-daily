@@ -15,6 +15,17 @@ openai_base_url: "https://api.openai.com/v1"
 openai_timeout: 60
 openai_instructions: ""
 
+llm_provider: "openai"
+deepseek_api_key: "sk-453bd6cf8642407c80e20a2a892e32e2"
+deepseek_model: "deepseek-v4-pro"
+deepseek_base_url: "https://api.deepseek.com"
+deepseek_timeout: 60
+deepseek_instructions: ""
+deepseek_reasoning_effort: "high"
+deepseek_thinking_enabled: true
+
+analysis_cache_dir: "./docs/personalized/cache"
+
 # publish_gitpage uses the directory containing `json_gitpage_path`
 # as the docs root, and writes per-paper files under
 # docs/<topic>/<YYYYMMDD>/<paper_id>.json.

@@ -102,6 +102,7 @@ def ai_workspace(tmp_path):
         "kv": {"agent": "LLM Agent"},
         "json_gitpage_path": str(docs_dir / "main-web.json"),
         "personalized_docs_dir": str(personalized_dir),
+        "analysis_cache_dir": str(personalized_dir / "cache"),
         "research_profile_path": str(profile_path),
         "l1_prompt_path": str(prompts_dir / "l1.md"),
         "l2_prompt_path": str(prompts_dir / "l2.md"),
@@ -167,6 +168,44 @@ def test_level1_filter_requires_abstract(ai_workspace, monkeypatch):
 
     with pytest.raises(ValueError):
         filter_level1_for_date(ai_workspace, datetime.date(2026, 6, 6))
+
+
+def test_level1_filter_reuses_cached_result_for_repeated_paper(ai_workspace, monkeypatch):
+    docs_root = Path(ai_workspace["json_gitpage_path"]).parent
+    original = docs_root / "agent" / "20260606" / "2606.00001.json"
+    repeat_dir = docs_root / "agent" / "20260607"
+    repeat_dir.mkdir(parents=True)
+    (repeat_dir / "2606.00001.json").write_text(original.read_text(encoding="utf-8"), encoding="utf-8")
+
+    fake_client = _FakeClient(
+        [
+            {
+                "decision": "level2",
+                "matched_tracks": ["memory_personalization"],
+                "scores": {
+                    "topic_relevance": 4,
+                    "scenario_fit": 4,
+                    "landing_potential": 3,
+                    "abstract_evidence_strength": 3,
+                    "distance_penalty": 0,
+                },
+                "total_score": 14,
+                "reason_cn": "cached",
+                "archive_reason_cn": None,
+            }
+        ]
+    )
+    monkeypatch.setattr(
+        "nlp_arxiv_daily.ai_filter.l1_abstract_filter.OpenAITextClient.from_config",
+        lambda config: fake_client,
+    )
+
+    first_path = filter_level1_for_date(ai_workspace, datetime.date(2026, 6, 6))
+    second_path = filter_level1_for_date(ai_workspace, datetime.date(2026, 6, 7))
+
+    assert len(fake_client.calls) == 1
+    assert json.loads(Path(first_path).read_text(encoding="utf-8"))["papers"][0]["l1"]["reason_cn"] == "cached"
+    assert json.loads(Path(second_path).read_text(encoding="utf-8"))["papers"][0]["l1"]["reason_cn"] == "cached"
 
 
 def test_extract_review_sections_falls_back_and_truncates():
@@ -380,6 +419,65 @@ def test_l2_review_writes_success_payload(ai_workspace, monkeypatch):
     assert payload["review_input"]["page_count"] == 4
 
 
+def test_l2_review_reuses_cached_review_for_repeated_paper(ai_workspace, monkeypatch):
+    l1_dir = Path(ai_workspace["personalized_docs_dir"]) / "l1"
+    l1_dir.mkdir(parents=True)
+    paper_payload = json.loads(
+        (Path(ai_workspace["json_gitpage_path"]).parent / "agent" / "20260606" / "2606.00001.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    l1_payload = {
+        "stats": {"total_papers": 1, "reject": 0, "archive_only": 0, "level2": 1},
+        "papers": [{"paper": paper_payload | {"matched_topic": "agent"}, "l1": {"decision": "level2", "total_score": 12}}],
+    }
+    for day in ("2026-06-06", "2026-06-07"):
+        (l1_dir / f"{day}.json").write_text(
+            json.dumps({"date": day, **l1_payload}, ensure_ascii=False),
+            encoding="utf-8",
+        )
+
+    download_calls = []
+    monkeypatch.setattr(
+        "nlp_arxiv_daily.ai_filter.l2_paper_reviewer.download_pdf_text",
+        lambda pdf_url: (download_calls.append(pdf_url) or ("Abstract\nA\nMethod\nB\nResults\nC\nConclusion\nD", 4)),
+    )
+    fake_client = _FakeClient(
+        [
+            {
+                "decision": "highlight",
+                "priority": "must_read",
+                "summary_cn": "summary",
+                "research_goal_cn": "goal",
+                "method_cn": "method",
+                "experiment_cn": "experiment",
+                "result_cn": "result",
+                "landing_value_cn": "landing",
+                "scores": {
+                    "relevance": 90,
+                    "credibility": 80,
+                    "landing_feasibility": 85,
+                    "actionability": 88,
+                },
+                "risks_cn": ["risk"],
+                "recommended_action_cn": "act",
+            }
+        ]
+    )
+    monkeypatch.setattr(
+        "nlp_arxiv_daily.ai_filter.l2_paper_reviewer.OpenAITextClient.from_config",
+        lambda config: fake_client,
+    )
+
+    first_paths = review_level2_for_date(ai_workspace, datetime.date(2026, 6, 6))
+    second_paths = review_level2_for_date(ai_workspace, datetime.date(2026, 6, 7))
+
+    assert len(fake_client.calls) == 1
+    assert len(download_calls) == 1
+    assert json.loads(Path(first_paths[0]).read_text(encoding="utf-8"))["review"]["decision"] == "highlight"
+    assert json.loads(Path(second_paths[0]).read_text(encoding="utf-8"))["review"]["decision"] == "highlight"
+
+
 def test_digest_builder_writes_markdown(ai_workspace, monkeypatch):
     personalized_root = Path(ai_workspace["personalized_docs_dir"])
     (personalized_root / "l1").mkdir(parents=True)
@@ -470,3 +568,85 @@ def test_digest_builder_writes_markdown(ai_workspace, monkeypatch):
     markdown = (personalized_root / "daily" / "2026-06-06.md").read_text(encoding="utf-8")
     assert "https://github.com/acme/memory-agent" in markdown
     assert "pdf parse failed" in markdown
+
+
+def test_digest_builder_reuses_cached_digest_for_repeated_inputs(ai_workspace, monkeypatch):
+    personalized_root = Path(ai_workspace["personalized_docs_dir"])
+    (personalized_root / "l1").mkdir(parents=True)
+    for day in ("2026-06-06", "2026-06-07"):
+        (personalized_root / "reviews" / day).mkdir(parents=True)
+        (personalized_root / "l1" / f"{day}.json").write_text(
+            json.dumps(
+                {
+                    "date": day,
+                    "stats": {"total_papers": 1, "reject": 0, "archive_only": 0, "level2": 1},
+                    "papers": [],
+                },
+                ensure_ascii=False,
+            ),
+            encoding="utf-8",
+        )
+        (personalized_root / "reviews" / day / "2606.00001.json").write_text(
+            json.dumps(
+                {
+                    "date": day,
+                    "paper": {
+                        "paper_id": "2606.00001",
+                        "title": "Memory Agent",
+                        "paper_url": "http://arxiv.org/abs/2606.00001v1",
+                        "pdf_url": "http://arxiv.org/pdf/2606.00001v1.pdf",
+                        "code_link": "https://github.com/acme/memory-agent",
+                    },
+                    "review": {
+                        "decision": "highlight",
+                        "priority": "must_read",
+                        "summary_cn": "summary",
+                        "research_goal_cn": "goal",
+                        "method_cn": "method",
+                        "experiment_cn": "experiment",
+                        "result_cn": "result",
+                        "landing_value_cn": "landing",
+                        "scores": {
+                            "relevance": 90,
+                            "credibility": 80,
+                            "landing_feasibility": 85,
+                            "actionability": 88,
+                        },
+                        "risks_cn": ["risk"],
+                        "recommended_action_cn": "act",
+                    },
+                },
+                ensure_ascii=False,
+            ),
+            encoding="utf-8",
+        )
+
+    fake_client = _FakeClient(
+        [
+            {
+                "overview_cn": "overview",
+                "must_read": [
+                    {
+                        "paper_id": "2606.00001",
+                        "title": "Memory Agent",
+                        "summary_cn": "summary",
+                        "why_relevant_cn": "relevant",
+                        "recommended_action_cn": "act",
+                    }
+                ],
+                "worth_archiving": [],
+                "rejected_themes_cn": ["too benchmark-heavy"],
+            }
+        ]
+    )
+    monkeypatch.setattr(
+        "nlp_arxiv_daily.ai_filter.digest_builder.OpenAITextClient.from_config",
+        lambda config: fake_client,
+    )
+
+    first_path = build_digest_for_date(ai_workspace, datetime.date(2026, 6, 6))
+    second_path = build_digest_for_date(ai_workspace, datetime.date(2026, 6, 7))
+
+    assert len(fake_client.calls) == 1
+    assert json.loads(Path(first_path).read_text(encoding="utf-8"))["digest"]["overview_cn"] == "overview"
+    assert json.loads(Path(second_path).read_text(encoding="utf-8"))["digest"]["overview_cn"] == "overview"

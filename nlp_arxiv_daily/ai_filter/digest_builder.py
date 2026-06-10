@@ -3,7 +3,9 @@ from __future__ import annotations
 import datetime
 import json
 import os
+from dataclasses import asdict
 
+from nlp_arxiv_daily.ai_filter.analysis_cache import build_cache_namespace, load_stage_cache, save_stage_cache
 from nlp_arxiv_daily.ai_filter.profile import load_research_profile
 from nlp_arxiv_daily.openai_client import OpenAITextClient
 
@@ -38,6 +40,14 @@ def build_digest_for_date(config: dict, run_date: datetime.date) -> str:
     prompt_template = _read_text(config["digest_prompt_path"])
     schema = _read_json(config["digest_schema_path"])
     client = OpenAITextClient.from_config(config)
+    cache_namespace = build_cache_namespace(
+        {
+            "stage": "digest",
+            "profile": asdict(profile),
+            "prompt_template": prompt_template,
+            "schema": schema,
+        }
+    )
 
     digest_input = {
         "date": run_date.isoformat(),
@@ -66,12 +76,27 @@ def build_digest_for_date(config: dict, run_date: datetime.date) -> str:
 
     prompt = prompt_template.replace("{{digest_input}}", json.dumps(digest_input, ensure_ascii=False, indent=2))
     prompt = prompt.replace("{{language}}", profile.output.language)
-    digest = client.complete_json(
-        prompt,
-        schema=schema,
-        schema_name="daily_digest",
-        schema_description="Structured output for the daily personalized research digest.",
-    )
+    digest_cache_key = build_cache_namespace(_digest_cache_basis(digest_input))
+    cached_entry = load_stage_cache(config, "digest", cache_namespace, digest_cache_key)
+    if cached_entry is None:
+        digest = client.complete_json(
+            prompt,
+            schema=schema,
+            schema_name="daily_digest",
+            schema_description="Structured output for the daily personalized research digest.",
+        )
+        save_stage_cache(
+            config,
+            "digest",
+            cache_namespace,
+            digest_cache_key,
+            {
+                "digest": digest,
+                "digest_cache_basis": _digest_cache_basis(digest_input),
+            },
+        )
+    else:
+        digest = cached_entry["payload"]["digest"]
 
     output_dir = os.path.join(config["personalized_docs_dir"], "daily")
     os.makedirs(output_dir, exist_ok=True)
@@ -99,6 +124,18 @@ def _read_text(path: str) -> str:
 def _read_json(path: str) -> dict:
     with open(path, encoding="utf-8") as f:
         return json.load(f)
+
+
+def _digest_cache_basis(digest_input: dict) -> dict:
+    return _strip_date_fields(digest_input)
+
+
+def _strip_date_fields(value):
+    if isinstance(value, dict):
+        return {key: _strip_date_fields(item) for key, item in value.items() if key != "date"}
+    if isinstance(value, list):
+        return [_strip_date_fields(item) for item in value]
+    return value
 
 
 def _render_digest_markdown(payload: dict, successful_reviews: list[dict]) -> str:

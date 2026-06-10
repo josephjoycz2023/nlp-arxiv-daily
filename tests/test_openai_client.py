@@ -40,6 +40,38 @@ class _FakeSession:
         return self._response
 
 
+class _FakeMessage:
+    def __init__(self, content, reasoning_content: str = ""):
+        self.content = content
+        self.reasoning_content = reasoning_content
+
+
+class _FakeChoice:
+    def __init__(self, message: _FakeMessage):
+        self.message = message
+
+
+class _FakeChatCompletionResponse:
+    def __init__(self, content, reasoning_content: str = ""):
+        self.choices = [_FakeChoice(_FakeMessage(content, reasoning_content=reasoning_content))]
+
+
+class _FakeCompletionsAPI:
+    def __init__(self, response: _FakeChatCompletionResponse):
+        self.calls: list[dict] = []
+        self._response = response
+
+    def create(self, **kwargs):
+        self.calls.append(kwargs)
+        return self._response
+
+
+class _FakeDeepSeekSDKClient:
+    def __init__(self, response: _FakeChatCompletionResponse):
+        self.completions = _FakeCompletionsAPI(response)
+        self.chat = type("_FakeChat", (), {"completions": self.completions})()
+
+
 class TestOpenAITextClient:
     def test_requires_api_key(self):
         with pytest.raises(OpenAIConfigError):
@@ -48,6 +80,25 @@ class TestOpenAITextClient:
                 model="gpt-5-mini",
                 base_url="https://api.openai.com/v1",
                 timeout=60,
+            )
+
+    def test_requires_model(self):
+        with pytest.raises(OpenAIConfigError):
+            OpenAITextClient(
+                api_key="test-key",
+                model="",
+                base_url="https://api.openai.com/v1",
+                timeout=60,
+            )
+
+    def test_rejects_invalid_provider(self):
+        with pytest.raises(OpenAIConfigError):
+            OpenAITextClient(
+                api_key="test-key",
+                model="gpt-5-mini",
+                base_url="https://api.openai.com/v1",
+                timeout=60,
+                provider="unknown",
             )
 
     def test_posts_prompt_and_returns_output_text(self):
@@ -170,6 +221,248 @@ class TestOpenAITextClient:
                 schema_name="answer_schema",
             )
 
+    def test_raises_when_json_root_is_not_object(self):
+        session = _FakeSession(
+            _FakeResponse(
+                {
+                    "output": [
+                        {
+                            "content": [
+                                {"type": "output_text", "text": '["ok"]'},
+                            ]
+                        }
+                    ]
+                }
+            )
+        )
+        client = OpenAITextClient(
+            api_key="test-key",
+            model="gpt-5-mini",
+            base_url="https://api.openai.com/v1",
+            timeout=60,
+            session=session,
+        )
+
+        with pytest.raises(OpenAIResponseError):
+            client.complete_json(
+                "return json",
+                schema={"type": "object", "properties": {"answer": {"type": "string"}}, "required": ["answer"]},
+                schema_name="answer_schema",
+            )
+
+    def test_complete_rejects_empty_prompt(self):
+        client = OpenAITextClient(
+            api_key="test-key",
+            model="gpt-5-mini",
+            base_url="https://api.openai.com/v1",
+            timeout=60,
+        )
+
+        with pytest.raises(ValueError):
+            client.complete("   ")
+
+    def test_complete_json_rejects_empty_prompt(self):
+        client = OpenAITextClient(
+            api_key="test-key",
+            model="gpt-5-mini",
+            base_url="https://api.openai.com/v1",
+            timeout=60,
+        )
+
+        with pytest.raises(ValueError):
+            client.complete_json(
+                "   ",
+                schema={"type": "object"},
+                schema_name="answer_schema",
+            )
+
+    def test_complete_json_rejects_empty_schema_name(self):
+        client = OpenAITextClient(
+            api_key="test-key",
+            model="gpt-5-mini",
+            base_url="https://api.openai.com/v1",
+            timeout=60,
+        )
+
+        with pytest.raises(ValueError):
+            client.complete_json(
+                "return json",
+                schema={"type": "object"},
+                schema_name="   ",
+            )
+
+    def test_deepseek_complete_uses_chat_completions(self):
+        sdk_client = _FakeDeepSeekSDKClient(
+            _FakeChatCompletionResponse("hello from deepseek", reasoning_content="hidden thinking")
+        )
+        client = OpenAITextClient(
+            api_key="deepseek-key",
+            model="deepseek-v4-pro",
+            base_url="https://api.deepseek.com",
+            timeout=45,
+            instructions="be concise",
+            provider="deepseek",
+            reasoning_effort="high",
+            thinking_enabled=True,
+            sdk_client=sdk_client,
+        )
+
+        text = client.complete("say hi")
+
+        assert text == "hello from deepseek"
+        assert sdk_client.completions.calls == [
+            {
+                "model": "deepseek-v4-pro",
+                "messages": [
+                    {"role": "system", "content": "be concise"},
+                    {"role": "user", "content": "say hi"},
+                ],
+                "reasoning_effort": "high",
+                "extra_body": {"thinking": {"type": "enabled"}},
+            }
+        ]
+
+    def test_deepseek_complete_json_requests_json_object(self):
+        sdk_client = _FakeDeepSeekSDKClient(_FakeChatCompletionResponse('{"answer":"ok"}'))
+        client = OpenAITextClient(
+            api_key="deepseek-key",
+            model="deepseek-v4-pro",
+            base_url="https://api.deepseek.com",
+            timeout=45,
+            provider="deepseek",
+            reasoning_effort="high",
+            thinking_enabled=True,
+            sdk_client=sdk_client,
+        )
+
+        payload = client.complete_json(
+            "return json",
+            schema={"type": "object", "properties": {"answer": {"type": "string"}}, "required": ["answer"]},
+            schema_name="answer_schema",
+            schema_description="Answer payload.",
+        )
+
+        assert payload == {"answer": "ok"}
+        assert sdk_client.completions.calls[0]["response_format"] == {"type": "json_object"}
+        assert "Follow this JSON Schema strictly:" in sdk_client.completions.calls[0]["messages"][0]["content"]
+
+    def test_deepseek_complete_supports_list_content(self):
+        content = [
+            {"text": "hello "},
+            type("_Chunk", (), {"text": "world"})(),
+        ]
+        sdk_client = _FakeDeepSeekSDKClient(_FakeChatCompletionResponse(content))
+        client = OpenAITextClient(
+            api_key="deepseek-key",
+            model="deepseek-v4-pro",
+            base_url="https://api.deepseek.com",
+            timeout=45,
+            provider="deepseek",
+            sdk_client=sdk_client,
+        )
+
+        assert client.complete("say hi") == "hello world"
+
+    def test_deepseek_complete_json_raises_when_json_response_is_invalid(self):
+        sdk_client = _FakeDeepSeekSDKClient(_FakeChatCompletionResponse("not json"))
+        client = OpenAITextClient(
+            api_key="deepseek-key",
+            model="deepseek-v4-pro",
+            base_url="https://api.deepseek.com",
+            timeout=45,
+            provider="deepseek",
+            sdk_client=sdk_client,
+        )
+
+        with pytest.raises(OpenAIResponseError):
+            client.complete_json(
+                "return json",
+                schema={"type": "object", "properties": {"answer": {"type": "string"}}, "required": ["answer"]},
+                schema_name="answer_schema",
+            )
+
+    def test_deepseek_complete_json_raises_when_json_root_is_not_object(self):
+        sdk_client = _FakeDeepSeekSDKClient(_FakeChatCompletionResponse('["ok"]'))
+        client = OpenAITextClient(
+            api_key="deepseek-key",
+            model="deepseek-v4-pro",
+            base_url="https://api.deepseek.com",
+            timeout=45,
+            provider="deepseek",
+            sdk_client=sdk_client,
+        )
+
+        with pytest.raises(OpenAIResponseError):
+            client.complete_json(
+                "return json",
+                schema={"type": "object", "properties": {"answer": {"type": "string"}}, "required": ["answer"]},
+                schema_name="answer_schema",
+            )
+
+    def test_deepseek_complete_raises_when_message_has_no_text(self):
+        sdk_client = _FakeDeepSeekSDKClient(_FakeChatCompletionResponse([]))
+        client = OpenAITextClient(
+            api_key="deepseek-key",
+            model="deepseek-v4-pro",
+            base_url="https://api.deepseek.com",
+            timeout=45,
+            provider="deepseek",
+            sdk_client=sdk_client,
+        )
+
+        with pytest.raises(OpenAIResponseError):
+            client.complete("say hi")
+
+    def test_deepseek_can_disable_reasoning_fields(self):
+        sdk_client = _FakeDeepSeekSDKClient(_FakeChatCompletionResponse("plain response"))
+        client = OpenAITextClient(
+            api_key="deepseek-key",
+            model="deepseek-v4-pro",
+            base_url="https://api.deepseek.com",
+            timeout=45,
+            provider="deepseek",
+            reasoning_effort="",
+            thinking_enabled="false",
+            sdk_client=sdk_client,
+        )
+
+        assert client.complete("say hi") == "plain response"
+        assert sdk_client.completions.calls[0] == {
+            "model": "deepseek-v4-pro",
+            "messages": [{"role": "user", "content": "say hi"}],
+        }
+
+    def test_builds_deepseek_sdk_client(self):
+        client = OpenAITextClient(
+            api_key="deepseek-key",
+            model="deepseek-v4-pro",
+            base_url="https://api.deepseek.com",
+            timeout=45,
+            provider="deepseek",
+        )
+
+        sdk_client = client._build_deepseek_sdk_client()
+
+        assert sdk_client is not None
+
+    def test_from_config_builds_deepseek_client(self):
+        client = OpenAITextClient.from_config(
+            {
+                "llm_provider": "deepseek",
+                "deepseek_api_key": "deepseek-key",
+                "deepseek_model": "deepseek-v4-pro",
+                "deepseek_base_url": "https://api.deepseek.com",
+                "deepseek_timeout": 45,
+                "deepseek_instructions": "be concise",
+                "deepseek_reasoning_effort": "high",
+                "deepseek_thinking_enabled": "true",
+            }
+        )
+
+        assert client._provider == "deepseek"
+        assert client._model == "deepseek-v4-pro"
+        assert client._thinking_enabled is True
+
 
 class TestRequestOpenAIText:
     def test_one_shot_helper_uses_config(self, monkeypatch):
@@ -235,3 +528,28 @@ class TestRequestOpenAIText:
 
         assert payload == {"answer": "done"}
         assert session.calls[0]["json"]["input"] == "prompt"
+
+    def test_one_shot_helper_uses_deepseek_config(self, monkeypatch):
+        sdk_client = _FakeDeepSeekSDKClient(_FakeChatCompletionResponse("done"))
+        monkeypatch.setattr(
+            OpenAITextClient,
+            "_build_deepseek_sdk_client",
+            lambda self: sdk_client,
+        )
+
+        text = request_openai_text(
+            "prompt",
+            {
+                "llm_provider": "deepseek",
+                "deepseek_api_key": "cfg-key",
+                "deepseek_model": "deepseek-v4-pro",
+                "deepseek_base_url": "https://api.deepseek.com",
+                "deepseek_timeout": 30,
+                "deepseek_instructions": "",
+                "deepseek_reasoning_effort": "high",
+                "deepseek_thinking_enabled": True,
+            },
+        )
+
+        assert text == "done"
+        assert sdk_client.completions.calls[0]["messages"][0]["content"] == "prompt"

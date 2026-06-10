@@ -47,6 +47,8 @@ def _redact_config_for_logging(config: dict) -> dict:
     redacted = dict(config)
     if redacted.get("openai_api_key"):
         redacted["openai_api_key"] = "***redacted***"
+    if redacted.get("deepseek_api_key"):
+        redacted["deepseek_api_key"] = "***redacted***"
     return redacted
 
 
@@ -110,8 +112,17 @@ def load_config(config_file: str) -> dict:
     config.setdefault("openai_base_url", "https://api.openai.com/v1")
     config.setdefault("openai_timeout", 60)
     config.setdefault("openai_instructions", "")
+    config.setdefault("llm_provider", "openai")
+    config.setdefault("deepseek_api_key", os.getenv("DEEPSEEK_API_KEY", ""))
+    config.setdefault("deepseek_model", "deepseek-v4-pro")
+    config.setdefault("deepseek_base_url", "https://api.deepseek.com")
+    config.setdefault("deepseek_timeout", 60)
+    config.setdefault("deepseek_instructions", "")
+    config.setdefault("deepseek_reasoning_effort", "high")
+    config.setdefault("deepseek_thinking_enabled", True)
     config.setdefault("research_profile_path", "configs/research_profile.yaml")
     config.setdefault("personalized_docs_dir", "./docs/personalized")
+    config.setdefault("analysis_cache_dir", os.path.join(config["personalized_docs_dir"], "cache"))
     config.setdefault("l1_prompt_path", "prompts/l1_abstract_filter.md")
     config.setdefault("l2_prompt_path", "prompts/l2_paper_review.md")
     config.setdefault("digest_prompt_path", "prompts/daily_digest.md")

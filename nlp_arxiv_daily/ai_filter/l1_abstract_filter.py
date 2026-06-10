@@ -1,9 +1,12 @@
 from __future__ import annotations
 
+import copy
 import datetime
 import json
 import os
+from dataclasses import asdict
 
+from nlp_arxiv_daily.ai_filter.analysis_cache import build_cache_namespace, load_stage_cache, save_stage_cache
 from nlp_arxiv_daily.ai_filter.profile import ResearchProfile, load_research_profile, render_tracks, trim_profile
 from nlp_arxiv_daily.openai_client import OpenAITextClient
 
@@ -18,22 +21,45 @@ def filter_level1_for_date(config: dict, run_date: datetime.date) -> str:
     prompt_template = _read_text(config["l1_prompt_path"])
     schema = _read_json(config["l1_schema_path"])
     client = OpenAITextClient.from_config(config)
+    cache_namespace = build_cache_namespace(
+        {
+            "stage": "l1",
+            "profile": asdict(profile),
+            "prompt_template": prompt_template,
+            "schema": schema,
+        }
+    )
 
     papers = _load_daily_papers(config, run_date)
     scored_entries: list[dict] = []
     for paper in papers:
-        _validate_level1_inputs(paper, run_date)
-        prompt = _render_l1_prompt(prompt_template, profile, paper)
-        model_output = client.complete_json(
-            prompt,
-            schema=schema,
-            schema_name="l1_score",
-            schema_description="Structured output for the abstract-only L1 paper filter.",
-        )
+        cached_entry = load_stage_cache(config, "l1", cache_namespace, paper["paper_id"])
+        if cached_entry is None:
+            _validate_level1_inputs(paper, run_date)
+            prompt = _render_l1_prompt(prompt_template, profile, paper)
+            model_output = client.complete_json(
+                prompt,
+                schema=schema,
+                schema_name="l1_score",
+                schema_description="Structured output for the abstract-only L1 paper filter.",
+            )
+            normalized_result = _normalize_l1_result(model_output, profile)
+            save_stage_cache(
+                config,
+                "l1",
+                cache_namespace,
+                paper["paper_id"],
+                {
+                    "paper_id": paper["paper_id"],
+                    "l1": normalized_result,
+                },
+            )
+        else:
+            normalized_result = cached_entry["payload"]["l1"]
         scored_entries.append(
             {
                 "paper": paper,
-                "l1": _normalize_l1_result(model_output, profile),
+                "l1": copy.deepcopy(normalized_result),
             }
         )
 
@@ -87,7 +113,7 @@ def _topic_dir_name(topic: str) -> str:
 def _load_daily_papers(config: dict, run_date: datetime.date) -> list[dict]:
     docs_root = _docs_root(config)
     snapshot_dir = run_date.strftime("%Y%m%d")
-    papers: list[dict] = []
+    papers_by_id: dict[str, dict] = {}
     for topic in config["kv"]:
         topic_dir = os.path.join(docs_root, _topic_dir_name(topic), snapshot_dir)
         if not os.path.isdir(topic_dir):
@@ -95,8 +121,17 @@ def _load_daily_papers(config: dict, run_date: datetime.date) -> list[dict]:
         for filename in sorted(name for name in os.listdir(topic_dir) if name.endswith(".json")):
             with open(os.path.join(topic_dir, filename), encoding="utf-8") as f:
                 paper = json.load(f)
-            paper["matched_topic"] = topic
-            papers.append(paper)
+            paper_id = str(paper["paper_id"])
+            existing = papers_by_id.get(paper_id)
+            if existing is None:
+                paper["matched_topics"] = [topic]
+                papers_by_id[paper_id] = paper
+                continue
+            if topic not in existing["matched_topics"]:
+                existing["matched_topics"].append(topic)
+    papers = list(papers_by_id.values())
+    for paper in papers:
+        paper["matched_topic"] = ", ".join(paper["matched_topics"])
     if not papers:
         raise FileNotFoundError(
             f"No per-paper snapshots found for {run_date.isoformat()} under {docs_root}. Run fetch first."

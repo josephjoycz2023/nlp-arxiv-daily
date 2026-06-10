@@ -115,6 +115,14 @@ class TestLoadConfig:
         assert config["openai_model"] == "gpt-5-mini"
         assert config["openai_base_url"] == "https://api.openai.com/v1"
         assert config["openai_timeout"] == 60
+        assert config["llm_provider"] == "openai"
+        assert config["deepseek_api_key"] == ""
+        assert config["deepseek_model"] == "deepseek-v4-pro"
+        assert config["deepseek_base_url"] == "https://api.deepseek.com"
+        assert config["deepseek_timeout"] == 60
+        assert config["deepseek_reasoning_effort"] == "high"
+        assert config["deepseek_thinking_enabled"] is True
+        assert config["analysis_cache_dir"].endswith("cache")
 
     def test_merges_config_local_override(self, tmp_path):
         config_file = tmp_path / "config.yaml"
