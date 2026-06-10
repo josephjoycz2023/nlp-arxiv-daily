@@ -1,0 +1,26 @@
+{
+  "cached_at": "2026-06-10T12:04:45.268059+00:00",
+  "stage": "l1",
+  "namespace": "aeff661efc80bd56",
+  "key": "2606.11150",
+  "payload": {
+    "paper_id": "2606.11150",
+    "l1": {
+      "decision": "reject",
+      "model_decision": "reject",
+      "decision_source": "thresholds",
+      "matched_tracks": [],
+      "scores": {
+        "topic_relevance": 1,
+        "scenario_fit": 0,
+        "landing_potential": 0,
+        "abstract_evidence_strength": 3,
+        "distance_penalty": 4
+      },
+      "total_score": 0,
+      "model_total_score": 0,
+      "reason_cn": "论文关注生物安全领域的代理基准，评估LLM在生物实验任务上的能力，与用户研究的五个方向（数据集制备与评测、大模型记忆、神经科学交叉、加速、POI陪伴）均无实际关联。仅关键词'agent'匹配，但任务、方法和场景完全不属于用户关注范围。",
+      "archive_reason_cn": null
+    }
+  }
+}

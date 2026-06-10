@@ -2,6 +2,7 @@ import pytest
 import requests
 
 from nlp_arxiv_daily.openai_client import (
+    OpenAIAllKeysFailedError,
     OpenAIConfigError,
     OpenAIResponseError,
     OpenAITextClient,
@@ -420,6 +421,73 @@ class TestOpenAITextClient:
 
         assert client.complete("say hi") == "hello from deepseek"
         assert clients["good-key"].completions.calls[0]["messages"] == [{"role": "user", "content": "say hi"}]
+
+    def test_deepseek_retries_same_key_for_transient_error(self, monkeypatch):
+        client_instance = _FakeDeepSeekSDKClient(_FakeChatCompletionResponse("hello from deepseek"))
+        attempts = {"count": 0}
+
+        class _TransientDeepSeekError(Exception):
+            pass
+
+        def create(**kwargs):
+            attempts["count"] += 1
+            if attempts["count"] == 1:
+                raise _TransientDeepSeekError("connection dropped")
+            client_instance.completions.calls.append(kwargs)
+            return client_instance.completions._response
+
+        client_instance.completions.create = create
+        monkeypatch.setattr(OpenAITextClient, "_build_deepseek_sdk_client", lambda self, *, api_key=None: client_instance)
+        monkeypatch.setattr(
+            "nlp_arxiv_daily.openai_client._should_failover_deepseek_error",
+            lambda error: isinstance(error, _TransientDeepSeekError),
+        )
+        monkeypatch.setattr(
+            "nlp_arxiv_daily.openai_client._should_retry_deepseek_error",
+            lambda error: isinstance(error, _TransientDeepSeekError),
+        )
+
+        client = OpenAITextClient(
+            api_key="deepseek-key",
+            model="deepseek-v4-pro",
+            base_url="https://api.deepseek.com",
+            timeout=45,
+            provider="deepseek",
+            request_retries=1,
+        )
+
+        assert client.complete("say hi") == "hello from deepseek"
+        assert attempts["count"] == 2
+
+    def test_deepseek_all_keys_failed_error_marks_transient_failures_retryable(self, monkeypatch):
+        class _TransientDeepSeekError(Exception):
+            pass
+
+        client_instance = _FakeDeepSeekSDKClient(_FakeChatCompletionResponse("unused"))
+        monkeypatch.setattr(OpenAITextClient, "_build_deepseek_sdk_client", lambda self, *, api_key=None: client_instance)
+        monkeypatch.setattr(
+            "nlp_arxiv_daily.openai_client._should_failover_deepseek_error",
+            lambda error: isinstance(error, _TransientDeepSeekError),
+        )
+        monkeypatch.setattr(
+            "nlp_arxiv_daily.openai_client._should_retry_deepseek_error",
+            lambda error: isinstance(error, _TransientDeepSeekError),
+        )
+        client_instance.completions.create = lambda **kwargs: (_ for _ in ()).throw(_TransientDeepSeekError("connection dropped"))
+
+        client = OpenAITextClient(
+            api_key="deepseek-key",
+            model="deepseek-v4-pro",
+            base_url="https://api.deepseek.com",
+            timeout=45,
+            provider="deepseek",
+            request_retries=0,
+        )
+
+        with pytest.raises(OpenAIAllKeysFailedError) as excinfo:
+            client.complete("say hi")
+
+        assert excinfo.value.retryable is True
 
     def test_deepseek_complete_json_requests_json_object(self):
         sdk_client = _FakeDeepSeekSDKClient(_FakeChatCompletionResponse('{"answer":"ok"}'))

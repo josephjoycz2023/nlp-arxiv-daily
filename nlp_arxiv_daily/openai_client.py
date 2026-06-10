@@ -23,6 +23,10 @@ class OpenAIResponseError(RuntimeError):
 class OpenAIAllKeysFailedError(OpenAIResponseError):
     """Raised when every configured API key fails for the current stage."""
 
+    def __init__(self, message: str, *, retryable: bool = False) -> None:
+        super().__init__(message)
+        self.retryable = retryable
+
 
 def _extract_output_text(payload: dict) -> str:
     parts: list[str] = []
@@ -106,6 +110,25 @@ def _should_failover_deepseek_error(error: Exception) -> bool:
     if isinstance(error, openai.APIStatusError):
         status_code = getattr(error, "status_code", None)
         return status_code in {401, 403, 429} or (status_code is not None and status_code >= 500)
+    return False
+
+
+def _should_retry_deepseek_error(error: Exception) -> bool:
+    try:
+        import openai
+    except ImportError:  # pragma: no cover - dependency is installed in normal flows.
+        return False
+
+    retryable_types = (
+        openai.APIConnectionError,
+        openai.APITimeoutError,
+        openai.InternalServerError,
+    )
+    if isinstance(error, retryable_types):
+        return True
+    if isinstance(error, openai.APIStatusError):
+        status_code = getattr(error, "status_code", None)
+        return status_code == 429 or (status_code is not None and status_code >= 500)
     return False
 
 
@@ -205,6 +228,7 @@ class OpenAITextClient:
         thinking_enabled: bool = True,
         sdk_client: Any | None = None,
         api_keys: list[str] | tuple[str, ...] | None = None,
+        request_retries: int = 1,
     ) -> None:
         provider = _normalize_provider(provider)
         normalized_api_keys = _normalize_api_key_candidates(api_keys, api_key)
@@ -226,6 +250,7 @@ class OpenAITextClient:
         self._session = session or requests.Session()
         self._reasoning_effort = reasoning_effort.strip()
         self._thinking_enabled = _as_bool(thinking_enabled)
+        self._request_retries = max(0, int(request_retries))
         self._sdk_clients: dict[str, Any] = {}
         if sdk_client is not None:
             self._sdk_clients[self._api_key] = sdk_client
@@ -235,6 +260,7 @@ class OpenAITextClient:
         requested_provider = _normalize_provider(config.get("llm_provider", "openai"))
         provider = _resolve_provider_from_config(config, requested_provider)
         default_timeout = int(config.get("analysis_request_timeout_seconds", 60))
+        request_retries = int(config.get("analysis_request_retries", 1))
         if provider == "deepseek":
             return cls(
                 api_key=config.get("deepseek_api_key", ""),
@@ -246,6 +272,7 @@ class OpenAITextClient:
                 provider=provider,
                 reasoning_effort=config.get("deepseek_reasoning_effort", "high"),
                 thinking_enabled=config.get("deepseek_thinking_enabled", True),
+                request_retries=request_retries,
             )
         return cls(
             api_key=config.get("openai_api_key", ""),
@@ -255,6 +282,7 @@ class OpenAITextClient:
             timeout=int(config.get("openai_timeout", default_timeout)),
             instructions=config.get("openai_instructions", ""),
             provider=provider,
+            request_retries=request_retries,
         )
 
     def complete(self, prompt: str) -> str:
@@ -348,12 +376,14 @@ class OpenAITextClient:
             except requests.HTTPError as e:
                 if not _should_failover_http_error(e):
                     raise
+                retryable = (_http_status_code(e) or 0) not in {401, 403}
                 failures.append(f"key#{index}: HTTP {(_http_status_code(e) or 'unknown')}")
                 if index < len(self._api_keys):
                     logging.warning("OpenAI key #%s failed; trying the next configured key.", index)
                     continue
                 raise OpenAIAllKeysFailedError(
-                    "No valid OpenAI API key succeeded for this stage: " + "; ".join(failures)
+                    "No valid OpenAI API key succeeded for this stage: " + "; ".join(failures),
+                    retryable=retryable,
                 ) from e
             except requests.RequestException as e:
                 failures.append(f"key#{index}: {e.__class__.__name__}")
@@ -361,7 +391,8 @@ class OpenAITextClient:
                     logging.warning("OpenAI key #%s failed with %s; trying the next configured key.", index, e.__class__.__name__)
                     continue
                 raise OpenAIAllKeysFailedError(
-                    "No valid OpenAI API key succeeded for this stage: " + "; ".join(failures)
+                    "No valid OpenAI API key succeeded for this stage: " + "; ".join(failures),
+                    retryable=True,
                 ) from e
 
     def _complete_deepseek(self, prompt: str, *, response_format: dict | None = None) -> str:
@@ -382,30 +413,45 @@ class OpenAITextClient:
             request_kwargs["response_format"] = response_format
 
         failures: list[str] = []
+        all_failures_retryable = True
         for index, api_key in enumerate(self._api_keys, start=1):
-            client = self._sdk_clients.get(api_key)
-            if client is None:
-                client = self._build_deepseek_sdk_client(api_key=api_key)
-                self._sdk_clients[api_key] = client
-            try:
-                response = client.chat.completions.create(**request_kwargs)
-                self._api_key = api_key
-                return _extract_chat_message_text(response.choices[0].message)
-            except Exception as e:
-                if not _should_failover_deepseek_error(e):
-                    raise
-                failures.append(f"key#{index}: {e.__class__.__name__}")
-                if index < len(self._api_keys):
-                    logging.warning(
-                        "DeepSeek key #%s failed with %s; trying the next configured key.",
-                        index,
-                        e.__class__.__name__,
-                    )
+            attempts = self._request_retries + 1
+            for attempt in range(1, attempts + 1):
+                client = self._sdk_clients.get(api_key)
+                if client is None:
+                    client = self._build_deepseek_sdk_client(api_key=api_key)
+                    self._sdk_clients[api_key] = client
+                try:
+                    response = client.chat.completions.create(**request_kwargs)
+                    self._api_key = api_key
+                    return _extract_chat_message_text(response.choices[0].message)
+                except Exception as e:
+                    if not _should_failover_deepseek_error(e):
+                        raise
+                    retryable = _should_retry_deepseek_error(e)
+                    all_failures_retryable = all_failures_retryable and retryable
+                    failures.append(f"key#{index}/attempt#{attempt}: {e.__class__.__name__}")
                     self._sdk_clients.pop(api_key, None)
-                    continue
-                raise OpenAIAllKeysFailedError(
-                    "No valid DeepSeek API key succeeded for this stage: " + "; ".join(failures)
-                ) from e
+                    if retryable and attempt < attempts:
+                        logging.warning(
+                            "DeepSeek key #%s failed with %s; retrying same key (%s/%s).",
+                            index,
+                            e.__class__.__name__,
+                            attempt + 1,
+                            attempts,
+                        )
+                        continue
+                    if index < len(self._api_keys):
+                        logging.warning(
+                            "DeepSeek key #%s failed with %s; trying the next configured key.",
+                            index,
+                            e.__class__.__name__,
+                        )
+                        break
+                    raise OpenAIAllKeysFailedError(
+                        "No valid DeepSeek API key succeeded for this stage: " + "; ".join(failures),
+                        retryable=all_failures_retryable,
+                    ) from e
         raise OpenAIAllKeysFailedError("No DeepSeek API keys were available for this stage.")
 
     def _build_deepseek_sdk_client(self, *, api_key: str | None = None) -> Any:

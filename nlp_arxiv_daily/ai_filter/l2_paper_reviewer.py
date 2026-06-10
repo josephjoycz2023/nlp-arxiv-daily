@@ -126,8 +126,21 @@ def review_level2_for_date(config: dict, run_date: datetime.date) -> list[str]:
                     "review": payload["review"],
                 },
             )
-        except (OpenAIAllKeysFailedError, OpenAIConfigError):
+        except OpenAIConfigError:
             raise
+        except OpenAIAllKeysFailedError as e:
+            if not getattr(e, "retryable", False):
+                raise
+            payload = {
+                "date": run_date.isoformat(),
+                "paper": paper,
+                "l1": candidate["l1"],
+                "analysis_meta": {"from_cache": False},
+                "error": {
+                    "stage": "l2_review",
+                    "message": str(e),
+                },
+            }
         except Exception as e:
             payload = {
                 "date": run_date.isoformat(),

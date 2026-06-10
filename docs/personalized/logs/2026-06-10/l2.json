@@ -1,0 +1,297 @@
+{
+  "stage": "l2",
+  "date": "2026-06-10",
+  "summary": {
+    "total_candidates": 6,
+    "passed_l2": 5,
+    "highlight": 0,
+    "normal": 5,
+    "archive_only": 0,
+    "failed": 1,
+    "passed_paper_ids": [
+      "2606.11164",
+      "2606.11169",
+      "2606.10921",
+      "2606.11119",
+      "2606.04547"
+    ]
+  },
+  "papers": [
+    {
+      "paper_id": "2606.11164",
+      "title": "ReasonAlloc: Hierarchical Decoding-Time KV Cache Budget Allocation for Reasoning Models",
+      "passed_l2": true,
+      "decision": "normal",
+      "priority": "useful",
+      "summary_cn": "ReasonAlloc 提出一种训练自由的解码时 KV 缓存分层预算分配框架，结合离线层级别预分配（利用“推理波”架构模式）和在线头级别动态路由，以改善推理模型的长链推理内存瓶颈。在数学推理基准和多个 DeepSeek-R1 蒸馏模型上，该方法在相同预算下优于均匀分配和静态非均匀基线，尤其在小预算时增益明显。",
+      "recommended_action_cn": "暂不优先落地，但可列为推理加速模块的跟踪项。建议等待后续工作提供系统级指标（吞吐、时延、显存）或在对话模型上的验证结果，再评估集成可行性。",
+      "relevance": 78,
+      "module_assessments": [
+        {
+          "module_id": "dataset_pipeline",
+          "module_name": "数据集制备与评测数据集",
+          "relevance": "none",
+          "should_follow": false,
+          "reason_cn": "论文内容完全围绕推理加速的 KV 缓存压缩，未涉及任何数据集 schema、标注、采样或评测集构建，与情感对话、Tool Use 等数据方向无关。",
+          "evidence_cn": "全文无数据集构造或评测方法贡献，实验仅使用已有数学推理基准。"
+        },
+        {
+          "module_id": "llm_memory",
+          "module_name": "大模型记忆",
+          "relevance": "none",
+          "should_follow": false,
+          "reason_cn": "论文处理的是硬件层面的 KV 缓存预算分配，而非模型记忆框架、长期记忆或人格一致性，与多智能体记忆或隐式记忆无关。",
+          "evidence_cn": "未涉及记忆架构、个性建模或情绪稳定性设计。"
+        },
+        {
+          "module_id": "neuro_nlp_memory",
+          "module_name": "神经科学、语言与记忆",
+          "relevance": "none",
+          "should_follow": false,
+          "reason_cn": "未利用任何神经科学机制或认知模型解释语言或记忆，纯粹为工程优化方法。",
+          "evidence_cn": "文献回顾和设计思路均基于注意力统计分析，无神经科学引用。"
+        },
+        {
+          "module_id": "acceleration",
+          "module_name": "训练加速与推理加速",
+          "relevance": "high",
+          "should_follow": true,
+          "reason_cn": "论文直接针对推理加速中的 KV 缓存压缩，提出动态分层预算分配方案，符合推理加速 track 中“缓存优化”和“延迟/吞吐优化”目标。",
+          "evidence_cn": "抽象明确关注解码时 KV 缓存增长带来的推理瓶颈，实验展示在固定缓存预算下显著提升数学推理准确率，表明内存使用效率提升。"
+        },
+        {
+          "module_id": "poi_companion",
+          "module_name": "POI 场景与陪伴产品",
+          "relevance": "none",
+          "should_follow": false,
+          "reason_cn": "研究内容完全未涉及 POI、陪伴、工具调用或用户状态理解，任务仅限于数学推理，无对话或推荐场景。",
+          "evidence_cn": "实验仅包括 MATH-500 和 AIME 2024，未涉及任何交互或 POI 相关任务。"
+        }
+      ],
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.11169",
+      "title": "Piper: A Programmable Distributed Training System",
+      "passed_l2": true,
+      "decision": "normal",
+      "priority": "useful",
+      "summary_cn": "Piper是一个用户可控的分布式训练系统，通过解耦策略说明与运行时实现，利用中间表示（IR）和编译技术，支持灵活组合数据并行、流水线并行、专家并行及ZeRO等内存优化，并在DualPipe等先进策略上展示了额外的性能与内存效率增益。",
+      "recommended_action_cn": "在内部小规模训练任务上试用Piper，验证其对现有训练流程的兼容性和性能收益；若有效，可尝试将核心模型训练迁移至Piper以优化成本。",
+      "relevance": 70,
+      "module_assessments": [
+        {
+          "module_id": "dataset_pipeline",
+          "module_name": "数据集制备与评测数据集",
+          "relevance": "none",
+          "should_follow": false,
+          "reason_cn": "论文聚焦分布式训练系统框架，未涉及数据构造、情感对话、Tool Use、评测数据集等任何数据制备相关主题。",
+          "evidence_cn": "全文中未出现数据集构造、情感、对话、评测、SFT等关键词。"
+        },
+        {
+          "module_id": "llm_memory",
+          "module_name": "大模型记忆",
+          "relevance": "none",
+          "should_follow": false,
+          "reason_cn": "论文讨论训练并行策略，与记忆框架、长期记忆、人格一致性、情绪稳定性等无关。",
+          "evidence_cn": "无记忆架构、记忆检索、个性化、隐式记忆等内容。"
+        },
+        {
+          "module_id": "neuro_nlp_memory",
+          "module_name": "神经科学、语言与记忆",
+          "relevance": "none",
+          "should_follow": false,
+          "reason_cn": "纯系统研究，与脑科学、语言理解、情绪处理等神经科学视角完全无关。",
+          "evidence_cn": "未提及任何神经科学或认知科学模型。"
+        },
+        {
+          "module_id": "acceleration",
+          "module_name": "训练加速与推理加速",
+          "relevance": "high",
+          "should_follow": true,
+          "reason_cn": "直接提出分布式训练系统框架，支持组合并行与通信计算联合调度，能显著改善训练效率和内存利用，与训练加速子模块高度契合。",
+          "evidence_cn": "支持ZeRO、PP、DP、EP等多种并行，并实现DualPipe等先进策略的额外性能增益；实验显示在DualPipe上比基线有明显提升。"
+        },
+        {
+          "module_id": "poi_companion",
+          "module_name": "POI场景与陪伴产品",
+          "relevance": "none",
+          "should_follow": false,
+          "reason_cn": "未涉及POI推荐、多轮交互、用户状态理解、工具调用等陪伴产品相关功能。",
+          "evidence_cn": "论文内容集中于底层训练系统，无应用层对话或推荐逻辑。"
+        }
+      ],
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.10921",
+      "title": "Trace Only What You Need: Structure-Aware On-Demand Hypergraph Memory for Long-Document Question Answering",
+      "passed_l2": true,
+      "decision": "normal",
+      "priority": "useful",
+      "summary_cn": "DocTrace 是一个面向长文档问答的多智能体 RAG 框架，通过编排者-调查者架构、文档结构树索引、超图工作记忆和跨查询的经验记忆 DAG 来提升复杂问题的检索与推理性能。在四个长文档 QA 数据集上取得领先结果，并消融验证了规划、工作记忆和结构索引的有效性。",
+      "recommended_action_cn": "可将本文作为记忆框架设计的背景参考，重点阅读其跨查询经验记忆 DAG 的设计理念和编排-调查者分工，评估是否可改造为多轮对话中工具调用或推荐路径的快速复用机制，但不作为优先推进项。",
+      "relevance": 25,
+      "module_assessments": [
+        {
+          "module_id": "dataset_pipeline",
+          "module_name": "数据集制备与评测数据集",
+          "relevance": "none",
+          "should_follow": false,
+          "reason_cn": "论文未涉及任何训练或评测数据集的构造、标注规范或采样策略，仅直接使用已有的长文档 QA 数据集，无法落地为数据生产流程。",
+          "evidence_cn": "实验部分使用 NarrativeQA、EN.QA 等公开数据集，无新数据集提出，无数据收集或标注方法。"
+        },
+        {
+          "module_id": "llm_memory",
+          "module_name": "大模型记忆",
+          "relevance": "medium",
+          "should_follow": false,
+          "reason_cn": "跨查询经验记忆（Graph-structured Experience Memory）存储成功推理 DAG 以实现计划复用，属于一种多智能体框架下的记忆机制，具备向多轮交互中推理路径记忆演化的潜力；但隐式记忆、人格一致性、情绪稳定性等方向完全缺失，且记忆结构高度依赖文档索引，与陪伴产品的对话记忆需求差异大。",
+          "evidence_cn": "Section 4.4 描述了 Graph-structured Experience Memory，用于存储子问题答案及依赖关系，供编排器 InitPlan 时检索相似计划；实验验证了其有效性（w/o DM 变体性能下降）。"
+        },
+        {
+          "module_id": "neuro_nlp_memory",
+          "module_name": "神经科学、语言与记忆",
+          "relevance": "none",
+          "should_follow": false,
+          "reason_cn": "全篇无任何神经科学视角，未借鉴脑科学对语言理解、记忆形成或情绪感知的解释，与 NLP/LLM 建模的神经科学启发无关。",
+          "evidence_cn": "摘要、方法、实验、结论中均未出现神经科学相关术语或引用。"
+        },
+        {
+          "module_id": "acceleration",
+          "module_name": "训练加速与推理加速",
+          "relevance": "none",
+          "should_follow": false,
+          "reason_cn": "论文未涉及训练或推理加速技术，未讨论框架优化、缓存、并行或成本压缩，仅提及自身计算开销对比 ComoRAG 降低，但并非方法贡献。",
+          "evidence_cn": "实验部分仅在成本对比上提到降低 53.32% 计算开销，但这是整体流程设计带来的相对优势，无针对加速的独立模块。"
+        },
+        {
+          "module_id": "poi_companion",
+          "module_name": "POI 场景与陪伴产品",
+          "relevance": "none",
+          "should_follow": false,
+          "reason_cn": "任务为长文档 QA，与 POI 推荐、旅行助手、工具调用、用户状态理解等陪伴产品场景无关，多轮交互也仅限于同一文档内的问答轮次，无真实陪伴交互特征。",
+          "evidence_cn": "问题示例均为故事文档理解，无 POI 相关实体或功能调用，不存在多轮情感/任务导向对话。"
+        }
+      ],
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.11119",
+      "title": "TRACE: A Unified Rollout Budget Allocation Framework for Efficient Agentic Reinforcement Learning",
+      "passed_l2": true,
+      "decision": "normal",
+      "priority": "useful",
+      "summary_cn": "提出 TRACE 框架，在固定采样预算下通过树形 rollout 分配提高多轮 agent RLVR 中的奖励对比度。将每个 ReAct 轮次视为语义节点，利用预测器估计条件成功概率，引导预算分配到可能产生混合终端奖励的根和前缀，从而增强策略更新信号。在数学推理、多跳 QA、函数调用等任务上相比 GRPO、PCL、TreePO 获得准确率提升和更高的有效 rollout 比率。",
+      "recommended_action_cn": "若当前积极训练工具调用或 agent 型模型，可复现 TRACE 在内部工具使用数据集上的效果，验证其对样本效率的提升；否则作为技术储备归档。",
+      "relevance": 45,
+      "module_assessments": [
+        {
+          "module_id": "dataset_pipeline",
+          "module_name": "数据集制备与评测数据集",
+          "relevance": "low",
+          "should_follow": false,
+          "reason_cn": "论文未提出新数据集或评估方案，但函数调用（BFCL v4）的任务设置与 Tool Use 数据相关。方法生成的树形 rollout 可潜在用于构造工具调用训练数据，但本身不直接贡献数据集构建。情感对话和情绪评估方面完全无关。",
+          "evidence_cn": "实验使用 BFCL v4 多轮函数调用基准，属于 tool_use_and_poi_data track；无情感或心理评测相关内容。"
+        },
+        {
+          "module_id": "llm_memory",
+          "module_name": "大模型记忆",
+          "relevance": "none",
+          "should_follow": false,
+          "reason_cn": "论文不涉及记忆框架、隐式记忆或人格一致性，完全属于 RL 训练方法。",
+          "evidence_cn": "无任何记忆相关概念、实验或架构描述。"
+        },
+        {
+          "module_id": "neuro_nlp_memory",
+          "module_name": "神经科学、语言与记忆",
+          "relevance": "none",
+          "should_follow": false,
+          "reason_cn": "未引用神经科学方法，不涉及语言或情绪的神经机制。",
+          "evidence_cn": "全文无相关神经科学内容。"
+        },
+        {
+          "module_id": "acceleration",
+          "module_name": "训练加速与推理加速",
+          "relevance": "low",
+          "should_follow": false,
+          "reason_cn": "样本效率提升可视为一种算法层面的训练加速，但非系统级加速或推理加速。与 training_acceleration track 的边缘相关。",
+          "evidence_cn": "主要通过预算分配提升 rollout 信号质量，未涉及并行、编译、内存优化等底层加速技术。"
+        },
+        {
+          "module_id": "poi_companion",
+          "module_name": "POI 场景与陪伴产品",
+          "relevance": "low",
+          "should_follow": false,
+          "reason_cn": "函数调用能力是 POI 陪伴产品的基础，但论文未针对 POI 场景设计，仅用通用函数调用基准。方法可迁移到 POI 工具调用训练，但缺乏直接场景适配。",
+          "evidence_cn": "BFCL v4 是多领域 API 调用，无 POI 或推荐任务。"
+        }
+      ],
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.11127",
+      "title": "Provenance-Grounded Gating and Adaptive Recovery in Synthetic Post-Training Data Curation",
+      "passed_l2": false,
+      "decision": "error",
+      "priority": "error",
+      "summary_cn": "No valid DeepSeek API key succeeded for this stage: key#1/attempt#1: APIConnectionError; key#1/attempt#2: APIConnectionError",
+      "recommended_action_cn": "",
+      "relevance": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.04547",
+      "title": "Beyond Retrieval: Learning Compact User Representations for Scalable LLM Personalization",
+      "passed_l2": true,
+      "decision": "normal",
+      "priority": "useful",
+      "summary_cn": "提出TAP-PER，一种基于前缀的LLM个性化框架，用可学习的用户状态前缀和查询相关的历史记录前缀替代显式提示或每用户适配器，结合桥接LoRA实现高效用户适应，在LaMP基准上取得性能与参数效率的平衡。",
+      "recommended_action_cn": "可将其用户状态前缀与历史注意力机制作为隐式记忆模块的参考设计，但不作为高优先级跟进；建议在记忆系统预研时对比其方案可行性，暂不启动系统工程。",
+      "relevance": 45,
+      "module_assessments": [
+        {
+          "module_id": "dataset_pipeline",
+          "module_name": "数据集制备与评测数据集",
+          "relevance": "low",
+          "should_follow": false,
+          "reason_cn": "论文未贡献新数据集或标注规范，使用的LaMP基准为通用个性化任务，不涉及情感对话、Tool Use或心理感知评测。",
+          "evidence_cn": "实验基于LaMP，包含个性化分类、评分、生成，无新数据构建或评测方案。"
+        },
+        {
+          "module_id": "llm_memory",
+          "module_name": "大模型记忆",
+          "relevance": "medium",
+          "should_follow": true,
+          "reason_cn": "用户状态前缀可视为隐式长期记忆，查询相关的历史注意力实现记忆检索，其双轨设计对记忆架构有借鉴意义；桥接LoRA可看作记忆注入方式，但非多智能体框架或人格一致性研究。",
+          "evidence_cn": "用户状态前缀捕捉持久偏好，记录前缀通过时间衰减注意力选择相关历史，两者组合提供个性化上下文。"
+        },
+        {
+          "module_id": "neuro_nlp_memory",
+          "module_name": "神经科学、语言与记忆",
+          "relevance": "none",
+          "should_follow": false,
+          "reason_cn": "无神经科学方法或认知机制讨论。",
+          "evidence_cn": "论文专注于工程实现，未引用神经科学文献或模型。"
+        },
+        {
+          "module_id": "acceleration",
+          "module_name": "训练加速与推理加速",
+          "relevance": "low",
+          "should_follow": false,
+          "reason_cn": "虽追求参数效率，但未提出训练或推理加速方法，桥接LoRA和注意力计算可能增加推理开销。",
+          "evidence_cn": "论文关注存储与参数效率而非计算效率，未涉及缓存、并行或编译优化。"
+        },
+        {
+          "module_id": "poi_companion",
+          "module_name": "POI场景与陪伴产品",
+          "relevance": "low",
+          "should_follow": false,
+          "reason_cn": "通用个性化任务与POI场景差距大，未涉及工具调用、多轮交互或用户状态理解。",
+          "evidence_cn": "LaMP任务为产品评论生成、个性化分类等，不包含地点推荐或陪伴对话。"
+        }
+      ],
+      "from_cache": false
+    }
+  ]
+}

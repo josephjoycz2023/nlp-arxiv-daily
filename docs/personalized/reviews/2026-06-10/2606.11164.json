@@ -1,0 +1,132 @@
+{
+  "date": "2026-06-10",
+  "paper": {
+    "paper_id": "2606.11164",
+    "arxiv_short_id": "2606.11164v1",
+    "published_date": "2026-06-09",
+    "title": "ReasonAlloc: Hierarchical Decoding-Time KV Cache Budget Allocation for Reasoning Models",
+    "authors": "Wenhao Liu et.al.",
+    "authors_full": [
+      "Wenhao Liu",
+      "Hao Shi",
+      "Yunhe Li",
+      "Weizhi Fei",
+      "Xiangyuan Wang",
+      "Mengzhe Ruan",
+      "Hanxu Hou",
+      "Peisong Wang",
+      "Linqi Song",
+      "Shuang Qiu"
+    ],
+    "paper_url": "http://arxiv.org/abs/2606.11164v1",
+    "pdf_url": "https://arxiv.org/pdf/2606.11164v1.pdf",
+    "code_link": null,
+    "abstract": "Long chain-of-thought (CoT) trajectories in large language model (LLM) reasoning cause severe inference bottlenecks due to rapid key-value (KV) cache growth. Current decoding-time compression methods mitigate this issue via token eviction, but typically assume a uniform budget distribution across all layers and heads. In contrast, existing non-uniform budget allocation methods are predominantly designed for the static prompt prefill phase, and they do not capture the stepwise context demands of autoregressive reasoning. To bridge this gap, we propose ReasonAlloc, a training-free framework that recasts decoding-time KV compression as a hierarchical budget allocation problem. ReasonAlloc operates at two complementary levels: an offline layer-wise preallocation strategy captures an architecture-driven demand pattern which we call ``\\textit{Reasoning Wave}'', while an online head-wise strategy reallocates resources during decoding to information-rich heads based on real-time utility. Evaluations on mathematical reasoning benchmarks (MATH-500, AIME~2024) using DeepSeek-R1-Distill-Llama-8B, DeepSeek-R1-Distill-Qwen-14B, and AceReason-14B show that ReasonAlloc outperforms uniform-budget R-KV, SnapKV, and Pyramid-RKV (a baseline enforcing a static, monotonically decreasing layer budget), with the largest gains at small budgets (128-512 tokens). ReasonAlloc is plug-and-play with existing token-eviction policies and introduces negligible inference-time overhead.",
+    "categories": [
+      "cs.AI"
+    ],
+    "matched_topics": [
+      "training_inference_acceleration"
+    ],
+    "matched_topic": "training_inference_acceleration"
+  },
+  "l1": {
+    "decision": "level2",
+    "model_decision": "level2",
+    "decision_source": "thresholds",
+    "matched_tracks": [
+      "acceleration"
+    ],
+    "scores": {
+      "topic_relevance": 4,
+      "scenario_fit": 4,
+      "landing_potential": 4,
+      "abstract_evidence_strength": 4,
+      "distance_penalty": 0
+    },
+    "total_score": 16,
+    "model_total_score": 16,
+    "reason_cn": "论文提出推理加速方法：解码时分层 KV 缓存预算分配，直接针对推理瓶颈，属于用户关注的 inference acceleration，且训练无关、即插即用，实验显示显著收益，落地潜力高。",
+    "archive_reason_cn": null
+  },
+  "analysis_meta": {
+    "from_cache": true
+  },
+  "review_input": {
+    "pdf_url": "https://arxiv.org/pdf/2606.11164v1.pdf",
+    "page_count": 23,
+    "section_titles": [
+      "full_text_excerpt"
+    ],
+    "section_lengths": {
+      "full_text_excerpt": 24000
+    },
+    "section_extraction_note": "未识别到偏好章节标题，退回为整篇 PDF 文本截断片段。 已按提示词预算截断章节内容。",
+    "truncated_for_prompt": true
+  },
+  "review": {
+    "decision": "normal",
+    "priority": "useful",
+    "summary_cn": "ReasonAlloc 提出一种训练自由的解码时 KV 缓存分层预算分配框架，结合离线层级别预分配（利用“推理波”架构模式）和在线头级别动态路由，以改善推理模型的长链推理内存瓶颈。在数学推理基准和多个 DeepSeek-R1 蒸馏模型上，该方法在相同预算下优于均匀分配和静态非均匀基线，尤其在小预算时增益明显。",
+    "research_goal_cn": "解决推理模型因长 CoT 轨迹导致 KV 缓存快速膨胀的内存瓶颈，通过非均匀预算分配提升压缩效率。",
+    "method_cn": "分为两个阶段：（1）离线层级别预分配：通过轻量探测计算每层达到指定注意力质量阈值所需的最小 token 数，经平滑和边界保护转换为稳定层预算；（2）在线头级别动态路由：每若干步根据 token 效用得分（基于重要性-冗余联合分数）为各头重分配预算，同样经平滑和安全边界防止饥饿。框架可与任意令牌驱逐策略即插即用。",
+    "experiment_cn": "在 MATH-500 和 AIME 2024 数学推理任务上，使用 R1-Llama-8B、R1-Qwen-14B 和 AceReason-14B 模型，对比均匀预算的 SnapKV、R-KV 以及静态层预算递减的 Pyramid-RKV，在不同 KV 缓存预算（128~3072 token）下评估准确率。消融实验和敏感性分析验证各组件和超参数。",
+    "result_cn": "ReasonAlloc 在所有预算下均优于基线的均匀分配和静态非均匀分配，尤其在 128-512 低预算时优势最明显，且引入的推理开销可忽略。离线校准显示层预算分布呈跨任务稳定的“推理波”非线性模式，架构差异远大于任务差异。",
+    "landing_value_cn": "方法可提升推理模型长序列生成的缓存效率，有望降低部署时的显存占用和提升吞吐，但论文未提供真实的时延/吞吐测量，仅展示了准确率-预算的 Pareto 改善，且只在数学推理任务上验证，对陪伴对话等场景的泛化性未知。",
+    "module_assessments": [
+      {
+        "module_id": "dataset_pipeline",
+        "module_name": "数据集制备与评测数据集",
+        "relevance": "none",
+        "should_follow": false,
+        "reason_cn": "论文内容完全围绕推理加速的 KV 缓存压缩，未涉及任何数据集 schema、标注、采样或评测集构建，与情感对话、Tool Use 等数据方向无关。",
+        "evidence_cn": "全文无数据集构造或评测方法贡献，实验仅使用已有数学推理基准。"
+      },
+      {
+        "module_id": "llm_memory",
+        "module_name": "大模型记忆",
+        "relevance": "none",
+        "should_follow": false,
+        "reason_cn": "论文处理的是硬件层面的 KV 缓存预算分配，而非模型记忆框架、长期记忆或人格一致性，与多智能体记忆或隐式记忆无关。",
+        "evidence_cn": "未涉及记忆架构、个性建模或情绪稳定性设计。"
+      },
+      {
+        "module_id": "neuro_nlp_memory",
+        "module_name": "神经科学、语言与记忆",
+        "relevance": "none",
+        "should_follow": false,
+        "reason_cn": "未利用任何神经科学机制或认知模型解释语言或记忆，纯粹为工程优化方法。",
+        "evidence_cn": "文献回顾和设计思路均基于注意力统计分析，无神经科学引用。"
+      },
+      {
+        "module_id": "acceleration",
+        "module_name": "训练加速与推理加速",
+        "relevance": "high",
+        "should_follow": true,
+        "reason_cn": "论文直接针对推理加速中的 KV 缓存压缩，提出动态分层预算分配方案，符合推理加速 track 中“缓存优化”和“延迟/吞吐优化”目标。",
+        "evidence_cn": "抽象明确关注解码时 KV 缓存增长带来的推理瓶颈，实验展示在固定缓存预算下显著提升数学推理准确率，表明内存使用效率提升。"
+      },
+      {
+        "module_id": "poi_companion",
+        "module_name": "POI 场景与陪伴产品",
+        "relevance": "none",
+        "should_follow": false,
+        "reason_cn": "研究内容完全未涉及 POI、陪伴、工具调用或用户状态理解，任务仅限于数学推理，无对话或推荐场景。",
+        "evidence_cn": "实验仅包括 MATH-500 和 AIME 2024，未涉及任何交互或 POI 相关任务。"
+      }
+    ],
+    "scores": {
+      "relevance": 78,
+      "credibility": 82,
+      "landing_feasibility": 50,
+      "actionability": 60
+    },
+    "risks_cn": [
+      "未提供端到端推理时延、吞吐或显存占用的定量改善数据，真实部署收益不明确",
+      "仅在数学推理任务上验证，对多轮对话、情感交互等场景的泛化能力未知",
+      "离线校准依赖目标模型和注意力阈值，模型更新或架构变更后需重新校准",
+      "与现有推理框架的集成复杂度未讨论，实际工程落地可能存在兼容性问题"
+    ],
+    "recommended_action_cn": "暂不优先落地，但可列为推理加速模块的跟踪项。建议等待后续工作提供系统级指标（吞吐、时延、显存）或在对话模型上的验证结果，再评估集成可行性。"
+  }
+}

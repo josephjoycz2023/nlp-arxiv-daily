@@ -1,0 +1,26 @@
+{
+  "cached_at": "2026-06-10T12:02:14.907475+00:00",
+  "stage": "l1",
+  "namespace": "aeff661efc80bd56",
+  "key": "2606.11125",
+  "payload": {
+    "paper_id": "2606.11125",
+    "l1": {
+      "decision": "reject",
+      "model_decision": "reject",
+      "decision_source": "thresholds",
+      "matched_tracks": [],
+      "scores": {
+        "topic_relevance": 0,
+        "scenario_fit": 0,
+        "landing_potential": 0,
+        "abstract_evidence_strength": 0,
+        "distance_penalty": 4
+      },
+      "total_score": -4,
+      "model_total_score": 4,
+      "reason_cn": "论文研究基于PPG信号的无袖带血压估计，使用Transformer和人口统计条件，属于生物医学信号处理领域。与用户关注的五类研究方向（大模型训练数据、LLM记忆、神经科学与语言、训练/推理加速、POI陪伴）均无关联。匹配关键词仅因元数据标记，但实际内容完全不涉及情感对话、tool use、评测集、记忆框架、加速或POI场景。",
+      "archive_reason_cn": null
+    }
+  }
+}

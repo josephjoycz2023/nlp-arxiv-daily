@@ -1,0 +1,26 @@
+{
+  "cached_at": "2026-06-10T12:07:20.550431+00:00",
+  "stage": "l1",
+  "namespace": "aeff661efc80bd56",
+  "key": "2606.11159",
+  "payload": {
+    "paper_id": "2606.11159",
+    "l1": {
+      "decision": "reject",
+      "model_decision": "reject",
+      "decision_source": "thresholds",
+      "matched_tracks": [],
+      "scores": {
+        "topic_relevance": 0,
+        "scenario_fit": 0,
+        "landing_potential": 0,
+        "abstract_evidence_strength": 0,
+        "distance_penalty": 4
+      },
+      "total_score": -4,
+      "model_total_score": 0,
+      "reason_cn": "该论文是关于数学物理中压力消失欧拉对齐系统的单向熵解及集群行为分析，属于偏微分方程领域。研究内容与用户关注的大模型数据集、记忆、神经科学、加速及POI陪伴方向均不相关，即使出现'agent'关键词也只是指粒子代理，并非多智能体。因此无任何匹配的研究track，直接拒绝。",
+      "archive_reason_cn": null
+    }
+  }
+}

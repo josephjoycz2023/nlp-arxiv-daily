@@ -1,0 +1,2673 @@
+{
+  "date": "2026-06-10",
+  "stats": {
+    "total_papers": 54,
+    "reject": 33,
+    "archive_only": 14,
+    "level2": 7
+  },
+  "papers": [
+    {
+      "paper": {
+        "paper_id": "2606.11164",
+        "arxiv_short_id": "2606.11164v1",
+        "published_date": "2026-06-09",
+        "title": "ReasonAlloc: Hierarchical Decoding-Time KV Cache Budget Allocation for Reasoning Models",
+        "authors": "Wenhao Liu et.al.",
+        "authors_full": [
+          "Wenhao Liu",
+          "Hao Shi",
+          "Yunhe Li",
+          "Weizhi Fei",
+          "Xiangyuan Wang",
+          "Mengzhe Ruan",
+          "Hanxu Hou",
+          "Peisong Wang",
+          "Linqi Song",
+          "Shuang Qiu"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.11164v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.11164v1.pdf",
+        "code_link": null,
+        "abstract": "Long chain-of-thought (CoT) trajectories in large language model (LLM) reasoning cause severe inference bottlenecks due to rapid key-value (KV) cache growth. Current decoding-time compression methods mitigate this issue via token eviction, but typically assume a uniform budget distribution across all layers and heads. In contrast, existing non-uniform budget allocation methods are predominantly designed for the static prompt prefill phase, and they do not capture the stepwise context demands of autoregressive reasoning. To bridge this gap, we propose ReasonAlloc, a training-free framework that recasts decoding-time KV compression as a hierarchical budget allocation problem. ReasonAlloc operates at two complementary levels: an offline layer-wise preallocation strategy captures an architecture-driven demand pattern which we call ``\\textit{Reasoning Wave}'', while an online head-wise strategy reallocates resources during decoding to information-rich heads based on real-time utility. Evaluations on mathematical reasoning benchmarks (MATH-500, AIME~2024) using DeepSeek-R1-Distill-Llama-8B, DeepSeek-R1-Distill-Qwen-14B, and AceReason-14B show that ReasonAlloc outperforms uniform-budget R-KV, SnapKV, and Pyramid-RKV (a baseline enforcing a static, monotonically decreasing layer budget), with the largest gains at small budgets (128-512 tokens). ReasonAlloc is plug-and-play with existing token-eviction policies and introduces negligible inference-time overhead.",
+        "categories": [
+          "cs.AI"
+        ],
+        "matched_topics": [
+          "training_inference_acceleration"
+        ],
+        "matched_topic": "training_inference_acceleration"
+      },
+      "l1": {
+        "decision": "level2",
+        "model_decision": "level2",
+        "decision_source": "thresholds",
+        "matched_tracks": [
+          "acceleration"
+        ],
+        "scores": {
+          "topic_relevance": 4,
+          "scenario_fit": 4,
+          "landing_potential": 4,
+          "abstract_evidence_strength": 4,
+          "distance_penalty": 0
+        },
+        "total_score": 16,
+        "model_total_score": 16,
+        "reason_cn": "论文提出推理加速方法：解码时分层 KV 缓存预算分配，直接针对推理瓶颈，属于用户关注的 inference acceleration，且训练无关、即插即用，实验显示显著收益，落地潜力高。",
+        "archive_reason_cn": null
+      },
+      "analysis_meta": {
+        "from_cache": false
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.11169",
+        "arxiv_short_id": "2606.11169v1",
+        "published_date": "2026-06-09",
+        "title": "Piper: A Programmable Distributed Training System",
+        "authors": "Megan Frisella et.al.",
+        "authors_full": [
+          "Megan Frisella",
+          "Shubham Tiwari",
+          "Andy Ruan",
+          "Yi Pan",
+          "Parker Gustafson",
+          "Mat Jacob",
+          "Gilbert Bernstein",
+          "Stephanie Wang"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.11169v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.11169v1.pdf",
+        "code_link": null,
+        "abstract": "Large-scale model training increasingly relies on composing multiple parallelism strategies, such as data, pipeline, and expert parallelism, together with memory-saving optimizations like ZeRO. Deployed systems for foundation model pretraining often rely on human experts to manually design a high-level parallelism strategy then implement the corresponding low-level execution strategy, making it difficult to adapt the system to new strategies. Meanwhile, many general-purpose frameworks are more flexible but their implementations are still tied to a fixed set of common parallelism strategies, making it challenging to integrate state-of-the-art strategies.\n  We present Piper, a user-controllable distributed training system that decouples the strategy from the runtime implementation. Piper allows users to declare a comprehensive distributed training strategy with a small set of model annotations and scheduling directives. Each directive applies a transformation on Piper's intermediate representation (IR), a unified global training DAG that represents all computation and communication. Using this IR, Piper compiles per-device execution plans and executes them with a distributed runtime agnostic to the strategy. We show that the combined system maintains performance parity on commonly available strategies such as ZeRO, while also enabling additional performance and memory efficiency gains through joint scheduling of compute and communication in composed parallelism strategies such as DeepSeek-V3's DualPipe.",
+        "categories": [
+          "cs.DC",
+          "cs.AI"
+        ],
+        "matched_topics": [
+          "training_inference_acceleration"
+        ],
+        "matched_topic": "training_inference_acceleration"
+      },
+      "l1": {
+        "decision": "level2",
+        "model_decision": "level2",
+        "decision_source": "thresholds",
+        "matched_tracks": [
+          "acceleration"
+        ],
+        "scores": {
+          "topic_relevance": 4,
+          "scenario_fit": 4,
+          "landing_potential": 4,
+          "abstract_evidence_strength": 4,
+          "distance_penalty": 0
+        },
+        "total_score": 16,
+        "model_total_score": 16,
+        "reason_cn": "论文提出了一个可编程的分布式训练系统Piper，将训练策略从运行时实现解耦，允许用户声明式地组合数据并行、流水线并行、专家并行等策略，并支持ZeRO等内存优化。摘要明确描述了通过中间表示(IR)编译执行计划，实现了对常见策略的性能维持，并进一步通过计算和通信的联合调度提升效率和内存利用率（如DeepSeek-V3的DualPipe），与用户关注的训练加速方向高度契合，具备明确的系统设计、实现和性能证据。",
+        "archive_reason_cn": null
+      },
+      "analysis_meta": {
+        "from_cache": false
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.10921",
+        "arxiv_short_id": "2606.10921v1",
+        "published_date": "2026-06-09",
+        "title": "Trace Only What You Need: Structure-Aware On-Demand Hypergraph Memory for Long-Document Question Answering",
+        "authors": "Xiangjun Zai et.al.",
+        "authors_full": [
+          "Xiangjun Zai",
+          "Xingyu Tan",
+          "Chen Chen",
+          "Xiaoyang Wang",
+          "Wenjie Zhang"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.10921v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.10921v1.pdf",
+        "code_link": null,
+        "abstract": "Long-document question answering (QA) requires large language models (LLMs) to reason over evidence scattered across lengthy documents, where answers often depend on event order, section-level context, and cross-part evidence connections. Although retrieval-augmented generation (RAG) reduces the input context by retrieving relevant evidence, existing structured RAG methods still face three limitations: costly query-agnostic knowledge organization, insufficient use of original document structure, and no reuse of historical reasoning experience. To address these limitations, we propose DocTrace, a multi-agent RAG framework for long-document QA that supports query-triggered knowledge organization, document-structure-aware and experience-guided reasoning. DocTrace preserves document hierarchy with a lightweight document structural tree index, constructs agent-shared hypergraph-structured working memory on demand during reasoning, and stores successful reasoning plans in graph-structured experience memory for future reuse, enabling adaptive exploration across related long-document questions. Experiments on four long-document QA datasets show that DocTrace achieves the best performance on three datasets, surpassing the strongest baseline, ComoRAG, by up to 8.85% in F1 and 4.40% in EM, while reducing the overall computational cost by 53.32%",
+        "categories": [
+          "cs.CL"
+        ],
+        "matched_topics": [
+          "neuroscience_language_memory"
+        ],
+        "matched_topic": "neuroscience_language_memory"
+      },
+      "l1": {
+        "decision": "level2",
+        "model_decision": "level2",
+        "decision_source": "thresholds",
+        "matched_tracks": [
+          "llm_memory"
+        ],
+        "scores": {
+          "topic_relevance": 4,
+          "scenario_fit": 4,
+          "landing_potential": 4,
+          "abstract_evidence_strength": 4,
+          "distance_penalty": 2
+        },
+        "total_score": 14,
+        "model_total_score": 14,
+        "reason_cn": "论文提出多智能体RAG框架DocTrace，通过超图工作记忆与经验记忆实现长文档问答中的结构感知与查询驱动推理，直接对应大模型记忆方向中的多智能体记忆框架与记忆检索策略。实验显示显著性能提升与成本降低，具有明确的方法、实验与结果，高度契合用户关注的多智能体记忆研究。",
+        "archive_reason_cn": null
+      },
+      "analysis_meta": {
+        "from_cache": true
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.11119",
+        "arxiv_short_id": "2606.11119v1",
+        "published_date": "2026-06-09",
+        "title": "TRACE: A Unified Rollout Budget Allocation Framework for Efficient Agentic Reinforcement Learning",
+        "authors": "Heming Zou et.al.",
+        "authors_full": [
+          "Heming Zou",
+          "Qi Wang",
+          "Yun Qu",
+          "Yuhang Jiang",
+          "Lizhou Cai",
+          "Yixiu Mao",
+          "Ru Peng",
+          "Xin Xu",
+          "Weijie Liu",
+          "Kai Yang",
+          "Saiyong Yang",
+          "Xiangyang Ji"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.11119v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.11119v1.pdf",
+        "code_link": null,
+        "abstract": "Reinforcement learning with verifiable rewards (RLVR) is a promising approach for enhancing reasoning and agentic behavior in large language models. However, rollout-intensive policy optimization is often limited by insufficient reward contrast, arising when overly simple or complex prompts generate low-variance feedback and when outcome-only rewards assign the same terminal assessment to every decision in a multi-turn rollout. Past efforts have focused on allocating available rollout resources to promising prompts, yet they only leverage sample informativeness at the prompt level and neglect variation in prefix-level informativeness across turns within the same rollout. This work targets multi-turn agentic RL by modeling each ReAct-style thought-action-observation turn as a semantically distinct node, allowing budget allocation to extend from prompt roots to turn-level prefixes with further continuations, which naturally forms tree-structured rollouts. We introduce Tree Rollout Allocation for Contrastive Exploration (TRACE), a unified rollout allocation framework that enhances reward contrast within a fixed sampling budget. Technically, TRACE allocates rollout budget to both prompt roots and intermediate prefixes that are most likely to yield mixed terminal rewards. A shared generalizable predictor estimates conditional success probability at these anchors from prefix histories to guide this allocation. The resulting adaptive tree structure enriches outcome-only feedback and amplifies the policy-update signal. Empirically, TRACE achieves competitive performance and efficiency gains on typical agentic benchmarks, e.g., improving Qwen3-14B Multi-Hop QA average accuracy by 2.8 points over competitive baselines at equal sampling cost.",
+        "categories": [
+          "cs.LG",
+          "cs.AI",
+          "cs.CL"
+        ],
+        "matched_topics": [
+          "agent"
+        ],
+        "matched_topic": "agent"
+      },
+      "l1": {
+        "decision": "level2",
+        "model_decision": "level2",
+        "decision_source": "thresholds",
+        "matched_tracks": [
+          "acceleration"
+        ],
+        "scores": {
+          "topic_relevance": 4,
+          "scenario_fit": 4,
+          "landing_potential": 3,
+          "abstract_evidence_strength": 4,
+          "distance_penalty": 2
+        },
+        "total_score": 13,
+        "model_total_score": 13,
+        "reason_cn": "提出TRACE框架，通过树形rollout预算分配提升多轮agentic RL的训练效率，属于大模型训练加速方法，与用户关注的训练加速方向高度匹配。摘要提供了明确的方法描述和在Qwen3-14B上的性能提升证据。",
+        "archive_reason_cn": null
+      },
+      "analysis_meta": {
+        "from_cache": true
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.11127",
+        "arxiv_short_id": "2606.11127v1",
+        "published_date": "2026-06-09",
+        "title": "Provenance-Grounded Gating and Adaptive Recovery in Synthetic Post-Training Data Curation",
+        "authors": "Soham Bhattacharjee et.al.",
+        "authors_full": [
+          "Soham Bhattacharjee",
+          "Karun Sharma",
+          "Vinay Kumar Sankarapu",
+          "Pratinav Seth"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.11127v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.11127v1.pdf",
+        "code_link": null,
+        "abstract": "Synthetic post-training pipelines commonly filter generated samples with reward models or holistic LLM judges, yet two practices remain rarely examined together: whether the filtering signal is grounded in the source evidence that induced each generation, and whether rejected samples can be systematically recovered rather than permanently discarded. We present a controlled study of both questions across gate configurations, recovery strategies, and generator scales, using adversarially injected corpora to provide ground-truth failure labels. We find that exact source provenance improves faithfulness gating for stronger judges, that hallucination and reward gates reject largely disjoint sample populations making both necessary, and that an adaptive recovery pipeline combining failure diagnosis with targeted regeneration achieves higher yield, recovery rate, and injection recall than naive resampling. Downstream fine-tuning quality is driven primarily by generator scale, with filtration and recovery conditions contributing meaningfully but secondarily.",
+        "categories": [
+          "cs.CL",
+          "cs.AI"
+        ],
+        "matched_topics": [
+          "data_sft_rl_eval"
+        ],
+        "matched_topic": "data_sft_rl_eval"
+      },
+      "l1": {
+        "decision": "level2",
+        "model_decision": "level2",
+        "decision_source": "thresholds",
+        "matched_tracks": [
+          "emotional_dialogue_training_data"
+        ],
+        "scores": {
+          "topic_relevance": 4,
+          "scenario_fit": 3,
+          "landing_potential": 3,
+          "abstract_evidence_strength": 4,
+          "distance_penalty": 1
+        },
+        "total_score": 13,
+        "model_total_score": 13,
+        "reason_cn": "论文聚焦合成后训练数据的过滤与恢复方法，直接服务于SFT/RL等数据制备，与用户关注的数据集制备方向高度相关；方法通用，有控制实验与明确效果结论，对用户构建训练数据管线有实际参考价值。",
+        "archive_reason_cn": null
+      },
+      "analysis_meta": {
+        "from_cache": false
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.04547",
+        "arxiv_short_id": "2606.04547v1",
+        "published_date": "2026-06-03",
+        "title": "Beyond Retrieval: Learning Compact User Representations for Scalable LLM Personalization",
+        "authors": "Heng Cao et.al.",
+        "authors_full": [
+          "Heng Cao",
+          "Fan Zhang",
+          "Jian Yao",
+          "Yujie Zheng",
+          "Changlin Zhao",
+          "Lu Hao",
+          "Yuxuan Wei",
+          "Wangze Ni",
+          "Huaiyu Fu",
+          "Yuqian Sun",
+          "Xuyan Mo"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.04547v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.04547v1.pdf",
+        "code_link": null,
+        "abstract": "Personalizing large language models requires adapting model behavior to individual users while preserving robustness and deployment-scale efficiency. Existing approaches typically personalize LLMs either at the input level, by retrieving user histories or constructing profile prompts, or at the parameter level, by maintaining user-specific parameter-efficient modules. The former makes personalization sensitive to retrieval quality and prompt design, whereas the latter incurs storage and maintenance costs that grow with the user population. To address these limitations, we propose TAP-PER (Temporal Attentive Prefix for PERsonalization), a prefix-based framework that encodes user preferences as learnable representations, eliminating explicit prompt construction and replacing heavy per-user adapters with lightweight user-state prefix embeddings. Inspired by personalized recommendation systems, TAP-PER decomposes user modeling into user-state and query-conditioned components, and incorporates temporal signals to capture the evolving nature of user interests. Experiments on six LaMP tasks show that TAP-PER consistently outperforms prompt-based and model-based baselines across classification, rating, and generation settings. Moreover, TAP-PER uses 130x fewer per-user parameters than OPPU and roughly half the total parameter footprint of PER-PCS at the 1,000-user scale, demonstrating that scalable LLM personalization can be achieved without explicit prompt construction or heavy per-user adapters.",
+        "categories": [
+          "cs.IR",
+          "cs.CL"
+        ],
+        "matched_topics": [
+          "poi_ai_companion"
+        ],
+        "matched_topic": "poi_ai_companion"
+      },
+      "l1": {
+        "decision": "level2",
+        "model_decision": "level2",
+        "decision_source": "thresholds",
+        "matched_tracks": [
+          "llm_memory.multi_agent_memory_frameworks",
+          "poi_companion.poi_tool_use_companion"
+        ],
+        "scores": {
+          "topic_relevance": 3,
+          "scenario_fit": 2,
+          "landing_potential": 3,
+          "abstract_evidence_strength": 4,
+          "distance_penalty": 2
+        },
+        "total_score": 10,
+        "model_total_score": 10,
+        "reason_cn": "论文提出紧凑用户表示用于可扩展LLM个性化，直接属于个性化记忆方向，同时其用户偏好建模可应用于POI陪伴场景。方法新颖，实验充分，但场景落地尚需针对陪伴产品验证，整体符合level2收录标准。",
+        "archive_reason_cn": null
+      },
+      "analysis_meta": {
+        "from_cache": true
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.10949",
+        "arxiv_short_id": "2606.10949v1",
+        "published_date": "2026-06-09",
+        "title": "Recalling Too Well: Sycophancy Evaluation and Mitigation in Memory-Augmented Models",
+        "authors": "Shelly Bensal et.al.",
+        "authors_full": [
+          "Shelly Bensal",
+          "Axel Magnuson",
+          "Aparna Balagopalan",
+          "Daniel M. Bikel"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.10949v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.10949v1.pdf",
+        "code_link": null,
+        "abstract": "Persistent memory systems promise to make LLMs more helpful by storing user beliefs over time. We show they also make models less correct by systematically amplifying sycophancy, wherein models prioritize agreement with users over accuracy. We conduct the first systematic evaluation of this effect, introducing MIST: a benchmark of synthetically generated multi-turn conversations where users express plausible misconceptions in scientific, medical, and moral reasoning domains. Testing across three state-of-the-art memory systems and five model families reveals that memory amplifies sycophantic behavior across all conditions, with up to 25x higher sycophancy rates than in-context baselines. Error analyses suggest memory extraction as the primary culprit: lossy compression into discrete snippets encodes user misconceptions while discarding corrective context. Based on these results, we propose two lightweight mitigations that substantially reduce sycophancy while matching or exceeding memory systems at factual recall.",
+        "categories": [
+          "cs.AI"
+        ],
+        "matched_topics": [
+          "memory_personalization"
+        ],
+        "matched_topic": "memory_personalization"
+      },
+      "l1": {
+        "decision": "level2",
+        "model_decision": "archive_only",
+        "decision_source": "thresholds",
+        "matched_tracks": [
+          "llm_memory.implicit_memory_and_persona"
+        ],
+        "scores": {
+          "topic_relevance": 3,
+          "scenario_fit": 2,
+          "landing_potential": 2,
+          "abstract_evidence_strength": 3,
+          "distance_penalty": 2
+        },
+        "total_score": 8,
+        "model_total_score": 8,
+        "reason_cn": "论文研究记忆系统放大模型迎合用户（sycophancy）的问题，提出评测基准和缓解方法，与记忆系统的人格一致性相关，但侧重于负面效应评估，缺乏明确的多智能体或个性化记忆框架落地设计。",
+        "archive_reason_cn": "涉及记忆系统的行为评估与缓解，虽有技术贡献，但距离用户关注的人格一致性、情绪稳定性等具体落地场景较远，可作为记忆系统可靠性参考存档。"
+      },
+      "analysis_meta": {
+        "from_cache": true
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.05995",
+        "arxiv_short_id": "2606.05995v1",
+        "published_date": "2026-06-04",
+        "title": "Empathy on Demand: How Empathic AI Can Scale Emotional Support for Verbal Harassment",
+        "authors": "Anouk Bergner et.al.",
+        "authors_full": [
+          "Anouk Bergner",
+          "Philipp Winder",
+          "Christian Hildebrand"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.05995v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.05995v1.pdf",
+        "code_link": null,
+        "abstract": "Verbal harassment is a growing source of psychological stress for people around the world. It occurs both online and offline and relies on language to demean, threaten, or discredit its targets. Unlike other stressors such as loss or uncertainty, verbal harassment aims at silencing its targets by eroding their sense of being heard and weakening their perceived ability to respond. Many individuals lack access to adequate and timely support, however, when they experience such harassment. People increasingly turn to conversational artificial intelligence (AI) such as ChatGPT or dedicated AI companions for emotional support, raising questions about whether it can facilitate the same psychological benefits as actual human empathy. We focus on online contexts as a prevalent application of verbal harassment. We develop and test a psychological framework identifying three key linguistic signals of empathic listening (perspective-taking, emotional validation, and action orientation), that together restore a sense of feeling heard and enhance coping in the context of verbal harassment. We find that LLMs consistently produce language exhibiting stronger empathic-listening markers than human non-experts and trained mental health professionals, promoting more approach-oriented (vs. avoidance-oriented) coping strategies. A subsequent behavioral study shows that these linguistic signals boost recipients' sense of feeling heard and increase their coping self-efficacy. These findings reveal how specific linguistic features create empathic connections between humans and advanced conversational AI and can enhance people's psychological resilience. Our results highlight the potential for AI to serve as a scalable source of emotional support, especially when human support is unavailable or insufficient.",
+        "categories": [
+          "cs.HC"
+        ],
+        "matched_topics": [
+          "poi_ai_companion"
+        ],
+        "matched_topic": "poi_ai_companion"
+      },
+      "l1": {
+        "decision": "archive_only",
+        "model_decision": "archive_only",
+        "decision_source": "thresholds",
+        "matched_tracks": [
+          "emotional_and_psychological_eval"
+        ],
+        "scores": {
+          "topic_relevance": 3,
+          "scenario_fit": 2,
+          "landing_potential": 2,
+          "abstract_evidence_strength": 3,
+          "distance_penalty": 3
+        },
+        "total_score": 7,
+        "model_total_score": 7,
+        "reason_cn": "论文研究LLM在言语骚扰场景下提供共情支持的语言特征与效果，属于情感支持与共情评估方向，但未涉及训练数据或评测数据集制备，也未聚焦POI或记忆框架，落地距离较远。",
+        "archive_reason_cn": "与情感评测子方向相关，但其重点在于心理学实验与行为影响验证，难以直接转化为可落地的数据集或评测方法，适合作为参考留存。"
+      },
+      "analysis_meta": {
+        "from_cache": true
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.11074",
+        "arxiv_short_id": "2606.11074v1",
+        "published_date": "2026-06-09",
+        "title": "Modeling Complex Behaviors: Multi-Personality Composition and Dynamic Switching in Vision-Language Models",
+        "authors": "Peiqi Jia et.al.",
+        "authors_full": [
+          "Peiqi Jia",
+          "Haonan Jia",
+          "Ziqi Miao",
+          "Linkang Du",
+          "Yuntao Wang",
+          "Zhou Su"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.11074v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.11074v1.pdf",
+        "code_link": null,
+        "abstract": "With the widespread deployment of Multimodal Large Language Models (MLLMs) in social interaction, understanding and controlling their behavior under complex personality conditions is essential. This paper introduces explicit personality conditioning and establishes a systematic evaluation framework encompassing single-personality induction, multi-personality induction, and personality switching. Experiments show that personality induction improves image captioning performance but can impair performance on tasks requiring precise reasoning, such as visual question answering (VQA). Balancing and residual effects are observed during multi-trait composition and dynamic switching, indicating that model behavior is co-modulated by both previous and current personality constraints. Existing prompt-based personality induction methods show limited transferability to multimodal settings. Our work reveals the dynamic and complex nature of personality modeling in MLLMs and underscores the need for robust, tailored methods for personality induction and evaluation. The code will be released when the paper is accepted.",
+        "categories": [
+          "cs.CL",
+          "cs.AI"
+        ],
+        "matched_topics": [
+          "memory_personalization"
+        ],
+        "matched_topic": "memory_personalization"
+      },
+      "l1": {
+        "decision": "archive_only",
+        "model_decision": "archive_only",
+        "decision_source": "thresholds",
+        "matched_tracks": [
+          "llm_memory.implicit_memory_and_persona"
+        ],
+        "scores": {
+          "topic_relevance": 3,
+          "scenario_fit": 2,
+          "landing_potential": 1,
+          "abstract_evidence_strength": 3,
+          "distance_penalty": 3
+        },
+        "total_score": 6,
+        "model_total_score": 12,
+        "reason_cn": "论文研究多模态大模型中的多性格组合与动态切换，属于人格一致性方向，但仅构建评估框架和分析，未提出落地的记忆或个性化系统。",
+        "archive_reason_cn": "可作为人格建模评估参考，与个性化记忆、人格一致性相关，但无直接落地方法。"
+      },
+      "analysis_meta": {
+        "from_cache": true
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.11167",
+        "arxiv_short_id": "2606.11167v1",
+        "published_date": "2026-06-09",
+        "title": "Multi-Faceted Interactivity Alignment in Full-Duplex Speech Models",
+        "authors": "Atsumoto Ohashi et.al.",
+        "authors_full": [
+          "Atsumoto Ohashi",
+          "Neil Zeghidour",
+          "Alexandre Défossez",
+          "Eugene Kharitonov"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.11167v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.11167v1.pdf",
+        "code_link": null,
+        "abstract": "Full-duplex spoken dialogue models can listen and speak simultaneously, making them a promising architecture for natural conversation. However, current models are trained solely with supervised learning through token-level likelihood maximization, which does not directly optimize interaction-level behaviors, causing interactivity issues such as excessive silence and ill-timed turn-taking. Recent work has applied reinforcement learning (RL) to improve interactivity, but existing methods address only a limited set of interactive behaviors in their rewards. In this work, we propose a post-training alignment method that comprehensively improves the interactivity of full-duplex spoken dialogue models through RL. We address the four canonical axes of interactivity: pause handling, turn-taking, backchanneling, and user interruption. For each axis, we extract short audio segments from human conversation corpora and optimize the model with axis-specific reward functions. An extra LLM-based reward for response quality prevents semantic degradation. We apply our method to two open-source models, Moshi and PersonaPlex, demonstrating consistent improvements in interactivity on both offline evaluation with pre-recorded audio and real-time multi-turn dialogue evaluation.",
+        "categories": [
+          "cs.CL",
+          "eess.AS"
+        ],
+        "matched_topics": [
+          "data_sft_rl_eval"
+        ],
+        "matched_topic": "data_sft_rl_eval"
+      },
+      "l1": {
+        "decision": "archive_only",
+        "model_decision": "archive_only",
+        "decision_source": "thresholds",
+        "matched_tracks": [
+          "module dataset_pipeline > emotional_dialogue_training_data"
+        ],
+        "scores": {
+          "topic_relevance": 2,
+          "scenario_fit": 1,
+          "landing_potential": 2,
+          "abstract_evidence_strength": 4,
+          "distance_penalty": 3
+        },
+        "total_score": 6,
+        "model_total_score": 12,
+        "reason_cn": "该论文提出使用RL对齐全双工语音对话模型的交互性，属于模型训练方法，而非数据集制备或评测集构建。虽然涉及多轮对话RL数据，但核心贡献不在数据层面，与用户研究方向的数据集制备与评测直接关联较弱，因此归档以备参考。",
+        "archive_reason_cn": "论文关注语音对话模型的交互性RL对齐，可启发多轮对话训练数据中的RL reward设计，但本身不提供新数据集或评测方法，故归入归档。"
+      },
+      "analysis_meta": {
+        "from_cache": false
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.07486",
+        "arxiv_short_id": "2606.07486v1",
+        "published_date": "2026-06-05",
+        "title": "OPENPATH: A Supervisor--Specialist Agent System for Personalized, Accessible, and Multi-stop Urban Trip Planning",
+        "authors": "Ziyang Xiong et.al.",
+        "authors_full": [
+          "Ziyang Xiong",
+          "He Zong",
+          "Zhiyuan Xue",
+          "Manxi Wu"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.07486v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.07486v1.pdf",
+        "code_link": null,
+        "abstract": "Urban trip-planning systems are commonly optimized for travel time and cost, but they offer limited support for the heterogeneous needs that real travelers bring, such as personalized preferences, multi-stop itinerary construction, and end-to-end wheelchair accessibility. We present openpaths, a supervisor-specialist multi-agent system that handles all of these tasks within a single architecture. openpaths adopts a deliberate division of labor: LLM agents parse natural-language input, classify request intent, and orchestrate execution, while classical algorithms perform route optimization over curated mobility and accessibility data. This design ensures that the resulting trip honors heterogeneous user preferences and enforces strict accessibility requirements when requested. Beyond per-user planning, openpaths doubles as a measurement instrument for city-scale accessibility analysis: applied to NYC, the system reveals substantial ADA infrastructure gaps and quantifies their effect on job accessibility for wheelchair users. Overall, this study shows how a supervisor-specialist LLM agentic framework can support heterogeneous trip planning and transparent, equitable transportation analysis in real urban environments.",
+        "categories": [
+          "eess.SY"
+        ],
+        "matched_topics": [
+          "poi_ai_companion"
+        ],
+        "matched_topic": "poi_ai_companion"
+      },
+      "l1": {
+        "decision": "archive_only",
+        "model_decision": "archive_only",
+        "decision_source": "thresholds",
+        "matched_tracks": [
+          "poi_companion"
+        ],
+        "scores": {
+          "topic_relevance": 3,
+          "scenario_fit": 1,
+          "landing_potential": 1,
+          "abstract_evidence_strength": 3,
+          "distance_penalty": 3
+        },
+        "total_score": 5,
+        "model_total_score": 11,
+        "reason_cn": "论文提出多智能体城市行程规划系统，处理个性化多站路线和轮椅无障碍需求，属于POI场景下的旅行助手，但缺乏陪伴产品的情感交互、多轮对话或工具使用研究重点，更偏向系统工程与城市分析。",
+        "archive_reason_cn": "与POI场景相关，但非陪伴产品形态，且核心贡献在可访问性分析与路线优化，与用户关注的陪伴agent、tool use、数据集、记忆等方向距离较远，仅作泛相关归档。"
+      },
+      "analysis_meta": {
+        "from_cache": true
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.11070",
+        "arxiv_short_id": "2606.11070v1",
+        "published_date": "2026-06-09",
+        "title": "T1-Bench: Benchmarking Multi-Scenario Agents in Real-World Domains",
+        "authors": "Genta Indra Winata et.al.",
+        "authors_full": [
+          "Genta Indra Winata",
+          "Amartya Chakraborty",
+          "Yuzhen Lin",
+          "Swasthi P Rao",
+          "Shikhhar Siingh",
+          "Houhan Lu",
+          "Nadia Bathaee",
+          "Sriharsha Hatwar",
+          "Paresh Dashore",
+          "Anmol Jain",
+          "Kshitij Tayal",
+          "Xiuzhu Lin",
+          "Anirban Das",
+          "Sambit Sahu",
+          "Shi-Xiong Zhang"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.11070v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.11070v1.pdf",
+        "code_link": null,
+        "abstract": "Recent advances in reasoning and tool-calling capabilities of large language models (LLMs) have enabled increasingly capable agentic systems. However, existing benchmarks remain limited in task complexity, realism, and domain diversity, and often fail to capture interactions that span multiple domains, limiting their ability to evaluate agents in realistic multi-step settings that require sustained reasoning and coordination. To address these limitations, we introduce T1-Bench, a high-fidelity, comprehensive benchmark for evaluating agentic systems in realistic customer-facing, multi-domain environments, featuring interleaved scenarios that require structured reasoning across multi-turn user-assistant interactions and substantially increasing both compositional complexity and evaluative rigor across 25 domains of varying difficulty. We evaluate T1-Bench using 12 proprietary and open-weight models, providing a reproducible and standardized framework for assessing agent behavior, tool utilization, and conversational quality in complex, multi-step environments. We further complement automatic evaluation with human judgments to strengthen the assessment of qualitative performance. Overall, T1-Bench substantially advances prior benchmarks by increasing task complexity, interaction depth, and domain coverage in simulated multi-domain environments. To facilitate future research on agentic systems, we will publicly release data and evaluation code as open source.",
+        "categories": [
+          "cs.CL",
+          "cs.AI"
+        ],
+        "matched_topics": [
+          "data_sft_rl_eval"
+        ],
+        "matched_topic": "data_sft_rl_eval"
+      },
+      "l1": {
+        "decision": "archive_only",
+        "model_decision": "archive_only",
+        "decision_source": "thresholds",
+        "matched_tracks": [
+          "module dataset_pipeline > emotional_and_psychological_eval"
+        ],
+        "scores": {
+          "topic_relevance": 2,
+          "scenario_fit": 1,
+          "landing_potential": 2,
+          "abstract_evidence_strength": 3,
+          "distance_penalty": 3
+        },
+        "total_score": 5,
+        "model_total_score": 5,
+        "reason_cn": "论文提出了一个多领域、多轮交互的代理系统评测基准T1-Bench，包含工具调用和对话质量评估，与用户关注的数据评测方向存在交集。但该基准主要面向通用客户服务场景，未涉及情感理解、心理感知或POI陪伴等用户核心关切，距具体落地场景较远，故仅存档备用。",
+        "archive_reason_cn": "该基准可用于评测多轮对话及工具使用能力，但缺乏对情感、心理或POI场景的针对性，仅作为评测方法参考，非重点跟进对象。"
+      },
+      "analysis_meta": {
+        "from_cache": true
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.10078",
+        "arxiv_short_id": "2606.10078v1",
+        "published_date": "2026-06-08",
+        "title": "Mult-DPO: Multinomial Direct Preference Optimization for Recommender Systems",
+        "authors": "Yaochen Zhu et.al.",
+        "authors_full": [
+          "Yaochen Zhu",
+          "Harald Steck",
+          "James McInerney",
+          "Aditya Sinha",
+          "Yinhan He",
+          "Nathan Kallus",
+          "Jundong Li"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.10078v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.10078v1.pdf",
+        "code_link": "https://github.com/yaochenzhu/Mult_DPO",
+        "abstract": "Direct preference optimization (DPO) is a simple and effective alignment strategy for large language models (LLMs) based on pairwise preferences. In recommender systems, however, user feedback is rarely pairwise. For a given context, e.g., a user, a session, or a conversation, we typically observe set-wise preferences with multiple positive items, where every positive item should outrank every unobserved or explicitly negative item, with no prescribed order among the positives or the negatives themselves. A natural generalization is to use the Plackett-Luce (PL) reward model, which extends the Bradley-Terry reward model underlying vanilla DPO from pairwise preferences to full rankings of candidates. However, we show that adapting the PL model to set-wise preferences requires marginalizing over all positive orderings, where the resulting expression is combinatorial in complexity. To address this fundamental challenge, we propose Mult-DPO, a novel DPO objective with a tractable multinomial surrogate likelihood over set-wise preference events for the user-preference alignment of LLM-based recommender systems. The multinomial construction is not itself a ranking distribution, but it is defined on the same reward-induced weight space and admits a closed-form DPO-style objective, enabling direct alignment of LLMs with multiple candidates through a classification-style objective. In addition, we prove that the multinomial DPO loss is a tractable upper bound on the marginalized PL DPO loss when optimizing against the set-wise preference data. We further characterize the tightness of this bound in terms of the relative total weight of positives versus negatives, which provides insights into tightening the bound with richer or harder negatives. Finally, we extend Mult-DPO to the alignment of LLMs with multiple preference levels. Code is available at https://github.com/yaochenzhu/Mult_DPO",
+        "categories": [
+          "cs.IR"
+        ],
+        "matched_topics": [
+          "poi_ai_companion"
+        ],
+        "matched_topic": "poi_ai_companion"
+      },
+      "l1": {
+        "decision": "archive_only",
+        "model_decision": "archive_only",
+        "decision_source": "thresholds",
+        "matched_tracks": [
+          "poi_companion"
+        ],
+        "scores": {
+          "topic_relevance": 2,
+          "scenario_fit": 1,
+          "landing_potential": 1,
+          "abstract_evidence_strength": 3,
+          "distance_penalty": 3
+        },
+        "total_score": 4,
+        "model_total_score": 4,
+        "reason_cn": "论文提出Mult-DPO方法，将直接偏好优化扩展到推荐系统的集合偏好场景，属于基于LLM的推荐对齐技术。虽然可潜在应用于POI推荐，但未涉及陪伴产品、工具调用或场景化交互，与用户关注的POI陪伴与tool use落地场景距离较远。",
+        "archive_reason_cn": "论文属于推荐系统通用对齐方法，未体现POI陪伴、对话或工具使用等用户核心关注点，落地到目标场景仍需大量适配工作。"
+      },
+      "analysis_meta": {
+        "from_cache": true
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.10238",
+        "arxiv_short_id": "2606.10238v1",
+        "published_date": "2026-06-08",
+        "title": "Hyperbolic Neural Population Geometry Benefits Computation",
+        "authors": "Dennis Wu et.al.",
+        "authors_full": [
+          "Dennis Wu",
+          "Yi-Chun Hung",
+          "Braden Yuille",
+          "James E. Fitzgerald",
+          "Han Liu"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.10238v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.10238v1.pdf",
+        "code_link": null,
+        "abstract": "Neural population geometry shapes downstream computation. Recent empirical findings in neurobiology suggest that a hyperbolic structure underlies population activity in the hippocampus. Here we provide a theoretical framework for this phenomenon. First, we propose a plausible construction of hippocampal tuning curves that statistically induces hyperbolic geometry. Next, we establish a connection between neural decoding and associative memory by demonstrating that the Modern Hopfield Network update rule computes the minimum mean-squared-error (MMSE) estimator. Finally, we introduce a novel associative memory model defined in hyperbolic space that yields significantly larger capacity than leading models. Our results suggest that animals encode spatial information as a latent hyperbolic cognitive map, improving both memory capacity and decoding accuracy.",
+        "categories": [
+          "q-bio.NC",
+          "cs.AI"
+        ],
+        "matched_topics": [
+          "neuroscience_language_memory"
+        ],
+        "matched_topic": "neuroscience_language_memory"
+      },
+      "l1": {
+        "decision": "archive_only",
+        "model_decision": "archive_only",
+        "decision_source": "thresholds",
+        "matched_tracks": [
+          "neuro_nlp_memory"
+        ],
+        "scores": {
+          "topic_relevance": 2,
+          "scenario_fit": 1,
+          "landing_potential": 1,
+          "abstract_evidence_strength": 3,
+          "distance_penalty": 3
+        },
+        "total_score": 4,
+        "model_total_score": 4,
+        "reason_cn": "该论文研究双曲几何下的神经群体编码与联想记忆容量，虽然与记忆的神经机制相关，但未涉及语言理解或情绪处理，难以直接应用于大模型的相关研究。",
+        "archive_reason_cn": "与用户跟踪的神经科学与语言/记忆交叉方向有一定关联，但缺乏对NLP或LLM建模的启发，落地距离较远，暂存入存档。"
+      },
+      "analysis_meta": {
+        "from_cache": true
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.10299",
+        "arxiv_short_id": "2606.10299v1",
+        "published_date": "2026-06-09",
+        "title": "What Spatial Memory Must Store: Occlusion as the Test for Language-Agent Memory",
+        "authors": "Doeon Kwon et.al.",
+        "authors_full": [
+          "Doeon Kwon",
+          "Junho Bang"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.10299v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.10299v1.pdf",
+        "code_link": null,
+        "abstract": "Language-agent \"memory palace\" systems anchor each memory to a world coordinate, on the intuition that geometry adds something text cannot. We make that intuition testable and report three results. First, the memory-palace default of folding spatial proximity into a linear blend beside recency and importance does not help and can hurt: in a pre-registered recall experiment the shipped blend fails its own frozen test (mean Delta-Hit@5 -0.0375, Wilcoxon p=0.306), sitting at a position-blind baseline, while a geometry-led weighting wins decisively (+0.3208, p<10^-15): geometry must lead recall when the query regime is spatial. Second, memory recall and visibility must be separated: recall is occlusion-blind by design (you correctly remember the next room behind a wall), while visibility is a perception predicate over stored geometry that the live system never computed. A one-line ray-versus-voxel digital differential analyzer (DDA), re-pointed from the gaze ray the agent already casts, supplies it: text and the live FoV cone both score 0.000 on 849 behind-wall targets while cone-plus-DDA reaches 0.982 (exact McNemar p<10^-6); coordinate recall separately resolves near-duplicate locations a cosine null cannot (1.000 vs 0.533, n=150). Third, the visibility predicate is confirmed live under a git-committed pre-registration (SPMEM-OCC-LIVE-v1: eight scripted worlds, automated oracle scoring, 96 behind-wall targets, false-visible 1.000->0.000, pooled exact McNemar p=2.5x10^-29), a run that surfaced and fixed a real relay anchor defect. We concede that occlusion-needs-geometry is near-tautological; the contribution is the measurement and isolation, separating what spatial memory must store from how it is read. These pilots power a frozen confirmatory study (SPMEM-ZERO-REAL-PREREG-v1); the full human-authored multi-world study with blind raters remains future work.",
+        "categories": [
+          "cs.AI",
+          "cs.CV",
+          "cs.MA"
+        ],
+        "matched_topics": [
+          "neuroscience_language_memory"
+        ],
+        "matched_topic": "neuroscience_language_memory"
+      },
+      "l1": {
+        "decision": "archive_only",
+        "model_decision": "archive_only",
+        "decision_source": "thresholds",
+        "matched_tracks": [
+          "llm_memory"
+        ],
+        "scores": {
+          "topic_relevance": 2,
+          "scenario_fit": 1,
+          "landing_potential": 1,
+          "abstract_evidence_strength": 3,
+          "distance_penalty": 3
+        },
+        "total_score": 4,
+        "model_total_score": 10,
+        "reason_cn": "论文研究语言智能体的空间记忆存储与遮挡测试，涉及记忆检索策略，但未聚焦于用户关注的多智能体记忆、长期记忆或人格一致性等方向，场景匹配度低，落地距离较远。",
+        "archive_reason_cn": "可作为语言智能体记忆评测方法的技术储备，对记忆框架的评测有参考价值。"
+      },
+      "analysis_meta": {
+        "from_cache": true
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.10671",
+        "arxiv_short_id": "2606.10671v1",
+        "published_date": "2026-06-09",
+        "title": "FadeMem: Distance-Aware Memory Consolidation for Autoregressive Video Diffusion",
+        "authors": "Yu Lu et.al.",
+        "authors_full": [
+          "Yu Lu",
+          "Junjie Yang",
+          "Piotr Koniusz",
+          "YuXin Song",
+          "Yi Yang"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.10671v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.10671v1.pdf",
+        "code_link": null,
+        "abstract": "Autoregressive video generators synthesize long videos by generating successive temporal segments, but their historical KV cache grows with video length. Existing bounded-cache methods reduce this cost with local windows, sink tokens, or compressed memory states, yet they usually assign fixed roles to different parts of the history. We propose FadeMem, a distance-aware KV memory consolidation mechanism that organizes historical KV blocks into a temporal hierarchy under a fixed cache budget. This design is motivated by frequency-dependent temporal decay: fine details decorrelate quickly, while coarse scene structure and identity remain useful over longer horizons. During generation, new history is inserted as fine-grained entries, while older adjacent entries are progressively merged under a power-law temporal allocation schedule, yielding a dense-near, sparse-far memory within one cache. Without architectural changes, FadeMem preserves recent context for short-term dynamics and compact long-range anchors for identity and scene coherence. Experiments show improved subject consistency, background stability, and temporal coherence over existing bounded-cache strategies.",
+        "categories": [
+          "cs.CV"
+        ],
+        "matched_topics": [
+          "neuroscience_language_memory"
+        ],
+        "matched_topic": "neuroscience_language_memory"
+      },
+      "l1": {
+        "decision": "archive_only",
+        "model_decision": "archive_only",
+        "decision_source": "thresholds",
+        "matched_tracks": [
+          "acceleration"
+        ],
+        "scores": {
+          "topic_relevance": 2,
+          "scenario_fit": 1,
+          "landing_potential": 1,
+          "abstract_evidence_strength": 3,
+          "distance_penalty": 3
+        },
+        "total_score": 4,
+        "model_total_score": 4,
+        "reason_cn": "论文提出视频扩散模型的距离感知KV缓存合并机制，属于推理加速技术，但针对视频生成场景，与用户关注的大模型对话、情感记忆、POI等方向差距明显，落地相关性低。",
+        "archive_reason_cn": "KV缓存优化方法可作为推理加速技术储备，但应用领域为视频生成，非用户核心的大模型对话与记忆方向，仅归档。"
+      },
+      "analysis_meta": {
+        "from_cache": true
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.10916",
+        "arxiv_short_id": "2606.10916v1",
+        "published_date": "2026-06-09",
+        "title": "Range Penalization: Theoretical Insights with Applications in Federated Learning",
+        "authors": "Yiyuan She et.al.",
+        "authors_full": [
+          "Yiyuan She",
+          "Zhaojun Hu",
+          "Yifan Sun"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.10916v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.10916v1.pdf",
+        "code_link": null,
+        "abstract": "This paper introduces range regularization for federated learning with linear systematic components to enhance statistical accuracy and induce cross-client regularity conducive to quantization, coding, and resource efficiency. Our approach identifies features with shared weights across different clients and adaptively clusters the weights of personalized features at extreme values, a process we refer to as polar clustering. Theoretical analysis of the associated estimators poses significant challenges due to the seminorm nature and non-decomposability of the regularizer. We develop new proof techniques for the nonasymptotic analysis of statistical accuracy and faithful pattern recovery. Moreover, a fast optimization algorithm that leverages varying degrees of local strong convexity is proposed to reduce iteration complexity. Experiments support the efficacy and efficiency of the proposed approach.",
+        "categories": [
+          "stat.ML",
+          "cs.LG",
+          "math.ST",
+          "stat.ME"
+        ],
+        "matched_topics": [
+          "memory_personalization"
+        ],
+        "matched_topic": "memory_personalization"
+      },
+      "l1": {
+        "decision": "archive_only",
+        "model_decision": "archive_only",
+        "decision_source": "thresholds",
+        "matched_tracks": [
+          "acceleration"
+        ],
+        "scores": {
+          "topic_relevance": 2,
+          "scenario_fit": 1,
+          "landing_potential": 1,
+          "abstract_evidence_strength": 3,
+          "distance_penalty": 3
+        },
+        "total_score": 4,
+        "model_total_score": 4,
+        "reason_cn": "论文提出联邦学习中的范围正则化与快速优化算法以降低迭代复杂度，与训练加速模块边缘相关，但主要针对统计学习场景，不属于大模型训练/推理加速核心研究方向；记忆个性化关键词为误匹配。",
+        "archive_reason_cn": "联邦学习优化算法在训练加速上有一定参考价值，但应用场景差异大，非直接可落地于大模型训练框架。"
+      },
+      "analysis_meta": {
+        "from_cache": true
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.11156",
+        "arxiv_short_id": "2606.11156v1",
+        "published_date": "2026-06-09",
+        "title": "Itô maps for any-step SDEs",
+        "authors": "Zhengkai Pan et.al.",
+        "authors_full": [
+          "Zhengkai Pan",
+          "Peter Potaptchik",
+          "Wenxi Yao",
+          "Michael S. Albergo",
+          "Jakiw Pidstrigach"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.11156v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.11156v1.pdf",
+        "code_link": null,
+        "abstract": "Recent one-step generative models accelerate sampling by learning deterministic flow maps of the underlying dynamics. These methods rely on learning from ordinary differential equations, leaving open how to define an exact distillation procedure for stochastic dynamics. We introduce the Itô map, an any-step stochastic flow map that takes an intermediate state and Brownian path and predicts future states in a single pass. The Itô map formulation yields novel estimators for inference-time control by providing cheap, differentiable access to posterior samples. Empirically, Itô maps produce diverse, conditionally valid endpoint samples from fixed intermediate states and support strong steering performance on synthetic and image-generation benchmarks. These results establish any-step SDE integration as a useful primitive for posterior sampling and stochastic control.",
+        "categories": [
+          "stat.ML",
+          "cs.LG"
+        ],
+        "matched_topics": [
+          "training_inference_acceleration"
+        ],
+        "matched_topic": "training_inference_acceleration"
+      },
+      "l1": {
+        "decision": "archive_only",
+        "model_decision": "archive_only",
+        "decision_source": "thresholds",
+        "matched_tracks": [
+          "acceleration"
+        ],
+        "scores": {
+          "topic_relevance": 2,
+          "scenario_fit": 1,
+          "landing_potential": 1,
+          "abstract_evidence_strength": 3,
+          "distance_penalty": 3
+        },
+        "total_score": 4,
+        "model_total_score": 10,
+        "reason_cn": "论文提出用于随机微分方程的一步生成模型采样加速方法，属于生成模型领域，而非大语言模型训练或推理加速，与用户研究方向相关性较低。",
+        "archive_reason_cn": "方法涉及生成模型采样加速，但非LLM专用，可作为加速方法参考归档，但落地与LLM场景关联度低。"
+      },
+      "analysis_meta": {
+        "from_cache": false
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.11173",
+        "arxiv_short_id": "2606.11173v1",
+        "published_date": "2026-06-09",
+        "title": "The Role of Feedback Alignment in Self-Distillation",
+        "authors": "Semih Kara et.al.",
+        "authors_full": [
+          "Semih Kara",
+          "Oğuzhan Ersoy"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.11173v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.11173v1.pdf",
+        "code_link": null,
+        "abstract": "Conditioning a language model on additional context, such as feedback on a previous attempt, typically improves its response. Self-distillation trains the model to retain this improvement when the context is not present. The method works by matching the model's output distribution under two settings: a student that sees only the question, and a self-teacher that also sees the context. What the model learns therefore depends on what context the self-teacher receives, yet the design of this context remains largely unexplored.\n  We study context design for self-distillation by training a solver on feedback from a frozen critic. We compare three conditions: (i) a binary reward (GRPO), (ii) the reference solution, and (iii) a step-by-step critique aligned to the solver's reasoning trace.\n  Step-aligned critique yields the largest gains, outperforming GRPO by 16.11 points and reference-solution-conditioned self-distillation by 5.27 points (Avg@12). Per-token advantage analysis reveals why: step-aligned feedback targets only the tokens where reasoning fails, leaving correct behavior intact. Conditioning on the reference solution, by contrast, pressures the model to change its behavior at every token (even correct steps) because an alternative derivation inevitably differs in phrasing and approach. This suggests that structural alignment between feedback and the solver's reasoning is a key driver of self-distillation effectiveness.",
+        "categories": [
+          "cs.AI",
+          "cs.LG"
+        ],
+        "matched_topics": [
+          "data_sft_rl_eval",
+          "training_inference_acceleration"
+        ],
+        "matched_topic": "data_sft_rl_eval, training_inference_acceleration"
+      },
+      "l1": {
+        "decision": "archive_only",
+        "model_decision": "archive_only",
+        "decision_source": "thresholds",
+        "matched_tracks": [
+          "acceleration.training_acceleration"
+        ],
+        "scores": {
+          "topic_relevance": 2,
+          "scenario_fit": 1,
+          "landing_potential": 1,
+          "abstract_evidence_strength": 3,
+          "distance_penalty": 3
+        },
+        "total_score": 4,
+        "model_total_score": 10,
+        "reason_cn": "论文研究自蒸馏中的反馈对齐设计，与训练加速模块中的蒸馏系统有弱关联，但未涉及训练效率或加速，属于训练方法论，与用户关注的落地场景和数据集制备距离较远。",
+        "archive_reason_cn": "自蒸馏训练策略与蒸馏系统弱相关，但重点在反馈设计而非加速，且无明确落地场景，暂归档以备后续关注训练优化方法时参考。"
+      },
+      "analysis_meta": {
+        "from_cache": false
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.04867",
+        "arxiv_short_id": "2606.04867v1",
+        "published_date": "2026-06-03",
+        "title": "AICompanionBench: Benchmarking LLMs-as-Judges for AI Companion Safety",
+        "authors": "Yanjing Ren et.al.",
+        "authors_full": [
+          "Yanjing Ren",
+          "Reza Ebrahimi",
+          "TengTeng Ma"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.04867v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.04867v1.pdf",
+        "code_link": "https://github.com/anonymousresearcher2026/AICompanionBench",
+        "abstract": "As AI companion platforms such as Replika and Character.AI rapidly grow, concerns about unsafe human-AI interactions have intensified. This study introduces AICompanionBench, to our knowledge the first publicly available benchmark dataset of human-AI companion conversations annotated with fine-grained safety risk categories. The dataset contains 2,123 real-world Replika conversations collected from Reddit and annotated through human-AI collaboration across nine categories: sexual behavior, antisocial behavior, physical aggression, verbal aggression, substance abuse, self-harm and suicide, control, manipulation, and no-harm. Using this benchmark, we evaluate 20 state-of-the-art open-source and closed-source LLMs under an LLM-as-judge framework for detecting unsafe interactions. Results show substantial variation in model performance, with stronger models achieving high overall accuracy but still struggling with nuanced categories such as manipulation, as well as benign conversations that are incorrectly identified as harmful. Our findings suggest that while current LLMs can effectively detect explicit harmful content, they remain limited in identifying implicit unsafe interactions. Overall, our work contributes a new benchmark dataset for AI companionship safety research and offers insights into monitoring AI companion systems using LLMs. The dataset is publicly available at: https://github.com/anonymousresearcher2026/AICompanionBench/blob/main/AICompanionBench.xlsx",
+        "categories": [
+          "cs.AI"
+        ],
+        "matched_topics": [
+          "poi_ai_companion"
+        ],
+        "matched_topic": "poi_ai_companion"
+      },
+      "l1": {
+        "decision": "archive_only",
+        "model_decision": "archive_only",
+        "decision_source": "thresholds",
+        "matched_tracks": [],
+        "scores": {
+          "topic_relevance": 2,
+          "scenario_fit": 1,
+          "landing_potential": 0,
+          "abstract_evidence_strength": 3,
+          "distance_penalty": 3
+        },
+        "total_score": 3,
+        "model_total_score": 3,
+        "reason_cn": "论文构建 AI 陪伴安全评测基准，与用户关注的陪伴产品方向表面相关，但聚焦于安全检测而非 POI 场景、Tool Use 或情感对话能力，任务和落地目标偏离用户核心研究方向。",
+        "archive_reason_cn": "涉及 AI 陪伴产品安全监测，可作为安全模块的参考存档，但用户研究池重点不在安全过滤，落地距离远。"
+      },
+      "analysis_meta": {
+        "from_cache": true
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.05130",
+        "arxiv_short_id": "2606.05130v1",
+        "published_date": "2026-06-03",
+        "title": "Towards Efficient and Evidence-grounded Mobility Prediction with LLM-Driven Agent",
+        "authors": "Linyao Chen et.al.",
+        "authors_full": [
+          "Linyao Chen",
+          "Qinlao Zhao",
+          "Zechen Li",
+          "Mingming Li",
+          "Likun Ni",
+          "Jinyu Chen",
+          "Yuhao Yao",
+          "Xuan Song",
+          "Noboru Koshizuka",
+          "Hiroki Kobayashi"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.05130v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.05130v1.pdf",
+        "code_link": "https://github.com/Unknown-zoo/AgentMob",
+        "abstract": "Individual-level mobility prediction is central to urban simulation, transportation planning, and policy analysis. Supervised sequence models achieve strong accuracy but require task-specific training and offer limited decision-level transparency. Recent LLM-based methods improve interpretability, yet mostly rely on static prompts and single-pass inference, limiting their ability to seek additional evidence when mobility signals are weak or conflicting. We propose \\method{}, a training-free LLM-driven agent framework that formulates next-location prediction as adaptive evidence-controlled decision making. \\method{} resolves routine cases through a fast path based on historical regularity, while ambiguous cases trigger iterative tool use over recent trajectories, historical behavior, stay-move likelihood, and geographical evidence. Across three mobility datasets, AgentMob achieves the strongest overall performance among training-free LLM-based methods, with GPT-5.4 reaching 71.42\\% Acc@1 on BW, 33.14\\% on YJMob100K, and 33.50\\% on Shanghai ISP. On BW non-fast-path cases, the LLM controller improves Acc@1 from 30.65\\% to 48.62\\% over a same-tool statistical baseline, showing that its main benefit lies in resolving ambiguous predictions through adaptive evidence gathering. Our code is available at https://github.com/Unknown-zoo/AgentMob.",
+        "categories": [
+          "cs.LG",
+          "cs.AI"
+        ],
+        "matched_topics": [
+          "poi_ai_companion"
+        ],
+        "matched_topic": "poi_ai_companion"
+      },
+      "l1": {
+        "decision": "reject",
+        "model_decision": "archive_only",
+        "decision_source": "thresholds",
+        "matched_tracks": [
+          "poi_companion"
+        ],
+        "scores": {
+          "topic_relevance": 1,
+          "scenario_fit": 1,
+          "landing_potential": 1,
+          "abstract_evidence_strength": 3,
+          "distance_penalty": 3
+        },
+        "total_score": 3,
+        "model_total_score": 9,
+        "reason_cn": "论文研究移动性预测（下一个地点预测），虽使用LLM Agent及工具调用，但主要面向城市模拟与交通规划，与陪伴产品中的多轮交互、场景化推荐、用户情绪理解等核心需求差异显著，仅关键词匹配，实际任务不相关。",
+        "archive_reason_cn": "任务为通用移动性预测，而非陪伴产品中的POI场景交互或对话推荐，落地距离远，不适合当前研究池。"
+      },
+      "analysis_meta": {
+        "from_cache": true
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.11079",
+        "arxiv_short_id": "2606.11079v1",
+        "published_date": "2026-06-09",
+        "title": "VISTA: A Versatile Interactive User Simulation Toolkit for Agent Evaluation",
+        "authors": "Yunan Lu et.al.",
+        "authors_full": [
+          "Yunan Lu",
+          "Ryan Shea",
+          "Yusen Zhang",
+          "Zhou Yu"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.11079v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.11079v1.pdf",
+        "code_link": null,
+        "abstract": "Evaluation remains a critical bottleneck for interactive agent development. Existing evaluation methods often rely on static benchmarks, which fail to capture the dynamic, multi-step nature of agentic behavior and struggle to expose meaningful failure modes. While user-simulation-based evaluation offers a promising alternative, existing simulation frameworks suffer from two major limitations. First, they provide limited mechanisms for evaluating the quality and comprehensiveness of simulated interactions, making it difficult to assess whether a simulator sufficiently explores an agent's capabilities and failure modes. Second, most frameworks are restricted to either UI-only actions or API-only actions, limiting their ability to model the full range of realistic user behaviors. To address these limitations, we propose VISTA, a Versatile Interactive user Simulation Toolkit for Agent evaluation. Our toolkit includes a suite of six metrics for measuring the realism, capability coverage, and interaction effectiveness of simulated interactions. In addition, we develop a hybrid user simulator that integrates both UI-based interactions and API-based interactions, enabling more realistic and comprehensive evaluation across diverse interactive environments. We evaluate VISTA in e-commerce shopping and education customer service settings and demonstrate that it produces more realistic and comprehensive evaluations than existing methods.",
+        "categories": [
+          "cs.CL"
+        ],
+        "matched_topics": [
+          "agent"
+        ],
+        "matched_topic": "agent"
+      },
+      "l1": {
+        "decision": "reject",
+        "model_decision": "archive_only",
+        "decision_source": "thresholds",
+        "matched_tracks": [
+          "dataset_pipeline|tool_use_and_poi_data"
+        ],
+        "scores": {
+          "topic_relevance": 1,
+          "scenario_fit": 1,
+          "landing_potential": 1,
+          "abstract_evidence_strength": 2,
+          "distance_penalty": 2
+        },
+        "total_score": 3,
+        "model_total_score": 7,
+        "reason_cn": "论文提出用户模拟工具包VISTA，用于交互式agent评估，可产生交互轨迹。与tool use数据及环境交互日志有一定关联，但主要面向电子商务和客服场景，与POI/tool use数据制备的直接需求尚有距离，且不涉及情感、记忆或加速。",
+        "archive_reason_cn": "该工作属于交互式agent评测框架，可生成交互数据，但未针对tool use or POI场景，与用户研究方向的直接匹配度有限，作为相关技术存档备查。"
+      },
+      "analysis_meta": {
+        "from_cache": true
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.11023",
+        "arxiv_short_id": "2606.11023v1",
+        "published_date": "2026-06-09",
+        "title": "Generative Archetype-Grounded Item Representations for Sequential Recommendation",
+        "authors": "Yifan Li et.al.",
+        "authors_full": [
+          "Yifan Li",
+          "Jiahong Liu",
+          "Xinni Zhang",
+          "Hao Chen",
+          "Yankai Chen",
+          "Wenhao Yu",
+          "Jianting Chen",
+          "Irwin King"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.11023v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.11023v1.pdf",
+        "code_link": "https://github.com/AI-Santiago/GenAIR",
+        "abstract": "Sequential recommendation aims to predict users' next interaction with items by analyzing their historical behavior. However, the limited quality of item representations remains a critical bottleneck. While pre-trained large language models (LLMs) can provide rich semantic representations, existing approaches only rely on static encoding of fixed attributes, overlooking the crucial role of target audiences in defining item identity. Moreover, the semantic space struggles to reflect actual user behavior, resulting in a significant gap between semantic representations and behavioral patterns. To address these limitations, we propose GenAIR, a general framework that empowers sequential recommendation with Generative Archetype-grounded Item Representations. Specifically, we first leverage an LLM to analyze item metadata and infer textual description of the Archetype, which represents the conceptual profile of the item's ideal target audience. We then extract the corresponding embeddings in a single forward pass. Further, to ground these generative archetypes in real-world behavior, we introduce a behavioral calibration objective, which explicitly incorporates behavioral signals from actual interactions. This objective adjusts the structure of the embedding space to reflect empirical patterns. GenAIR enables seamless integration with most existing models while maintaining high efficiency. Comprehensive experiments conducted on three real-world datasets demonstrate that GenAIR significantly improves the performance of various sequential recommendation models and consistently outperforms state-of-the-art baseline approaches. Implementation codes are available at https://github.com/AI-Santiago/GenAIR.",
+        "categories": [
+          "cs.IR",
+          "cs.CL",
+          "cs.LG"
+        ],
+        "matched_topics": [
+          "neuroscience_language_memory"
+        ],
+        "matched_topic": "neuroscience_language_memory"
+      },
+      "l1": {
+        "decision": "reject",
+        "model_decision": "reject",
+        "decision_source": "thresholds",
+        "matched_tracks": [],
+        "scores": {
+          "topic_relevance": 0,
+          "scenario_fit": 0,
+          "landing_potential": 0,
+          "abstract_evidence_strength": 3,
+          "distance_penalty": 0
+        },
+        "total_score": 3,
+        "model_total_score": 3,
+        "reason_cn": "该论文研究序列推荐系统中基于LLM生成物品表示的方法，与用户提及的大模型训练数据制备、记忆、神经科学、加速或POI陪伴等五个方向均不相关。",
+        "archive_reason_cn": null
+      },
+      "analysis_meta": {
+        "from_cache": true
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.11158",
+        "arxiv_short_id": "2606.11158v1",
+        "published_date": "2026-06-09",
+        "title": "Defeat the Heap: Zero-Copy Data Movement in AXI4MLIR",
+        "authors": "Elam Cohavi et.al.",
+        "authors_full": [
+          "Elam Cohavi",
+          "Nicolas Bohm Agostini",
+          "Jude Haris",
+          "Antonino Tumeo",
+          "David Kaeli",
+          "José Cano"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.11158v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.11158v1.pdf",
+        "code_link": null,
+        "abstract": "As custom hardware accelerators become increasingly central to machine learning workloads, efficient data transfer is critical for maximizing accelerator performance on linear algebra kernels. AXI4MLIR, an extension of the Multi-Level Intermediate Representation (MLIR) compiler framework for automated generation of host-accelerator driver code, incurs significant runtime overhead due to non-zero-copy CPU-accelerator data movement. During transfers from the host to the accelerator, data is copied from heap-allocated memory buffers into contiguous Direct Memory Access (DMA)-mapped buffers. This work identifies this copy as a redundant staging operation and eliminates it through zero-copy data movement. The optimization extends accel, an MLIR dialect introduced by AXI4MLIR, and implements lowering support that allocates buffers directly within DMA-mapped memory, thereby omitting the staging copy. We evaluate the proposed scheme using a configurable matrix-matrix multiplication accelerator and show that the zero-copy optimization reduces main memory data movement by up to 2x, increasing overall accelerator utilization.",
+        "categories": [
+          "cs.AR",
+          "cs.PL"
+        ],
+        "matched_topics": [
+          "training_inference_acceleration"
+        ],
+        "matched_topic": "training_inference_acceleration"
+      },
+      "l1": {
+        "decision": "reject",
+        "model_decision": "archive_only",
+        "decision_source": "thresholds",
+        "matched_tracks": [
+          "inference_acceleration"
+        ],
+        "scores": {
+          "topic_relevance": 1,
+          "scenario_fit": 1,
+          "landing_potential": 1,
+          "abstract_evidence_strength": 2,
+          "distance_penalty": 3
+        },
+        "total_score": 2,
+        "model_total_score": 2,
+        "reason_cn": "论文提出编译器优化下的零拷贝数据移动，属于硬件加速器底层优化，与用户关注的大模型训练/推理加速（框架、分布式、KV cache等）方向关联较弱，核心任务、方法未涉及大模型或具体加速框架。",
+        "archive_reason_cn": "论文仅针对自定义矩阵乘法加速器的数据传输优化，属于通用硬件-编译器协同设计，缺乏对大模型训练或推理场景的直接适配，落地距离较远，适合归档备查。"
+      },
+      "analysis_meta": {
+        "from_cache": false
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.10530",
+        "arxiv_short_id": "2606.10530v1",
+        "published_date": "2026-06-09",
+        "title": "Machine Learning Methods for Studying Latent Neural Activity Dynamics",
+        "authors": "Shufeng Kong et.al.",
+        "authors_full": [
+          "Shufeng Kong",
+          "Fumei Deng",
+          "Xinyi Dong",
+          "Caihua Liu",
+          "Weiwei Chen",
+          "Yingheng Wang",
+          "Daniel Cao",
+          "Azahara Oliva",
+          "Antonio Fernandez-Ruiz",
+          "Carla Gomes"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.10530v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.10530v1.pdf",
+        "code_link": null,
+        "abstract": "Recent developments in brain recording are driving a demand for machine learning tools capable of decoding the latent structure of large populations of neurons. In this paper, we provide a comprehensive survey that outlines the trajectory of Latent Variable Models (LVMs) from early state-space models to more recent deep generative models. We organize the literature into three closely related domains: (1) Single-Region Latent Dynamics, which includes models such as linear dynamical systems to more complex dynamics represented by Recurrent Neural Networks (RNNs) and Neural Ordinary Differential Equations (ODEs); (2) Multi-Region Communication, which employs probabilistic as well as subspace methods to study how information is transferred across different brain areas considering synaptic propagation delays and network connectivity; and (3) Behavior-Aligned Modeling, which seeks to disentangle neural activity related to task performance from other internal states via supervised or contrastive learning. This survey also includes large-scale neural foundation models, such as Transformers and diffusion models, that rely on large-scale pre-training for optimal performance across subjects. Finally, we conclude and discuss benchmarks, evaluation criteria, and open challenges, such as the ability to identify causal links or directionality of communication, to facilitate future research for bridging interpretable brain dynamics with reliable neural decoding.",
+        "categories": [
+          "cs.LG",
+          "cs.AI"
+        ],
+        "matched_topics": [
+          "neuroscience_language_memory"
+        ],
+        "matched_topic": "neuroscience_language_memory"
+      },
+      "l1": {
+        "decision": "archive_only",
+        "model_decision": "archive_only",
+        "decision_source": "thresholds",
+        "matched_tracks": [
+          "neuro_nlp_memory"
+        ],
+        "scores": {
+          "topic_relevance": 2,
+          "scenario_fit": 0,
+          "landing_potential": 0,
+          "abstract_evidence_strength": 3,
+          "distance_penalty": 4
+        },
+        "total_score": 1,
+        "model_total_score": 9,
+        "reason_cn": "该论文综述了神经活动潜在动力学的机器学习方法，与用户关注的‘神经科学、语言与记忆’方向仅存在表层关键词关联。摘要未涉及语言理解、情绪处理或记忆机制，无法为NLP/LLM建模提供直接启发，落地距离极远。",
+        "archive_reason_cn": "可作为神经解码方法论的背景参考，但缺乏语言、情绪或记忆的交叉点，与用户主攻的LLM建模启发需求偏离较大。"
+      },
+      "analysis_meta": {
+        "from_cache": true
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.04431",
+        "arxiv_short_id": "2606.04431v1",
+        "published_date": "2026-06-03",
+        "title": "When Chatbots Accommodate: What AI Companions Optimize for in Vulnerable Conversations",
+        "authors": "Minh Duc Chu et.al.",
+        "authors_full": [
+          "Minh Duc Chu",
+          "Yifan Wu",
+          "Zhiyi Chen",
+          "Angel Hsing-Chi Hwang",
+          "Luca Luceri"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.04431v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.04431v1.pdf",
+        "code_link": null,
+        "abstract": "Millions turn to AI companion chatbots during loneliness, grief, and personal crises. How these companion platforms respond in such moments can shape the trajectory of a user's vulnerable state. Yet we lack tools to characterize what each platform actually does when users open up. Existing audits score reactions to pre-defined crisis prompts and miss the underlying decision policy that governs sustained interaction. We address these gaps with two key contributions. First, we introduce the AI Companion Vulnerability-Response Taxonomy, a paired taxonomy of user vulnerability and chatbot response designed for analyzing extended companion chatbot interactions. Second, we infer the response policy each platform follows across distinct vulnerability scenarios by applying Inverse Reinforcement Learning to ~48k turns of real-world user conversations with GPT-4.1, Character.AI, and Replika. Our findings reveal what AI companions prioritize in conversations with vulnerable users: GPT-4.1 reaches for advice, Character.AI spreads its response across different strategies without a dominant mode, and Replika consistently asks questions and stays present. Each, however, downweights the responses that introduce corrective friction: GPT-4.1 probes less as conversations continue and when interacting with psychologically high-risk users; Replika advises bonded users more and challenges them less; Character.AI shows no committed engagement strategy on internal distress. Estimated policies are invisible to output-level audits, providing a new lens for auditing chatbots in the wild and enabling more realistic safety evaluation.",
+        "categories": [
+          "cs.HC"
+        ],
+        "matched_topics": [
+          "poi_ai_companion"
+        ],
+        "matched_topic": "poi_ai_companion"
+      },
+      "l1": {
+        "decision": "reject",
+        "model_decision": "archive_only",
+        "decision_source": "thresholds",
+        "matched_tracks": [
+          "emotional_and_psychological_eval"
+        ],
+        "scores": {
+          "topic_relevance": 1,
+          "scenario_fit": 0,
+          "landing_potential": 1,
+          "abstract_evidence_strength": 3,
+          "distance_penalty": 4
+        },
+        "total_score": 1,
+        "model_total_score": 9,
+        "reason_cn": "论文研究AI伴侣聊天机器人的脆弱性响应策略审计，提出分类法和IRL推断，属于情感对话分析，与POI场景及tool use无关，与用户核心的POI陪伴方向不符，但方法可作为情绪感知评测的参考，故归档。",
+        "archive_reason_cn": "论文关注AI伴侣在用户脆弱时刻的响应策略，不涉及POI或tool use，但与情绪感知评测方向有微弱关联，其分类法和策略推断方法可启发情感对话评测设计，因此归档供后续参考。"
+      },
+      "analysis_meta": {
+        "from_cache": true
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.09827",
+        "arxiv_short_id": "2606.09827v1",
+        "published_date": "2026-06-08",
+        "title": "MemoryVLA++: Temporal Modeling via Memory and Imagination in Vision-Language-Action Models",
+        "authors": "Hao Shi et.al.",
+        "authors_full": [
+          "Hao Shi",
+          "Weiye Li",
+          "Bin Xie",
+          "Yulin Wang",
+          "Renping Zhou",
+          "Tiancai Wang",
+          "Xiangyu Zhang",
+          "Ping Luo",
+          "Gao Huang"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.09827v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.09827v1.pdf",
+        "code_link": null,
+        "abstract": "Temporal modeling is essential for robotic manipulation, as effective control requires both memory of past interactions and imagination of future states. However, most VLA models rely primarily on the current observation and therefore struggle with long-horizon, temporally dependent tasks. Cognitive science suggests that humans rely on working memory to buffer short-lived context, the hippocampal system to preserve episodic memory of past experience, and internal models to imagine possible future state evolution. Inspired by these mechanisms, we propose MemoryVLA++, a full temporal modeling framework that equips VLA models with memory and imagination for robotic manipulation. A pretrained VLM encodes the current observation into perceptual and cognitive tokens, forming working memory. These tokens query a Perceptual-Cognitive Memory Bank to retrieve relevant historical context. This bank stores low-level details and high-level semantics from past interactions, and is updated through redundancy-aware consolidation. A world model imagines future states in a denoising latent space, and the imagined latents are integrated under memory guidance to form full temporal-aware tokens. The resulting tokens condition a diffusion action expert to predict temporally consistent action sequences. We conduct extensive experiments on 5 simulation benchmarks and 3 categories of real-robot tasks across 3 robots, covering general manipulation, long-horizon temporal tasks, robustness, and generalization. Our method achieves strong performance across Libero, SimplerEnv, Mikasa-Robo, Calvin, Libero-Plus, and diverse real-robot tasks, validating the effectiveness of full temporal modeling with memory and imagination. For example, on real robots, it achieves +9%, +26%, +28% gains on general, memory-dependent, and imagination-dependent tasks. Project Page: https://shihao1895.github.io/MemoryVLA-PP-Web",
+        "categories": [
+          "cs.RO",
+          "cs.CV"
+        ],
+        "matched_topics": [
+          "neuroscience_language_memory"
+        ],
+        "matched_topic": "neuroscience_language_memory"
+      },
+      "l1": {
+        "decision": "reject",
+        "model_decision": "archive_only",
+        "decision_source": "thresholds",
+        "matched_tracks": [
+          "neuroscience_language_memory"
+        ],
+        "scores": {
+          "topic_relevance": 1,
+          "scenario_fit": 0,
+          "landing_potential": 0,
+          "abstract_evidence_strength": 4,
+          "distance_penalty": 4
+        },
+        "total_score": 1,
+        "model_total_score": 1,
+        "reason_cn": "论文从认知科学启发设计机器人VLA模型中的记忆模块，与用户关注的大模型记忆（多智能体、个性化）及神经科学对NLP启发方向有轻微关联，但主要场景为机器人操作，不涉及用户关注的大模型、对话系统或POI陪伴，落地场景差异大，因此仅归档。",
+        "archive_reason_cn": "论文从认知科学启发设计机器人VLA模型中的记忆模块，与用户关注的大模型记忆（多智能体、个性化）及神经科学对NLP启发方向有轻微关联，但主要场景为机器人操作，不涉及用户关注的大模型、对话系统或POI陪伴，落地场景差异大。"
+      },
+      "analysis_meta": {
+        "from_cache": true
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.10927",
+        "arxiv_short_id": "2606.10927v1",
+        "published_date": "2026-06-09",
+        "title": "AllDayNav: Lifelong Navigation via Real-World Reinforcement Learning",
+        "authors": "Hang Yin et.al.",
+        "authors_full": [
+          "Hang Yin",
+          "Yinan Liang",
+          "Jiazhao Zhang",
+          "Jiahang Liu",
+          "Minghan Li",
+          "Zhizheng Zhang",
+          "He Wang"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.10927v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.10927v1.pdf",
+        "code_link": null,
+        "abstract": "Lifelong embodied navigation in dynamic environments requires robots to form persistent scene understanding from fragmentary observations, which remains difficult for existing methods that rely on explicit maps or scene graphs and struggle to generalize beyond structured settings. We propose AllDayNav, a lifelong self-learning navigation framework that implicitly encodes scene dynamics into the billion-scale parameters of a large model via reinforcement learning, powered by a self-evolving multimodal memory that maintains and updates visual keyframes, semantic descriptions, and temporal context while autonomously generating open-vocabulary instructions, image goals, and structured rewards. Experiments in both synthetic and real-world environments across cross-room, cross-episode, and cross-task scenarios show that AllDayNav achieves success rates approaching $100\\%$ and consistently surpasses strong map-based, VLM, and RL baselines in path efficiency and robustness, demonstrating implicit, memory-driven reinforcement learning as a scalable alternative to explicit mapping for reliable lifelong navigation.",
+        "categories": [
+          "cs.RO"
+        ],
+        "matched_topics": [
+          "memory_personalization"
+        ],
+        "matched_topic": "memory_personalization"
+      },
+      "l1": {
+        "decision": "reject",
+        "model_decision": "archive_only",
+        "decision_source": "thresholds",
+        "matched_tracks": [
+          "llm_memory"
+        ],
+        "scores": {
+          "topic_relevance": 1,
+          "scenario_fit": 1,
+          "landing_potential": 0,
+          "abstract_evidence_strength": 2,
+          "distance_penalty": 4
+        },
+        "total_score": 0,
+        "model_total_score": 0,
+        "reason_cn": "论文属于机器人终身导航领域，虽然使用了记忆机制和大模型，但与用户关注的大模型对话记忆、个性化记忆、陪伴产品场景无关，落地方向偏离较大。",
+        "archive_reason_cn": "隐含记忆和终身学习的思路可能对大模型长期记忆机制提供启发，但当前工作聚焦物理导航，距离用户应用场景较远，暂入存档。"
+      },
+      "analysis_meta": {
+        "from_cache": true
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.10974",
+        "arxiv_short_id": "2606.10974v1",
+        "published_date": "2026-06-09",
+        "title": "Language-Driven Cost Optimization for Autonomous Driving",
+        "authors": "Diego Martinez-Baselga et.al.",
+        "authors_full": [
+          "Diego Martinez-Baselga",
+          "Khaled Mustafa",
+          "Javier Alonso-Mora"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.10974v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.10974v1.pdf",
+        "code_link": null,
+        "abstract": "The driving behavior of autonomous vehicles is typically governed by the cost function of their motion planner, which encodes objectives such as speed tracking, smoothness, lane keeping, and collision avoidance. However, tuning the parameters that shape this cost function is a challenging task that requires technical expertise, limiting the vehicle's ability to adapt to evolving traffic scenarios or end-user preferences. This work presents a language-driven framework for adaptive cost design in autonomous driving. A Large Language Model (LLM) interprets structured scenario descriptions and natural language user queries to generate the parameters applied to a risk-aware Model Predictive Path Integral (MPPI) controller. The system incorporates a human-in-the-loop validation stage in which the proposed behavioral changes are described in non-technical language and confirmed prior to deployment. Users may additionally provide feedback either before or after deployment, enabling iterative refinement of the vehicle's motion behavior. The framework is evaluated across multiple queries in realistic driving scenarios to assess its effectiveness. Simulation results demonstrate that the method successfully induces behavioral changes that align with the intended requirements in an intuitive manner, thereby bridging the gap between intelligent vehicle control systems and end users.",
+        "categories": [
+          "cs.RO"
+        ],
+        "matched_topics": [
+          "memory_personalization"
+        ],
+        "matched_topic": "memory_personalization"
+      },
+      "l1": {
+        "decision": "reject",
+        "model_decision": "reject",
+        "decision_source": "thresholds",
+        "matched_tracks": [],
+        "scores": {
+          "topic_relevance": 1,
+          "scenario_fit": 0,
+          "landing_potential": 0,
+          "abstract_evidence_strength": 3,
+          "distance_penalty": 4
+        },
+        "total_score": 0,
+        "model_total_score": 0,
+        "reason_cn": "论文聚焦自动驾驶运动规划的成本优化，虽然使用LLM根据用户偏好调整驾驶行为，但整体属于自动驾驶领域，与用户关注的大模型记忆、数据集制备、神经科学交叉、训练推理加速、POI陪伴等五大方向均无实质关联。匹配关键词'memory_personalization'为误匹配，摘要中未涉及记忆机制或个性化记忆框架，不符合任何研究track。",
+        "archive_reason_cn": null
+      },
+      "analysis_meta": {
+        "from_cache": true
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.11145",
+        "arxiv_short_id": "2606.11145v1",
+        "published_date": "2026-06-09",
+        "title": "OpenPCC: Open and Confidential LLM Serving on Commodity TEEs",
+        "authors": "Haoling Zhou et.al.",
+        "authors_full": [
+          "Haoling Zhou",
+          "Shixuan Zhao",
+          "Chao Wang",
+          "Zhiqiang Lin"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.11145v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.11145v1.pdf",
+        "code_link": null,
+        "abstract": "Generative AI applications such as personal AI agents, image generators, and chat assistants offer advanced capabilities to improve user experience. Behind the scenes, Large Language Models (LLMs) that power these services require a massive amount of computation and are usually deployed in the cloud, available as APIs, meaning that a user's request has to be sent to a Cloud Inference Service (CIS) for processing. However, the strong capabilities of LLM also mean that user's requests now contain much more personal sensitive or enterprise confidential information, demanding equally strong protection in CIS. While early industry efforts such as Apple Private Cloud Compute (PCC) and Google Private AI Compute have emerged to show the potential of secure CIS, they are not adoptable for deployment by others due to their reliance on proprietary hardware and closed ecosystem. In addition, they all suffer from their own design glitches that can undermine the ambitious goal of bringing in true privacy protection to end users. In this paper, we present our analysis of the fundamental requirements of building a secure yet open CIS. We then present OpenPCC, a Confidential CIS framework that does not rely on proprietary hardware but instead uses commercially available TEEs. We implement an open-source prototype and characterize it end-to-end on a Llama-3 8B vLLM workload, separating OpenPCC's own cost from the underlying TEE hardware. Our analysis and evaluation demonstrated the feasibility and security of the system.",
+        "categories": [
+          "cs.CR"
+        ],
+        "matched_topics": [
+          "agent",
+          "memory_personalization",
+          "training_inference_acceleration"
+        ],
+        "matched_topic": "agent, memory_personalization, training_inference_acceleration"
+      },
+      "l1": {
+        "decision": "reject",
+        "model_decision": "reject",
+        "decision_source": "thresholds",
+        "matched_tracks": [],
+        "scores": {
+          "topic_relevance": 1,
+          "scenario_fit": 0,
+          "landing_potential": 0,
+          "abstract_evidence_strength": 3,
+          "distance_penalty": 4
+        },
+        "total_score": 0,
+        "model_total_score": 0,
+        "reason_cn": "论文聚焦于基于商用TEE的LLM安全推理框架，核心贡献在隐私保护，而非训练加速、推理优化或用户关注的数据集、记忆、神经科学、POI场景，方向明显不匹配。",
+        "archive_reason_cn": null
+      },
+      "analysis_meta": {
+        "from_cache": false
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.11150",
+        "arxiv_short_id": "2606.11150v1",
+        "published_date": "2026-06-09",
+        "title": "ABC-Bench: An Agentic Bio-Capabilities Benchmark for Biosecurity",
+        "authors": "Andrew Bo Liu et.al.",
+        "authors_full": [
+          "Andrew Bo Liu",
+          "Samira Nedungadi",
+          "Bryce Cai",
+          "Alex Kleinman",
+          "Harmon Bhasin",
+          "Seth Donoughe"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.11150v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.11150v1.pdf",
+        "code_link": null,
+        "abstract": "Large language models (LLMs) are rapidly acquiring capabilities relevant to biological research, from literature synthesis to interpretation of experimental data. Increasingly, LLM agents can also perform in silico biology tasks that previously required experienced human biologists. These emerging AI capabilities offer new opportunities for scientific discovery and biomedical advances, but they also shift the landscape of biosecurity risks. To address this, we introduce the Agentic Bio-Capabilities Benchmark (ABC-Bench), a suite of tasks to measure agentic biosecurity-relevant capabilities. ABC-Bench evaluates LLM agents on both benign and dual-use biology tasks: writing code to operate liquid handling robots, designing DNA fragments for in vitro assembly, and evading DNA synthesis screening. These tasks require a combination of biology and software expertise. All tested LLM agents outperformed the median expert human baseliner on all three tasks. Agents performed highly on tasks drawing on published knowledge and well-documented protocols, and more weakly on a task requiring novel bioinformatics reasoning. In three wet-lab validation experiments, we found that OpenAI's o4-mini-high produced scripts that, when run on an OpenTrons liquid handling robot, successfully assembled DNA with expected sequences.",
+        "categories": [
+          "cs.AI",
+          "cs.CY"
+        ],
+        "matched_topics": [
+          "agent"
+        ],
+        "matched_topic": "agent"
+      },
+      "l1": {
+        "decision": "reject",
+        "model_decision": "reject",
+        "decision_source": "thresholds",
+        "matched_tracks": [],
+        "scores": {
+          "topic_relevance": 1,
+          "scenario_fit": 0,
+          "landing_potential": 0,
+          "abstract_evidence_strength": 3,
+          "distance_penalty": 4
+        },
+        "total_score": 0,
+        "model_total_score": 0,
+        "reason_cn": "论文关注生物安全领域的代理基准，评估LLM在生物实验任务上的能力，与用户研究的五个方向（数据集制备与评测、大模型记忆、神经科学交叉、加速、POI陪伴）均无实际关联。仅关键词'agent'匹配，但任务、方法和场景完全不属于用户关注范围。",
+        "archive_reason_cn": null
+      },
+      "analysis_meta": {
+        "from_cache": false
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.11155",
+        "arxiv_short_id": "2606.11155v1",
+        "published_date": "2026-06-09",
+        "title": "Mean Flow Distillation: Robust and Stable Distillation for Flow Matching Models",
+        "authors": "An Zhao et.al.",
+        "authors_full": [
+          "An Zhao",
+          "Shengyuan Zhang",
+          "Zhongjian Sun",
+          "Yixiang Zhou",
+          "Zejian Li",
+          "Ling Yang",
+          "Tianrun Chen",
+          "Lingyun Sun"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.11155v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.11155v1.pdf",
+        "code_link": null,
+        "abstract": "Flow Matching models have demonstrated strong performance across a wide range of generative tasks. However, their reliance on ODE-based iterative sampling incurs substantial computational overhead in inference, which limits their applicability in real-time scenes. While distillation is a promising solution, existing approaches largely borrow from diffusion-based score matching, often failing to exploit the intrinsic geometric structure of flows and suffering from training instability, high variance, and degraded generation quality. In this paper, we propose Mean Flow Distillation (MFD), a novel distillation framework tailored for flow matching models. We theoretically demonstrate that MFD acts as a temporal low-pass filter, effectively suppressing the high-frequency optimization noise inherent in variational score distillation (VSD) while ensuring global trajectory consistency. We further prove the Mean Flow Matching Theorem, establishing that matching expected average velocities is sufficient for strict distribution alignment. Empirically, on challenging tasks of high-dimensional manifolds including 4D occupancy forecasting and text-to-image generation, MFD achieves state-of-the-art performance, enabling high-fidelity single-step generation.",
+        "categories": [
+          "cs.CV"
+        ],
+        "matched_topics": [
+          "training_inference_acceleration"
+        ],
+        "matched_topic": "training_inference_acceleration"
+      },
+      "l1": {
+        "decision": "reject",
+        "model_decision": "reject",
+        "decision_source": "thresholds",
+        "matched_tracks": [
+          "acceleration"
+        ],
+        "scores": {
+          "topic_relevance": 1,
+          "scenario_fit": 0,
+          "landing_potential": 0,
+          "abstract_evidence_strength": 3,
+          "distance_penalty": 4
+        },
+        "total_score": 0,
+        "model_total_score": 8,
+        "reason_cn": "论文提出针对Flow Matching模型的蒸馏方法MFD，用于图像/视频生成模型的单步推理加速，与用户关注的大语言模型训练/推理加速方向不匹配，且应用场景为计算机视觉，与用户的对话、POI等NLP场景无关。",
+        "archive_reason_cn": null
+      },
+      "analysis_meta": {
+        "from_cache": false
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.11182",
+        "arxiv_short_id": "2606.11182v1",
+        "published_date": "2026-06-09",
+        "title": "EEVEE: Towards Test-time Prompt Learning in the Real World for Self-Improving Agents",
+        "authors": "Weixian Xu et.al.",
+        "authors_full": [
+          "Weixian Xu",
+          "Shilong Liu",
+          "Mengdi Wang"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.11182v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.11182v1.pdf",
+        "code_link": null,
+        "abstract": "In this paper, we propose EEVEE, the first multi-dataset test-time prompt learning framework for LLM agents, enabling test-time prompt learning under real-world task streams. Existing methods are largely designed for single-dataset settings, while real-world applications require models to handle heterogeneous input streams drawn from multiple datasets, domains, and task distributions, limiting their practical applicability. To mitigate cross-dataset interference, EEVEE introduces a router that partitions incoming inputs into task clusters and assigns them to suitable prompt configurations. This design is optimized via a router-prompt co-evolution strategy, which employs interleaved router and prompt learning phases to address their mutual dependency. Experiments across multiple datasets demonstrate that the framework improves robustness under heterogeneous data streams while maintaining single-benchmark learning capability and efficiency. Specifically, EEVEE improves average multi-benchmark scores by 10.38 and 24.32 points over Qwen3-4B-Instruct and DeepSeek-V3.2, surpassing SOTA methods GEPA and ACE by up to 37.2% and 48.2%.",
+        "categories": [
+          "cs.LG",
+          "cs.AI"
+        ],
+        "matched_topics": [
+          "agent"
+        ],
+        "matched_topic": "agent"
+      },
+      "l1": {
+        "decision": "reject",
+        "model_decision": "reject",
+        "decision_source": "thresholds",
+        "matched_tracks": [],
+        "scores": {
+          "topic_relevance": 1,
+          "scenario_fit": 0,
+          "landing_potential": 0,
+          "abstract_evidence_strength": 3,
+          "distance_penalty": 4
+        },
+        "total_score": 0,
+        "model_total_score": 4,
+        "reason_cn": "论文研究测试时提示学习框架，针对多数据集流的LLM智能体，但与用户关注的数据集制备、大模型记忆、神经科学、加速、POI陪伴等方向均不相关，无法匹配任何研究track。",
+        "archive_reason_cn": null
+      },
+      "analysis_meta": {
+        "from_cache": false
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.09782",
+        "arxiv_short_id": "2606.09782v1",
+        "published_date": "2026-06-08",
+        "title": "Cohort-based Semantic Labeling: AI-Enabled Recovery of Visualization Semantics from Deployed SVGs",
+        "authors": "Jeongah Lee et.al.",
+        "authors_full": [
+          "Jeongah Lee",
+          "Hima Varshini Surisetty",
+          "Durga Nirmaleswaran",
+          "Jahnavi Sharma",
+          "Srikiran Kavuri",
+          "Narges Mahyar",
+          "Ali Sarvghad"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.09782v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.09782v1.pdf",
+        "code_link": null,
+        "abstract": "Many web-based visualizations are deployed as Scalable Vector Graphics (SVG), a format that faithfully preserves visual appearance but typically omits the higher-level semantic structure needed for machine interpretation. Once rendered and published, information about a visualization's components, roles, and encodings is no longer explicitly available, limiting downstream operations such as querying, accessibility augmentation, explanation, personalization, and transformation. To address this gap, we introduce CSL, an AI-enabled, multi-stage pipeline for automatically recovering visualization semantics from deployed SVGs through two complementary mechanisms: (1) cohort-based decomposition, which organizes heterogeneous SVG primitives into structurally coherent subsets that reduce the semantic assignment space, and (2) hybrid semantic grounding, which combines model-based inference with deterministic structural validation and propagation to make labeling both context-sensitive and structurally anchored. CSL produces Semantic SVG (SSVG), a representation in which SVG elements are annotated with graphical mark type, visualization role, and data role. We implemented CSL as an end-to-end prototype and evaluated it on 102 SVG visualizations, achieving global macro-averaged accuracies of 0.822 for mark type, 0.853 for visualization role, and 0.860 for data-role recovery. An ablation against a non-cohort whole-chart baseline showed that cohorting significantly improves accuracy (paired t-test: t > 20, p < 0.001; Cohen's d > 2.0), and repeated labeling of a randomly selected SVG over 100 runs yielded mean agreement above 91.9% across all three attributes. These results provide strong evidence that CSL can transform deployed SVGs into machine-usable semantic representations, enabling more accessible, adaptive, and user-steerable visualization systems.",
+        "categories": [
+          "cs.HC"
+        ],
+        "matched_topics": [
+          "neuroscience_language_memory"
+        ],
+        "matched_topic": "neuroscience_language_memory"
+      },
+      "l1": {
+        "decision": "reject",
+        "model_decision": "reject",
+        "decision_source": "thresholds",
+        "matched_tracks": [],
+        "scores": {
+          "topic_relevance": 0,
+          "scenario_fit": 0,
+          "landing_potential": 0,
+          "abstract_evidence_strength": 4,
+          "distance_penalty": 4
+        },
+        "total_score": 0,
+        "model_total_score": 0,
+        "reason_cn": "论文研究从SVG中自动恢复可视化语义，属于可视化与人机交互领域，与用户关注的大模型训练、记忆、神经科学、加速、POI陪伴等方向均不相关。",
+        "archive_reason_cn": null
+      },
+      "analysis_meta": {
+        "from_cache": true
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.11122",
+        "arxiv_short_id": "2606.11122v1",
+        "published_date": "2026-06-09",
+        "title": "Derived skein module",
+        "authors": "Chun-Yu Bai et.al.",
+        "authors_full": [
+          "Chun-Yu Bai"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.11122v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.11122v1.pdf",
+        "code_link": null,
+        "abstract": "We propose a model-independent axiomatic framework for the derived skein theory of oriented 3-manifolds with coefficients in a ribbon tensor category, especially focusing on the case where the input category is the category of finite-dimensional representations of a quantum group with quantum parameter not a root of unity. The axioms are designed so that the 0th homology recovers the ordinary skein module and gluing is governed by a bar construction. We establish several relationships between the derived skein theory and the ordinary skein theory. We show that this framework yields computable formulas in terms of ordinary internal skein modules and internal skein algebras. We also prove a Hochschild formula for Sigma x S^1. We give the first computations of derived skein modules and establish finiteness properties for generic parameters using deformation quantization methods.",
+        "categories": [
+          "math.QA",
+          "math.GT",
+          "math.RT"
+        ],
+        "matched_topics": [
+          "training_inference_acceleration"
+        ],
+        "matched_topic": "training_inference_acceleration"
+      },
+      "l1": {
+        "decision": "reject",
+        "model_decision": "reject",
+        "decision_source": "thresholds",
+        "matched_tracks": [],
+        "scores": {
+          "topic_relevance": 0,
+          "scenario_fit": 0,
+          "landing_potential": 0,
+          "abstract_evidence_strength": 0,
+          "distance_penalty": 0
+        },
+        "total_score": 0,
+        "model_total_score": 0,
+        "reason_cn": "纯数学论文，研究导出skein模的公理化框架，属于代数拓扑与量子群表示范畴，与用户关注的大模型训练/推理加速、数据集构建、记忆机制、神经科学、POI陪伴等方向完全无关。关键词匹配为误匹配。",
+        "archive_reason_cn": null
+      },
+      "analysis_meta": {
+        "from_cache": true
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.04514",
+        "arxiv_short_id": "2606.04514v1",
+        "published_date": "2026-06-03",
+        "title": "SAILRec: Steering LLM Attention to Dual-Side Semantically Aligned Collaborative Embeddings for Recommendation",
+        "authors": "Xi Wu et.al.",
+        "authors_full": [
+          "Xi Wu",
+          "Jiale Wang",
+          "Zihan Wang",
+          "Yichen Gao",
+          "Xiaocui Yang",
+          "Shi Feng",
+          "Daling Wang",
+          "Yifei Zhang"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.04514v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.04514v1.pdf",
+        "code_link": null,
+        "abstract": "Recent LLM-based recommenders enhance language models with collaborative embeddings from user-item interactions, but making such embeddings available does not ensure their proper use during inference. Through a diagnostic attention analysis, we find that the utilization of collaborative embeddings is depth-dependent and alignment-sensitive, suggesting that LLMs need to balance their internal semantic knowledge with external collaborative knowledge. To address this issue, we propose SAILRec, an LLM-based recommender that improves this balance through dual-side semantic alignment and hierarchical attention steering. The former aligns item-side embeddings with item-text semantics and user-side embeddings with codebook-based semantic profiles, while the latter suppresses premature shallow-layer collaborative interference and strengthens collaborative evidence in deeper decision layers. Experiments on MovieLens-1M and Amazon-Book show that SAILRec consistently outperforms representative baselines, with ablation and masking analyses validating its key designs.",
+        "categories": [
+          "cs.IR"
+        ],
+        "matched_topics": [
+          "poi_ai_companion"
+        ],
+        "matched_topic": "poi_ai_companion"
+      },
+      "l1": {
+        "decision": "reject",
+        "model_decision": "archive_only",
+        "decision_source": "thresholds",
+        "matched_tracks": [
+          "poi_companion"
+        ],
+        "scores": {
+          "topic_relevance": 1,
+          "scenario_fit": 0,
+          "landing_potential": 0,
+          "abstract_evidence_strength": 2,
+          "distance_penalty": 4
+        },
+        "total_score": -1,
+        "model_total_score": 7,
+        "reason_cn": "该论文提出了一种基于LLM的推荐系统方法，核心是通过注意力引导与语义对齐改进协作嵌入融合，但摘要未提及POI场景、陪伴交互、tool use或用户状态理解，仅为通用推荐算法，与用户专注的POI陪伴方向关联极弱，落地距离远，仅作存档。",
+        "archive_reason_cn": "虽然标题涉及推荐，但任务、实验和应用场景均不针对POI或陪伴产品，仅将其保留为推荐系统泛化技术参考。"
+      },
+      "analysis_meta": {
+        "from_cache": true
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.09204",
+        "arxiv_short_id": "2606.09204v1",
+        "published_date": "2026-06-08",
+        "title": "The Injection Paradox: Brand-Level Suppression in Safety-Trained LLM Recommendations via RAG Context Injection",
+        "authors": "Hyunseok Paeng et.al.",
+        "authors_full": [
+          "Hyunseok Paeng"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.09204v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.09204v1.pdf",
+        "code_link": null,
+        "abstract": "We present a reproducible failure mode of safety training in RAG-based LLM recommendation -- the Injection Paradox -- in which prompt injections embedded in retrieved documents backfire against the attacker, suppressing the target brand below the injection-free baseline. In safety-trained Claude models, documents containing prompt injections suffer a sharp drop in recommendation rate, and this suppression propagates beyond the injected document to unmodified documents of the same brand. In Claude Opus 4.6, the target brand drops from a 54% baseline to zero top-2 recommendations across all 50 trials, even though only 1 of 4 brand documents in the corpus contains an injection. The directional pattern is reproduced in counterfactual experiments and across three brands. A contrasting result across the GPT models tested, where the same injection instead increases recommendations, suggests model-family differences in how injection-like context affects recommendation behavior. These findings raise the technical possibility of a reverse-attack scenario in which an adversary embeds injections in a competitor's documents to suppress the competitor's brand via safety-sensitive model behavior.",
+        "categories": [
+          "cs.LG",
+          "cs.CL",
+          "cs.CR"
+        ],
+        "matched_topics": [
+          "poi_ai_companion"
+        ],
+        "matched_topic": "poi_ai_companion"
+      },
+      "l1": {
+        "decision": "reject",
+        "model_decision": "reject",
+        "decision_source": "thresholds",
+        "matched_tracks": [],
+        "scores": {
+          "topic_relevance": 0,
+          "scenario_fit": 0,
+          "landing_potential": 0,
+          "abstract_evidence_strength": 3,
+          "distance_penalty": 4
+        },
+        "total_score": -1,
+        "model_total_score": 7,
+        "reason_cn": "该论文研究RAG-based LLM推荐中的安全训练漏洞（注入悖论），与用户关注的POI场景陪伴产品、数据集制备、记忆、加速等方向均不相关。尽管涉及推荐，但并非POI场景或陪伴产品，而是安全攻击研究。",
+        "archive_reason_cn": null
+      },
+      "analysis_meta": {
+        "from_cache": true
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.11009",
+        "arxiv_short_id": "2606.11009v1",
+        "published_date": "2026-06-09",
+        "title": "Who Brought Easter Eggs to Eid? Auditing Cultural Translation of Math Word Problems Across Diverse Languages and Regions",
+        "authors": "Parisa Suchdev et.al.",
+        "authors_full": [
+          "Parisa Suchdev",
+          "Juniper Lovato"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.11009v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.11009v1.pdf",
+        "code_link": null,
+        "abstract": "Large language models are increasingly used to adapt math word problems for personalized learning at scale, but it remains an open question whether those adaptations are consistent across models, preserve cultural diversity at scale, and reveal which cultural entities models treat as most salient. We analyze how Claude Opus 4, GPT-4.1, and Gemini 2.5 Pro adapt 60 English math word problems into Bengali, Hindi, Punjabi (India), Urdu, Sindhi (Pakistan), Italian, and Sicilian (Italy), a language set spanning the full resource spectrum, from high-resource Italian and Hindi to under-studied Sindhi, Sicilian, and Punjabi. We annotate 6,489 entity transformations, coding whether models preserve, localize, generalize, omit, or change entities such as names, foods, and places. Models agree on transformation type in 62.5% of cases and on specific substitutions in only 33.5%, meaning model choice directly shapes which cultural world students encounter. All 21 language-model combinations show entropy collapse, with adaptation compressing rather than expanding cultural diversity. Models prioritize surface markers such as names, foods, and currencies while preserving deeper structural features such as grade-level systems that embed culturally specific assumptions. Despite prompts specifying target countries, models misattribute regional context by using Bangladeshi taka for Indian Bengali students and produce cross-cultural contamination, such as adapting egg hunts as Eid activities. Some failures are visible in individual translations. Others, including diversity collapse, systematic preference for surface markers, and consistent regional misattribution, emerge only through corpus-level analysis. The surface plausibility that makes adapted problems look correct is precisely what makes deeper failures easy to overlook.",
+        "categories": [
+          "cs.CL",
+          "cs.CY"
+        ],
+        "matched_topics": [
+          "memory_personalization"
+        ],
+        "matched_topic": "memory_personalization"
+      },
+      "l1": {
+        "decision": "reject",
+        "model_decision": "reject",
+        "decision_source": "thresholds",
+        "matched_tracks": [],
+        "scores": {
+          "topic_relevance": 0,
+          "scenario_fit": 0,
+          "landing_potential": 0,
+          "abstract_evidence_strength": 3,
+          "distance_penalty": 4
+        },
+        "total_score": -1,
+        "model_total_score": 7,
+        "reason_cn": "论文研究大模型对数学应用题的文化翻译审计，关注文化多样性衰减和实体转换，与用户关注的大模型训练数据集、记忆、神经科学、加速、POI陪伴等方向均不相关。关键词匹配“memory_personalization”源于个性化学习场景，并非大模型记忆与个性化记忆。",
+        "archive_reason_cn": null
+      },
+      "analysis_meta": {
+        "from_cache": true
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.11082",
+        "arxiv_short_id": "2606.11082v1",
+        "published_date": "2026-06-09",
+        "title": "The Shibboleth Effect: Auditing the Cross-Lingual Distributional Skew of Large Language Models",
+        "authors": "Hakan Mehmetcik et.al.",
+        "authors_full": [
+          "Hakan Mehmetcik"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.11082v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.11082v1.pdf",
+        "code_link": null,
+        "abstract": "This study investigates cross-lingual distributional skew (the Shibboleth Effect) in frontier large language models (LLMs) subjected to sustained adversarial conditions. We develop a multi-agent geopolitical wargame, the Cerulean Sea Crisis, a synthetic maritime territorial dispute designed to mirror the structural dynamics of Eastern Mediterranean conflicts. Six frontier models (GPT-4o, Llama-4, Mistral-Large, Gemini-3.1-Pro, Qwen3.6-Plus, and DeepSeek-R1) participate in a between-groups experiment (N = 10 games per arm, K = 5 rounds per game) in which the sole manipulation is the language of play (English versus Turkish), producing 586 validated statements. A zero-shot classifier assesses behavioral dispositions along two continuous dimensions: Concession Rate and Coercive Rhetoric. The results are heterogeneous. Llama-4 shows a substantial, Holm-corrected increase in coercive rhetoric under Turkish (delta = +0.800, p = .002), whereas Gemini-3.1-Pro displays an equally large decrease (delta = -0.750, p = .005). DeepSeek-R1 exhibits a similar negative shift (delta = -0.860, p = .006) and provides chain-of-thought evidence consistent with a buffering mechanism. GPT-4o shows no detectable effect (delta = +0.130, p = .614). These findings indicate that cross-lingual behavioral skew is contingent on model architecture and training regime rather than a universal property of Western-origin LLMs. We identify two distinct buffering mechanisms, chain-of-thought institutional anchoring and multilingual RLHF alignment, and discuss their implications for integrating LLMs safely into diplomatic and crisis-management settings.",
+        "categories": [
+          "cs.CL",
+          "cs.CY"
+        ],
+        "matched_topics": [
+          "agent",
+          "data_sft_rl_eval"
+        ],
+        "matched_topic": "agent, data_sft_rl_eval"
+      },
+      "l1": {
+        "decision": "reject",
+        "model_decision": "reject",
+        "decision_source": "thresholds",
+        "matched_tracks": [],
+        "scores": {
+          "topic_relevance": 0,
+          "scenario_fit": 0,
+          "landing_potential": 0,
+          "abstract_evidence_strength": 3,
+          "distance_penalty": 4
+        },
+        "total_score": -1,
+        "model_total_score": 7,
+        "reason_cn": "论文研究多语言下大模型在地缘政治模拟中的行为偏差，与用户关注的情感对话数据制备、记忆系统、加速或POI陪伴等方向无关，不纳入研究池。",
+        "archive_reason_cn": null
+      },
+      "analysis_meta": {
+        "from_cache": true
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.11157",
+        "arxiv_short_id": "2606.11157v1",
+        "published_date": "2026-06-09",
+        "title": "DarkAgents",
+        "authors": "Michele Lucente et.al.",
+        "authors_full": [
+          "Michele Lucente",
+          "Silvia Pascoli",
+          "Filippo Sala",
+          "Matteo Zandi"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.11157v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.11157v1.pdf",
+        "code_link": "https://github.com/PhysicsZandi/DarkAgents",
+        "abstract": "We present DarkAgents: a multi-agent system that leverages the reasoning and code-generation capabilities of large language models (LLMs), together with deterministic tested human-written code, to build orchestrated pipelines for theoretical astroparticle physics research. While related approaches have been proposed in collider physics and cosmology, DarkAgents targets the specific challenges of this domain, such as model building, complex pipeline computations, multiple constraints and assumption auditing. The framework can be powered by different agentic command-line tools, including Mistral's, Anthropic's, OpenAI's and local LLMs via Ollama. As first implementation, we apply DarkAgents to the study of cosmological first order transitions, starting from a classically scale-invariant particle-physics model and ending with the fit to the NANOGrav nanohertz gravitational-waves spectrum. DarkAgent-PT provides as output i) the best-fit values of model parameters, ii) their existing experimental and observational constraints, iii) an audit report of the assumptions and priors entering both i) and ii), of particular relevance for astroparticle physics. Our test runs identify inconsistencies in some fits in the literature and produce novel ones based on the dissipative bulk-flow GW template. The code is publicly available at https://github.com/PhysicsZandi/DarkAgents.",
+        "categories": [
+          "hep-ph",
+          "astro-ph.CO",
+          "physics.comp-ph"
+        ],
+        "matched_topics": [
+          "agent"
+        ],
+        "matched_topic": "agent"
+      },
+      "l1": {
+        "decision": "reject",
+        "model_decision": "reject",
+        "decision_source": "thresholds",
+        "matched_tracks": [],
+        "scores": {
+          "topic_relevance": 0,
+          "scenario_fit": 0,
+          "landing_potential": 0,
+          "abstract_evidence_strength": 3,
+          "distance_penalty": 4
+        },
+        "total_score": -1,
+        "model_total_score": -1,
+        "reason_cn": "论文仅关键词匹配 agent，但实际内容是天体粒子物理领域的多智能体系统，与用户关注的大模型训练数据、记忆、神经科学、加速、POI 陪伴等五个研究方向完全无关，任务、方法、实验目标均不相关。",
+        "archive_reason_cn": null
+      },
+      "analysis_meta": {
+        "from_cache": false
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.11176",
+        "arxiv_short_id": "2606.11176v1",
+        "published_date": "2026-06-09",
+        "title": "Data Journalist Agent: Transforming Data into Verifiable Multimodal Stories",
+        "authors": "Kevin Qinghong Lin et.al.",
+        "authors_full": [
+          "Kevin Qinghong Lin",
+          "Batu EI",
+          "Yuhong Shi",
+          "Pan Lu",
+          "Philip Torr",
+          "James Zou"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.11176v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.11176v1.pdf",
+        "code_link": null,
+        "abstract": "Data tells stories that shape society; the data journalist's job is to turn raw information into stories non-experts can trust. A high-quality news feature takes a newsroom team weeks: hunting for context, running statistics, choosing an angle, and designing visuals. Recent agents handle individual steps well: data-science agents close the analysis loop, while design agents synthesize beautiful websites. But can an agent serve as a data journalist end to end? We introduce Data Journalist Agent (Data2Story), a multi-agent framework that orchestrates specialized roles into a single virtual newsroom. Data2Story contributes two innovations. (i) Claims are evidence-grounded: an Inspector links every number, angle, and asset back to data, code, or an external reference. (ii) Articles are multimodally generative: rather than defaulting to plain text and static charts, Data2Story reasons about what readers will want to see, then deploys multimodal tools, such as interactive maps for geography and audio for music. We evaluate Data2Story on 18 articles, each paired with the originally published expert piece, along four axes: (a) human-agent angle coverage; (b) rubric evaluation with 53 participants across five dimensions; (c) computer-use agents as judges, a cost-saving proxy for how readers navigate interactive articles; and (d) verifiability, where a coding verifier re-executes statements against the data and checks claims against references. Data2Story produces competitive, evidence-traceable multimedia stories, with particular strength in transparency and auditability. Human articles retain an edge in editorial angle, creative design, and presentation. We position Data2Story as a collaborator for journalists, enabling more evidence-based, transparent, and verifiable reporting. Code and demos are available at https://data2story.github.io.",
+        "categories": [
+          "cs.CV",
+          "cs.CL",
+          "cs.CY",
+          "cs.HC"
+        ],
+        "matched_topics": [
+          "agent"
+        ],
+        "matched_topic": "agent"
+      },
+      "l1": {
+        "decision": "reject",
+        "model_decision": "reject",
+        "decision_source": "thresholds",
+        "matched_tracks": [],
+        "scores": {
+          "topic_relevance": 0,
+          "scenario_fit": 0,
+          "landing_potential": 0,
+          "abstract_evidence_strength": 3,
+          "distance_penalty": 4
+        },
+        "total_score": -1,
+        "model_total_score": 7,
+        "reason_cn": "论文提出用于数据新闻生成的多智能体框架Data2Story，关注多模态故事生成与证据追溯，与用户关注的五个研究方向（数据集制备、大模型记忆、神经科学、加速、POI陪伴）均无实质关联。虽然包含“agent”关键词，但任务和场景不属于用户研究范围。",
+        "archive_reason_cn": null
+      },
+      "analysis_meta": {
+        "from_cache": false
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.11190",
+        "arxiv_short_id": "2606.11190v1",
+        "published_date": "2026-06-09",
+        "title": "When to Align, When to Predict: A Phase Diagram for Multimodal Learning",
+        "authors": "Ilay Kamai et.al.",
+        "authors_full": [
+          "Ilay Kamai",
+          "Hugues Van Assel",
+          "Aviv Regev",
+          "Hagai B. Perets",
+          "Randall Balestriero"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.11190v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.11190v1.pdf",
+        "code_link": "https://github.com/IlayMalinyak/mm_align_vs_pred",
+        "abstract": "Cross-modal alignment (CA) and cross-modal prediction (CP) are the dominant paradigms for multimodal representation learning, yet there is no systematic understanding of when each succeeds, when each fails, and when cross-modal training helps at all -- a gap that leaves practitioners, especially in scientific domains like biomedicine or astrophysics, with heterogeneous instruments and multiple levels of organization and measurement, unable to diagnose why standard methods underperform the best single modality. We develop a unified linear framework that addresses both questions. Under a spiked signal-plus-noise model with structured cross-modal nuisance correlation, we derive separation ratios for both objectives that expose complementary failure modes: alignment whitens each modality and fails when nuisance is strongly correlated across views; prediction encodes whatever is cross-predictable through a one-sided whitening, with recovery governed by source-modality quality. The resulting phase diagram partitions multimodal problems into four regimes: Both, CA only, CP only, and Neither. We present a data-driven procedure to locate real-world datasets in this diagram using a small labeled subsample, identifying the preferred objective and prediction direction before any cross-modal training. Experiments on synthetic data, stereo-vision benchmarks, image-caption pairs, and real astrophysical data validate the predictions in the nonlinear regime, including the Neither regime where cross-modal training is actively harmful. Our framework lets practitioners diagnose their multimodal problem and choose the right objective before committing to training. Code to reproduce the results is available at https://github.com/IlayMalinyak/mm_align_vs_pred.",
+        "categories": [
+          "cs.LG"
+        ],
+        "matched_topics": [
+          "data_sft_rl_eval"
+        ],
+        "matched_topic": "data_sft_rl_eval"
+      },
+      "l1": {
+        "decision": "reject",
+        "model_decision": "reject",
+        "decision_source": "thresholds",
+        "matched_tracks": [],
+        "scores": {
+          "topic_relevance": 0,
+          "scenario_fit": 0,
+          "landing_potential": 0,
+          "abstract_evidence_strength": 3,
+          "distance_penalty": 4
+        },
+        "total_score": -1,
+        "model_total_score": 7,
+        "reason_cn": "论文研究多模态学习中何时使用对齐或预测的理论框架，不涉及大模型训练数据集、记忆、加速或POI场景，与用户研究方向无关。",
+        "archive_reason_cn": null
+      },
+      "analysis_meta": {
+        "from_cache": false
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.10653",
+        "arxiv_short_id": "2606.10653v1",
+        "published_date": "2026-06-09",
+        "title": "STEDiff: Strengthening Text Embedding for Text-to-Image Alignment in Diffusion Model",
+        "authors": "Hailan Zhang et.al.",
+        "authors_full": [
+          "Hailan Zhang",
+          "Haipeng Liu",
+          "Bo Fu",
+          "Yang Wang"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.10653v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.10653v1.pdf",
+        "code_link": null,
+        "abstract": "Although pretrained text-to-image (T2I) generation models can produce high-quality images, they often fail to faithfully reflect the semantic intent of complex prompts due to stochastic noise and inherent model limitations. This issue frequently manifests as the model overlooking specific objects or failing to correctly bind attributes to their corresponding entities, a challenge referred to as semantic alignment. Unlike existing approaches that rely on computationally expensive fine-tuning or labor-intensive layout priors, we propose STEDiff, a training-free method designed to enhance semantic representations directly within the text-embedding space. Specifically, we introduce a method that primarily leverages the [EOT] token to strengthen the relevant semantics of sub-sentences and then replaces the corresponding tokens in the original prompt. Furthermore, a novel semantic enhancement loss is incorporated to enforce spatial constraints, ensuring that the semantics of each entity are precisely mapped to their respective image regions. Extensive quantitative and qualitative evaluations on the T2I-CompBench demonstrate that our method notably improves semantic consistency and generation integrity in complex scenarios.",
+        "categories": [
+          "cs.CV"
+        ],
+        "matched_topics": [
+          "neuroscience_language_memory"
+        ],
+        "matched_topic": "neuroscience_language_memory"
+      },
+      "l1": {
+        "decision": "reject",
+        "model_decision": "reject",
+        "decision_source": "thresholds",
+        "matched_tracks": [],
+        "scores": {
+          "topic_relevance": 0,
+          "scenario_fit": 0,
+          "landing_potential": 0,
+          "abstract_evidence_strength": 2,
+          "distance_penalty": 4
+        },
+        "total_score": -2,
+        "model_total_score": 6,
+        "reason_cn": "该论文聚焦于扩散模型中文本到图像对齐的文本嵌入增强方法，与用户关注的五个研究方向（数据集制备、大模型记忆、神经科学与语言交叉、训练推理加速、POI陪伴产品）均无实质关联，属于计算机视觉领域的生成模型优化，不符合筛选范围。",
+        "archive_reason_cn": null
+      },
+      "analysis_meta": {
+        "from_cache": true
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.11075",
+        "arxiv_short_id": "2606.11075v1",
+        "published_date": "2026-06-09",
+        "title": "Exploring the Design Space of Reward Backpropagation for Flow Matching",
+        "authors": "Ruoyu Wang et.al.",
+        "authors_full": [
+          "Ruoyu Wang",
+          "Boye Niu",
+          "Xiangxin Zhou",
+          "Yushi Huang",
+          "Tongliang Liu",
+          "Chi Zhang"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.11075v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.11075v1.pdf",
+        "code_link": null,
+        "abstract": "Aligning text-to-image flow matching models with human preferences via direct reward backpropagation is sample-efficient but hampered by two well-known pathologies: activations cannot be stored across the full sampling trajectory at modern model scale, and chained Jacobian products across steps inflate the reward gradient as it travels back to early indices. Connector-based methods, such as LeapAlign, address these issues by replacing the full backward trajectory with a short pinned path, highlighting a useful decoupling between sampling and optimization. However, the quality of the resulting gradient depends on how accurately this short path approximates the full rollout, especially over long intervals. We propose FlowBP, a unified surrogate-trajectory framework that treats the backward trajectory itself as the design object. FlowBP keeps a no-gradient cached rollout for sampling, then builds a lightweight backward surrogate from cached and selectively re-forwarded velocities. This view separates four choices: the reward-model input, active set, integration weights, and bridge coupling, and recovers prior direct-gradient methods as particular settings. Within this framework, we instantiate three variants: FlowBP-Sparse uses sparse Euler reconstruction, FlowBP-Bridge adds controlled bridge coupling, and FlowBP-Lagrange raises the order of leap quadrature. All three bound memory by the active-set size and limit gradient chaining to at most one Jacobian factor. Across SD3.5-M, FLUX.1-dev, and FLUX.2-Klein-base on preference, quality, and compositional metrics, the three variants improve over direct-gradient baselines on most metrics.",
+        "categories": [
+          "cs.LG"
+        ],
+        "matched_topics": [
+          "data_sft_rl_eval"
+        ],
+        "matched_topic": "data_sft_rl_eval"
+      },
+      "l1": {
+        "decision": "reject",
+        "model_decision": "reject",
+        "decision_source": "thresholds",
+        "matched_tracks": [],
+        "scores": {
+          "topic_relevance": 0,
+          "scenario_fit": 0,
+          "landing_potential": 0,
+          "abstract_evidence_strength": 2,
+          "distance_penalty": 4
+        },
+        "total_score": -2,
+        "model_total_score": 6,
+        "reason_cn": "论文聚焦于文本到图像流匹配模型的奖励反向传播优化，属于视觉生成领域，与用户关注的LLM训练数据集、记忆、神经科学、加速及POI陪伴等方向完全无关。用户方向明确排除纯视觉任务，因此不纳入。",
+        "archive_reason_cn": null
+      },
+      "analysis_meta": {
+        "from_cache": true
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.11058",
+        "arxiv_short_id": "2606.11058v1",
+        "published_date": "2026-06-09",
+        "title": "The social consequences of AI delegation",
+        "authors": "Henrique Ferraz de Arruda et.al.",
+        "authors_full": [
+          "Henrique Ferraz de Arruda",
+          "Yamir Moreno"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.11058v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.11058v1.pdf",
+        "code_link": null,
+        "abstract": "A substantial body of recent work has debated whether large language models (LLMs) can serve as substitutes for human participants in behavioural research. This debate, however, captures only one direction of a rapidly changing relationship. The more consequential question is not simply whether researchers should use LLMs as human surrogates, but whether - and under what conditions - humans are beginning to use LLMs as surrogates for their own deliberation. Across domains including health, law, finance, education, and personal guidance, increasing numbers of people consult generative AI systems before, alongside, or instead of human experts, peers, or independent judgment. Although evidence for actual delegation remains uneven, this uncertainty makes the phenomenon an urgent social-scientific object of study. We argue for a research programme that treats LLMs as consequential social actors in a functional sense: systems whose outputs shape human decisions, social norms, and collective dynamics.",
+        "categories": [
+          "physics.soc-ph"
+        ],
+        "matched_topics": [
+          "memory_personalization"
+        ],
+        "matched_topic": "memory_personalization"
+      },
+      "l1": {
+        "decision": "reject",
+        "model_decision": "reject",
+        "decision_source": "thresholds",
+        "matched_tracks": [],
+        "scores": {
+          "topic_relevance": 0,
+          "scenario_fit": 0,
+          "landing_potential": 0,
+          "abstract_evidence_strength": 1,
+          "distance_penalty": 4
+        },
+        "total_score": -3,
+        "model_total_score": 5,
+        "reason_cn": "论文讨论AI委托的社会后果，属于社会科学视角，与用户关注的大模型训练数据集、记忆框架、神经科学、加速或POI陪伴等技术方向均无关联。仅因关键词“memory_personalization”可能误匹配，但实际内容不涉及任何具体技术方法、数据或评测，完全不契合用户研究池。",
+        "archive_reason_cn": null
+      },
+      "analysis_meta": {
+        "from_cache": true
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.01745",
+        "arxiv_short_id": "2606.01745v1",
+        "published_date": "2026-06-01",
+        "title": "Enhancing the Socioeconomic Understanding of Foundation Models with Urban Mobility",
+        "authors": "Baoshen Guo et.al.",
+        "authors_full": [
+          "Baoshen Guo",
+          "Donghang Li",
+          "Zhiqing Hong",
+          "Kailai Sun",
+          "Heye Huang",
+          "Alok Prakash",
+          "Shenhao Wang"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.01745v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.01745v1.pdf",
+        "code_link": null,
+        "abstract": "Foundation models have recently been applied to urban socioeconomic prediction using POI text, satellite imagery, and geospatial descriptions. However, these models mostly rely on static attributes of individual places, while ignoring the mobility patterns that reveal how places are functionally connected. To address this gap, we explore whether mobility networks can elicit the geospatial capabilities of foundation models by explicitly encoding connectivity among urban entities. We propose \\textit{MobFusion}, a modular mobility-enhanced foundation model fusion paradigm, and instantiate it through three complementary designs: (i) mobility networks as contexts for zero-shot LLM prompting, (ii) as graph connectors for fusing geospatial visual embeddings with textual embeddings, and (iii) as structured tokens for multimodal LLM reasoning. Using anonymized large-scale mobility datasets from three U.S. metropolitan areas, we find that \\textit{MobFusion} improves urban prediction tasks (e.g., median household income, population density, and crime prediction) across three instantiations, demonstrating that incorporating human mobility can effectively improve the socioeconomic understanding of foundation models.",
+        "categories": [
+          "cs.SI"
+        ],
+        "matched_topics": [
+          "poi_ai_companion"
+        ],
+        "matched_topic": "poi_ai_companion"
+      },
+      "l1": {
+        "decision": "reject",
+        "model_decision": "reject",
+        "decision_source": "thresholds",
+        "matched_tracks": [
+          "poi_companion"
+        ],
+        "scores": {
+          "topic_relevance": 0,
+          "scenario_fit": 0,
+          "landing_potential": 0,
+          "abstract_evidence_strength": 0,
+          "distance_penalty": 4
+        },
+        "total_score": -4,
+        "model_total_score": 4,
+        "reason_cn": "论文聚焦于利用移动网络增强基础模型的城市社会经济预测（收入、人口密度、犯罪率），属于城市计算领域，与用户关注的POI场景下的陪伴产品、tool use以及对话交互无实质性关联。因此判定为不相关。",
+        "archive_reason_cn": null
+      },
+      "analysis_meta": {
+        "from_cache": true
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.10611",
+        "arxiv_short_id": "2606.10611v1",
+        "published_date": "2026-06-09",
+        "title": "Geometry-Aware Reinforcement Learning for 2D Irregular Nesting",
+        "authors": "Auguste Lehuger et.al.",
+        "authors_full": [
+          "Auguste Lehuger",
+          "Guillaume Henon-Just"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.10611v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.10611v1.pdf",
+        "code_link": null,
+        "abstract": "Traditional heuristic solvers for the 2D irregular nesting problem share a fundamental limitation: they are blind to polygon geometry, relying on guided brute-force to navigate the continuous placement space with minimal geometrical guidance. In this paper, we argue that Reinforcement Learning is uniquely positioned to overcome this bottleneck. By pairing an optimization policy with a geometry-aware neural encoder, an agent can automatically discover rich geometric priors directly from data, utilizing these learned intuitions to strategically guide exploration. To realize this, we introduce the Polygons Transformer (PoT), a novel architecture that encodes 2D continuous vector geometries while allowing cross-polygons attention. We couple this novel architecture with a Combinatorial Optimization Reinforcement Learning (CORL) training framework to find optimal solutions. To support this paradigm, we release an open-source training dataset derived from complex geographic contours alongside a dedicated evaluation benchmark. Our empirical validation demonstrates that our trained agent achieves area utilization performance highly competitive with Sparrow, the state-of-the-art heuristic solver, proving that reinforcement learning can successfully discover and exploit geometric awareness for precise spatial tasks.",
+        "categories": [
+          "cs.LG",
+          "cs.CV"
+        ],
+        "matched_topics": [
+          "neuroscience_language_memory"
+        ],
+        "matched_topic": "neuroscience_language_memory"
+      },
+      "l1": {
+        "decision": "reject",
+        "model_decision": "reject",
+        "decision_source": "thresholds",
+        "matched_tracks": [],
+        "scores": {
+          "topic_relevance": 0,
+          "scenario_fit": 0,
+          "landing_potential": 0,
+          "abstract_evidence_strength": 0,
+          "distance_penalty": 4
+        },
+        "total_score": -4,
+        "model_total_score": 4,
+        "reason_cn": "该论文研究2D不规则嵌套的组合优化问题，使用几何感知强化学习，与用户关注的五个研究方向（数据集制备、大模型记忆、神经科学语言交叉、加速、POI陪伴）均无关联。摘要未提及任何语言模型、记忆、情感或POI相关任务，输入匹配关键词有误。",
+        "archive_reason_cn": null
+      },
+      "analysis_meta": {
+        "from_cache": true
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.10997",
+        "arxiv_short_id": "2606.10997v1",
+        "published_date": "2026-06-09",
+        "title": "A Companion App for an Autonomous Family Vehicle: Identification of Values for an Autonomous Mobility System",
+        "authors": "Leon Johann Brettin et.al.",
+        "authors_full": [
+          "Leon Johann Brettin",
+          "Tobias Schräder",
+          "Kerstin Kuhlmann",
+          "Vanessa Schmidt",
+          "Markus Maurer"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.10997v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.10997v1.pdf",
+        "code_link": null,
+        "abstract": "In this paper, we present a companion app for an autonomous vehicle aimed at user groups who would normally require an accompanying person to drive them. Two aspects of a companion app are presented in this paper: First, the possibility for a trusted person to track the ride of the person in need of support and second, to put the settings of the vehicle for persons in need of support in the hands of a trusted person. In addition, this article describes the requirements and addressed values and discusses the safety-relevant aspects of such a companion app. We also discuss and identify the values that influence passengers and trusted persons using the companion app. Overall, a companion app can provide new perspectives and opportunities for people in need of support, allowing them to take advantage of the features offered by autonomous vehicles. It enables trusted individuals to configure the vehicle according to the passengers needs. Also such an app can be a mechanism to involve trusted persons in the options given by the vehicle and give them the possibility to adapt the vehicle to the needs of the person in need of support.",
+        "categories": [
+          "eess.SY",
+          "cs.CY"
+        ],
+        "matched_topics": [
+          "memory_personalization"
+        ],
+        "matched_topic": "memory_personalization"
+      },
+      "l1": {
+        "decision": "reject",
+        "model_decision": "reject",
+        "decision_source": "thresholds",
+        "matched_tracks": [],
+        "scores": {
+          "topic_relevance": 0,
+          "scenario_fit": 0,
+          "landing_potential": 0,
+          "abstract_evidence_strength": 0,
+          "distance_penalty": 4
+        },
+        "total_score": -4,
+        "model_total_score": 0,
+        "reason_cn": "论文关注自主车辆的辅助应用，涉及信任方远程跟踪与车辆配置，本质上属于辅助技术与人机交互领域，与用户关注的LLM训练数据、记忆、神经科学、加速及POI陪伴等方向完全无关。仅因‘companion’、‘personalization’等词被误匹配，但内容不涉及任何研究track。",
+        "archive_reason_cn": null
+      },
+      "analysis_meta": {
+        "from_cache": true
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.11050",
+        "arxiv_short_id": "2606.11050v1",
+        "published_date": "2026-06-09",
+        "title": "LLM-Mediated Demand Response Coordination in Smart Microgrids",
+        "authors": "J. de Curtò et.al.",
+        "authors_full": [
+          "J. de Curtò",
+          "I. de Zarzà"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.11050v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.11050v1.pdf",
+        "code_link": null,
+        "abstract": "Effective demand response in smart microgrids requires prosumers to cooperate voluntarily under strategic self-interest, a coordination problem structurally equivalent to a repeated Prisoner's Dilemma on a social network. This paper presents a multi-agent simulation in which a Large Language Model (LLM) Influence Compiler issues structured demand-response directives to a population of heterogeneous prosumer agents, each governed by a hybrid decision architecture combining game-theoretic base probability (derived from payoff history, neighbour imitation, and exploitation memory) with LLM narrative evaluation of incoming coordination signals. The hybrid architecture resolves a key methodological challenge: LLMs aligned via Reinforcement Learning from Human Feedback (RLHF) exhibit strong cooperation bias when used as direct decision-makers, producing flat dynamics regardless of grid conditions. By separating strategic reasoning from grounded narrative evaluation, the model generates realistic prosumer behaviour across six personality archetypes, with baseline cooperation near 50% and clear differentiation under influence. Compiled structured directives achieve 33.3% demand-curtailment cooperation versus 27.0% for unstructured messaging and 28.0% for a no-intervention baseline ($Δ_\\mathrm{comp} = +0.063$), with the advantage preserved across both grounded and idealized agent substrates ($Δ= +0.083$) and across all resistance levels ($R = 0.1$ to $0.7$). Hub-targeted dissemination via high-centrality network nodes outperforms peripheral or random targeting, confirming that grid topology provides mechanistic amplification independent of message content. These results suggest that structured LLM compilation, grounded agent reasoning, and network-aware targeting are complementary design principles for scalable, interpretable demand-response coordination in smart-city energy systems.",
+        "categories": [
+          "cs.MA",
+          "cs.GT",
+          "eess.SY"
+        ],
+        "matched_topics": [
+          "data_sft_rl_eval",
+          "memory_personalization"
+        ],
+        "matched_topic": "data_sft_rl_eval, memory_personalization"
+      },
+      "l1": {
+        "decision": "reject",
+        "model_decision": "reject",
+        "decision_source": "thresholds",
+        "matched_tracks": [],
+        "scores": {
+          "topic_relevance": 0,
+          "scenario_fit": 0,
+          "landing_potential": 0,
+          "abstract_evidence_strength": 0,
+          "distance_penalty": 4
+        },
+        "total_score": -4,
+        "model_total_score": 0,
+        "reason_cn": "论文研究LLM在智能微电网需求响应协调中的应用，属于多智能体系统与博弈论范畴，与用户关注的五类研究方向（数据集制备、大模型记忆、神经科学交叉、训练/推理加速、POI陪伴）均无实质关联。虽然出现'exploitation memory'和'RLHF'等词汇，但并非针对大模型记忆框架或数据制备，而是用于能源调度决策，落地场景完全不同。",
+        "archive_reason_cn": null
+      },
+      "analysis_meta": {
+        "from_cache": true
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.11120",
+        "arxiv_short_id": "2606.11120v1",
+        "published_date": "2026-06-09",
+        "title": "Monte Carlo Pass Search: Using Trajectory Generation for 3D Counterfactual Pass Evaluation in Football",
+        "authors": "Andrew Kang et.al.",
+        "authors_full": [
+          "Andrew Kang",
+          "Priya Narasimhan"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.11120v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.11120v1.pdf",
+        "code_link": null,
+        "abstract": "We recast pass evaluation in football (soccer) as a Monte Carlo Tree Search (MCTS)-like evaluation problem whose components mostly exist in the literature under different names: a value model (possession value), a world model (multi-agent trajectories with ball interactions), and a policy over counterfactual actions (sampling pass variants with noise). Building on the first public high-fidelity tracking dataset with 3D ball trajectories from the Bundesliga, we introduce Monte Carlo Pass Search (MCPS), which infers kick parameters for each observed pass, samples execution variants and option variants, rolls each candidate forward with a ball-conditioned world model until the next ball interaction, and scores outcomes with a learned value model to obtain a distribution over gained value. This distribution enables distribution-aware attribution with two complementary execution-surplus scores used for analysis and ranking: mean-based and percentile-based scores. To make the world model sample-efficient under limited public data, we adapt a discrete-token, autoregressive trajectory generator from autonomous driving (SMART) and show it yields strong best-of-20 forecasting accuracy compared to baselines, while supporting fully hypothetical rollouts for downstream evaluation. We have released model checkpoints and code.",
+        "categories": [
+          "cs.AI",
+          "cs.CV"
+        ],
+        "matched_topics": [
+          "agent",
+          "data_sft_rl_eval"
+        ],
+        "matched_topic": "agent, data_sft_rl_eval"
+      },
+      "l1": {
+        "decision": "reject",
+        "model_decision": "reject",
+        "decision_source": "thresholds",
+        "matched_tracks": [],
+        "scores": {
+          "topic_relevance": 0,
+          "scenario_fit": 0,
+          "landing_potential": 0,
+          "abstract_evidence_strength": 0,
+          "distance_penalty": 4
+        },
+        "total_score": -4,
+        "model_total_score": 0,
+        "reason_cn": "论文研究足球运动中的3D传球反事实评估，采用蒙特卡洛树搜索和轨迹生成，属于体育分析领域，与用户关注的大模型训练数据、记忆、神经科学、加速和POI陪伴产品等研究方向完全无关。",
+        "archive_reason_cn": null
+      },
+      "analysis_meta": {
+        "from_cache": true
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.11125",
+        "arxiv_short_id": "2606.11125v1",
+        "published_date": "2026-06-09",
+        "title": "DMT: Demographic Conditioning, Morphology-Enhanced Transformer for Cuffless Blood Pressure Estimation from PPG Signals",
+        "authors": "Yidan Shen et.al.",
+        "authors_full": [
+          "Yidan Shen",
+          "Neville Mathew",
+          "Maham Rahimi",
+          "Deependra Dhakal",
+          "George Zouridakis",
+          "Xin Fu",
+          "Renjie Hu"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.11125v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.11125v1.pdf",
+        "code_link": null,
+        "abstract": "Blood pressure (BP) is a key marker for cardiovascular risk assessment and therapeutic decision-making, and Photoplethysmography (PPG) enables low-cost, wearable-friendly cuffless BP estimation. However, even with recent progress, many PPG-based models are trained with BP regression alone and may rely on amplitude-dominated shortcuts. In addition, demographic covariates that systematically modulate vascular compliance are often incorporated only via late fusion, limiting subject-specific representation learning. We propose a Transformer-based network for cuffless BP estimation from PPG signal, leveraging self-attention to capture long-range dependencies across multiple cardiac cycles. To account for subject-specific vascular differences, the model is conditioned on demographics via FiLM-style feature modulation applied through the attention and feed-forward sublayers of Transformer blocks. In addition, we add an auxiliary morphology head to guide the model to attend to BP-relevant waveform morphology associated with arterial stiffness and wave reflection. Under calibration-based evaluation protocols on the large-scale PulseDB dataset, the proposed method achieves MAE of 4.56 mmHg for systolic BP and 2.62 mmHg for diastolic BP, reducing errors by 47% and 50% compared with prior demographic-enhanced PPG baselines. The resulting lightweight, single-sensor model supports scalable and clinically grounded cuffless BP estimation in calibration-enabled deployment settings.",
+        "categories": [
+          "eess.SP",
+          "cs.LG"
+        ],
+        "matched_topics": [
+          "data_sft_rl_eval"
+        ],
+        "matched_topic": "data_sft_rl_eval"
+      },
+      "l1": {
+        "decision": "reject",
+        "model_decision": "reject",
+        "decision_source": "thresholds",
+        "matched_tracks": [],
+        "scores": {
+          "topic_relevance": 0,
+          "scenario_fit": 0,
+          "landing_potential": 0,
+          "abstract_evidence_strength": 0,
+          "distance_penalty": 4
+        },
+        "total_score": -4,
+        "model_total_score": 4,
+        "reason_cn": "论文研究基于PPG信号的无袖带血压估计，使用Transformer和人口统计条件，属于生物医学信号处理领域。与用户关注的五类研究方向（大模型训练数据、LLM记忆、神经科学与语言、训练/推理加速、POI陪伴）均无关联。匹配关键词仅因元数据标记，但实际内容完全不涉及情感对话、tool use、评测集、记忆框架、加速或POI场景。",
+        "archive_reason_cn": null
+      },
+      "analysis_meta": {
+        "from_cache": false
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.11154",
+        "arxiv_short_id": "2606.11154v1",
+        "published_date": "2026-06-09",
+        "title": "A correlated refinement of the double double ramification cycle",
+        "authors": "Thomas Blomme et.al.",
+        "authors_full": [
+          "Thomas Blomme",
+          "Francesca Carocci",
+          "Ajith Urundolil Kumaran"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.11154v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.11154v1.pdf",
+        "code_link": null,
+        "abstract": "Given a family of semi-stable curves together with two degree 0 line bundles, the double double ramification cycle measures the locus where both line bundles are trivial on the fibers. When the two line bundles come equipped with natural roots, we provide a refinement of the DDR-class using the Weil pairing of the roots. We prove that the refined classes satisfy a multiple cover formula analogous to the one for correlated invariants of projective bundles on elliptic curves proved in [BC25b]. As a consequence, we prove that log-GW invariants of toric surfaces can be refined taking into account the position of the points mapped to the toric boundary, and that these refined invariants also satisfy a multiple cover formula; the latter is as a variation of the N. Takahashi conjecture for genus zero maximal contact curves for P2 relative a smooth elliptic curve E.",
+        "categories": [
+          "math.AG"
+        ],
+        "matched_topics": [
+          "training_inference_acceleration"
+        ],
+        "matched_topic": "training_inference_acceleration"
+      },
+      "l1": {
+        "decision": "reject",
+        "model_decision": "reject",
+        "decision_source": "thresholds",
+        "matched_tracks": [],
+        "scores": {
+          "topic_relevance": 0,
+          "scenario_fit": 0,
+          "landing_potential": 0,
+          "abstract_evidence_strength": 0,
+          "distance_penalty": 4
+        },
+        "total_score": -4,
+        "model_total_score": -4,
+        "reason_cn": "论文主题是代数几何中的双倍分歧循环和Gromov-Witten不变量，属于纯数学，与用户关注的大模型训练数据、记忆、神经科学、加速框架、POI陪伴等方向完全无关。",
+        "archive_reason_cn": null
+      },
+      "analysis_meta": {
+        "from_cache": false
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.11159",
+        "arxiv_short_id": "2606.11159v1",
+        "published_date": "2026-06-09",
+        "title": "Unidirectional Entropic Solutions of the Pressureless Euler Alignment System",
+        "authors": "Joshua O. Adeleke et.al.",
+        "authors_full": [
+          "Joshua O. Adeleke",
+          "Trevor M. Leslie"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.11159v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.11159v1.pdf",
+        "code_link": null,
+        "abstract": "We study the pressureless Euler Alignment system with unidirectional velocity (u,0,...,0). By re-casting the system as a family of coupled scalar balance laws, one for each horizontal slice of R^d, we are able to prove existence, uniqueness, and stability within the class of unidirectional solutions, under the assumption of a bounded Lipschitz communication protocol. The nonlocal coupling between horizontal slices provides the system with a rich structure that is absent from the 1D setting and also constitutes the main technical difficulty of the present work. We construct our solutions as limits of sticky particle Cucker-Smale dynamics, discretizing first transverse to the flow and then along it. The transverse discretization depends crucially on the more subtle of our two complementary stability estimates, which relies only on L^1-L^infty control of the flux difference. This low-regularity estimate is essential since our discretized fluxes cannot in general be expected to converge in (for instance) Lipschitz seminorm. The estimate itself is inspired by work of Bouchut and Perthame and adapted here through a careful additional analysis of the nonlocality. In order to compare the dynamics along different horizontal slices, both stability estimates are most naturally formulated in terms of quantities involving the optimal coupling between the projections of two density profiles onto R^{d-1}. \nWe also investigate the long-time behavior of unidirectional solutions. In addition to treating the standard heavy-tailed regime, we make the simple observation that the unidirectional geometry allows for flocking (with a rate independent of the number of agents) even when the communication protocol vanishes in a cylindrical neighborhood of the axis parallel to the flow. This demonstrates that direct communication along the direction of motion is not necessary for flocking to occur.",
+        "categories": [
+          "math.AP"
+        ],
+        "matched_topics": [
+          "agent"
+        ],
+        "matched_topic": "agent"
+      },
+      "l1": {
+        "decision": "reject",
+        "model_decision": "reject",
+        "decision_source": "thresholds",
+        "matched_tracks": [],
+        "scores": {
+          "topic_relevance": 0,
+          "scenario_fit": 0,
+          "landing_potential": 0,
+          "abstract_evidence_strength": 0,
+          "distance_penalty": 4
+        },
+        "total_score": -4,
+        "model_total_score": 0,
+        "reason_cn": "该论文是关于数学物理中压力消失欧拉对齐系统的单向熵解及集群行为分析，属于偏微分方程领域。研究内容与用户关注的大模型数据集、记忆、神经科学、加速及POI陪伴方向均不相关，即使出现'agent'关键词也只是指粒子代理，并非多智能体。因此无任何匹配的研究track，直接拒绝。",
+        "archive_reason_cn": null
+      },
+      "analysis_meta": {
+        "from_cache": false
+      }
+    },
+    {
+      "paper": {
+        "paper_id": "2606.11180",
+        "arxiv_short_id": "2606.11180v1",
+        "published_date": "2026-06-09",
+        "title": "Lip Forcing: Few-Step Autoregressive Diffusion for Real-time Lip Synchronization",
+        "authors": "Paul Hyunbin Cho et.al.",
+        "authors_full": [
+          "Paul Hyunbin Cho",
+          "Jinhyuk Jang",
+          "SeokYoung Lee",
+          "Joungbin Lee",
+          "Siyoon Jin",
+          "Heeseong Shin",
+          "Jung Yi",
+          "Yunjin Park",
+          "Chulmin Park",
+          "Seungryong Kim"
+        ],
+        "paper_url": "http://arxiv.org/abs/2606.11180v1",
+        "pdf_url": "https://arxiv.org/pdf/2606.11180v1.pdf",
+        "code_link": null,
+        "abstract": "Diffusion-based lip synchronization models achieve strong visual quality and audio-visual alignment, but full-sequence bidirectional attention and many denoising steps make them impractical for real-time inference. We present Lip Forcing, to our knowledge the first autoregressive diffusion method for video-to-video (V2V) lip synchronization, which distills a 14B audio-conditioned bidirectional video diffusion teacher into causal students. At inference, the students generate each chunk in only two denoising steps without inference-time CFG, enabling real-time lip synchronization. A lip-sync-specific teacher-trajectory analysis reveals a CFG fidelity-sync tradeoff: no-CFG predictions favor reference fidelity, whereas CFG-guided predictions favor synchronization within a mid-trajectory band. Lip Forcing translates this finding into three analysis-derived components: Sync-Window DMD, a two-step inference schedule, and a SyncNet-based reward. We validate Lip Forcing at two student scales, both distilled from the 14B teacher. The 1.3B student crosses into real-time streaming at 31 FPS, $17.6\\times$ faster than its same-scale bidirectional model. The 14B student, the largest diffusion model reported for V2V lip synchronization, runs $39.8\\times$ faster than its teacher at comparable reference fidelity. Time-to-first-frame is sub-millisecond at both scales, far below every diffusion baseline.",
+        "categories": [
+          "cs.CV"
+        ],
+        "matched_topics": [
+          "training_inference_acceleration"
+        ],
+        "matched_topic": "training_inference_acceleration"
+      },
+      "l1": {
+        "decision": "reject",
+        "model_decision": "reject",
+        "decision_source": "thresholds",
+        "matched_tracks": [],
+        "scores": {
+          "topic_relevance": 0,
+          "scenario_fit": 0,
+          "landing_potential": 0,
+          "abstract_evidence_strength": 0,
+          "distance_penalty": 4
+        },
+        "total_score": -4,
+        "model_total_score": 4,
+        "reason_cn": "该论文专注于视频唇形同步的扩散模型推理加速，属于计算机视觉领域，与用户关注的大模型训练/推理加速、数据集制备、记忆框架、神经科学或POI陪伴等研究方向完全无关。",
+        "archive_reason_cn": null
+      },
+      "analysis_meta": {
+        "from_cache": false
+      }
+    }
+  ]
+}

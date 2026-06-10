@@ -1,0 +1,1458 @@
+{
+  "cached_at": "2026-06-10T12:47:18.782570+00:00",
+  "stage": "digest",
+  "namespace": "8f1c91ed1b5d8bf2",
+  "key": "369c3df6c5fe7362",
+  "payload": {
+    "digest": {
+      "overview_cn": "今日通过筛选的论文主要集中在两个方向：一是训练与推理的系统级效率优化，包括层/头维度的动态KV缓存预算分配（ReasonAlloc）与可编程分布式训练系统（Piper）；二是大模型记忆与个性化机制的轻量化设计，如基于前缀的用户状态编码（TAP-PER）、树形rollout预算分配（TRACE）以及面向长文档的超图工作记忆（DocTrace）。整体趋势呈现从静态统一方案向自适应、分层、非均匀资源调度的转变，方法上强调解耦、编译、前缀嵌入和树结构探索。然而，多数工作仅在特定任务（数学推理、长文档QA）上验证，与实际业务场景（情感陪伴、POI工具调用）存在差距，直接落地需进一步适配。数据与评测方面未见新数据集贡献，但TRACE的树形rollout可能转化为偏好数据。值得持续关注的系统级加速与记忆压缩技术，有望在中长期降低部署成本。",
+      "must_read": [
+        {
+          "paper_id": "2606.11164",
+          "title": "ReasonAlloc: Hierarchical Decoding-Time KV Cache Budget Allocation for Reasoning Models",
+          "summary_cn": "提出训练无关的推理加速框架，结合离线层预算预分配（推理波）和在线头预算动态分配，在极低KV缓存预算下显著提升数学推理准确率，且即插即用。",
+          "why_relevant_cn": "直接针对推理模型的内存瓶颈，可降低长链推理的显存压力和延迟，与正在发展的推理加速模块高度契合，且无需重新训练，落地成本低。",
+          "recommended_action_cn": "列为推理加速模块的重点跟踪项，等待后续工作提供系统级指标（吞吐、延迟）或在对话模型上的验证；若近期有部署压力，可尝试在内部推理小场景中复现并评估收益。"
+        },
+        {
+          "paper_id": "2606.11169",
+          "title": "Piper: A Programmable Distributed Training System",
+          "summary_cn": "Piper将训练策略声明与运行时实现解耦，利用中间表示和编译技术，支持灵活组合多种并行策略，在维持常见策略性能的同时，通过计算通信联合调度额外提升训练吞吐和内存效率。",
+          "why_relevant_cn": "可应对大模型训练中多种并行策略组合的复杂需求，提升训练效率、降低训练成本，对内部大规模训练流程有直接优化价值。",
+          "recommended_action_cn": "在内部小规模训练任务上试用Piper，验证其与现有PyTorch生态的兼容性及性能收益；若可行，逐步将核心模型训练迁移至Piper。"
+        }
+      ],
+      "worth_archiving": [
+        {
+          "paper_id": "2606.04547",
+          "title": "Beyond Retrieval: Learning Compact User Representations for Scalable LLM Personalization",
+          "reason_cn": "提出的用户状态前缀与历史注意力机制可作为隐式记忆模块参考，但缺乏情感/POI场景验证，暂不立即落地，适合在记忆系统预研时对比可行性。"
+        },
+        {
+          "paper_id": "2606.11119",
+          "title": "TRACE: A Unified Rollout Budget Allocation Framework for Efficient Agentic Reinforcement Learning",
+          "reason_cn": "树形rollout预算分配可提升智能体RL的样本效率，其函数调用实验与工具使用相关，但依赖outcome-only奖励，对无明确终点的对话任务适用性有限，可留作技术储备。"
+        },
+        {
+          "paper_id": "2606.10921",
+          "title": "Trace Only What You Need: Structure-Aware On-Demand Hypergraph Memory for Long-Document Question Answering",
+          "reason_cn": "多智能体架构下的经验记忆DAG设计对多轮对话路径复用有启发，但场景鸿沟较大，仅作为记忆框架设计的背景参考。"
+        }
+      ],
+      "rejected_themes_cn": [
+        "缺乏场景专指性的通用基准评测平台",
+        "未提供可落地数据或方法的心理学/情感影响研究",
+        "与陪伴POI场景脱节的通用推荐系统对齐方法",
+        "过度依赖文档结构且无法适配多轮对话的复杂检索框架",
+        "纯语音交互模型的RL对齐（非文本为核心）"
+      ]
+    },
+    "digest_cache_basis": {
+      "stats": {
+        "total_papers": 54,
+        "reject": 33,
+        "archive_only": 14,
+        "level2": 7
+      },
+      "passed_reviews": [
+        {
+          "paper": {
+            "paper_id": "2606.11164",
+            "arxiv_short_id": "2606.11164v1",
+            "published_date": "2026-06-09",
+            "title": "ReasonAlloc: Hierarchical Decoding-Time KV Cache Budget Allocation for Reasoning Models",
+            "authors": "Wenhao Liu et.al.",
+            "authors_full": [
+              "Wenhao Liu",
+              "Hao Shi",
+              "Yunhe Li",
+              "Weizhi Fei",
+              "Xiangyuan Wang",
+              "Mengzhe Ruan",
+              "Hanxu Hou",
+              "Peisong Wang",
+              "Linqi Song",
+              "Shuang Qiu"
+            ],
+            "paper_url": "http://arxiv.org/abs/2606.11164v1",
+            "pdf_url": "https://arxiv.org/pdf/2606.11164v1.pdf",
+            "code_link": null,
+            "abstract": "Long chain-of-thought (CoT) trajectories in large language model (LLM) reasoning cause severe inference bottlenecks due to rapid key-value (KV) cache growth. Current decoding-time compression methods mitigate this issue via token eviction, but typically assume a uniform budget distribution across all layers and heads. In contrast, existing non-uniform budget allocation methods are predominantly designed for the static prompt prefill phase, and they do not capture the stepwise context demands of autoregressive reasoning. To bridge this gap, we propose ReasonAlloc, a training-free framework that recasts decoding-time KV compression as a hierarchical budget allocation problem. ReasonAlloc operates at two complementary levels: an offline layer-wise preallocation strategy captures an architecture-driven demand pattern which we call ``\\textit{Reasoning Wave}'', while an online head-wise strategy reallocates resources during decoding to information-rich heads based on real-time utility. Evaluations on mathematical reasoning benchmarks (MATH-500, AIME~2024) using DeepSeek-R1-Distill-Llama-8B, DeepSeek-R1-Distill-Qwen-14B, and AceReason-14B show that ReasonAlloc outperforms uniform-budget R-KV, SnapKV, and Pyramid-RKV (a baseline enforcing a static, monotonically decreasing layer budget), with the largest gains at small budgets (128-512 tokens). ReasonAlloc is plug-and-play with existing token-eviction policies and introduces negligible inference-time overhead.",
+            "categories": [
+              "cs.AI"
+            ],
+            "matched_topics": [
+              "training_inference_acceleration"
+            ],
+            "matched_topic": "training_inference_acceleration"
+          },
+          "l1": {
+            "decision": "level2",
+            "model_decision": "level2",
+            "decision_source": "thresholds",
+            "matched_tracks": [
+              "acceleration"
+            ],
+            "scores": {
+              "topic_relevance": 4,
+              "scenario_fit": 4,
+              "landing_potential": 4,
+              "abstract_evidence_strength": 4,
+              "distance_penalty": 0
+            },
+            "total_score": 16,
+            "model_total_score": 16,
+            "reason_cn": "论文提出推理加速方法：解码时分层 KV 缓存预算分配，直接针对推理瓶颈，属于用户关注的 inference acceleration，且训练无关、即插即用，实验显示显著收益，落地潜力高。",
+            "archive_reason_cn": null
+          },
+          "analysis_meta": {
+            "from_cache": true
+          },
+          "review_input": {
+            "pdf_url": "https://arxiv.org/pdf/2606.11164v1.pdf",
+            "page_count": 23,
+            "section_titles": [
+              "full_text_excerpt"
+            ],
+            "section_lengths": {
+              "full_text_excerpt": 24000
+            },
+            "section_extraction_note": "未识别到偏好章节标题，退回为整篇 PDF 文本截断片段。 已按提示词预算截断章节内容。",
+            "truncated_for_prompt": true
+          },
+          "review": {
+            "decision": "normal",
+            "priority": "useful",
+            "summary_cn": "ReasonAlloc 提出一种训练自由的解码时 KV 缓存分层预算分配框架，结合离线层级别预分配（利用“推理波”架构模式）和在线头级别动态路由，以改善推理模型的长链推理内存瓶颈。在数学推理基准和多个 DeepSeek-R1 蒸馏模型上，该方法在相同预算下优于均匀分配和静态非均匀基线，尤其在小预算时增益明显。",
+            "research_goal_cn": "解决推理模型因长 CoT 轨迹导致 KV 缓存快速膨胀的内存瓶颈，通过非均匀预算分配提升压缩效率。",
+            "method_cn": "分为两个阶段：（1）离线层级别预分配：通过轻量探测计算每层达到指定注意力质量阈值所需的最小 token 数，经平滑和边界保护转换为稳定层预算；（2）在线头级别动态路由：每若干步根据 token 效用得分（基于重要性-冗余联合分数）为各头重分配预算，同样经平滑和安全边界防止饥饿。框架可与任意令牌驱逐策略即插即用。",
+            "experiment_cn": "在 MATH-500 和 AIME 2024 数学推理任务上，使用 R1-Llama-8B、R1-Qwen-14B 和 AceReason-14B 模型，对比均匀预算的 SnapKV、R-KV 以及静态层预算递减的 Pyramid-RKV，在不同 KV 缓存预算（128~3072 token）下评估准确率。消融实验和敏感性分析验证各组件和超参数。",
+            "result_cn": "ReasonAlloc 在所有预算下均优于基线的均匀分配和静态非均匀分配，尤其在 128-512 低预算时优势最明显，且引入的推理开销可忽略。离线校准显示层预算分布呈跨任务稳定的“推理波”非线性模式，架构差异远大于任务差异。",
+            "landing_value_cn": "方法可提升推理模型长序列生成的缓存效率，有望降低部署时的显存占用和提升吞吐，但论文未提供真实的时延/吞吐测量，仅展示了准确率-预算的 Pareto 改善，且只在数学推理任务上验证，对陪伴对话等场景的泛化性未知。",
+            "module_assessments": [
+              {
+                "module_id": "dataset_pipeline",
+                "module_name": "数据集制备与评测数据集",
+                "relevance": "none",
+                "should_follow": false,
+                "reason_cn": "论文内容完全围绕推理加速的 KV 缓存压缩，未涉及任何数据集 schema、标注、采样或评测集构建，与情感对话、Tool Use 等数据方向无关。",
+                "evidence_cn": "全文无数据集构造或评测方法贡献，实验仅使用已有数学推理基准。"
+              },
+              {
+                "module_id": "llm_memory",
+                "module_name": "大模型记忆",
+                "relevance": "none",
+                "should_follow": false,
+                "reason_cn": "论文处理的是硬件层面的 KV 缓存预算分配，而非模型记忆框架、长期记忆或人格一致性，与多智能体记忆或隐式记忆无关。",
+                "evidence_cn": "未涉及记忆架构、个性建模或情绪稳定性设计。"
+              },
+              {
+                "module_id": "neuro_nlp_memory",
+                "module_name": "神经科学、语言与记忆",
+                "relevance": "none",
+                "should_follow": false,
+                "reason_cn": "未利用任何神经科学机制或认知模型解释语言或记忆，纯粹为工程优化方法。",
+                "evidence_cn": "文献回顾和设计思路均基于注意力统计分析，无神经科学引用。"
+              },
+              {
+                "module_id": "acceleration",
+                "module_name": "训练加速与推理加速",
+                "relevance": "high",
+                "should_follow": true,
+                "reason_cn": "论文直接针对推理加速中的 KV 缓存压缩，提出动态分层预算分配方案，符合推理加速 track 中“缓存优化”和“延迟/吞吐优化”目标。",
+                "evidence_cn": "抽象明确关注解码时 KV 缓存增长带来的推理瓶颈，实验展示在固定缓存预算下显著提升数学推理准确率，表明内存使用效率提升。"
+              },
+              {
+                "module_id": "poi_companion",
+                "module_name": "POI 场景与陪伴产品",
+                "relevance": "none",
+                "should_follow": false,
+                "reason_cn": "研究内容完全未涉及 POI、陪伴、工具调用或用户状态理解，任务仅限于数学推理，无对话或推荐场景。",
+                "evidence_cn": "实验仅包括 MATH-500 和 AIME 2024，未涉及任何交互或 POI 相关任务。"
+              }
+            ],
+            "scores": {
+              "relevance": 78,
+              "credibility": 82,
+              "landing_feasibility": 50,
+              "actionability": 60
+            },
+            "risks_cn": [
+              "未提供端到端推理时延、吞吐或显存占用的定量改善数据，真实部署收益不明确",
+              "仅在数学推理任务上验证，对多轮对话、情感交互等场景的泛化能力未知",
+              "离线校准依赖目标模型和注意力阈值，模型更新或架构变更后需重新校准",
+              "与现有推理框架的集成复杂度未讨论，实际工程落地可能存在兼容性问题"
+            ],
+            "recommended_action_cn": "暂不优先落地，但可列为推理加速模块的跟踪项。建议等待后续工作提供系统级指标（吞吐、时延、显存）或在对话模型上的验证结果，再评估集成可行性。"
+          }
+        },
+        {
+          "paper": {
+            "paper_id": "2606.11169",
+            "arxiv_short_id": "2606.11169v1",
+            "published_date": "2026-06-09",
+            "title": "Piper: A Programmable Distributed Training System",
+            "authors": "Megan Frisella et.al.",
+            "authors_full": [
+              "Megan Frisella",
+              "Shubham Tiwari",
+              "Andy Ruan",
+              "Yi Pan",
+              "Parker Gustafson",
+              "Mat Jacob",
+              "Gilbert Bernstein",
+              "Stephanie Wang"
+            ],
+            "paper_url": "http://arxiv.org/abs/2606.11169v1",
+            "pdf_url": "https://arxiv.org/pdf/2606.11169v1.pdf",
+            "code_link": null,
+            "abstract": "Large-scale model training increasingly relies on composing multiple parallelism strategies, such as data, pipeline, and expert parallelism, together with memory-saving optimizations like ZeRO. Deployed systems for foundation model pretraining often rely on human experts to manually design a high-level parallelism strategy then implement the corresponding low-level execution strategy, making it difficult to adapt the system to new strategies. Meanwhile, many general-purpose frameworks are more flexible but their implementations are still tied to a fixed set of common parallelism strategies, making it challenging to integrate state-of-the-art strategies.\n  We present Piper, a user-controllable distributed training system that decouples the strategy from the runtime implementation. Piper allows users to declare a comprehensive distributed training strategy with a small set of model annotations and scheduling directives. Each directive applies a transformation on Piper's intermediate representation (IR), a unified global training DAG that represents all computation and communication. Using this IR, Piper compiles per-device execution plans and executes them with a distributed runtime agnostic to the strategy. We show that the combined system maintains performance parity on commonly available strategies such as ZeRO, while also enabling additional performance and memory efficiency gains through joint scheduling of compute and communication in composed parallelism strategies such as DeepSeek-V3's DualPipe.",
+            "categories": [
+              "cs.DC",
+              "cs.AI"
+            ],
+            "matched_topics": [
+              "training_inference_acceleration"
+            ],
+            "matched_topic": "training_inference_acceleration"
+          },
+          "l1": {
+            "decision": "level2",
+            "model_decision": "level2",
+            "decision_source": "thresholds",
+            "matched_tracks": [
+              "acceleration"
+            ],
+            "scores": {
+              "topic_relevance": 4,
+              "scenario_fit": 4,
+              "landing_potential": 4,
+              "abstract_evidence_strength": 4,
+              "distance_penalty": 0
+            },
+            "total_score": 16,
+            "model_total_score": 16,
+            "reason_cn": "论文提出了一个可编程的分布式训练系统Piper，将训练策略从运行时实现解耦，允许用户声明式地组合数据并行、流水线并行、专家并行等策略，并支持ZeRO等内存优化。摘要明确描述了通过中间表示(IR)编译执行计划，实现了对常见策略的性能维持，并进一步通过计算和通信的联合调度提升效率和内存利用率（如DeepSeek-V3的DualPipe），与用户关注的训练加速方向高度契合，具备明确的系统设计、实现和性能证据。",
+            "archive_reason_cn": null
+          },
+          "analysis_meta": {
+            "from_cache": true
+          },
+          "review_input": {
+            "pdf_url": "https://arxiv.org/pdf/2606.11169v1.pdf",
+            "page_count": 15,
+            "section_titles": [
+              "abstract",
+              "conclusion"
+            ],
+            "section_lengths": {
+              "abstract": 1541,
+              "conclusion": 20814
+            },
+            "section_extraction_note": null,
+            "truncated_for_prompt": false
+          },
+          "review": {
+            "decision": "normal",
+            "priority": "useful",
+            "summary_cn": "Piper是一个用户可控的分布式训练系统，通过解耦策略说明与运行时实现，利用中间表示（IR）和编译技术，支持灵活组合数据并行、流水线并行、专家并行及ZeRO等内存优化，并在DualPipe等先进策略上展示了额外的性能与内存效率增益。",
+            "research_goal_cn": "提出一种将分布式训练策略与运行时解耦的系统，允许用户通过少量注释和调度指令声明任意组合的并行策略，从而在不损失性能的前提下实现更高的灵活性和效率。",
+            "method_cn": "用户通过模型注释和调度指令声明并行策略；每个指令对统一的全局训练DAG（IR）进行变换；编译器将IR转换为每个设备的执行计划；运行时与策略无关，执行编译后的计划。",
+            "experiment_cn": "在常用策略（如ZeRO）上验证性能持平现有系统；在组合并行策略（如DeepSeek-V3的DualPipe）上展示联合调度带来的吞吐提升和内存节省；提供了与Megatron-LM、DeepSpeed等框架的对比。",
+            "result_cn": "Piper在保持常用策略性能的同时，能支持更复杂的并行组合，实现额外的训练吞吐和内存效率提升，且用户可自定义调度策略。",
+            "landing_value_cn": "可应用于大模型训练流水线，通过自定义并行策略优化训练效率、降低训练成本；尤其适合需要组合多种并行策略的超大规模模型训练场景。",
+            "module_assessments": [
+              {
+                "module_id": "dataset_pipeline",
+                "module_name": "数据集制备与评测数据集",
+                "relevance": "none",
+                "should_follow": false,
+                "reason_cn": "论文聚焦分布式训练系统框架，未涉及数据构造、情感对话、Tool Use、评测数据集等任何数据制备相关主题。",
+                "evidence_cn": "全文中未出现数据集构造、情感、对话、评测、SFT等关键词。"
+              },
+              {
+                "module_id": "llm_memory",
+                "module_name": "大模型记忆",
+                "relevance": "none",
+                "should_follow": false,
+                "reason_cn": "论文讨论训练并行策略，与记忆框架、长期记忆、人格一致性、情绪稳定性等无关。",
+                "evidence_cn": "无记忆架构、记忆检索、个性化、隐式记忆等内容。"
+              },
+              {
+                "module_id": "neuro_nlp_memory",
+                "module_name": "神经科学、语言与记忆",
+                "relevance": "none",
+                "should_follow": false,
+                "reason_cn": "纯系统研究，与脑科学、语言理解、情绪处理等神经科学视角完全无关。",
+                "evidence_cn": "未提及任何神经科学或认知科学模型。"
+              },
+              {
+                "module_id": "acceleration",
+                "module_name": "训练加速与推理加速",
+                "relevance": "high",
+                "should_follow": true,
+                "reason_cn": "直接提出分布式训练系统框架，支持组合并行与通信计算联合调度，能显著改善训练效率和内存利用，与训练加速子模块高度契合。",
+                "evidence_cn": "支持ZeRO、PP、DP、EP等多种并行，并实现DualPipe等先进策略的额外性能增益；实验显示在DualPipe上比基线有明显提升。"
+              },
+              {
+                "module_id": "poi_companion",
+                "module_name": "POI场景与陪伴产品",
+                "relevance": "none",
+                "should_follow": false,
+                "reason_cn": "未涉及POI推荐、多轮交互、用户状态理解、工具调用等陪伴产品相关功能。",
+                "evidence_cn": "论文内容集中于底层训练系统，无应用层对话或推荐逻辑。"
+              }
+            ],
+            "scores": {
+              "relevance": 70,
+              "credibility": 85,
+              "landing_feasibility": 75,
+              "actionability": 70
+            },
+            "risks_cn": [
+              "框架尚未广泛验证，可能隐藏与现有PyTorch生态的兼容性问题",
+              "自定义策略的编写门槛较高，需要团队具备并行策略设计能力",
+              "仅展示了部分模型的性能，对用户特定模型尺寸和硬件的适应性未知"
+            ],
+            "recommended_action_cn": "在内部小规模训练任务上试用Piper，验证其对现有训练流程的兼容性和性能收益；若有效，可尝试将核心模型训练迁移至Piper以优化成本。"
+          }
+        },
+        {
+          "paper": {
+            "paper_id": "2606.04547",
+            "arxiv_short_id": "2606.04547v1",
+            "published_date": "2026-06-03",
+            "title": "Beyond Retrieval: Learning Compact User Representations for Scalable LLM Personalization",
+            "authors": "Heng Cao et.al.",
+            "authors_full": [
+              "Heng Cao",
+              "Fan Zhang",
+              "Jian Yao",
+              "Yujie Zheng",
+              "Changlin Zhao",
+              "Lu Hao",
+              "Yuxuan Wei",
+              "Wangze Ni",
+              "Huaiyu Fu",
+              "Yuqian Sun",
+              "Xuyan Mo"
+            ],
+            "paper_url": "http://arxiv.org/abs/2606.04547v1",
+            "pdf_url": "https://arxiv.org/pdf/2606.04547v1.pdf",
+            "code_link": null,
+            "abstract": "Personalizing large language models requires adapting model behavior to individual users while preserving robustness and deployment-scale efficiency. Existing approaches typically personalize LLMs either at the input level, by retrieving user histories or constructing profile prompts, or at the parameter level, by maintaining user-specific parameter-efficient modules. The former makes personalization sensitive to retrieval quality and prompt design, whereas the latter incurs storage and maintenance costs that grow with the user population. To address these limitations, we propose TAP-PER (Temporal Attentive Prefix for PERsonalization), a prefix-based framework that encodes user preferences as learnable representations, eliminating explicit prompt construction and replacing heavy per-user adapters with lightweight user-state prefix embeddings. Inspired by personalized recommendation systems, TAP-PER decomposes user modeling into user-state and query-conditioned components, and incorporates temporal signals to capture the evolving nature of user interests. Experiments on six LaMP tasks show that TAP-PER consistently outperforms prompt-based and model-based baselines across classification, rating, and generation settings. Moreover, TAP-PER uses 130x fewer per-user parameters than OPPU and roughly half the total parameter footprint of PER-PCS at the 1,000-user scale, demonstrating that scalable LLM personalization can be achieved without explicit prompt construction or heavy per-user adapters.",
+            "categories": [
+              "cs.IR",
+              "cs.CL"
+            ],
+            "matched_topics": [
+              "poi_ai_companion"
+            ],
+            "matched_topic": "poi_ai_companion"
+          },
+          "l1": {
+            "decision": "level2",
+            "model_decision": "level2",
+            "decision_source": "thresholds",
+            "matched_tracks": [
+              "llm_memory.multi_agent_memory_frameworks",
+              "poi_companion.poi_tool_use_companion"
+            ],
+            "scores": {
+              "topic_relevance": 3,
+              "scenario_fit": 2,
+              "landing_potential": 3,
+              "abstract_evidence_strength": 4,
+              "distance_penalty": 2
+            },
+            "total_score": 10,
+            "model_total_score": 10,
+            "reason_cn": "论文提出紧凑用户表示用于可扩展LLM个性化，直接属于个性化记忆方向，同时其用户偏好建模可应用于POI陪伴场景。方法新颖，实验充分，但场景落地尚需针对陪伴产品验证，整体符合level2收录标准。",
+            "archive_reason_cn": null
+          },
+          "analysis_meta": {
+            "from_cache": false
+          },
+          "review_input": {
+            "pdf_url": "https://arxiv.org/pdf/2606.04547v1.pdf",
+            "page_count": 16,
+            "section_titles": [
+              "abstract",
+              "method",
+              "limitation",
+              "conclusion"
+            ],
+            "section_lengths": {
+              "abstract": 1539,
+              "method": 6000,
+              "limitation": 5999,
+              "conclusion": 937
+            },
+            "section_extraction_note": "已按提示词预算截断章节内容。",
+            "truncated_for_prompt": true
+          },
+          "review": {
+            "decision": "normal",
+            "priority": "useful",
+            "summary_cn": "提出TAP-PER，一种基于前缀的LLM个性化框架，用可学习的用户状态前缀和查询相关的历史记录前缀替代显式提示或每用户适配器，结合桥接LoRA实现高效用户适应，在LaMP基准上取得性能与参数效率的平衡。",
+            "research_goal_cn": "解决LLM个性化中提示工程敏感性与每用户适配器存储开销问题，通过压缩的用户表示实现可扩展的个性化。",
+            "method_cn": "两阶段训练：第一阶段任务级LoRA微调骨干；第二阶段冻结骨干，学习用户状态前缀嵌入（可学习嵌入表）、查询相关的历史记录前缀（DIN注意力+时间衰减）、以及共享桥接LoRA，前缀相加后与查询拼接输入。",
+            "experiment_cn": "在LaMP六个任务（分类、评分、生成）上评估，对比提示方法（Retrieval-Augmented Generation）和模型方法（PER-PCS、OPPU等），消融实验验证各组件作用，并分析参数效率。",
+            "result_cn": "TAP-PER在所有任务上优于提示和模型基准，用户参数减少130倍，总参数量约为PER-PCS的一半，并支持持续适应。",
+            "landing_value_cn": "为记忆系统中的隐式用户建模提供轻量方案，可借鉴其用户状态持久化与历史注意力机制，但缺乏情感、POI场景直接验证。",
+            "module_assessments": [
+              {
+                "module_id": "dataset_pipeline",
+                "module_name": "数据集制备与评测数据集",
+                "relevance": "low",
+                "should_follow": false,
+                "reason_cn": "论文未贡献新数据集或标注规范，使用的LaMP基准为通用个性化任务，不涉及情感对话、Tool Use或心理感知评测。",
+                "evidence_cn": "实验基于LaMP，包含个性化分类、评分、生成，无新数据构建或评测方案。"
+              },
+              {
+                "module_id": "llm_memory",
+                "module_name": "大模型记忆",
+                "relevance": "medium",
+                "should_follow": true,
+                "reason_cn": "用户状态前缀可视为隐式长期记忆，查询相关的历史注意力实现记忆检索，其双轨设计对记忆架构有借鉴意义；桥接LoRA可看作记忆注入方式，但非多智能体框架或人格一致性研究。",
+                "evidence_cn": "用户状态前缀捕捉持久偏好，记录前缀通过时间衰减注意力选择相关历史，两者组合提供个性化上下文。"
+              },
+              {
+                "module_id": "neuro_nlp_memory",
+                "module_name": "神经科学、语言与记忆",
+                "relevance": "none",
+                "should_follow": false,
+                "reason_cn": "无神经科学方法或认知机制讨论。",
+                "evidence_cn": "论文专注于工程实现，未引用神经科学文献或模型。"
+              },
+              {
+                "module_id": "acceleration",
+                "module_name": "训练加速与推理加速",
+                "relevance": "low",
+                "should_follow": false,
+                "reason_cn": "虽追求参数效率，但未提出训练或推理加速方法，桥接LoRA和注意力计算可能增加推理开销。",
+                "evidence_cn": "论文关注存储与参数效率而非计算效率，未涉及缓存、并行或编译优化。"
+              },
+              {
+                "module_id": "poi_companion",
+                "module_name": "POI场景与陪伴产品",
+                "relevance": "low",
+                "should_follow": false,
+                "reason_cn": "通用个性化任务与POI场景差距大，未涉及工具调用、多轮交互或用户状态理解。",
+                "evidence_cn": "LaMP任务为产品评论生成、个性化分类等，不包含地点推荐或陪伴对话。"
+              }
+            ],
+            "scores": {
+              "relevance": 45,
+              "credibility": 78,
+              "landing_feasibility": 60,
+              "actionability": 40
+            },
+            "risks_cn": [
+              "用户状态嵌入仍依赖历史数据，隐私风险未完全解决，部署时需额外安全措施",
+              "注意力计算全历史可能不适用于极长或噪声历史，缺少与检索结合的分析",
+              "仅在两个8B规模模型上验证，更大模型效果未知"
+            ],
+            "recommended_action_cn": "可将其用户状态前缀与历史注意力机制作为隐式记忆模块的参考设计，但不作为高优先级跟进；建议在记忆系统预研时对比其方案可行性，暂不启动系统工程。"
+          }
+        },
+        {
+          "paper": {
+            "paper_id": "2606.11119",
+            "arxiv_short_id": "2606.11119v1",
+            "published_date": "2026-06-09",
+            "title": "TRACE: A Unified Rollout Budget Allocation Framework for Efficient Agentic Reinforcement Learning",
+            "authors": "Heming Zou et.al.",
+            "authors_full": [
+              "Heming Zou",
+              "Qi Wang",
+              "Yun Qu",
+              "Yuhang Jiang",
+              "Lizhou Cai",
+              "Yixiu Mao",
+              "Ru Peng",
+              "Xin Xu",
+              "Weijie Liu",
+              "Kai Yang",
+              "Saiyong Yang",
+              "Xiangyang Ji"
+            ],
+            "paper_url": "http://arxiv.org/abs/2606.11119v1",
+            "pdf_url": "https://arxiv.org/pdf/2606.11119v1.pdf",
+            "code_link": null,
+            "abstract": "Reinforcement learning with verifiable rewards (RLVR) is a promising approach for enhancing reasoning and agentic behavior in large language models. However, rollout-intensive policy optimization is often limited by insufficient reward contrast, arising when overly simple or complex prompts generate low-variance feedback and when outcome-only rewards assign the same terminal assessment to every decision in a multi-turn rollout. Past efforts have focused on allocating available rollout resources to promising prompts, yet they only leverage sample informativeness at the prompt level and neglect variation in prefix-level informativeness across turns within the same rollout. This work targets multi-turn agentic RL by modeling each ReAct-style thought-action-observation turn as a semantically distinct node, allowing budget allocation to extend from prompt roots to turn-level prefixes with further continuations, which naturally forms tree-structured rollouts. We introduce Tree Rollout Allocation for Contrastive Exploration (TRACE), a unified rollout allocation framework that enhances reward contrast within a fixed sampling budget. Technically, TRACE allocates rollout budget to both prompt roots and intermediate prefixes that are most likely to yield mixed terminal rewards. A shared generalizable predictor estimates conditional success probability at these anchors from prefix histories to guide this allocation. The resulting adaptive tree structure enriches outcome-only feedback and amplifies the policy-update signal. Empirically, TRACE achieves competitive performance and efficiency gains on typical agentic benchmarks, e.g., improving Qwen3-14B Multi-Hop QA average accuracy by 2.8 points over competitive baselines at equal sampling cost.",
+            "categories": [
+              "cs.LG",
+              "cs.AI",
+              "cs.CL"
+            ],
+            "matched_topics": [
+              "agent"
+            ],
+            "matched_topic": "agent"
+          },
+          "l1": {
+            "decision": "level2",
+            "model_decision": "level2",
+            "decision_source": "thresholds",
+            "matched_tracks": [
+              "acceleration"
+            ],
+            "scores": {
+              "topic_relevance": 4,
+              "scenario_fit": 4,
+              "landing_potential": 3,
+              "abstract_evidence_strength": 4,
+              "distance_penalty": 2
+            },
+            "total_score": 13,
+            "model_total_score": 13,
+            "reason_cn": "提出TRACE框架，通过树形rollout预算分配提升多轮agentic RL的训练效率，属于大模型训练加速方法，与用户关注的训练加速方向高度匹配。摘要提供了明确的方法描述和在Qwen3-14B上的性能提升证据。",
+            "archive_reason_cn": null
+          },
+          "analysis_meta": {
+            "from_cache": true
+          },
+          "review_input": {
+            "pdf_url": "https://arxiv.org/pdf/2606.11119v1.pdf",
+            "page_count": 32,
+            "section_titles": [
+              "abstract",
+              "experiments",
+              "limitation",
+              "conclusion"
+            ],
+            "section_lengths": {
+              "abstract": 1763,
+              "experiments": 6000,
+              "limitation": 6000,
+              "conclusion": 908
+            },
+            "section_extraction_note": "已按提示词预算截断章节内容。",
+            "truncated_for_prompt": true
+          },
+          "review": {
+            "decision": "normal",
+            "priority": "useful",
+            "summary_cn": "提出 TRACE 框架，在固定采样预算下通过树形 rollout 分配提高多轮 agent RLVR 中的奖励对比度。将每个 ReAct 轮次视为语义节点，利用预测器估计条件成功概率，引导预算分配到可能产生混合终端奖励的根和前缀，从而增强策略更新信号。在数学推理、多跳 QA、函数调用等任务上相比 GRPO、PCL、TreePO 获得准确率提升和更高的有效 rollout 比率。",
+            "research_goal_cn": "解决多轮 agent RLVR 中奖励对比度不足的问题，通过树形 rollout 分配高效利用采样预算，提升多轮智能体训练的性能和样本效率。",
+            "method_cn": "TRACE 将 rollout 分配建模为在 rollout 树锚点（提示根和中间前缀）上分配预算的问题，使用共享的泛化预测器估计条件成功概率，指导根预算分配和前缀局部扩展，生成树形 rollout 以增强终端结果对比度，并利用树感知优化器更新策略。",
+            "experiment_cn": "在 Qwen3-8B 和 Qwen3-14B 上，于数学推理（DeepScaler）、多跳 QA（HotpotQA 等）、函数调用（BFCL v4）三个多轮设置下评估。对比 GRPO、PCL、随机 TreePO，TRACE 在相同预算下提升测试准确率，并显著提高训练中有效 rollout 比率（例如在 Qwen3-14B 多跳 QA 上平均准确率提升 2.8 点）。",
+            "result_cn": "TRACE 在所有三个任务和两个模型规模上均优于基线，在相同采样成本下获得更高准确率，且训练过程中有效 rollout 比率大幅提升（如数学推理从 26.8% 升至 60.6%），验证了分配策略能产生更丰富的对比信号。",
+            "landing_value_cn": "方法可迁移到工具调用或对话 agent 的 RL 训练，提升样本效率。对数据制备而言，其树形 rollout 产生的对比样本可沉淀为偏好数据或 on-policy 数据，但当前落地需适配具体任务（如 POI 工具调用）。",
+            "module_assessments": [
+              {
+                "module_id": "dataset_pipeline",
+                "module_name": "数据集制备与评测数据集",
+                "relevance": "low",
+                "should_follow": false,
+                "reason_cn": "论文未提出新数据集或评估方案，但函数调用（BFCL v4）的任务设置与 Tool Use 数据相关。方法生成的树形 rollout 可潜在用于构造工具调用训练数据，但本身不直接贡献数据集构建。情感对话和情绪评估方面完全无关。",
+                "evidence_cn": "实验使用 BFCL v4 多轮函数调用基准，属于 tool_use_and_poi_data track；无情感或心理评测相关内容。"
+              },
+              {
+                "module_id": "llm_memory",
+                "module_name": "大模型记忆",
+                "relevance": "none",
+                "should_follow": false,
+                "reason_cn": "论文不涉及记忆框架、隐式记忆或人格一致性，完全属于 RL 训练方法。",
+                "evidence_cn": "无任何记忆相关概念、实验或架构描述。"
+              },
+              {
+                "module_id": "neuro_nlp_memory",
+                "module_name": "神经科学、语言与记忆",
+                "relevance": "none",
+                "should_follow": false,
+                "reason_cn": "未引用神经科学方法，不涉及语言或情绪的神经机制。",
+                "evidence_cn": "全文无相关神经科学内容。"
+              },
+              {
+                "module_id": "acceleration",
+                "module_name": "训练加速与推理加速",
+                "relevance": "low",
+                "should_follow": false,
+                "reason_cn": "样本效率提升可视为一种算法层面的训练加速，但非系统级加速或推理加速。与 training_acceleration track 的边缘相关。",
+                "evidence_cn": "主要通过预算分配提升 rollout 信号质量，未涉及并行、编译、内存优化等底层加速技术。"
+              },
+              {
+                "module_id": "poi_companion",
+                "module_name": "POI 场景与陪伴产品",
+                "relevance": "low",
+                "should_follow": false,
+                "reason_cn": "函数调用能力是 POI 陪伴产品的基础，但论文未针对 POI 场景设计，仅用通用函数调用基准。方法可迁移到 POI 工具调用训练，但缺乏直接场景适配。",
+                "evidence_cn": "BFCL v4 是多领域 API 调用，无 POI 或推荐任务。"
+              }
+            ],
+            "scores": {
+              "relevance": 45,
+              "credibility": 80,
+              "landing_feasibility": 50,
+              "actionability": 40
+            },
+            "risks_cn": [
+              "方法依赖 outcome-only 验证，对无明确终端奖励的对话或陪伴任务直接适用性有限",
+              "预测器质量影响分配效果，需额外训练或微调",
+              "实验未涵盖真实陪伴或 POI 场景，迁移需重新验证"
+            ],
+            "recommended_action_cn": "若当前积极训练工具调用或 agent 型模型，可复现 TRACE 在内部工具使用数据集上的效果，验证其对样本效率的提升；否则作为技术储备归档。"
+          }
+        },
+        {
+          "paper": {
+            "paper_id": "2606.10921",
+            "arxiv_short_id": "2606.10921v1",
+            "published_date": "2026-06-09",
+            "title": "Trace Only What You Need: Structure-Aware On-Demand Hypergraph Memory for Long-Document Question Answering",
+            "authors": "Xiangjun Zai et.al.",
+            "authors_full": [
+              "Xiangjun Zai",
+              "Xingyu Tan",
+              "Chen Chen",
+              "Xiaoyang Wang",
+              "Wenjie Zhang"
+            ],
+            "paper_url": "http://arxiv.org/abs/2606.10921v1",
+            "pdf_url": "https://arxiv.org/pdf/2606.10921v1.pdf",
+            "code_link": null,
+            "abstract": "Long-document question answering (QA) requires large language models (LLMs) to reason over evidence scattered across lengthy documents, where answers often depend on event order, section-level context, and cross-part evidence connections. Although retrieval-augmented generation (RAG) reduces the input context by retrieving relevant evidence, existing structured RAG methods still face three limitations: costly query-agnostic knowledge organization, insufficient use of original document structure, and no reuse of historical reasoning experience. To address these limitations, we propose DocTrace, a multi-agent RAG framework for long-document QA that supports query-triggered knowledge organization, document-structure-aware and experience-guided reasoning. DocTrace preserves document hierarchy with a lightweight document structural tree index, constructs agent-shared hypergraph-structured working memory on demand during reasoning, and stores successful reasoning plans in graph-structured experience memory for future reuse, enabling adaptive exploration across related long-document questions. Experiments on four long-document QA datasets show that DocTrace achieves the best performance on three datasets, surpassing the strongest baseline, ComoRAG, by up to 8.85% in F1 and 4.40% in EM, while reducing the overall computational cost by 53.32%",
+            "categories": [
+              "cs.CL"
+            ],
+            "matched_topics": [
+              "neuroscience_language_memory"
+            ],
+            "matched_topic": "neuroscience_language_memory"
+          },
+          "l1": {
+            "decision": "level2",
+            "model_decision": "level2",
+            "decision_source": "thresholds",
+            "matched_tracks": [
+              "llm_memory"
+            ],
+            "scores": {
+              "topic_relevance": 4,
+              "scenario_fit": 4,
+              "landing_potential": 4,
+              "abstract_evidence_strength": 4,
+              "distance_penalty": 2
+            },
+            "total_score": 14,
+            "model_total_score": 14,
+            "reason_cn": "论文提出多智能体RAG框架DocTrace，通过超图工作记忆与经验记忆实现长文档问答中的结构感知与查询驱动推理，直接对应大模型记忆方向中的多智能体记忆框架与记忆检索策略。实验显示显著性能提升与成本降低，具有明确的方法、实验与结果，高度契合用户关注的多智能体记忆研究。",
+            "archive_reason_cn": null
+          },
+          "analysis_meta": {
+            "from_cache": true
+          },
+          "review_input": {
+            "pdf_url": "https://arxiv.org/pdf/2606.10921v1.pdf",
+            "page_count": 27,
+            "section_titles": [
+              "abstract",
+              "method",
+              "experiments",
+              "limitation",
+              "conclusion"
+            ],
+            "section_lengths": {
+              "abstract": 4800,
+              "method": 1492,
+              "experiments": 4800,
+              "limitation": 4800,
+              "conclusion": 1383
+            },
+            "section_extraction_note": "已按提示词预算截断章节内容。",
+            "truncated_for_prompt": true
+          },
+          "review": {
+            "decision": "normal",
+            "priority": "useful",
+            "summary_cn": "DocTrace 是一个面向长文档问答的多智能体 RAG 框架，通过编排者-调查者架构、文档结构树索引、超图工作记忆和跨查询的经验记忆 DAG 来提升复杂问题的检索与推理性能。在四个长文档 QA 数据集上取得领先结果，并消融验证了规划、工作记忆和结构索引的有效性。",
+            "research_goal_cn": "解决长文档中需要多步推理和证据聚合的复杂问答任务，通过结构感知检索和记忆机制提高答案的覆盖度和准确率，同时降低全文档预构建的计算成本。",
+            "method_cn": "采用 Orchestrator-Investigator 架构：编排者基于文档结构树索引选择种子节点，利用抽象化的问题表示和从经验记忆中检索的推理DAG进行规划，将问题分解为子问题并调度调查者执行；调查者通过构建超图工作记忆（包含抽象视图和关系视图）进行证据检索并生成子答案；编排者整合后生成最终答案，并将成功推理DAG存入经验记忆供未来复用。",
+            "experiment_cn": "在 NarrativeQA、EN.QA、EN.MC、DetectiveQA 四个长文档 QA 数据集上进行测试，对比 RAPTOR、HippoRAGv2、ComoRAG 等基线，并通过消融实验分析编排者规划、工作记忆和结构树索引的贡献，还测试了不同 LLM 骨干下的性能。",
+            "result_cn": "在 3/4 数据集上取得最优，NarrativeQA 上 F1 超最强基线 8.85%，EN.QA 上计算成本降低 53.32%。消融显示去掉规划、工作记忆或结构索引均导致显著性能下降。",
+            "landing_value_cn": "对当前业务直接落地价值有限：任务场景为长文档 QA，与情感对话、工具使用、POI 陪伴等目标场景差异大；但其多智能体协作模式、跨查询经验记忆的设计思想可能对构建具有推理路径复用能力的多轮对话记忆模块有启发，需结合具体业务数据进行大量适配。",
+            "module_assessments": [
+              {
+                "module_id": "dataset_pipeline",
+                "module_name": "数据集制备与评测数据集",
+                "relevance": "none",
+                "should_follow": false,
+                "reason_cn": "论文未涉及任何训练或评测数据集的构造、标注规范或采样策略，仅直接使用已有的长文档 QA 数据集，无法落地为数据生产流程。",
+                "evidence_cn": "实验部分使用 NarrativeQA、EN.QA 等公开数据集，无新数据集提出，无数据收集或标注方法。"
+              },
+              {
+                "module_id": "llm_memory",
+                "module_name": "大模型记忆",
+                "relevance": "medium",
+                "should_follow": false,
+                "reason_cn": "跨查询经验记忆（Graph-structured Experience Memory）存储成功推理 DAG 以实现计划复用，属于一种多智能体框架下的记忆机制，具备向多轮交互中推理路径记忆演化的潜力；但隐式记忆、人格一致性、情绪稳定性等方向完全缺失，且记忆结构高度依赖文档索引，与陪伴产品的对话记忆需求差异大。",
+                "evidence_cn": "Section 4.4 描述了 Graph-structured Experience Memory，用于存储子问题答案及依赖关系，供编排器 InitPlan 时检索相似计划；实验验证了其有效性（w/o DM 变体性能下降）。"
+              },
+              {
+                "module_id": "neuro_nlp_memory",
+                "module_name": "神经科学、语言与记忆",
+                "relevance": "none",
+                "should_follow": false,
+                "reason_cn": "全篇无任何神经科学视角，未借鉴脑科学对语言理解、记忆形成或情绪感知的解释，与 NLP/LLM 建模的神经科学启发无关。",
+                "evidence_cn": "摘要、方法、实验、结论中均未出现神经科学相关术语或引用。"
+              },
+              {
+                "module_id": "acceleration",
+                "module_name": "训练加速与推理加速",
+                "relevance": "none",
+                "should_follow": false,
+                "reason_cn": "论文未涉及训练或推理加速技术，未讨论框架优化、缓存、并行或成本压缩，仅提及自身计算开销对比 ComoRAG 降低，但并非方法贡献。",
+                "evidence_cn": "实验部分仅在成本对比上提到降低 53.32% 计算开销，但这是整体流程设计带来的相对优势，无针对加速的独立模块。"
+              },
+              {
+                "module_id": "poi_companion",
+                "module_name": "POI 场景与陪伴产品",
+                "relevance": "none",
+                "should_follow": false,
+                "reason_cn": "任务为长文档 QA，与 POI 推荐、旅行助手、工具调用、用户状态理解等陪伴产品场景无关，多轮交互也仅限于同一文档内的问答轮次，无真实陪伴交互特征。",
+                "evidence_cn": "问题示例均为故事文档理解，无 POI 相关实体或功能调用，不存在多轮情感/任务导向对话。"
+              }
+            ],
+            "scores": {
+              "relevance": 25,
+              "credibility": 82,
+              "landing_feasibility": 18,
+              "actionability": 22
+            },
+            "risks_cn": [
+              "记忆机制与当前业务场景（情感对话、POI 陪伴）差异过大，直接迁移可能无法提升产品核心指标；",
+              "系统依赖 LLM 多次调用进行规划和工作记忆构建，实际部署成本可能较高；",
+              "仅限文本模态，无法直接用于多模态陪伴产品；",
+              "缺乏与真实用户交互数据的验证，在开放域对话中的可复现性存疑。"
+            ],
+            "recommended_action_cn": "可将本文作为记忆框架设计的背景参考，重点阅读其跨查询经验记忆 DAG 的设计理念和编排-调查者分工，评估是否可改造为多轮对话中工具调用或推荐路径的快速复用机制，但不作为优先推进项。"
+          }
+        }
+      ],
+      "watchlist_candidates": [
+        {
+          "paper": {
+            "paper_id": "2606.11164",
+            "arxiv_short_id": "2606.11164v1",
+            "published_date": "2026-06-09",
+            "title": "ReasonAlloc: Hierarchical Decoding-Time KV Cache Budget Allocation for Reasoning Models",
+            "authors": "Wenhao Liu et.al.",
+            "authors_full": [
+              "Wenhao Liu",
+              "Hao Shi",
+              "Yunhe Li",
+              "Weizhi Fei",
+              "Xiangyuan Wang",
+              "Mengzhe Ruan",
+              "Hanxu Hou",
+              "Peisong Wang",
+              "Linqi Song",
+              "Shuang Qiu"
+            ],
+            "paper_url": "http://arxiv.org/abs/2606.11164v1",
+            "pdf_url": "https://arxiv.org/pdf/2606.11164v1.pdf",
+            "code_link": null,
+            "abstract": "Long chain-of-thought (CoT) trajectories in large language model (LLM) reasoning cause severe inference bottlenecks due to rapid key-value (KV) cache growth. Current decoding-time compression methods mitigate this issue via token eviction, but typically assume a uniform budget distribution across all layers and heads. In contrast, existing non-uniform budget allocation methods are predominantly designed for the static prompt prefill phase, and they do not capture the stepwise context demands of autoregressive reasoning. To bridge this gap, we propose ReasonAlloc, a training-free framework that recasts decoding-time KV compression as a hierarchical budget allocation problem. ReasonAlloc operates at two complementary levels: an offline layer-wise preallocation strategy captures an architecture-driven demand pattern which we call ``\\textit{Reasoning Wave}'', while an online head-wise strategy reallocates resources during decoding to information-rich heads based on real-time utility. Evaluations on mathematical reasoning benchmarks (MATH-500, AIME~2024) using DeepSeek-R1-Distill-Llama-8B, DeepSeek-R1-Distill-Qwen-14B, and AceReason-14B show that ReasonAlloc outperforms uniform-budget R-KV, SnapKV, and Pyramid-RKV (a baseline enforcing a static, monotonically decreasing layer budget), with the largest gains at small budgets (128-512 tokens). ReasonAlloc is plug-and-play with existing token-eviction policies and introduces negligible inference-time overhead.",
+            "categories": [
+              "cs.AI"
+            ],
+            "matched_topics": [
+              "training_inference_acceleration"
+            ],
+            "matched_topic": "training_inference_acceleration"
+          },
+          "l1": {
+            "decision": "level2",
+            "model_decision": "level2",
+            "decision_source": "thresholds",
+            "matched_tracks": [
+              "acceleration"
+            ],
+            "scores": {
+              "topic_relevance": 4,
+              "scenario_fit": 4,
+              "landing_potential": 4,
+              "abstract_evidence_strength": 4,
+              "distance_penalty": 0
+            },
+            "total_score": 16,
+            "model_total_score": 16,
+            "reason_cn": "论文提出推理加速方法：解码时分层 KV 缓存预算分配，直接针对推理瓶颈，属于用户关注的 inference acceleration，且训练无关、即插即用，实验显示显著收益，落地潜力高。",
+            "archive_reason_cn": null
+          },
+          "analysis_meta": {
+            "from_cache": true
+          },
+          "review_input": {
+            "pdf_url": "https://arxiv.org/pdf/2606.11164v1.pdf",
+            "page_count": 23,
+            "section_titles": [
+              "full_text_excerpt"
+            ],
+            "section_lengths": {
+              "full_text_excerpt": 24000
+            },
+            "section_extraction_note": "未识别到偏好章节标题，退回为整篇 PDF 文本截断片段。 已按提示词预算截断章节内容。",
+            "truncated_for_prompt": true
+          },
+          "review": {
+            "decision": "normal",
+            "priority": "useful",
+            "summary_cn": "ReasonAlloc 提出一种训练自由的解码时 KV 缓存分层预算分配框架，结合离线层级别预分配（利用“推理波”架构模式）和在线头级别动态路由，以改善推理模型的长链推理内存瓶颈。在数学推理基准和多个 DeepSeek-R1 蒸馏模型上，该方法在相同预算下优于均匀分配和静态非均匀基线，尤其在小预算时增益明显。",
+            "research_goal_cn": "解决推理模型因长 CoT 轨迹导致 KV 缓存快速膨胀的内存瓶颈，通过非均匀预算分配提升压缩效率。",
+            "method_cn": "分为两个阶段：（1）离线层级别预分配：通过轻量探测计算每层达到指定注意力质量阈值所需的最小 token 数，经平滑和边界保护转换为稳定层预算；（2）在线头级别动态路由：每若干步根据 token 效用得分（基于重要性-冗余联合分数）为各头重分配预算，同样经平滑和安全边界防止饥饿。框架可与任意令牌驱逐策略即插即用。",
+            "experiment_cn": "在 MATH-500 和 AIME 2024 数学推理任务上，使用 R1-Llama-8B、R1-Qwen-14B 和 AceReason-14B 模型，对比均匀预算的 SnapKV、R-KV 以及静态层预算递减的 Pyramid-RKV，在不同 KV 缓存预算（128~3072 token）下评估准确率。消融实验和敏感性分析验证各组件和超参数。",
+            "result_cn": "ReasonAlloc 在所有预算下均优于基线的均匀分配和静态非均匀分配，尤其在 128-512 低预算时优势最明显，且引入的推理开销可忽略。离线校准显示层预算分布呈跨任务稳定的“推理波”非线性模式，架构差异远大于任务差异。",
+            "landing_value_cn": "方法可提升推理模型长序列生成的缓存效率，有望降低部署时的显存占用和提升吞吐，但论文未提供真实的时延/吞吐测量，仅展示了准确率-预算的 Pareto 改善，且只在数学推理任务上验证，对陪伴对话等场景的泛化性未知。",
+            "module_assessments": [
+              {
+                "module_id": "dataset_pipeline",
+                "module_name": "数据集制备与评测数据集",
+                "relevance": "none",
+                "should_follow": false,
+                "reason_cn": "论文内容完全围绕推理加速的 KV 缓存压缩，未涉及任何数据集 schema、标注、采样或评测集构建，与情感对话、Tool Use 等数据方向无关。",
+                "evidence_cn": "全文无数据集构造或评测方法贡献，实验仅使用已有数学推理基准。"
+              },
+              {
+                "module_id": "llm_memory",
+                "module_name": "大模型记忆",
+                "relevance": "none",
+                "should_follow": false,
+                "reason_cn": "论文处理的是硬件层面的 KV 缓存预算分配，而非模型记忆框架、长期记忆或人格一致性，与多智能体记忆或隐式记忆无关。",
+                "evidence_cn": "未涉及记忆架构、个性建模或情绪稳定性设计。"
+              },
+              {
+                "module_id": "neuro_nlp_memory",
+                "module_name": "神经科学、语言与记忆",
+                "relevance": "none",
+                "should_follow": false,
+                "reason_cn": "未利用任何神经科学机制或认知模型解释语言或记忆，纯粹为工程优化方法。",
+                "evidence_cn": "文献回顾和设计思路均基于注意力统计分析，无神经科学引用。"
+              },
+              {
+                "module_id": "acceleration",
+                "module_name": "训练加速与推理加速",
+                "relevance": "high",
+                "should_follow": true,
+                "reason_cn": "论文直接针对推理加速中的 KV 缓存压缩，提出动态分层预算分配方案，符合推理加速 track 中“缓存优化”和“延迟/吞吐优化”目标。",
+                "evidence_cn": "抽象明确关注解码时 KV 缓存增长带来的推理瓶颈，实验展示在固定缓存预算下显著提升数学推理准确率，表明内存使用效率提升。"
+              },
+              {
+                "module_id": "poi_companion",
+                "module_name": "POI 场景与陪伴产品",
+                "relevance": "none",
+                "should_follow": false,
+                "reason_cn": "研究内容完全未涉及 POI、陪伴、工具调用或用户状态理解，任务仅限于数学推理，无对话或推荐场景。",
+                "evidence_cn": "实验仅包括 MATH-500 和 AIME 2024，未涉及任何交互或 POI 相关任务。"
+              }
+            ],
+            "scores": {
+              "relevance": 78,
+              "credibility": 82,
+              "landing_feasibility": 50,
+              "actionability": 60
+            },
+            "risks_cn": [
+              "未提供端到端推理时延、吞吐或显存占用的定量改善数据，真实部署收益不明确",
+              "仅在数学推理任务上验证，对多轮对话、情感交互等场景的泛化能力未知",
+              "离线校准依赖目标模型和注意力阈值，模型更新或架构变更后需重新校准",
+              "与现有推理框架的集成复杂度未讨论，实际工程落地可能存在兼容性问题"
+            ],
+            "recommended_action_cn": "暂不优先落地，但可列为推理加速模块的跟踪项。建议等待后续工作提供系统级指标（吞吐、时延、显存）或在对话模型上的验证结果，再评估集成可行性。"
+          }
+        },
+        {
+          "paper": {
+            "paper_id": "2606.11169",
+            "arxiv_short_id": "2606.11169v1",
+            "published_date": "2026-06-09",
+            "title": "Piper: A Programmable Distributed Training System",
+            "authors": "Megan Frisella et.al.",
+            "authors_full": [
+              "Megan Frisella",
+              "Shubham Tiwari",
+              "Andy Ruan",
+              "Yi Pan",
+              "Parker Gustafson",
+              "Mat Jacob",
+              "Gilbert Bernstein",
+              "Stephanie Wang"
+            ],
+            "paper_url": "http://arxiv.org/abs/2606.11169v1",
+            "pdf_url": "https://arxiv.org/pdf/2606.11169v1.pdf",
+            "code_link": null,
+            "abstract": "Large-scale model training increasingly relies on composing multiple parallelism strategies, such as data, pipeline, and expert parallelism, together with memory-saving optimizations like ZeRO. Deployed systems for foundation model pretraining often rely on human experts to manually design a high-level parallelism strategy then implement the corresponding low-level execution strategy, making it difficult to adapt the system to new strategies. Meanwhile, many general-purpose frameworks are more flexible but their implementations are still tied to a fixed set of common parallelism strategies, making it challenging to integrate state-of-the-art strategies.\n  We present Piper, a user-controllable distributed training system that decouples the strategy from the runtime implementation. Piper allows users to declare a comprehensive distributed training strategy with a small set of model annotations and scheduling directives. Each directive applies a transformation on Piper's intermediate representation (IR), a unified global training DAG that represents all computation and communication. Using this IR, Piper compiles per-device execution plans and executes them with a distributed runtime agnostic to the strategy. We show that the combined system maintains performance parity on commonly available strategies such as ZeRO, while also enabling additional performance and memory efficiency gains through joint scheduling of compute and communication in composed parallelism strategies such as DeepSeek-V3's DualPipe.",
+            "categories": [
+              "cs.DC",
+              "cs.AI"
+            ],
+            "matched_topics": [
+              "training_inference_acceleration"
+            ],
+            "matched_topic": "training_inference_acceleration"
+          },
+          "l1": {
+            "decision": "level2",
+            "model_decision": "level2",
+            "decision_source": "thresholds",
+            "matched_tracks": [
+              "acceleration"
+            ],
+            "scores": {
+              "topic_relevance": 4,
+              "scenario_fit": 4,
+              "landing_potential": 4,
+              "abstract_evidence_strength": 4,
+              "distance_penalty": 0
+            },
+            "total_score": 16,
+            "model_total_score": 16,
+            "reason_cn": "论文提出了一个可编程的分布式训练系统Piper，将训练策略从运行时实现解耦，允许用户声明式地组合数据并行、流水线并行、专家并行等策略，并支持ZeRO等内存优化。摘要明确描述了通过中间表示(IR)编译执行计划，实现了对常见策略的性能维持，并进一步通过计算和通信的联合调度提升效率和内存利用率（如DeepSeek-V3的DualPipe），与用户关注的训练加速方向高度契合，具备明确的系统设计、实现和性能证据。",
+            "archive_reason_cn": null
+          },
+          "analysis_meta": {
+            "from_cache": true
+          },
+          "review_input": {
+            "pdf_url": "https://arxiv.org/pdf/2606.11169v1.pdf",
+            "page_count": 15,
+            "section_titles": [
+              "abstract",
+              "conclusion"
+            ],
+            "section_lengths": {
+              "abstract": 1541,
+              "conclusion": 20814
+            },
+            "section_extraction_note": null,
+            "truncated_for_prompt": false
+          },
+          "review": {
+            "decision": "normal",
+            "priority": "useful",
+            "summary_cn": "Piper是一个用户可控的分布式训练系统，通过解耦策略说明与运行时实现，利用中间表示（IR）和编译技术，支持灵活组合数据并行、流水线并行、专家并行及ZeRO等内存优化，并在DualPipe等先进策略上展示了额外的性能与内存效率增益。",
+            "research_goal_cn": "提出一种将分布式训练策略与运行时解耦的系统，允许用户通过少量注释和调度指令声明任意组合的并行策略，从而在不损失性能的前提下实现更高的灵活性和效率。",
+            "method_cn": "用户通过模型注释和调度指令声明并行策略；每个指令对统一的全局训练DAG（IR）进行变换；编译器将IR转换为每个设备的执行计划；运行时与策略无关，执行编译后的计划。",
+            "experiment_cn": "在常用策略（如ZeRO）上验证性能持平现有系统；在组合并行策略（如DeepSeek-V3的DualPipe）上展示联合调度带来的吞吐提升和内存节省；提供了与Megatron-LM、DeepSpeed等框架的对比。",
+            "result_cn": "Piper在保持常用策略性能的同时，能支持更复杂的并行组合，实现额外的训练吞吐和内存效率提升，且用户可自定义调度策略。",
+            "landing_value_cn": "可应用于大模型训练流水线，通过自定义并行策略优化训练效率、降低训练成本；尤其适合需要组合多种并行策略的超大规模模型训练场景。",
+            "module_assessments": [
+              {
+                "module_id": "dataset_pipeline",
+                "module_name": "数据集制备与评测数据集",
+                "relevance": "none",
+                "should_follow": false,
+                "reason_cn": "论文聚焦分布式训练系统框架，未涉及数据构造、情感对话、Tool Use、评测数据集等任何数据制备相关主题。",
+                "evidence_cn": "全文中未出现数据集构造、情感、对话、评测、SFT等关键词。"
+              },
+              {
+                "module_id": "llm_memory",
+                "module_name": "大模型记忆",
+                "relevance": "none",
+                "should_follow": false,
+                "reason_cn": "论文讨论训练并行策略，与记忆框架、长期记忆、人格一致性、情绪稳定性等无关。",
+                "evidence_cn": "无记忆架构、记忆检索、个性化、隐式记忆等内容。"
+              },
+              {
+                "module_id": "neuro_nlp_memory",
+                "module_name": "神经科学、语言与记忆",
+                "relevance": "none",
+                "should_follow": false,
+                "reason_cn": "纯系统研究，与脑科学、语言理解、情绪处理等神经科学视角完全无关。",
+                "evidence_cn": "未提及任何神经科学或认知科学模型。"
+              },
+              {
+                "module_id": "acceleration",
+                "module_name": "训练加速与推理加速",
+                "relevance": "high",
+                "should_follow": true,
+                "reason_cn": "直接提出分布式训练系统框架，支持组合并行与通信计算联合调度，能显著改善训练效率和内存利用，与训练加速子模块高度契合。",
+                "evidence_cn": "支持ZeRO、PP、DP、EP等多种并行，并实现DualPipe等先进策略的额外性能增益；实验显示在DualPipe上比基线有明显提升。"
+              },
+              {
+                "module_id": "poi_companion",
+                "module_name": "POI场景与陪伴产品",
+                "relevance": "none",
+                "should_follow": false,
+                "reason_cn": "未涉及POI推荐、多轮交互、用户状态理解、工具调用等陪伴产品相关功能。",
+                "evidence_cn": "论文内容集中于底层训练系统，无应用层对话或推荐逻辑。"
+              }
+            ],
+            "scores": {
+              "relevance": 70,
+              "credibility": 85,
+              "landing_feasibility": 75,
+              "actionability": 70
+            },
+            "risks_cn": [
+              "框架尚未广泛验证，可能隐藏与现有PyTorch生态的兼容性问题",
+              "自定义策略的编写门槛较高，需要团队具备并行策略设计能力",
+              "仅展示了部分模型的性能，对用户特定模型尺寸和硬件的适应性未知"
+            ],
+            "recommended_action_cn": "在内部小规模训练任务上试用Piper，验证其对现有训练流程的兼容性和性能收益；若有效，可尝试将核心模型训练迁移至Piper以优化成本。"
+          }
+        },
+        {
+          "paper": {
+            "paper_id": "2606.04547",
+            "arxiv_short_id": "2606.04547v1",
+            "published_date": "2026-06-03",
+            "title": "Beyond Retrieval: Learning Compact User Representations for Scalable LLM Personalization",
+            "authors": "Heng Cao et.al.",
+            "authors_full": [
+              "Heng Cao",
+              "Fan Zhang",
+              "Jian Yao",
+              "Yujie Zheng",
+              "Changlin Zhao",
+              "Lu Hao",
+              "Yuxuan Wei",
+              "Wangze Ni",
+              "Huaiyu Fu",
+              "Yuqian Sun",
+              "Xuyan Mo"
+            ],
+            "paper_url": "http://arxiv.org/abs/2606.04547v1",
+            "pdf_url": "https://arxiv.org/pdf/2606.04547v1.pdf",
+            "code_link": null,
+            "abstract": "Personalizing large language models requires adapting model behavior to individual users while preserving robustness and deployment-scale efficiency. Existing approaches typically personalize LLMs either at the input level, by retrieving user histories or constructing profile prompts, or at the parameter level, by maintaining user-specific parameter-efficient modules. The former makes personalization sensitive to retrieval quality and prompt design, whereas the latter incurs storage and maintenance costs that grow with the user population. To address these limitations, we propose TAP-PER (Temporal Attentive Prefix for PERsonalization), a prefix-based framework that encodes user preferences as learnable representations, eliminating explicit prompt construction and replacing heavy per-user adapters with lightweight user-state prefix embeddings. Inspired by personalized recommendation systems, TAP-PER decomposes user modeling into user-state and query-conditioned components, and incorporates temporal signals to capture the evolving nature of user interests. Experiments on six LaMP tasks show that TAP-PER consistently outperforms prompt-based and model-based baselines across classification, rating, and generation settings. Moreover, TAP-PER uses 130x fewer per-user parameters than OPPU and roughly half the total parameter footprint of PER-PCS at the 1,000-user scale, demonstrating that scalable LLM personalization can be achieved without explicit prompt construction or heavy per-user adapters.",
+            "categories": [
+              "cs.IR",
+              "cs.CL"
+            ],
+            "matched_topics": [
+              "poi_ai_companion"
+            ],
+            "matched_topic": "poi_ai_companion"
+          },
+          "l1": {
+            "decision": "level2",
+            "model_decision": "level2",
+            "decision_source": "thresholds",
+            "matched_tracks": [
+              "llm_memory.multi_agent_memory_frameworks",
+              "poi_companion.poi_tool_use_companion"
+            ],
+            "scores": {
+              "topic_relevance": 3,
+              "scenario_fit": 2,
+              "landing_potential": 3,
+              "abstract_evidence_strength": 4,
+              "distance_penalty": 2
+            },
+            "total_score": 10,
+            "model_total_score": 10,
+            "reason_cn": "论文提出紧凑用户表示用于可扩展LLM个性化，直接属于个性化记忆方向，同时其用户偏好建模可应用于POI陪伴场景。方法新颖，实验充分，但场景落地尚需针对陪伴产品验证，整体符合level2收录标准。",
+            "archive_reason_cn": null
+          },
+          "analysis_meta": {
+            "from_cache": false
+          },
+          "review_input": {
+            "pdf_url": "https://arxiv.org/pdf/2606.04547v1.pdf",
+            "page_count": 16,
+            "section_titles": [
+              "abstract",
+              "method",
+              "limitation",
+              "conclusion"
+            ],
+            "section_lengths": {
+              "abstract": 1539,
+              "method": 6000,
+              "limitation": 5999,
+              "conclusion": 937
+            },
+            "section_extraction_note": "已按提示词预算截断章节内容。",
+            "truncated_for_prompt": true
+          },
+          "review": {
+            "decision": "normal",
+            "priority": "useful",
+            "summary_cn": "提出TAP-PER，一种基于前缀的LLM个性化框架，用可学习的用户状态前缀和查询相关的历史记录前缀替代显式提示或每用户适配器，结合桥接LoRA实现高效用户适应，在LaMP基准上取得性能与参数效率的平衡。",
+            "research_goal_cn": "解决LLM个性化中提示工程敏感性与每用户适配器存储开销问题，通过压缩的用户表示实现可扩展的个性化。",
+            "method_cn": "两阶段训练：第一阶段任务级LoRA微调骨干；第二阶段冻结骨干，学习用户状态前缀嵌入（可学习嵌入表）、查询相关的历史记录前缀（DIN注意力+时间衰减）、以及共享桥接LoRA，前缀相加后与查询拼接输入。",
+            "experiment_cn": "在LaMP六个任务（分类、评分、生成）上评估，对比提示方法（Retrieval-Augmented Generation）和模型方法（PER-PCS、OPPU等），消融实验验证各组件作用，并分析参数效率。",
+            "result_cn": "TAP-PER在所有任务上优于提示和模型基准，用户参数减少130倍，总参数量约为PER-PCS的一半，并支持持续适应。",
+            "landing_value_cn": "为记忆系统中的隐式用户建模提供轻量方案，可借鉴其用户状态持久化与历史注意力机制，但缺乏情感、POI场景直接验证。",
+            "module_assessments": [
+              {
+                "module_id": "dataset_pipeline",
+                "module_name": "数据集制备与评测数据集",
+                "relevance": "low",
+                "should_follow": false,
+                "reason_cn": "论文未贡献新数据集或标注规范，使用的LaMP基准为通用个性化任务，不涉及情感对话、Tool Use或心理感知评测。",
+                "evidence_cn": "实验基于LaMP，包含个性化分类、评分、生成，无新数据构建或评测方案。"
+              },
+              {
+                "module_id": "llm_memory",
+                "module_name": "大模型记忆",
+                "relevance": "medium",
+                "should_follow": true,
+                "reason_cn": "用户状态前缀可视为隐式长期记忆，查询相关的历史注意力实现记忆检索，其双轨设计对记忆架构有借鉴意义；桥接LoRA可看作记忆注入方式，但非多智能体框架或人格一致性研究。",
+                "evidence_cn": "用户状态前缀捕捉持久偏好，记录前缀通过时间衰减注意力选择相关历史，两者组合提供个性化上下文。"
+              },
+              {
+                "module_id": "neuro_nlp_memory",
+                "module_name": "神经科学、语言与记忆",
+                "relevance": "none",
+                "should_follow": false,
+                "reason_cn": "无神经科学方法或认知机制讨论。",
+                "evidence_cn": "论文专注于工程实现，未引用神经科学文献或模型。"
+              },
+              {
+                "module_id": "acceleration",
+                "module_name": "训练加速与推理加速",
+                "relevance": "low",
+                "should_follow": false,
+                "reason_cn": "虽追求参数效率，但未提出训练或推理加速方法，桥接LoRA和注意力计算可能增加推理开销。",
+                "evidence_cn": "论文关注存储与参数效率而非计算效率，未涉及缓存、并行或编译优化。"
+              },
+              {
+                "module_id": "poi_companion",
+                "module_name": "POI场景与陪伴产品",
+                "relevance": "low",
+                "should_follow": false,
+                "reason_cn": "通用个性化任务与POI场景差距大，未涉及工具调用、多轮交互或用户状态理解。",
+                "evidence_cn": "LaMP任务为产品评论生成、个性化分类等，不包含地点推荐或陪伴对话。"
+              }
+            ],
+            "scores": {
+              "relevance": 45,
+              "credibility": 78,
+              "landing_feasibility": 60,
+              "actionability": 40
+            },
+            "risks_cn": [
+              "用户状态嵌入仍依赖历史数据，隐私风险未完全解决，部署时需额外安全措施",
+              "注意力计算全历史可能不适用于极长或噪声历史，缺少与检索结合的分析",
+              "仅在两个8B规模模型上验证，更大模型效果未知"
+            ],
+            "recommended_action_cn": "可将其用户状态前缀与历史注意力机制作为隐式记忆模块的参考设计，但不作为高优先级跟进；建议在记忆系统预研时对比其方案可行性，暂不启动系统工程。"
+          }
+        },
+        {
+          "paper": {
+            "paper_id": "2606.11119",
+            "arxiv_short_id": "2606.11119v1",
+            "published_date": "2026-06-09",
+            "title": "TRACE: A Unified Rollout Budget Allocation Framework for Efficient Agentic Reinforcement Learning",
+            "authors": "Heming Zou et.al.",
+            "authors_full": [
+              "Heming Zou",
+              "Qi Wang",
+              "Yun Qu",
+              "Yuhang Jiang",
+              "Lizhou Cai",
+              "Yixiu Mao",
+              "Ru Peng",
+              "Xin Xu",
+              "Weijie Liu",
+              "Kai Yang",
+              "Saiyong Yang",
+              "Xiangyang Ji"
+            ],
+            "paper_url": "http://arxiv.org/abs/2606.11119v1",
+            "pdf_url": "https://arxiv.org/pdf/2606.11119v1.pdf",
+            "code_link": null,
+            "abstract": "Reinforcement learning with verifiable rewards (RLVR) is a promising approach for enhancing reasoning and agentic behavior in large language models. However, rollout-intensive policy optimization is often limited by insufficient reward contrast, arising when overly simple or complex prompts generate low-variance feedback and when outcome-only rewards assign the same terminal assessment to every decision in a multi-turn rollout. Past efforts have focused on allocating available rollout resources to promising prompts, yet they only leverage sample informativeness at the prompt level and neglect variation in prefix-level informativeness across turns within the same rollout. This work targets multi-turn agentic RL by modeling each ReAct-style thought-action-observation turn as a semantically distinct node, allowing budget allocation to extend from prompt roots to turn-level prefixes with further continuations, which naturally forms tree-structured rollouts. We introduce Tree Rollout Allocation for Contrastive Exploration (TRACE), a unified rollout allocation framework that enhances reward contrast within a fixed sampling budget. Technically, TRACE allocates rollout budget to both prompt roots and intermediate prefixes that are most likely to yield mixed terminal rewards. A shared generalizable predictor estimates conditional success probability at these anchors from prefix histories to guide this allocation. The resulting adaptive tree structure enriches outcome-only feedback and amplifies the policy-update signal. Empirically, TRACE achieves competitive performance and efficiency gains on typical agentic benchmarks, e.g., improving Qwen3-14B Multi-Hop QA average accuracy by 2.8 points over competitive baselines at equal sampling cost.",
+            "categories": [
+              "cs.LG",
+              "cs.AI",
+              "cs.CL"
+            ],
+            "matched_topics": [
+              "agent"
+            ],
+            "matched_topic": "agent"
+          },
+          "l1": {
+            "decision": "level2",
+            "model_decision": "level2",
+            "decision_source": "thresholds",
+            "matched_tracks": [
+              "acceleration"
+            ],
+            "scores": {
+              "topic_relevance": 4,
+              "scenario_fit": 4,
+              "landing_potential": 3,
+              "abstract_evidence_strength": 4,
+              "distance_penalty": 2
+            },
+            "total_score": 13,
+            "model_total_score": 13,
+            "reason_cn": "提出TRACE框架，通过树形rollout预算分配提升多轮agentic RL的训练效率，属于大模型训练加速方法，与用户关注的训练加速方向高度匹配。摘要提供了明确的方法描述和在Qwen3-14B上的性能提升证据。",
+            "archive_reason_cn": null
+          },
+          "analysis_meta": {
+            "from_cache": true
+          },
+          "review_input": {
+            "pdf_url": "https://arxiv.org/pdf/2606.11119v1.pdf",
+            "page_count": 32,
+            "section_titles": [
+              "abstract",
+              "experiments",
+              "limitation",
+              "conclusion"
+            ],
+            "section_lengths": {
+              "abstract": 1763,
+              "experiments": 6000,
+              "limitation": 6000,
+              "conclusion": 908
+            },
+            "section_extraction_note": "已按提示词预算截断章节内容。",
+            "truncated_for_prompt": true
+          },
+          "review": {
+            "decision": "normal",
+            "priority": "useful",
+            "summary_cn": "提出 TRACE 框架，在固定采样预算下通过树形 rollout 分配提高多轮 agent RLVR 中的奖励对比度。将每个 ReAct 轮次视为语义节点，利用预测器估计条件成功概率，引导预算分配到可能产生混合终端奖励的根和前缀，从而增强策略更新信号。在数学推理、多跳 QA、函数调用等任务上相比 GRPO、PCL、TreePO 获得准确率提升和更高的有效 rollout 比率。",
+            "research_goal_cn": "解决多轮 agent RLVR 中奖励对比度不足的问题，通过树形 rollout 分配高效利用采样预算，提升多轮智能体训练的性能和样本效率。",
+            "method_cn": "TRACE 将 rollout 分配建模为在 rollout 树锚点（提示根和中间前缀）上分配预算的问题，使用共享的泛化预测器估计条件成功概率，指导根预算分配和前缀局部扩展，生成树形 rollout 以增强终端结果对比度，并利用树感知优化器更新策略。",
+            "experiment_cn": "在 Qwen3-8B 和 Qwen3-14B 上，于数学推理（DeepScaler）、多跳 QA（HotpotQA 等）、函数调用（BFCL v4）三个多轮设置下评估。对比 GRPO、PCL、随机 TreePO，TRACE 在相同预算下提升测试准确率，并显著提高训练中有效 rollout 比率（例如在 Qwen3-14B 多跳 QA 上平均准确率提升 2.8 点）。",
+            "result_cn": "TRACE 在所有三个任务和两个模型规模上均优于基线，在相同采样成本下获得更高准确率，且训练过程中有效 rollout 比率大幅提升（如数学推理从 26.8% 升至 60.6%），验证了分配策略能产生更丰富的对比信号。",
+            "landing_value_cn": "方法可迁移到工具调用或对话 agent 的 RL 训练，提升样本效率。对数据制备而言，其树形 rollout 产生的对比样本可沉淀为偏好数据或 on-policy 数据，但当前落地需适配具体任务（如 POI 工具调用）。",
+            "module_assessments": [
+              {
+                "module_id": "dataset_pipeline",
+                "module_name": "数据集制备与评测数据集",
+                "relevance": "low",
+                "should_follow": false,
+                "reason_cn": "论文未提出新数据集或评估方案，但函数调用（BFCL v4）的任务设置与 Tool Use 数据相关。方法生成的树形 rollout 可潜在用于构造工具调用训练数据，但本身不直接贡献数据集构建。情感对话和情绪评估方面完全无关。",
+                "evidence_cn": "实验使用 BFCL v4 多轮函数调用基准，属于 tool_use_and_poi_data track；无情感或心理评测相关内容。"
+              },
+              {
+                "module_id": "llm_memory",
+                "module_name": "大模型记忆",
+                "relevance": "none",
+                "should_follow": false,
+                "reason_cn": "论文不涉及记忆框架、隐式记忆或人格一致性，完全属于 RL 训练方法。",
+                "evidence_cn": "无任何记忆相关概念、实验或架构描述。"
+              },
+              {
+                "module_id": "neuro_nlp_memory",
+                "module_name": "神经科学、语言与记忆",
+                "relevance": "none",
+                "should_follow": false,
+                "reason_cn": "未引用神经科学方法，不涉及语言或情绪的神经机制。",
+                "evidence_cn": "全文无相关神经科学内容。"
+              },
+              {
+                "module_id": "acceleration",
+                "module_name": "训练加速与推理加速",
+                "relevance": "low",
+                "should_follow": false,
+                "reason_cn": "样本效率提升可视为一种算法层面的训练加速，但非系统级加速或推理加速。与 training_acceleration track 的边缘相关。",
+                "evidence_cn": "主要通过预算分配提升 rollout 信号质量，未涉及并行、编译、内存优化等底层加速技术。"
+              },
+              {
+                "module_id": "poi_companion",
+                "module_name": "POI 场景与陪伴产品",
+                "relevance": "low",
+                "should_follow": false,
+                "reason_cn": "函数调用能力是 POI 陪伴产品的基础，但论文未针对 POI 场景设计，仅用通用函数调用基准。方法可迁移到 POI 工具调用训练，但缺乏直接场景适配。",
+                "evidence_cn": "BFCL v4 是多领域 API 调用，无 POI 或推荐任务。"
+              }
+            ],
+            "scores": {
+              "relevance": 45,
+              "credibility": 80,
+              "landing_feasibility": 50,
+              "actionability": 40
+            },
+            "risks_cn": [
+              "方法依赖 outcome-only 验证，对无明确终端奖励的对话或陪伴任务直接适用性有限",
+              "预测器质量影响分配效果，需额外训练或微调",
+              "实验未涵盖真实陪伴或 POI 场景，迁移需重新验证"
+            ],
+            "recommended_action_cn": "若当前积极训练工具调用或 agent 型模型，可复现 TRACE 在内部工具使用数据集上的效果，验证其对样本效率的提升；否则作为技术储备归档。"
+          }
+        },
+        {
+          "paper": {
+            "paper_id": "2606.10921",
+            "arxiv_short_id": "2606.10921v1",
+            "published_date": "2026-06-09",
+            "title": "Trace Only What You Need: Structure-Aware On-Demand Hypergraph Memory for Long-Document Question Answering",
+            "authors": "Xiangjun Zai et.al.",
+            "authors_full": [
+              "Xiangjun Zai",
+              "Xingyu Tan",
+              "Chen Chen",
+              "Xiaoyang Wang",
+              "Wenjie Zhang"
+            ],
+            "paper_url": "http://arxiv.org/abs/2606.10921v1",
+            "pdf_url": "https://arxiv.org/pdf/2606.10921v1.pdf",
+            "code_link": null,
+            "abstract": "Long-document question answering (QA) requires large language models (LLMs) to reason over evidence scattered across lengthy documents, where answers often depend on event order, section-level context, and cross-part evidence connections. Although retrieval-augmented generation (RAG) reduces the input context by retrieving relevant evidence, existing structured RAG methods still face three limitations: costly query-agnostic knowledge organization, insufficient use of original document structure, and no reuse of historical reasoning experience. To address these limitations, we propose DocTrace, a multi-agent RAG framework for long-document QA that supports query-triggered knowledge organization, document-structure-aware and experience-guided reasoning. DocTrace preserves document hierarchy with a lightweight document structural tree index, constructs agent-shared hypergraph-structured working memory on demand during reasoning, and stores successful reasoning plans in graph-structured experience memory for future reuse, enabling adaptive exploration across related long-document questions. Experiments on four long-document QA datasets show that DocTrace achieves the best performance on three datasets, surpassing the strongest baseline, ComoRAG, by up to 8.85% in F1 and 4.40% in EM, while reducing the overall computational cost by 53.32%",
+            "categories": [
+              "cs.CL"
+            ],
+            "matched_topics": [
+              "neuroscience_language_memory"
+            ],
+            "matched_topic": "neuroscience_language_memory"
+          },
+          "l1": {
+            "decision": "level2",
+            "model_decision": "level2",
+            "decision_source": "thresholds",
+            "matched_tracks": [
+              "llm_memory"
+            ],
+            "scores": {
+              "topic_relevance": 4,
+              "scenario_fit": 4,
+              "landing_potential": 4,
+              "abstract_evidence_strength": 4,
+              "distance_penalty": 2
+            },
+            "total_score": 14,
+            "model_total_score": 14,
+            "reason_cn": "论文提出多智能体RAG框架DocTrace，通过超图工作记忆与经验记忆实现长文档问答中的结构感知与查询驱动推理，直接对应大模型记忆方向中的多智能体记忆框架与记忆检索策略。实验显示显著性能提升与成本降低，具有明确的方法、实验与结果，高度契合用户关注的多智能体记忆研究。",
+            "archive_reason_cn": null
+          },
+          "analysis_meta": {
+            "from_cache": true
+          },
+          "review_input": {
+            "pdf_url": "https://arxiv.org/pdf/2606.10921v1.pdf",
+            "page_count": 27,
+            "section_titles": [
+              "abstract",
+              "method",
+              "experiments",
+              "limitation",
+              "conclusion"
+            ],
+            "section_lengths": {
+              "abstract": 4800,
+              "method": 1492,
+              "experiments": 4800,
+              "limitation": 4800,
+              "conclusion": 1383
+            },
+            "section_extraction_note": "已按提示词预算截断章节内容。",
+            "truncated_for_prompt": true
+          },
+          "review": {
+            "decision": "normal",
+            "priority": "useful",
+            "summary_cn": "DocTrace 是一个面向长文档问答的多智能体 RAG 框架，通过编排者-调查者架构、文档结构树索引、超图工作记忆和跨查询的经验记忆 DAG 来提升复杂问题的检索与推理性能。在四个长文档 QA 数据集上取得领先结果，并消融验证了规划、工作记忆和结构索引的有效性。",
+            "research_goal_cn": "解决长文档中需要多步推理和证据聚合的复杂问答任务，通过结构感知检索和记忆机制提高答案的覆盖度和准确率，同时降低全文档预构建的计算成本。",
+            "method_cn": "采用 Orchestrator-Investigator 架构：编排者基于文档结构树索引选择种子节点，利用抽象化的问题表示和从经验记忆中检索的推理DAG进行规划，将问题分解为子问题并调度调查者执行；调查者通过构建超图工作记忆（包含抽象视图和关系视图）进行证据检索并生成子答案；编排者整合后生成最终答案，并将成功推理DAG存入经验记忆供未来复用。",
+            "experiment_cn": "在 NarrativeQA、EN.QA、EN.MC、DetectiveQA 四个长文档 QA 数据集上进行测试，对比 RAPTOR、HippoRAGv2、ComoRAG 等基线，并通过消融实验分析编排者规划、工作记忆和结构树索引的贡献，还测试了不同 LLM 骨干下的性能。",
+            "result_cn": "在 3/4 数据集上取得最优，NarrativeQA 上 F1 超最强基线 8.85%，EN.QA 上计算成本降低 53.32%。消融显示去掉规划、工作记忆或结构索引均导致显著性能下降。",
+            "landing_value_cn": "对当前业务直接落地价值有限：任务场景为长文档 QA，与情感对话、工具使用、POI 陪伴等目标场景差异大；但其多智能体协作模式、跨查询经验记忆的设计思想可能对构建具有推理路径复用能力的多轮对话记忆模块有启发，需结合具体业务数据进行大量适配。",
+            "module_assessments": [
+              {
+                "module_id": "dataset_pipeline",
+                "module_name": "数据集制备与评测数据集",
+                "relevance": "none",
+                "should_follow": false,
+                "reason_cn": "论文未涉及任何训练或评测数据集的构造、标注规范或采样策略，仅直接使用已有的长文档 QA 数据集，无法落地为数据生产流程。",
+                "evidence_cn": "实验部分使用 NarrativeQA、EN.QA 等公开数据集，无新数据集提出，无数据收集或标注方法。"
+              },
+              {
+                "module_id": "llm_memory",
+                "module_name": "大模型记忆",
+                "relevance": "medium",
+                "should_follow": false,
+                "reason_cn": "跨查询经验记忆（Graph-structured Experience Memory）存储成功推理 DAG 以实现计划复用，属于一种多智能体框架下的记忆机制，具备向多轮交互中推理路径记忆演化的潜力；但隐式记忆、人格一致性、情绪稳定性等方向完全缺失，且记忆结构高度依赖文档索引，与陪伴产品的对话记忆需求差异大。",
+                "evidence_cn": "Section 4.4 描述了 Graph-structured Experience Memory，用于存储子问题答案及依赖关系，供编排器 InitPlan 时检索相似计划；实验验证了其有效性（w/o DM 变体性能下降）。"
+              },
+              {
+                "module_id": "neuro_nlp_memory",
+                "module_name": "神经科学、语言与记忆",
+                "relevance": "none",
+                "should_follow": false,
+                "reason_cn": "全篇无任何神经科学视角，未借鉴脑科学对语言理解、记忆形成或情绪感知的解释，与 NLP/LLM 建模的神经科学启发无关。",
+                "evidence_cn": "摘要、方法、实验、结论中均未出现神经科学相关术语或引用。"
+              },
+              {
+                "module_id": "acceleration",
+                "module_name": "训练加速与推理加速",
+                "relevance": "none",
+                "should_follow": false,
+                "reason_cn": "论文未涉及训练或推理加速技术，未讨论框架优化、缓存、并行或成本压缩，仅提及自身计算开销对比 ComoRAG 降低，但并非方法贡献。",
+                "evidence_cn": "实验部分仅在成本对比上提到降低 53.32% 计算开销，但这是整体流程设计带来的相对优势，无针对加速的独立模块。"
+              },
+              {
+                "module_id": "poi_companion",
+                "module_name": "POI 场景与陪伴产品",
+                "relevance": "none",
+                "should_follow": false,
+                "reason_cn": "任务为长文档 QA，与 POI 推荐、旅行助手、工具调用、用户状态理解等陪伴产品场景无关，多轮交互也仅限于同一文档内的问答轮次，无真实陪伴交互特征。",
+                "evidence_cn": "问题示例均为故事文档理解，无 POI 相关实体或功能调用，不存在多轮情感/任务导向对话。"
+              }
+            ],
+            "scores": {
+              "relevance": 25,
+              "credibility": 82,
+              "landing_feasibility": 18,
+              "actionability": 22
+            },
+            "risks_cn": [
+              "记忆机制与当前业务场景（情感对话、POI 陪伴）差异过大，直接迁移可能无法提升产品核心指标；",
+              "系统依赖 LLM 多次调用进行规划和工作记忆构建，实际部署成本可能较高；",
+              "仅限文本模态，无法直接用于多模态陪伴产品；",
+              "缺乏与真实用户交互数据的验证，在开放域对话中的可复现性存疑。"
+            ],
+            "recommended_action_cn": "可将本文作为记忆框架设计的背景参考，重点阅读其跨查询经验记忆 DAG 的设计理念和编排-调查者分工，评估是否可改造为多轮对话中工具调用或推荐路径的快速复用机制，但不作为优先推进项。"
+          }
+        }
+      ],
+      "archive_only": [
+        {
+          "paper_id": "2606.05995",
+          "title": "Empathy on Demand: How Empathic AI Can Scale Emotional Support for Verbal Harassment",
+          "matched_topic": "poi_ai_companion",
+          "archive_reason_cn": "与情感评测子方向相关，但其重点在于心理学实验与行为影响验证，难以直接转化为可落地的数据集或评测方法，适合作为参考留存。"
+        },
+        {
+          "paper_id": "2606.11074",
+          "title": "Modeling Complex Behaviors: Multi-Personality Composition and Dynamic Switching in Vision-Language Models",
+          "matched_topic": "memory_personalization",
+          "archive_reason_cn": "可作为人格建模评估参考，与个性化记忆、人格一致性相关，但无直接落地方法。"
+        },
+        {
+          "paper_id": "2606.11167",
+          "title": "Multi-Faceted Interactivity Alignment in Full-Duplex Speech Models",
+          "matched_topic": "data_sft_rl_eval",
+          "archive_reason_cn": "论文关注语音对话模型的交互性RL对齐，可启发多轮对话训练数据中的RL reward设计，但本身不提供新数据集或评测方法，故归入归档。"
+        },
+        {
+          "paper_id": "2606.07486",
+          "title": "OPENPATH: A Supervisor--Specialist Agent System for Personalized, Accessible, and Multi-stop Urban Trip Planning",
+          "matched_topic": "poi_ai_companion",
+          "archive_reason_cn": "与POI场景相关，但非陪伴产品形态，且核心贡献在可访问性分析与路线优化，与用户关注的陪伴agent、tool use、数据集、记忆等方向距离较远，仅作泛相关归档。"
+        },
+        {
+          "paper_id": "2606.11070",
+          "title": "T1-Bench: Benchmarking Multi-Scenario Agents in Real-World Domains",
+          "matched_topic": "data_sft_rl_eval",
+          "archive_reason_cn": "该基准可用于评测多轮对话及工具使用能力，但缺乏对情感、心理或POI场景的针对性，仅作为评测方法参考，非重点跟进对象。"
+        },
+        {
+          "paper_id": "2606.10078",
+          "title": "Mult-DPO: Multinomial Direct Preference Optimization for Recommender Systems",
+          "matched_topic": "poi_ai_companion",
+          "archive_reason_cn": "论文属于推荐系统通用对齐方法，未体现POI陪伴、对话或工具使用等用户核心关注点，落地到目标场景仍需大量适配工作。"
+        }
+      ],
+      "review_failures": [
+        {
+          "paper_id": "2606.11127",
+          "title": "Provenance-Grounded Gating and Adaptive Recovery in Synthetic Post-Training Data Curation",
+          "message": "No valid DeepSeek API key succeeded for this stage: key#1/attempt#1: APIConnectionError; key#1/attempt#2: APIConnectionError"
+        }
+      ]
+    }
+  }
+}

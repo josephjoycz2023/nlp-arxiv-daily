@@ -1,0 +1,61 @@
+{
+  "stage": "digest",
+  "date": "2026-06-10",
+  "summary": {
+    "must_read": 2,
+    "worth_archiving": 3,
+    "review_failures": 1,
+    "must_read_paper_ids": [
+      "2606.11164",
+      "2606.11169"
+    ]
+  },
+  "overview_cn": "今日通过筛选的论文主要集中在两个方向：一是训练与推理的系统级效率优化，包括层/头维度的动态KV缓存预算分配（ReasonAlloc）与可编程分布式训练系统（Piper）；二是大模型记忆与个性化机制的轻量化设计，如基于前缀的用户状态编码（TAP-PER）、树形rollout预算分配（TRACE）以及面向长文档的超图工作记忆（DocTrace）。整体趋势呈现从静态统一方案向自适应、分层、非均匀资源调度的转变，方法上强调解耦、编译、前缀嵌入和树结构探索。然而，多数工作仅在特定任务（数学推理、长文档QA）上验证，与实际业务场景（情感陪伴、POI工具调用）存在差距，直接落地需进一步适配。数据与评测方面未见新数据集贡献，但TRACE的树形rollout可能转化为偏好数据。值得持续关注的系统级加速与记忆压缩技术，有望在中长期降低部署成本。",
+  "must_read": [
+    {
+      "paper_id": "2606.11164",
+      "title": "ReasonAlloc: Hierarchical Decoding-Time KV Cache Budget Allocation for Reasoning Models",
+      "summary_cn": "提出训练无关的推理加速框架，结合离线层预算预分配（推理波）和在线头预算动态分配，在极低KV缓存预算下显著提升数学推理准确率，且即插即用。",
+      "why_relevant_cn": "直接针对推理模型的内存瓶颈，可降低长链推理的显存压力和延迟，与正在发展的推理加速模块高度契合，且无需重新训练，落地成本低。",
+      "recommended_action_cn": "列为推理加速模块的重点跟踪项，等待后续工作提供系统级指标（吞吐、延迟）或在对话模型上的验证；若近期有部署压力，可尝试在内部推理小场景中复现并评估收益。"
+    },
+    {
+      "paper_id": "2606.11169",
+      "title": "Piper: A Programmable Distributed Training System",
+      "summary_cn": "Piper将训练策略声明与运行时实现解耦，利用中间表示和编译技术，支持灵活组合多种并行策略，在维持常见策略性能的同时，通过计算通信联合调度额外提升训练吞吐和内存效率。",
+      "why_relevant_cn": "可应对大模型训练中多种并行策略组合的复杂需求，提升训练效率、降低训练成本，对内部大规模训练流程有直接优化价值。",
+      "recommended_action_cn": "在内部小规模训练任务上试用Piper，验证其与现有PyTorch生态的兼容性及性能收益；若可行，逐步将核心模型训练迁移至Piper。"
+    }
+  ],
+  "worth_archiving": [
+    {
+      "paper_id": "2606.04547",
+      "title": "Beyond Retrieval: Learning Compact User Representations for Scalable LLM Personalization",
+      "reason_cn": "提出的用户状态前缀与历史注意力机制可作为隐式记忆模块参考，但缺乏情感/POI场景验证，暂不立即落地，适合在记忆系统预研时对比可行性。"
+    },
+    {
+      "paper_id": "2606.11119",
+      "title": "TRACE: A Unified Rollout Budget Allocation Framework for Efficient Agentic Reinforcement Learning",
+      "reason_cn": "树形rollout预算分配可提升智能体RL的样本效率，其函数调用实验与工具使用相关，但依赖outcome-only奖励，对无明确终点的对话任务适用性有限，可留作技术储备。"
+    },
+    {
+      "paper_id": "2606.10921",
+      "title": "Trace Only What You Need: Structure-Aware On-Demand Hypergraph Memory for Long-Document Question Answering",
+      "reason_cn": "多智能体架构下的经验记忆DAG设计对多轮对话路径复用有启发，但场景鸿沟较大，仅作为记忆框架设计的背景参考。"
+    }
+  ],
+  "review_failures": [
+    {
+      "paper_id": "2606.11127",
+      "title": "Provenance-Grounded Gating and Adaptive Recovery in Synthetic Post-Training Data Curation",
+      "message": "No valid DeepSeek API key succeeded for this stage: key#1/attempt#1: APIConnectionError; key#1/attempt#2: APIConnectionError"
+    }
+  ],
+  "rejected_themes_cn": [
+    "缺乏场景专指性的通用基准评测平台",
+    "未提供可落地数据或方法的心理学/情感影响研究",
+    "与陪伴POI场景脱节的通用推荐系统对齐方法",
+    "过度依赖文档结构且无法适配多轮对话的复杂检索框架",
+    "纯语音交互模型的RL对齐（非文本为核心）"
+  ]
+}

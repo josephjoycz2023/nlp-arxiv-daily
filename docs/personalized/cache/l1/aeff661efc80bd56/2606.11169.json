@@ -1,0 +1,28 @@
+{
+  "cached_at": "2026-06-10T12:08:27.774868+00:00",
+  "stage": "l1",
+  "namespace": "aeff661efc80bd56",
+  "key": "2606.11169",
+  "payload": {
+    "paper_id": "2606.11169",
+    "l1": {
+      "decision": "level2",
+      "model_decision": "level2",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "acceleration"
+      ],
+      "scores": {
+        "topic_relevance": 4,
+        "scenario_fit": 4,
+        "landing_potential": 4,
+        "abstract_evidence_strength": 4,
+        "distance_penalty": 0
+      },
+      "total_score": 16,
+      "model_total_score": 16,
+      "reason_cn": "论文提出了一个可编程的分布式训练系统Piper，将训练策略从运行时实现解耦，允许用户声明式地组合数据并行、流水线并行、专家并行等策略，并支持ZeRO等内存优化。摘要明确描述了通过中间表示(IR)编译执行计划，实现了对常见策略的性能维持，并进一步通过计算和通信的联合调度提升效率和内存利用率（如DeepSeek-V3的DualPipe），与用户关注的训练加速方向高度契合，具备明确的系统设计、实现和性能证据。",
+      "archive_reason_cn": null
+    }
+  }
+}

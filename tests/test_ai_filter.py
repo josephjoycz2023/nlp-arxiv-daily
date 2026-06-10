@@ -601,6 +601,53 @@ def test_l2_review_stops_stage_when_no_api_key_succeeds(ai_workspace, monkeypatc
         review_level2_for_date(ai_workspace, datetime.date(2026, 6, 6))
 
 
+def test_l2_review_writes_error_payload_when_provider_failure_is_retryable(ai_workspace, monkeypatch):
+    l1_dir = Path(ai_workspace["personalized_docs_dir"]) / "l1"
+    l1_dir.mkdir(parents=True)
+    (l1_dir / "2026-06-06.json").write_text(
+        json.dumps(
+            {
+                "date": "2026-06-06",
+                "stats": {"total_papers": 1, "reject": 0, "archive_only": 0, "level2": 1},
+                "papers": [
+                    {
+                        "paper": json.loads(
+                            (
+                                Path(ai_workspace["json_gitpage_path"]).parent
+                                / "agent"
+                                / "20260606"
+                                / "2606.00001.json"
+                            ).read_text(encoding="utf-8")
+                        )
+                        | {"matched_topic": "agent"},
+                        "l1": {"decision": "level2", "total_score": 12},
+                    }
+                ],
+            },
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(
+        "nlp_arxiv_daily.ai_filter.l2_paper_reviewer.download_pdf_text",
+        lambda pdf_url: ("Abstract\nA\nMethod\nB\nResults\nC\nConclusion\nD", 4),
+    )
+
+    class _RetryableFailClient:
+        def complete_json(self, prompt, **kwargs):
+            raise OpenAIAllKeysFailedError("No valid DeepSeek API key succeeded for this stage: key#1: APIConnectionError", retryable=True)
+
+    monkeypatch.setattr(
+        "nlp_arxiv_daily.ai_filter.l2_paper_reviewer.OpenAITextClient.from_config",
+        lambda config: _RetryableFailClient(),
+    )
+
+    paths = review_level2_for_date(ai_workspace, datetime.date(2026, 6, 6))
+
+    payload = json.loads(Path(paths[0]).read_text(encoding="utf-8"))
+    assert "APIConnectionError" in payload["error"]["message"]
+
+
 def test_l2_review_writes_success_payload(ai_workspace, monkeypatch):
     l1_dir = Path(ai_workspace["personalized_docs_dir"]) / "l1"
     l1_dir.mkdir(parents=True)

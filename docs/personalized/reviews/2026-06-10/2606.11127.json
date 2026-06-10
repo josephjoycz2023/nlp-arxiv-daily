@@ -1,0 +1,54 @@
+{
+  "date": "2026-06-10",
+  "paper": {
+    "paper_id": "2606.11127",
+    "arxiv_short_id": "2606.11127v1",
+    "published_date": "2026-06-09",
+    "title": "Provenance-Grounded Gating and Adaptive Recovery in Synthetic Post-Training Data Curation",
+    "authors": "Soham Bhattacharjee et.al.",
+    "authors_full": [
+      "Soham Bhattacharjee",
+      "Karun Sharma",
+      "Vinay Kumar Sankarapu",
+      "Pratinav Seth"
+    ],
+    "paper_url": "http://arxiv.org/abs/2606.11127v1",
+    "pdf_url": "https://arxiv.org/pdf/2606.11127v1.pdf",
+    "code_link": null,
+    "abstract": "Synthetic post-training pipelines commonly filter generated samples with reward models or holistic LLM judges, yet two practices remain rarely examined together: whether the filtering signal is grounded in the source evidence that induced each generation, and whether rejected samples can be systematically recovered rather than permanently discarded. We present a controlled study of both questions across gate configurations, recovery strategies, and generator scales, using adversarially injected corpora to provide ground-truth failure labels. We find that exact source provenance improves faithfulness gating for stronger judges, that hallucination and reward gates reject largely disjoint sample populations making both necessary, and that an adaptive recovery pipeline combining failure diagnosis with targeted regeneration achieves higher yield, recovery rate, and injection recall than naive resampling. Downstream fine-tuning quality is driven primarily by generator scale, with filtration and recovery conditions contributing meaningfully but secondarily.",
+    "categories": [
+      "cs.CL",
+      "cs.AI"
+    ],
+    "matched_topics": [
+      "data_sft_rl_eval"
+    ],
+    "matched_topic": "data_sft_rl_eval"
+  },
+  "l1": {
+    "decision": "level2",
+    "model_decision": "level2",
+    "decision_source": "thresholds",
+    "matched_tracks": [
+      "emotional_dialogue_training_data"
+    ],
+    "scores": {
+      "topic_relevance": 4,
+      "scenario_fit": 3,
+      "landing_potential": 3,
+      "abstract_evidence_strength": 4,
+      "distance_penalty": 1
+    },
+    "total_score": 13,
+    "model_total_score": 13,
+    "reason_cn": "论文聚焦合成后训练数据的过滤与恢复方法，直接服务于SFT/RL等数据制备，与用户关注的数据集制备方向高度相关；方法通用，有控制实验与明确效果结论，对用户构建训练数据管线有实际参考价值。",
+    "archive_reason_cn": null
+  },
+  "analysis_meta": {
+    "from_cache": false
+  },
+  "error": {
+    "stage": "l2_review",
+    "message": "No valid DeepSeek API key succeeded for this stage: key#1/attempt#1: APIConnectionError; key#1/attempt#2: APIConnectionError"
+  }
+}

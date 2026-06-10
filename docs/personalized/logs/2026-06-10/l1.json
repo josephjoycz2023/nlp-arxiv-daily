@@ -1,0 +1,728 @@
+{
+  "stage": "l1",
+  "date": "2026-06-10",
+  "summary": {
+    "total_papers": 54,
+    "passed_l1": 7,
+    "archived": 14,
+    "rejected": 33,
+    "passed_paper_ids": [
+      "2606.11164",
+      "2606.11169",
+      "2606.10921",
+      "2606.11119",
+      "2606.11127",
+      "2606.04547",
+      "2606.10949"
+    ]
+  },
+  "papers": [
+    {
+      "paper_id": "2606.11164",
+      "title": "ReasonAlloc: Hierarchical Decoding-Time KV Cache Budget Allocation for Reasoning Models",
+      "matched_topic": "training_inference_acceleration",
+      "passed_l1": true,
+      "decision": "level2",
+      "total_score": 16,
+      "matched_tracks": [
+        "acceleration"
+      ],
+      "reason_cn": "论文提出推理加速方法：解码时分层 KV 缓存预算分配，直接针对推理瓶颈，属于用户关注的 inference acceleration，且训练无关、即插即用，实验显示显著收益，落地潜力高。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.11169",
+      "title": "Piper: A Programmable Distributed Training System",
+      "matched_topic": "training_inference_acceleration",
+      "passed_l1": true,
+      "decision": "level2",
+      "total_score": 16,
+      "matched_tracks": [
+        "acceleration"
+      ],
+      "reason_cn": "论文提出了一个可编程的分布式训练系统Piper，将训练策略从运行时实现解耦，允许用户声明式地组合数据并行、流水线并行、专家并行等策略，并支持ZeRO等内存优化。摘要明确描述了通过中间表示(IR)编译执行计划，实现了对常见策略的性能维持，并进一步通过计算和通信的联合调度提升效率和内存利用率（如DeepSeek-V3的DualPipe），与用户关注的训练加速方向高度契合，具备明确的系统设计、实现和性能证据。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.10921",
+      "title": "Trace Only What You Need: Structure-Aware On-Demand Hypergraph Memory for Long-Document Question Answering",
+      "matched_topic": "neuroscience_language_memory",
+      "passed_l1": true,
+      "decision": "level2",
+      "total_score": 14,
+      "matched_tracks": [
+        "llm_memory"
+      ],
+      "reason_cn": "论文提出多智能体RAG框架DocTrace，通过超图工作记忆与经验记忆实现长文档问答中的结构感知与查询驱动推理，直接对应大模型记忆方向中的多智能体记忆框架与记忆检索策略。实验显示显著性能提升与成本降低，具有明确的方法、实验与结果，高度契合用户关注的多智能体记忆研究。",
+      "archive_reason_cn": null,
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.11119",
+      "title": "TRACE: A Unified Rollout Budget Allocation Framework for Efficient Agentic Reinforcement Learning",
+      "matched_topic": "agent",
+      "passed_l1": true,
+      "decision": "level2",
+      "total_score": 13,
+      "matched_tracks": [
+        "acceleration"
+      ],
+      "reason_cn": "提出TRACE框架，通过树形rollout预算分配提升多轮agentic RL的训练效率，属于大模型训练加速方法，与用户关注的训练加速方向高度匹配。摘要提供了明确的方法描述和在Qwen3-14B上的性能提升证据。",
+      "archive_reason_cn": null,
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.11127",
+      "title": "Provenance-Grounded Gating and Adaptive Recovery in Synthetic Post-Training Data Curation",
+      "matched_topic": "data_sft_rl_eval",
+      "passed_l1": true,
+      "decision": "level2",
+      "total_score": 13,
+      "matched_tracks": [
+        "emotional_dialogue_training_data"
+      ],
+      "reason_cn": "论文聚焦合成后训练数据的过滤与恢复方法，直接服务于SFT/RL等数据制备，与用户关注的数据集制备方向高度相关；方法通用，有控制实验与明确效果结论，对用户构建训练数据管线有实际参考价值。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.04547",
+      "title": "Beyond Retrieval: Learning Compact User Representations for Scalable LLM Personalization",
+      "matched_topic": "poi_ai_companion",
+      "passed_l1": true,
+      "decision": "level2",
+      "total_score": 10,
+      "matched_tracks": [
+        "llm_memory.multi_agent_memory_frameworks",
+        "poi_companion.poi_tool_use_companion"
+      ],
+      "reason_cn": "论文提出紧凑用户表示用于可扩展LLM个性化，直接属于个性化记忆方向，同时其用户偏好建模可应用于POI陪伴场景。方法新颖，实验充分，但场景落地尚需针对陪伴产品验证，整体符合level2收录标准。",
+      "archive_reason_cn": null,
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.10949",
+      "title": "Recalling Too Well: Sycophancy Evaluation and Mitigation in Memory-Augmented Models",
+      "matched_topic": "memory_personalization",
+      "passed_l1": true,
+      "decision": "level2",
+      "total_score": 8,
+      "matched_tracks": [
+        "llm_memory.implicit_memory_and_persona"
+      ],
+      "reason_cn": "论文研究记忆系统放大模型迎合用户（sycophancy）的问题，提出评测基准和缓解方法，与记忆系统的人格一致性相关，但侧重于负面效应评估，缺乏明确的多智能体或个性化记忆框架落地设计。",
+      "archive_reason_cn": "涉及记忆系统的行为评估与缓解，虽有技术贡献，但距离用户关注的人格一致性、情绪稳定性等具体落地场景较远，可作为记忆系统可靠性参考存档。",
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.05995",
+      "title": "Empathy on Demand: How Empathic AI Can Scale Emotional Support for Verbal Harassment",
+      "matched_topic": "poi_ai_companion",
+      "passed_l1": false,
+      "decision": "archive_only",
+      "total_score": 7,
+      "matched_tracks": [
+        "emotional_and_psychological_eval"
+      ],
+      "reason_cn": "论文研究LLM在言语骚扰场景下提供共情支持的语言特征与效果，属于情感支持与共情评估方向，但未涉及训练数据或评测数据集制备，也未聚焦POI或记忆框架，落地距离较远。",
+      "archive_reason_cn": "与情感评测子方向相关，但其重点在于心理学实验与行为影响验证，难以直接转化为可落地的数据集或评测方法，适合作为参考留存。",
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.11074",
+      "title": "Modeling Complex Behaviors: Multi-Personality Composition and Dynamic Switching in Vision-Language Models",
+      "matched_topic": "memory_personalization",
+      "passed_l1": false,
+      "decision": "archive_only",
+      "total_score": 6,
+      "matched_tracks": [
+        "llm_memory.implicit_memory_and_persona"
+      ],
+      "reason_cn": "论文研究多模态大模型中的多性格组合与动态切换，属于人格一致性方向，但仅构建评估框架和分析，未提出落地的记忆或个性化系统。",
+      "archive_reason_cn": "可作为人格建模评估参考，与个性化记忆、人格一致性相关，但无直接落地方法。",
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.11167",
+      "title": "Multi-Faceted Interactivity Alignment in Full-Duplex Speech Models",
+      "matched_topic": "data_sft_rl_eval",
+      "passed_l1": false,
+      "decision": "archive_only",
+      "total_score": 6,
+      "matched_tracks": [
+        "module dataset_pipeline > emotional_dialogue_training_data"
+      ],
+      "reason_cn": "该论文提出使用RL对齐全双工语音对话模型的交互性，属于模型训练方法，而非数据集制备或评测集构建。虽然涉及多轮对话RL数据，但核心贡献不在数据层面，与用户研究方向的数据集制备与评测直接关联较弱，因此归档以备参考。",
+      "archive_reason_cn": "论文关注语音对话模型的交互性RL对齐，可启发多轮对话训练数据中的RL reward设计，但本身不提供新数据集或评测方法，故归入归档。",
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.07486",
+      "title": "OPENPATH: A Supervisor--Specialist Agent System for Personalized, Accessible, and Multi-stop Urban Trip Planning",
+      "matched_topic": "poi_ai_companion",
+      "passed_l1": false,
+      "decision": "archive_only",
+      "total_score": 5,
+      "matched_tracks": [
+        "poi_companion"
+      ],
+      "reason_cn": "论文提出多智能体城市行程规划系统，处理个性化多站路线和轮椅无障碍需求，属于POI场景下的旅行助手，但缺乏陪伴产品的情感交互、多轮对话或工具使用研究重点，更偏向系统工程与城市分析。",
+      "archive_reason_cn": "与POI场景相关，但非陪伴产品形态，且核心贡献在可访问性分析与路线优化，与用户关注的陪伴agent、tool use、数据集、记忆等方向距离较远，仅作泛相关归档。",
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.11070",
+      "title": "T1-Bench: Benchmarking Multi-Scenario Agents in Real-World Domains",
+      "matched_topic": "data_sft_rl_eval",
+      "passed_l1": false,
+      "decision": "archive_only",
+      "total_score": 5,
+      "matched_tracks": [
+        "module dataset_pipeline > emotional_and_psychological_eval"
+      ],
+      "reason_cn": "论文提出了一个多领域、多轮交互的代理系统评测基准T1-Bench，包含工具调用和对话质量评估，与用户关注的数据评测方向存在交集。但该基准主要面向通用客户服务场景，未涉及情感理解、心理感知或POI陪伴等用户核心关切，距具体落地场景较远，故仅存档备用。",
+      "archive_reason_cn": "该基准可用于评测多轮对话及工具使用能力，但缺乏对情感、心理或POI场景的针对性，仅作为评测方法参考，非重点跟进对象。",
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.10078",
+      "title": "Mult-DPO: Multinomial Direct Preference Optimization for Recommender Systems",
+      "matched_topic": "poi_ai_companion",
+      "passed_l1": false,
+      "decision": "archive_only",
+      "total_score": 4,
+      "matched_tracks": [
+        "poi_companion"
+      ],
+      "reason_cn": "论文提出Mult-DPO方法，将直接偏好优化扩展到推荐系统的集合偏好场景，属于基于LLM的推荐对齐技术。虽然可潜在应用于POI推荐，但未涉及陪伴产品、工具调用或场景化交互，与用户关注的POI陪伴与tool use落地场景距离较远。",
+      "archive_reason_cn": "论文属于推荐系统通用对齐方法，未体现POI陪伴、对话或工具使用等用户核心关注点，落地到目标场景仍需大量适配工作。",
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.10238",
+      "title": "Hyperbolic Neural Population Geometry Benefits Computation",
+      "matched_topic": "neuroscience_language_memory",
+      "passed_l1": false,
+      "decision": "archive_only",
+      "total_score": 4,
+      "matched_tracks": [
+        "neuro_nlp_memory"
+      ],
+      "reason_cn": "该论文研究双曲几何下的神经群体编码与联想记忆容量，虽然与记忆的神经机制相关，但未涉及语言理解或情绪处理，难以直接应用于大模型的相关研究。",
+      "archive_reason_cn": "与用户跟踪的神经科学与语言/记忆交叉方向有一定关联，但缺乏对NLP或LLM建模的启发，落地距离较远，暂存入存档。",
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.10299",
+      "title": "What Spatial Memory Must Store: Occlusion as the Test for Language-Agent Memory",
+      "matched_topic": "neuroscience_language_memory",
+      "passed_l1": false,
+      "decision": "archive_only",
+      "total_score": 4,
+      "matched_tracks": [
+        "llm_memory"
+      ],
+      "reason_cn": "论文研究语言智能体的空间记忆存储与遮挡测试，涉及记忆检索策略，但未聚焦于用户关注的多智能体记忆、长期记忆或人格一致性等方向，场景匹配度低，落地距离较远。",
+      "archive_reason_cn": "可作为语言智能体记忆评测方法的技术储备，对记忆框架的评测有参考价值。",
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.10671",
+      "title": "FadeMem: Distance-Aware Memory Consolidation for Autoregressive Video Diffusion",
+      "matched_topic": "neuroscience_language_memory",
+      "passed_l1": false,
+      "decision": "archive_only",
+      "total_score": 4,
+      "matched_tracks": [
+        "acceleration"
+      ],
+      "reason_cn": "论文提出视频扩散模型的距离感知KV缓存合并机制，属于推理加速技术，但针对视频生成场景，与用户关注的大模型对话、情感记忆、POI等方向差距明显，落地相关性低。",
+      "archive_reason_cn": "KV缓存优化方法可作为推理加速技术储备，但应用领域为视频生成，非用户核心的大模型对话与记忆方向，仅归档。",
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.10916",
+      "title": "Range Penalization: Theoretical Insights with Applications in Federated Learning",
+      "matched_topic": "memory_personalization",
+      "passed_l1": false,
+      "decision": "archive_only",
+      "total_score": 4,
+      "matched_tracks": [
+        "acceleration"
+      ],
+      "reason_cn": "论文提出联邦学习中的范围正则化与快速优化算法以降低迭代复杂度，与训练加速模块边缘相关，但主要针对统计学习场景，不属于大模型训练/推理加速核心研究方向；记忆个性化关键词为误匹配。",
+      "archive_reason_cn": "联邦学习优化算法在训练加速上有一定参考价值，但应用场景差异大，非直接可落地于大模型训练框架。",
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.11156",
+      "title": "Itô maps for any-step SDEs",
+      "matched_topic": "training_inference_acceleration",
+      "passed_l1": false,
+      "decision": "archive_only",
+      "total_score": 4,
+      "matched_tracks": [
+        "acceleration"
+      ],
+      "reason_cn": "论文提出用于随机微分方程的一步生成模型采样加速方法，属于生成模型领域，而非大语言模型训练或推理加速，与用户研究方向相关性较低。",
+      "archive_reason_cn": "方法涉及生成模型采样加速，但非LLM专用，可作为加速方法参考归档，但落地与LLM场景关联度低。",
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.11173",
+      "title": "The Role of Feedback Alignment in Self-Distillation",
+      "matched_topic": "data_sft_rl_eval, training_inference_acceleration",
+      "passed_l1": false,
+      "decision": "archive_only",
+      "total_score": 4,
+      "matched_tracks": [
+        "acceleration.training_acceleration"
+      ],
+      "reason_cn": "论文研究自蒸馏中的反馈对齐设计，与训练加速模块中的蒸馏系统有弱关联，但未涉及训练效率或加速，属于训练方法论，与用户关注的落地场景和数据集制备距离较远。",
+      "archive_reason_cn": "自蒸馏训练策略与蒸馏系统弱相关，但重点在反馈设计而非加速，且无明确落地场景，暂归档以备后续关注训练优化方法时参考。",
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.04867",
+      "title": "AICompanionBench: Benchmarking LLMs-as-Judges for AI Companion Safety",
+      "matched_topic": "poi_ai_companion",
+      "passed_l1": false,
+      "decision": "archive_only",
+      "total_score": 3,
+      "matched_tracks": [],
+      "reason_cn": "论文构建 AI 陪伴安全评测基准，与用户关注的陪伴产品方向表面相关，但聚焦于安全检测而非 POI 场景、Tool Use 或情感对话能力，任务和落地目标偏离用户核心研究方向。",
+      "archive_reason_cn": "涉及 AI 陪伴产品安全监测，可作为安全模块的参考存档，但用户研究池重点不在安全过滤，落地距离远。",
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.05130",
+      "title": "Towards Efficient and Evidence-grounded Mobility Prediction with LLM-Driven Agent",
+      "matched_topic": "poi_ai_companion",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": 3,
+      "matched_tracks": [
+        "poi_companion"
+      ],
+      "reason_cn": "论文研究移动性预测（下一个地点预测），虽使用LLM Agent及工具调用，但主要面向城市模拟与交通规划，与陪伴产品中的多轮交互、场景化推荐、用户情绪理解等核心需求差异显著，仅关键词匹配，实际任务不相关。",
+      "archive_reason_cn": "任务为通用移动性预测，而非陪伴产品中的POI场景交互或对话推荐，落地距离远，不适合当前研究池。",
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.11079",
+      "title": "VISTA: A Versatile Interactive User Simulation Toolkit for Agent Evaluation",
+      "matched_topic": "agent",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": 3,
+      "matched_tracks": [
+        "dataset_pipeline|tool_use_and_poi_data"
+      ],
+      "reason_cn": "论文提出用户模拟工具包VISTA，用于交互式agent评估，可产生交互轨迹。与tool use数据及环境交互日志有一定关联，但主要面向电子商务和客服场景，与POI/tool use数据制备的直接需求尚有距离，且不涉及情感、记忆或加速。",
+      "archive_reason_cn": "该工作属于交互式agent评测框架，可生成交互数据，但未针对tool use or POI场景，与用户研究方向的直接匹配度有限，作为相关技术存档备查。",
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.11023",
+      "title": "Generative Archetype-Grounded Item Representations for Sequential Recommendation",
+      "matched_topic": "neuroscience_language_memory",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": 3,
+      "matched_tracks": [],
+      "reason_cn": "该论文研究序列推荐系统中基于LLM生成物品表示的方法，与用户提及的大模型训练数据制备、记忆、神经科学、加速或POI陪伴等五个方向均不相关。",
+      "archive_reason_cn": null,
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.11158",
+      "title": "Defeat the Heap: Zero-Copy Data Movement in AXI4MLIR",
+      "matched_topic": "training_inference_acceleration",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": 2,
+      "matched_tracks": [
+        "inference_acceleration"
+      ],
+      "reason_cn": "论文提出编译器优化下的零拷贝数据移动，属于硬件加速器底层优化，与用户关注的大模型训练/推理加速（框架、分布式、KV cache等）方向关联较弱，核心任务、方法未涉及大模型或具体加速框架。",
+      "archive_reason_cn": "论文仅针对自定义矩阵乘法加速器的数据传输优化，属于通用硬件-编译器协同设计，缺乏对大模型训练或推理场景的直接适配，落地距离较远，适合归档备查。",
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.10530",
+      "title": "Machine Learning Methods for Studying Latent Neural Activity Dynamics",
+      "matched_topic": "neuroscience_language_memory",
+      "passed_l1": false,
+      "decision": "archive_only",
+      "total_score": 1,
+      "matched_tracks": [
+        "neuro_nlp_memory"
+      ],
+      "reason_cn": "该论文综述了神经活动潜在动力学的机器学习方法，与用户关注的‘神经科学、语言与记忆’方向仅存在表层关键词关联。摘要未涉及语言理解、情绪处理或记忆机制，无法为NLP/LLM建模提供直接启发，落地距离极远。",
+      "archive_reason_cn": "可作为神经解码方法论的背景参考，但缺乏语言、情绪或记忆的交叉点，与用户主攻的LLM建模启发需求偏离较大。",
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.04431",
+      "title": "When Chatbots Accommodate: What AI Companions Optimize for in Vulnerable Conversations",
+      "matched_topic": "poi_ai_companion",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": 1,
+      "matched_tracks": [
+        "emotional_and_psychological_eval"
+      ],
+      "reason_cn": "论文研究AI伴侣聊天机器人的脆弱性响应策略审计，提出分类法和IRL推断，属于情感对话分析，与POI场景及tool use无关，与用户核心的POI陪伴方向不符，但方法可作为情绪感知评测的参考，故归档。",
+      "archive_reason_cn": "论文关注AI伴侣在用户脆弱时刻的响应策略，不涉及POI或tool use，但与情绪感知评测方向有微弱关联，其分类法和策略推断方法可启发情感对话评测设计，因此归档供后续参考。",
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.09827",
+      "title": "MemoryVLA++: Temporal Modeling via Memory and Imagination in Vision-Language-Action Models",
+      "matched_topic": "neuroscience_language_memory",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": 1,
+      "matched_tracks": [
+        "neuroscience_language_memory"
+      ],
+      "reason_cn": "论文从认知科学启发设计机器人VLA模型中的记忆模块，与用户关注的大模型记忆（多智能体、个性化）及神经科学对NLP启发方向有轻微关联，但主要场景为机器人操作，不涉及用户关注的大模型、对话系统或POI陪伴，落地场景差异大，因此仅归档。",
+      "archive_reason_cn": "论文从认知科学启发设计机器人VLA模型中的记忆模块，与用户关注的大模型记忆（多智能体、个性化）及神经科学对NLP启发方向有轻微关联，但主要场景为机器人操作，不涉及用户关注的大模型、对话系统或POI陪伴，落地场景差异大。",
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.10927",
+      "title": "AllDayNav: Lifelong Navigation via Real-World Reinforcement Learning",
+      "matched_topic": "memory_personalization",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": 0,
+      "matched_tracks": [
+        "llm_memory"
+      ],
+      "reason_cn": "论文属于机器人终身导航领域，虽然使用了记忆机制和大模型，但与用户关注的大模型对话记忆、个性化记忆、陪伴产品场景无关，落地方向偏离较大。",
+      "archive_reason_cn": "隐含记忆和终身学习的思路可能对大模型长期记忆机制提供启发，但当前工作聚焦物理导航，距离用户应用场景较远，暂入存档。",
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.10974",
+      "title": "Language-Driven Cost Optimization for Autonomous Driving",
+      "matched_topic": "memory_personalization",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": 0,
+      "matched_tracks": [],
+      "reason_cn": "论文聚焦自动驾驶运动规划的成本优化，虽然使用LLM根据用户偏好调整驾驶行为，但整体属于自动驾驶领域，与用户关注的大模型记忆、数据集制备、神经科学交叉、训练推理加速、POI陪伴等五大方向均无实质关联。匹配关键词'memory_personalization'为误匹配，摘要中未涉及记忆机制或个性化记忆框架，不符合任何研究track。",
+      "archive_reason_cn": null,
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.11145",
+      "title": "OpenPCC: Open and Confidential LLM Serving on Commodity TEEs",
+      "matched_topic": "agent, memory_personalization, training_inference_acceleration",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": 0,
+      "matched_tracks": [],
+      "reason_cn": "论文聚焦于基于商用TEE的LLM安全推理框架，核心贡献在隐私保护，而非训练加速、推理优化或用户关注的数据集、记忆、神经科学、POI场景，方向明显不匹配。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.11150",
+      "title": "ABC-Bench: An Agentic Bio-Capabilities Benchmark for Biosecurity",
+      "matched_topic": "agent",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": 0,
+      "matched_tracks": [],
+      "reason_cn": "论文关注生物安全领域的代理基准，评估LLM在生物实验任务上的能力，与用户研究的五个方向（数据集制备与评测、大模型记忆、神经科学交叉、加速、POI陪伴）均无实际关联。仅关键词'agent'匹配，但任务、方法和场景完全不属于用户关注范围。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.11155",
+      "title": "Mean Flow Distillation: Robust and Stable Distillation for Flow Matching Models",
+      "matched_topic": "training_inference_acceleration",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": 0,
+      "matched_tracks": [
+        "acceleration"
+      ],
+      "reason_cn": "论文提出针对Flow Matching模型的蒸馏方法MFD，用于图像/视频生成模型的单步推理加速，与用户关注的大语言模型训练/推理加速方向不匹配，且应用场景为计算机视觉，与用户的对话、POI等NLP场景无关。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.11182",
+      "title": "EEVEE: Towards Test-time Prompt Learning in the Real World for Self-Improving Agents",
+      "matched_topic": "agent",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": 0,
+      "matched_tracks": [],
+      "reason_cn": "论文研究测试时提示学习框架，针对多数据集流的LLM智能体，但与用户关注的数据集制备、大模型记忆、神经科学、加速、POI陪伴等方向均不相关，无法匹配任何研究track。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.09782",
+      "title": "Cohort-based Semantic Labeling: AI-Enabled Recovery of Visualization Semantics from Deployed SVGs",
+      "matched_topic": "neuroscience_language_memory",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": 0,
+      "matched_tracks": [],
+      "reason_cn": "论文研究从SVG中自动恢复可视化语义，属于可视化与人机交互领域，与用户关注的大模型训练、记忆、神经科学、加速、POI陪伴等方向均不相关。",
+      "archive_reason_cn": null,
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.11122",
+      "title": "Derived skein module",
+      "matched_topic": "training_inference_acceleration",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": 0,
+      "matched_tracks": [],
+      "reason_cn": "纯数学论文，研究导出skein模的公理化框架，属于代数拓扑与量子群表示范畴，与用户关注的大模型训练/推理加速、数据集构建、记忆机制、神经科学、POI陪伴等方向完全无关。关键词匹配为误匹配。",
+      "archive_reason_cn": null,
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.04514",
+      "title": "SAILRec: Steering LLM Attention to Dual-Side Semantically Aligned Collaborative Embeddings for Recommendation",
+      "matched_topic": "poi_ai_companion",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": -1,
+      "matched_tracks": [
+        "poi_companion"
+      ],
+      "reason_cn": "该论文提出了一种基于LLM的推荐系统方法，核心是通过注意力引导与语义对齐改进协作嵌入融合，但摘要未提及POI场景、陪伴交互、tool use或用户状态理解，仅为通用推荐算法，与用户专注的POI陪伴方向关联极弱，落地距离远，仅作存档。",
+      "archive_reason_cn": "虽然标题涉及推荐，但任务、实验和应用场景均不针对POI或陪伴产品，仅将其保留为推荐系统泛化技术参考。",
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.09204",
+      "title": "The Injection Paradox: Brand-Level Suppression in Safety-Trained LLM Recommendations via RAG Context Injection",
+      "matched_topic": "poi_ai_companion",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": -1,
+      "matched_tracks": [],
+      "reason_cn": "该论文研究RAG-based LLM推荐中的安全训练漏洞（注入悖论），与用户关注的POI场景陪伴产品、数据集制备、记忆、加速等方向均不相关。尽管涉及推荐，但并非POI场景或陪伴产品，而是安全攻击研究。",
+      "archive_reason_cn": null,
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.11009",
+      "title": "Who Brought Easter Eggs to Eid? Auditing Cultural Translation of Math Word Problems Across Diverse Languages and Regions",
+      "matched_topic": "memory_personalization",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": -1,
+      "matched_tracks": [],
+      "reason_cn": "论文研究大模型对数学应用题的文化翻译审计，关注文化多样性衰减和实体转换，与用户关注的大模型训练数据集、记忆、神经科学、加速、POI陪伴等方向均不相关。关键词匹配“memory_personalization”源于个性化学习场景，并非大模型记忆与个性化记忆。",
+      "archive_reason_cn": null,
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.11082",
+      "title": "The Shibboleth Effect: Auditing the Cross-Lingual Distributional Skew of Large Language Models",
+      "matched_topic": "agent, data_sft_rl_eval",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": -1,
+      "matched_tracks": [],
+      "reason_cn": "论文研究多语言下大模型在地缘政治模拟中的行为偏差，与用户关注的情感对话数据制备、记忆系统、加速或POI陪伴等方向无关，不纳入研究池。",
+      "archive_reason_cn": null,
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.11157",
+      "title": "DarkAgents",
+      "matched_topic": "agent",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": -1,
+      "matched_tracks": [],
+      "reason_cn": "论文仅关键词匹配 agent，但实际内容是天体粒子物理领域的多智能体系统，与用户关注的大模型训练数据、记忆、神经科学、加速、POI 陪伴等五个研究方向完全无关，任务、方法、实验目标均不相关。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.11176",
+      "title": "Data Journalist Agent: Transforming Data into Verifiable Multimodal Stories",
+      "matched_topic": "agent",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": -1,
+      "matched_tracks": [],
+      "reason_cn": "论文提出用于数据新闻生成的多智能体框架Data2Story，关注多模态故事生成与证据追溯，与用户关注的五个研究方向（数据集制备、大模型记忆、神经科学、加速、POI陪伴）均无实质关联。虽然包含“agent”关键词，但任务和场景不属于用户研究范围。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.11190",
+      "title": "When to Align, When to Predict: A Phase Diagram for Multimodal Learning",
+      "matched_topic": "data_sft_rl_eval",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": -1,
+      "matched_tracks": [],
+      "reason_cn": "论文研究多模态学习中何时使用对齐或预测的理论框架，不涉及大模型训练数据集、记忆、加速或POI场景，与用户研究方向无关。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.10653",
+      "title": "STEDiff: Strengthening Text Embedding for Text-to-Image Alignment in Diffusion Model",
+      "matched_topic": "neuroscience_language_memory",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": -2,
+      "matched_tracks": [],
+      "reason_cn": "该论文聚焦于扩散模型中文本到图像对齐的文本嵌入增强方法，与用户关注的五个研究方向（数据集制备、大模型记忆、神经科学与语言交叉、训练推理加速、POI陪伴产品）均无实质关联，属于计算机视觉领域的生成模型优化，不符合筛选范围。",
+      "archive_reason_cn": null,
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.11075",
+      "title": "Exploring the Design Space of Reward Backpropagation for Flow Matching",
+      "matched_topic": "data_sft_rl_eval",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": -2,
+      "matched_tracks": [],
+      "reason_cn": "论文聚焦于文本到图像流匹配模型的奖励反向传播优化，属于视觉生成领域，与用户关注的LLM训练数据集、记忆、神经科学、加速及POI陪伴等方向完全无关。用户方向明确排除纯视觉任务，因此不纳入。",
+      "archive_reason_cn": null,
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.11058",
+      "title": "The social consequences of AI delegation",
+      "matched_topic": "memory_personalization",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": -3,
+      "matched_tracks": [],
+      "reason_cn": "论文讨论AI委托的社会后果，属于社会科学视角，与用户关注的大模型训练数据集、记忆框架、神经科学、加速或POI陪伴等技术方向均无关联。仅因关键词“memory_personalization”可能误匹配，但实际内容不涉及任何具体技术方法、数据或评测，完全不契合用户研究池。",
+      "archive_reason_cn": null,
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.01745",
+      "title": "Enhancing the Socioeconomic Understanding of Foundation Models with Urban Mobility",
+      "matched_topic": "poi_ai_companion",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": -4,
+      "matched_tracks": [
+        "poi_companion"
+      ],
+      "reason_cn": "论文聚焦于利用移动网络增强基础模型的城市社会经济预测（收入、人口密度、犯罪率），属于城市计算领域，与用户关注的POI场景下的陪伴产品、tool use以及对话交互无实质性关联。因此判定为不相关。",
+      "archive_reason_cn": null,
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.10611",
+      "title": "Geometry-Aware Reinforcement Learning for 2D Irregular Nesting",
+      "matched_topic": "neuroscience_language_memory",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": -4,
+      "matched_tracks": [],
+      "reason_cn": "该论文研究2D不规则嵌套的组合优化问题，使用几何感知强化学习，与用户关注的五个研究方向（数据集制备、大模型记忆、神经科学语言交叉、加速、POI陪伴）均无关联。摘要未提及任何语言模型、记忆、情感或POI相关任务，输入匹配关键词有误。",
+      "archive_reason_cn": null,
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.10997",
+      "title": "A Companion App for an Autonomous Family Vehicle: Identification of Values for an Autonomous Mobility System",
+      "matched_topic": "memory_personalization",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": -4,
+      "matched_tracks": [],
+      "reason_cn": "论文关注自主车辆的辅助应用，涉及信任方远程跟踪与车辆配置，本质上属于辅助技术与人机交互领域，与用户关注的LLM训练数据、记忆、神经科学、加速及POI陪伴等方向完全无关。仅因‘companion’、‘personalization’等词被误匹配，但内容不涉及任何研究track。",
+      "archive_reason_cn": null,
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.11050",
+      "title": "LLM-Mediated Demand Response Coordination in Smart Microgrids",
+      "matched_topic": "data_sft_rl_eval, memory_personalization",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": -4,
+      "matched_tracks": [],
+      "reason_cn": "论文研究LLM在智能微电网需求响应协调中的应用，属于多智能体系统与博弈论范畴，与用户关注的五类研究方向（数据集制备、大模型记忆、神经科学交叉、训练/推理加速、POI陪伴）均无实质关联。虽然出现'exploitation memory'和'RLHF'等词汇，但并非针对大模型记忆框架或数据制备，而是用于能源调度决策，落地场景完全不同。",
+      "archive_reason_cn": null,
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.11120",
+      "title": "Monte Carlo Pass Search: Using Trajectory Generation for 3D Counterfactual Pass Evaluation in Football",
+      "matched_topic": "agent, data_sft_rl_eval",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": -4,
+      "matched_tracks": [],
+      "reason_cn": "论文研究足球运动中的3D传球反事实评估，采用蒙特卡洛树搜索和轨迹生成，属于体育分析领域，与用户关注的大模型训练数据、记忆、神经科学、加速和POI陪伴产品等研究方向完全无关。",
+      "archive_reason_cn": null,
+      "from_cache": true
+    },
+    {
+      "paper_id": "2606.11125",
+      "title": "DMT: Demographic Conditioning, Morphology-Enhanced Transformer for Cuffless Blood Pressure Estimation from PPG Signals",
+      "matched_topic": "data_sft_rl_eval",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": -4,
+      "matched_tracks": [],
+      "reason_cn": "论文研究基于PPG信号的无袖带血压估计，使用Transformer和人口统计条件，属于生物医学信号处理领域。与用户关注的五类研究方向（大模型训练数据、LLM记忆、神经科学与语言、训练/推理加速、POI陪伴）均无关联。匹配关键词仅因元数据标记，但实际内容完全不涉及情感对话、tool use、评测集、记忆框架、加速或POI场景。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.11154",
+      "title": "A correlated refinement of the double double ramification cycle",
+      "matched_topic": "training_inference_acceleration",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": -4,
+      "matched_tracks": [],
+      "reason_cn": "论文主题是代数几何中的双倍分歧循环和Gromov-Witten不变量，属于纯数学，与用户关注的大模型训练数据、记忆、神经科学、加速框架、POI陪伴等方向完全无关。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.11159",
+      "title": "Unidirectional Entropic Solutions of the Pressureless Euler Alignment System",
+      "matched_topic": "agent",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": -4,
+      "matched_tracks": [],
+      "reason_cn": "该论文是关于数学物理中压力消失欧拉对齐系统的单向熵解及集群行为分析，属于偏微分方程领域。研究内容与用户关注的大模型数据集、记忆、神经科学、加速及POI陪伴方向均不相关，即使出现'agent'关键词也只是指粒子代理，并非多智能体。因此无任何匹配的研究track，直接拒绝。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.11180",
+      "title": "Lip Forcing: Few-Step Autoregressive Diffusion for Real-time Lip Synchronization",
+      "matched_topic": "training_inference_acceleration",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": -4,
+      "matched_tracks": [],
+      "reason_cn": "该论文专注于视频唇形同步的扩散模型推理加速，属于计算机视觉领域，与用户关注的大模型训练/推理加速、数据集制备、记忆框架、神经科学或POI陪伴等研究方向完全无关。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "cached_at": "2026-06-10T12:10:06.393189+00:00",
+  "stage": "l1",
+  "namespace": "aeff661efc80bd56",
+  "key": "2606.11180",
+  "payload": {
+    "paper_id": "2606.11180",
+    "l1": {
+      "decision": "reject",
+      "model_decision": "reject",
+      "decision_source": "thresholds",
+      "matched_tracks": [],
+      "scores": {
+        "topic_relevance": 0,
+        "scenario_fit": 0,
+        "landing_potential": 0,
+        "abstract_evidence_strength": 0,
+        "distance_penalty": 4
+      },
+      "total_score": -4,
+      "model_total_score": 4,
+      "reason_cn": "该论文专注于视频唇形同步的扩散模型推理加速，属于计算机视觉领域，与用户关注的大模型训练/推理加速、数据集制备、记忆框架、神经科学或POI陪伴等研究方向完全无关。",
+      "archive_reason_cn": null
+    }
+  }
+}

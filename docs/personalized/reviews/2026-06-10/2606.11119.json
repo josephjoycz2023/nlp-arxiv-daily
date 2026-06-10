@@ -1,0 +1,141 @@
+{
+  "date": "2026-06-10",
+  "paper": {
+    "paper_id": "2606.11119",
+    "arxiv_short_id": "2606.11119v1",
+    "published_date": "2026-06-09",
+    "title": "TRACE: A Unified Rollout Budget Allocation Framework for Efficient Agentic Reinforcement Learning",
+    "authors": "Heming Zou et.al.",
+    "authors_full": [
+      "Heming Zou",
+      "Qi Wang",
+      "Yun Qu",
+      "Yuhang Jiang",
+      "Lizhou Cai",
+      "Yixiu Mao",
+      "Ru Peng",
+      "Xin Xu",
+      "Weijie Liu",
+      "Kai Yang",
+      "Saiyong Yang",
+      "Xiangyang Ji"
+    ],
+    "paper_url": "http://arxiv.org/abs/2606.11119v1",
+    "pdf_url": "https://arxiv.org/pdf/2606.11119v1.pdf",
+    "code_link": null,
+    "abstract": "Reinforcement learning with verifiable rewards (RLVR) is a promising approach for enhancing reasoning and agentic behavior in large language models. However, rollout-intensive policy optimization is often limited by insufficient reward contrast, arising when overly simple or complex prompts generate low-variance feedback and when outcome-only rewards assign the same terminal assessment to every decision in a multi-turn rollout. Past efforts have focused on allocating available rollout resources to promising prompts, yet they only leverage sample informativeness at the prompt level and neglect variation in prefix-level informativeness across turns within the same rollout. This work targets multi-turn agentic RL by modeling each ReAct-style thought-action-observation turn as a semantically distinct node, allowing budget allocation to extend from prompt roots to turn-level prefixes with further continuations, which naturally forms tree-structured rollouts. We introduce Tree Rollout Allocation for Contrastive Exploration (TRACE), a unified rollout allocation framework that enhances reward contrast within a fixed sampling budget. Technically, TRACE allocates rollout budget to both prompt roots and intermediate prefixes that are most likely to yield mixed terminal rewards. A shared generalizable predictor estimates conditional success probability at these anchors from prefix histories to guide this allocation. The resulting adaptive tree structure enriches outcome-only feedback and amplifies the policy-update signal. Empirically, TRACE achieves competitive performance and efficiency gains on typical agentic benchmarks, e.g., improving Qwen3-14B Multi-Hop QA average accuracy by 2.8 points over competitive baselines at equal sampling cost.",
+    "categories": [
+      "cs.LG",
+      "cs.AI",
+      "cs.CL"
+    ],
+    "matched_topics": [
+      "agent"
+    ],
+    "matched_topic": "agent"
+  },
+  "l1": {
+    "decision": "level2",
+    "model_decision": "level2",
+    "decision_source": "thresholds",
+    "matched_tracks": [
+      "acceleration"
+    ],
+    "scores": {
+      "topic_relevance": 4,
+      "scenario_fit": 4,
+      "landing_potential": 3,
+      "abstract_evidence_strength": 4,
+      "distance_penalty": 2
+    },
+    "total_score": 13,
+    "model_total_score": 13,
+    "reason_cn": "提出TRACE框架，通过树形rollout预算分配提升多轮agentic RL的训练效率，属于大模型训练加速方法，与用户关注的训练加速方向高度匹配。摘要提供了明确的方法描述和在Qwen3-14B上的性能提升证据。",
+    "archive_reason_cn": null
+  },
+  "analysis_meta": {
+    "from_cache": true
+  },
+  "review_input": {
+    "pdf_url": "https://arxiv.org/pdf/2606.11119v1.pdf",
+    "page_count": 32,
+    "section_titles": [
+      "abstract",
+      "experiments",
+      "limitation",
+      "conclusion"
+    ],
+    "section_lengths": {
+      "abstract": 1763,
+      "experiments": 6000,
+      "limitation": 6000,
+      "conclusion": 908
+    },
+    "section_extraction_note": "已按提示词预算截断章节内容。",
+    "truncated_for_prompt": true
+  },
+  "review": {
+    "decision": "normal",
+    "priority": "useful",
+    "summary_cn": "提出 TRACE 框架，在固定采样预算下通过树形 rollout 分配提高多轮 agent RLVR 中的奖励对比度。将每个 ReAct 轮次视为语义节点，利用预测器估计条件成功概率，引导预算分配到可能产生混合终端奖励的根和前缀，从而增强策略更新信号。在数学推理、多跳 QA、函数调用等任务上相比 GRPO、PCL、TreePO 获得准确率提升和更高的有效 rollout 比率。",
+    "research_goal_cn": "解决多轮 agent RLVR 中奖励对比度不足的问题，通过树形 rollout 分配高效利用采样预算，提升多轮智能体训练的性能和样本效率。",
+    "method_cn": "TRACE 将 rollout 分配建模为在 rollout 树锚点（提示根和中间前缀）上分配预算的问题，使用共享的泛化预测器估计条件成功概率，指导根预算分配和前缀局部扩展，生成树形 rollout 以增强终端结果对比度，并利用树感知优化器更新策略。",
+    "experiment_cn": "在 Qwen3-8B 和 Qwen3-14B 上，于数学推理（DeepScaler）、多跳 QA（HotpotQA 等）、函数调用（BFCL v4）三个多轮设置下评估。对比 GRPO、PCL、随机 TreePO，TRACE 在相同预算下提升测试准确率，并显著提高训练中有效 rollout 比率（例如在 Qwen3-14B 多跳 QA 上平均准确率提升 2.8 点）。",
+    "result_cn": "TRACE 在所有三个任务和两个模型规模上均优于基线，在相同采样成本下获得更高准确率，且训练过程中有效 rollout 比率大幅提升（如数学推理从 26.8% 升至 60.6%），验证了分配策略能产生更丰富的对比信号。",
+    "landing_value_cn": "方法可迁移到工具调用或对话 agent 的 RL 训练，提升样本效率。对数据制备而言，其树形 rollout 产生的对比样本可沉淀为偏好数据或 on-policy 数据，但当前落地需适配具体任务（如 POI 工具调用）。",
+    "module_assessments": [
+      {
+        "module_id": "dataset_pipeline",
+        "module_name": "数据集制备与评测数据集",
+        "relevance": "low",
+        "should_follow": false,
+        "reason_cn": "论文未提出新数据集或评估方案，但函数调用（BFCL v4）的任务设置与 Tool Use 数据相关。方法生成的树形 rollout 可潜在用于构造工具调用训练数据，但本身不直接贡献数据集构建。情感对话和情绪评估方面完全无关。",
+        "evidence_cn": "实验使用 BFCL v4 多轮函数调用基准，属于 tool_use_and_poi_data track；无情感或心理评测相关内容。"
+      },
+      {
+        "module_id": "llm_memory",
+        "module_name": "大模型记忆",
+        "relevance": "none",
+        "should_follow": false,
+        "reason_cn": "论文不涉及记忆框架、隐式记忆或人格一致性，完全属于 RL 训练方法。",
+        "evidence_cn": "无任何记忆相关概念、实验或架构描述。"
+      },
+      {
+        "module_id": "neuro_nlp_memory",
+        "module_name": "神经科学、语言与记忆",
+        "relevance": "none",
+        "should_follow": false,
+        "reason_cn": "未引用神经科学方法，不涉及语言或情绪的神经机制。",
+        "evidence_cn": "全文无相关神经科学内容。"
+      },
+      {
+        "module_id": "acceleration",
+        "module_name": "训练加速与推理加速",
+        "relevance": "low",
+        "should_follow": false,
+        "reason_cn": "样本效率提升可视为一种算法层面的训练加速，但非系统级加速或推理加速。与 training_acceleration track 的边缘相关。",
+        "evidence_cn": "主要通过预算分配提升 rollout 信号质量，未涉及并行、编译、内存优化等底层加速技术。"
+      },
+      {
+        "module_id": "poi_companion",
+        "module_name": "POI 场景与陪伴产品",
+        "relevance": "low",
+        "should_follow": false,
+        "reason_cn": "函数调用能力是 POI 陪伴产品的基础，但论文未针对 POI 场景设计，仅用通用函数调用基准。方法可迁移到 POI 工具调用训练，但缺乏直接场景适配。",
+        "evidence_cn": "BFCL v4 是多领域 API 调用，无 POI 或推荐任务。"
+      }
+    ],
+    "scores": {
+      "relevance": 45,
+      "credibility": 80,
+      "landing_feasibility": 50,
+      "actionability": 40
+    },
+    "risks_cn": [
+      "方法依赖 outcome-only 验证，对无明确终端奖励的对话或陪伴任务直接适用性有限",
+      "预测器质量影响分配效果，需额外训练或微调",
+      "实验未涵盖真实陪伴或 POI 场景，迁移需重新验证"
+    ],
+    "recommended_action_cn": "若当前积极训练工具调用或 agent 型模型，可复现 TRACE 在内部工具使用数据集上的效果，验证其对样本效率的提升；否则作为技术储备归档。"
+  }
+}

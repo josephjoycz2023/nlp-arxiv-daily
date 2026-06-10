@@ -1,0 +1,28 @@
+{
+  "cached_at": "2026-06-10T12:06:55.101056+00:00",
+  "stage": "l1",
+  "namespace": "aeff661efc80bd56",
+  "key": "2606.11158",
+  "payload": {
+    "paper_id": "2606.11158",
+    "l1": {
+      "decision": "reject",
+      "model_decision": "archive_only",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "inference_acceleration"
+      ],
+      "scores": {
+        "topic_relevance": 1,
+        "scenario_fit": 1,
+        "landing_potential": 1,
+        "abstract_evidence_strength": 2,
+        "distance_penalty": 3
+      },
+      "total_score": 2,
+      "model_total_score": 2,
+      "reason_cn": "论文提出编译器优化下的零拷贝数据移动，属于硬件加速器底层优化，与用户关注的大模型训练/推理加速（框架、分布式、KV cache等）方向关联较弱，核心任务、方法未涉及大模型或具体加速框架。",
+      "archive_reason_cn": "论文仅针对自定义矩阵乘法加速器的数据传输优化，属于通用硬件-编译器协同设计，缺乏对大模型训练或推理场景的直接适配，落地距离较远，适合归档备查。"
+    }
+  }
+}

@@ -136,6 +136,7 @@ def load_config(config_file: str) -> dict:
     config.setdefault("openai_api_key", os.getenv("OPENAI_API_KEY", ""))
     config.setdefault("openai_api_keys", os.getenv("OPENAI_API_KEYS", ""))
     config.setdefault("analysis_request_timeout_seconds", 45)
+    config.setdefault("analysis_request_retries", 1)
     config.setdefault("openai_model", "gpt-5-mini")
     config.setdefault("openai_base_url", "https://api.openai.com/v1")
     config.setdefault("openai_timeout", int(config["analysis_request_timeout_seconds"]))

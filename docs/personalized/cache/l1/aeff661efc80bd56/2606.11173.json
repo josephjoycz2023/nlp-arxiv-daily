@@ -1,0 +1,28 @@
+{
+  "cached_at": "2026-06-10T12:09:30.812435+00:00",
+  "stage": "l1",
+  "namespace": "aeff661efc80bd56",
+  "key": "2606.11173",
+  "payload": {
+    "paper_id": "2606.11173",
+    "l1": {
+      "decision": "archive_only",
+      "model_decision": "archive_only",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "acceleration.training_acceleration"
+      ],
+      "scores": {
+        "topic_relevance": 2,
+        "scenario_fit": 1,
+        "landing_potential": 1,
+        "abstract_evidence_strength": 3,
+        "distance_penalty": 3
+      },
+      "total_score": 4,
+      "model_total_score": 10,
+      "reason_cn": "论文研究自蒸馏中的反馈对齐设计，与训练加速模块中的蒸馏系统有弱关联，但未涉及训练效率或加速，属于训练方法论，与用户关注的落地场景和数据集制备距离较远。",
+      "archive_reason_cn": "自蒸馏训练策略与蒸馏系统弱相关，但重点在反馈设计而非加速，且无明确落地场景，暂归档以备后续关注训练优化方法时参考。"
+    }
+  }
+}

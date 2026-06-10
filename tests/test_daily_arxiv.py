@@ -116,6 +116,7 @@ class TestLoadConfig:
         assert config["openai_model"] == "gpt-5-mini"
         assert config["openai_base_url"] == "https://api.openai.com/v1"
         assert config["analysis_request_timeout_seconds"] == 45
+        assert config["analysis_request_retries"] == 1
         assert config["openai_timeout"] == 45
         assert config["llm_provider"] == "openai"
         assert config["deepseek_api_key"] == ""

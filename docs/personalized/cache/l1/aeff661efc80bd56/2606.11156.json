@@ -1,0 +1,28 @@
+{
+  "cached_at": "2026-06-10T12:05:46.173103+00:00",
+  "stage": "l1",
+  "namespace": "aeff661efc80bd56",
+  "key": "2606.11156",
+  "payload": {
+    "paper_id": "2606.11156",
+    "l1": {
+      "decision": "archive_only",
+      "model_decision": "archive_only",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "acceleration"
+      ],
+      "scores": {
+        "topic_relevance": 2,
+        "scenario_fit": 1,
+        "landing_potential": 1,
+        "abstract_evidence_strength": 3,
+        "distance_penalty": 3
+      },
+      "total_score": 4,
+      "model_total_score": 10,
+      "reason_cn": "论文提出用于随机微分方程的一步生成模型采样加速方法，属于生成模型领域，而非大语言模型训练或推理加速，与用户研究方向相关性较低。",
+      "archive_reason_cn": "方法涉及生成模型采样加速，但非LLM专用，可作为加速方法参考归档，但落地与LLM场景关联度低。"
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "cached_at": "2026-06-10T12:08:09.976777+00:00",
+  "stage": "l1",
+  "namespace": "aeff661efc80bd56",
+  "key": "2606.11167",
+  "payload": {
+    "paper_id": "2606.11167",
+    "l1": {
+      "decision": "archive_only",
+      "model_decision": "archive_only",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "module dataset_pipeline > emotional_dialogue_training_data"
+      ],
+      "scores": {
+        "topic_relevance": 2,
+        "scenario_fit": 1,
+        "landing_potential": 2,
+        "abstract_evidence_strength": 4,
+        "distance_penalty": 3
+      },
+      "total_score": 6,
+      "model_total_score": 12,
+      "reason_cn": "该论文提出使用RL对齐全双工语音对话模型的交互性，属于模型训练方法，而非数据集制备或评测集构建。虽然涉及多轮对话RL数据，但核心贡献不在数据层面，与用户研究方向的数据集制备与评测直接关联较弱，因此归档以备参考。",
+      "archive_reason_cn": "论文关注语音对话模型的交互性RL对齐，可启发多轮对话训练数据中的RL reward设计，但本身不提供新数据集或评测方法，故归入归档。"
+    }
+  }
+}

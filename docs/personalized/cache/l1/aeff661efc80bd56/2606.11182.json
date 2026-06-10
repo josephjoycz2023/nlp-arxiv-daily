@@ -1,0 +1,26 @@
+{
+  "cached_at": "2026-06-10T12:10:45.583286+00:00",
+  "stage": "l1",
+  "namespace": "aeff661efc80bd56",
+  "key": "2606.11182",
+  "payload": {
+    "paper_id": "2606.11182",
+    "l1": {
+      "decision": "reject",
+      "model_decision": "reject",
+      "decision_source": "thresholds",
+      "matched_tracks": [],
+      "scores": {
+        "topic_relevance": 1,
+        "scenario_fit": 0,
+        "landing_potential": 0,
+        "abstract_evidence_strength": 3,
+        "distance_penalty": 4
+      },
+      "total_score": 0,
+      "model_total_score": 4,
+      "reason_cn": "论文研究测试时提示学习框架，针对多数据集流的LLM智能体，但与用户关注的数据集制备、大模型记忆、神经科学、加速、POI陪伴等方向均不相关，无法匹配任何研究track。",
+      "archive_reason_cn": null
+    }
+  }
+}

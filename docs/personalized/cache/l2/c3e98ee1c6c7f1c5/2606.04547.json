@@ -1,0 +1,91 @@
+{
+  "cached_at": "2026-06-10T12:43:21.566926+00:00",
+  "stage": "l2",
+  "namespace": "c3e98ee1c6c7f1c5",
+  "key": "2606.04547",
+  "payload": {
+    "paper_id": "2606.04547",
+    "review_input": {
+      "pdf_url": "https://arxiv.org/pdf/2606.04547v1.pdf",
+      "page_count": 16,
+      "section_titles": [
+        "abstract",
+        "method",
+        "limitation",
+        "conclusion"
+      ],
+      "section_lengths": {
+        "abstract": 1539,
+        "method": 6000,
+        "limitation": 5999,
+        "conclusion": 937
+      },
+      "section_extraction_note": "已按提示词预算截断章节内容。",
+      "truncated_for_prompt": true
+    },
+    "review": {
+      "decision": "normal",
+      "priority": "useful",
+      "summary_cn": "提出TAP-PER，一种基于前缀的LLM个性化框架，用可学习的用户状态前缀和查询相关的历史记录前缀替代显式提示或每用户适配器，结合桥接LoRA实现高效用户适应，在LaMP基准上取得性能与参数效率的平衡。",
+      "research_goal_cn": "解决LLM个性化中提示工程敏感性与每用户适配器存储开销问题，通过压缩的用户表示实现可扩展的个性化。",
+      "method_cn": "两阶段训练：第一阶段任务级LoRA微调骨干；第二阶段冻结骨干，学习用户状态前缀嵌入（可学习嵌入表）、查询相关的历史记录前缀（DIN注意力+时间衰减）、以及共享桥接LoRA，前缀相加后与查询拼接输入。",
+      "experiment_cn": "在LaMP六个任务（分类、评分、生成）上评估，对比提示方法（Retrieval-Augmented Generation）和模型方法（PER-PCS、OPPU等），消融实验验证各组件作用，并分析参数效率。",
+      "result_cn": "TAP-PER在所有任务上优于提示和模型基准，用户参数减少130倍，总参数量约为PER-PCS的一半，并支持持续适应。",
+      "landing_value_cn": "为记忆系统中的隐式用户建模提供轻量方案，可借鉴其用户状态持久化与历史注意力机制，但缺乏情感、POI场景直接验证。",
+      "module_assessments": [
+        {
+          "module_id": "dataset_pipeline",
+          "module_name": "数据集制备与评测数据集",
+          "relevance": "low",
+          "should_follow": false,
+          "reason_cn": "论文未贡献新数据集或标注规范，使用的LaMP基准为通用个性化任务，不涉及情感对话、Tool Use或心理感知评测。",
+          "evidence_cn": "实验基于LaMP，包含个性化分类、评分、生成，无新数据构建或评测方案。"
+        },
+        {
+          "module_id": "llm_memory",
+          "module_name": "大模型记忆",
+          "relevance": "medium",
+          "should_follow": true,
+          "reason_cn": "用户状态前缀可视为隐式长期记忆，查询相关的历史注意力实现记忆检索，其双轨设计对记忆架构有借鉴意义；桥接LoRA可看作记忆注入方式，但非多智能体框架或人格一致性研究。",
+          "evidence_cn": "用户状态前缀捕捉持久偏好，记录前缀通过时间衰减注意力选择相关历史，两者组合提供个性化上下文。"
+        },
+        {
+          "module_id": "neuro_nlp_memory",
+          "module_name": "神经科学、语言与记忆",
+          "relevance": "none",
+          "should_follow": false,
+          "reason_cn": "无神经科学方法或认知机制讨论。",
+          "evidence_cn": "论文专注于工程实现，未引用神经科学文献或模型。"
+        },
+        {
+          "module_id": "acceleration",
+          "module_name": "训练加速与推理加速",
+          "relevance": "low",
+          "should_follow": false,
+          "reason_cn": "虽追求参数效率，但未提出训练或推理加速方法，桥接LoRA和注意力计算可能增加推理开销。",
+          "evidence_cn": "论文关注存储与参数效率而非计算效率，未涉及缓存、并行或编译优化。"
+        },
+        {
+          "module_id": "poi_companion",
+          "module_name": "POI场景与陪伴产品",
+          "relevance": "low",
+          "should_follow": false,
+          "reason_cn": "通用个性化任务与POI场景差距大，未涉及工具调用、多轮交互或用户状态理解。",
+          "evidence_cn": "LaMP任务为产品评论生成、个性化分类等，不包含地点推荐或陪伴对话。"
+        }
+      ],
+      "scores": {
+        "relevance": 45,
+        "credibility": 78,
+        "landing_feasibility": 60,
+        "actionability": 40
+      },
+      "risks_cn": [
+        "用户状态嵌入仍依赖历史数据，隐私风险未完全解决，部署时需额外安全措施",
+        "注意力计算全历史可能不适用于极长或噪声历史，缺少与检索结合的分析",
+        "仅在两个8B规模模型上验证，更大模型效果未知"
+      ],
+      "recommended_action_cn": "可将其用户状态前缀与历史注意力机制作为隐式记忆模块的参考设计，但不作为高优先级跟进；建议在记忆系统预研时对比其方案可行性，暂不启动系统工程。"
+    }
+  }
+}
