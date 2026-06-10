@@ -1,0 +1,23 @@
+{
+  "paper_id": "2606.01745",
+  "arxiv_short_id": "2606.01745v1",
+  "published_date": "2026-06-01",
+  "title": "Enhancing the Socioeconomic Understanding of Foundation Models with Urban Mobility",
+  "authors": "Baoshen Guo et.al.",
+  "authors_full": [
+    "Baoshen Guo",
+    "Donghang Li",
+    "Zhiqing Hong",
+    "Kailai Sun",
+    "Heye Huang",
+    "Alok Prakash",
+    "Shenhao Wang"
+  ],
+  "paper_url": "http://arxiv.org/abs/2606.01745v1",
+  "pdf_url": "https://arxiv.org/pdf/2606.01745v1.pdf",
+  "code_link": null,
+  "abstract": "Foundation models have recently been applied to urban socioeconomic prediction using POI text, satellite imagery, and geospatial descriptions. However, these models mostly rely on static attributes of individual places, while ignoring the mobility patterns that reveal how places are functionally connected. To address this gap, we explore whether mobility networks can elicit the geospatial capabilities of foundation models by explicitly encoding connectivity among urban entities. We propose \\textit{MobFusion}, a modular mobility-enhanced foundation model fusion paradigm, and instantiate it through three complementary designs: (i) mobility networks as contexts for zero-shot LLM prompting, (ii) as graph connectors for fusing geospatial visual embeddings with textual embeddings, and (iii) as structured tokens for multimodal LLM reasoning. Using anonymized large-scale mobility datasets from three U.S. metropolitan areas, we find that \\textit{MobFusion} improves urban prediction tasks (e.g., median household income, population density, and crime prediction) across three instantiations, demonstrating that incorporating human mobility can effectively improve the socioeconomic understanding of foundation models.",
+  "categories": [
+    "cs.SI"
+  ]
+}

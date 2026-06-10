@@ -1,0 +1,23 @@
+{
+  "paper_id": "2606.11158",
+  "arxiv_short_id": "2606.11158v1",
+  "published_date": "2026-06-09",
+  "title": "Defeat the Heap: Zero-Copy Data Movement in AXI4MLIR",
+  "authors": "Elam Cohavi et.al.",
+  "authors_full": [
+    "Elam Cohavi",
+    "Nicolas Bohm Agostini",
+    "Jude Haris",
+    "Antonino Tumeo",
+    "David Kaeli",
+    "Jos\u00e9 Cano"
+  ],
+  "paper_url": "http://arxiv.org/abs/2606.11158v1",
+  "pdf_url": "https://arxiv.org/pdf/2606.11158v1.pdf",
+  "code_link": null,
+  "abstract": "As custom hardware accelerators become increasingly central to machine learning workloads, efficient data transfer is critical for maximizing accelerator performance on linear algebra kernels. AXI4MLIR, an extension of the Multi-Level Intermediate Representation (MLIR) compiler framework for automated generation of host-accelerator driver code, incurs significant runtime overhead due to non-zero-copy CPU-accelerator data movement. During transfers from the host to the accelerator, data is copied from heap-allocated memory buffers into contiguous Direct Memory Access (DMA)-mapped buffers. This work identifies this copy as a redundant staging operation and eliminates it through zero-copy data movement. The optimization extends accel, an MLIR dialect introduced by AXI4MLIR, and implements lowering support that allocates buffers directly within DMA-mapped memory, thereby omitting the staging copy. We evaluate the proposed scheme using a configurable matrix-matrix multiplication accelerator and show that the zero-copy optimization reduces main memory data movement by up to 2x, increasing overall accelerator utilization.",
+  "categories": [
+    "cs.AR",
+    "cs.PL"
+  ]
+}

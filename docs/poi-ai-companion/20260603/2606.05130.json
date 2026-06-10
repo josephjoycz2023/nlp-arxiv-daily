@@ -1,0 +1,27 @@
+{
+  "paper_id": "2606.05130",
+  "arxiv_short_id": "2606.05130v1",
+  "published_date": "2026-06-03",
+  "title": "Towards Efficient and Evidence-grounded Mobility Prediction with LLM-Driven Agent",
+  "authors": "Linyao Chen et.al.",
+  "authors_full": [
+    "Linyao Chen",
+    "Qinlao Zhao",
+    "Zechen Li",
+    "Mingming Li",
+    "Likun Ni",
+    "Jinyu Chen",
+    "Yuhao Yao",
+    "Xuan Song",
+    "Noboru Koshizuka",
+    "Hiroki Kobayashi"
+  ],
+  "paper_url": "http://arxiv.org/abs/2606.05130v1",
+  "pdf_url": "https://arxiv.org/pdf/2606.05130v1.pdf",
+  "code_link": "https://github.com/Unknown-zoo/AgentMob",
+  "abstract": "Individual-level mobility prediction is central to urban simulation, transportation planning, and policy analysis. Supervised sequence models achieve strong accuracy but require task-specific training and offer limited decision-level transparency. Recent LLM-based methods improve interpretability, yet mostly rely on static prompts and single-pass inference, limiting their ability to seek additional evidence when mobility signals are weak or conflicting. We propose \\method{}, a training-free LLM-driven agent framework that formulates next-location prediction as adaptive evidence-controlled decision making. \\method{} resolves routine cases through a fast path based on historical regularity, while ambiguous cases trigger iterative tool use over recent trajectories, historical behavior, stay-move likelihood, and geographical evidence. Across three mobility datasets, AgentMob achieves the strongest overall performance among training-free LLM-based methods, with GPT-5.4 reaching 71.42\\% Acc@1 on BW, 33.14\\% on YJMob100K, and 33.50\\% on Shanghai ISP. On BW non-fast-path cases, the LLM controller improves Acc@1 from 30.65\\% to 48.62\\% over a same-tool statistical baseline, showing that its main benefit lies in resolving ambiguous predictions through adaptive evidence gathering. Our code is available at https://github.com/Unknown-zoo/AgentMob.",
+  "categories": [
+    "cs.LG",
+    "cs.AI"
+  ]
+}

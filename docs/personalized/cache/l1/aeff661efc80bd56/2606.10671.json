@@ -1,0 +1,28 @@
+{
+  "cached_at": "2026-06-10T11:30:50.466094+00:00",
+  "stage": "l1",
+  "namespace": "aeff661efc80bd56",
+  "key": "2606.10671",
+  "payload": {
+    "paper_id": "2606.10671",
+    "l1": {
+      "decision": "archive_only",
+      "model_decision": "archive_only",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "acceleration"
+      ],
+      "scores": {
+        "topic_relevance": 2,
+        "scenario_fit": 1,
+        "landing_potential": 1,
+        "abstract_evidence_strength": 3,
+        "distance_penalty": 3
+      },
+      "total_score": 4,
+      "model_total_score": 4,
+      "reason_cn": "论文提出视频扩散模型的距离感知KV缓存合并机制，属于推理加速技术，但针对视频生成场景，与用户关注的大模型对话、情感记忆、POI等方向差距明显，落地相关性低。",
+      "archive_reason_cn": "KV缓存优化方法可作为推理加速技术储备，但应用领域为视频生成，非用户核心的大模型对话与记忆方向，仅归档。"
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "cached_at": "2026-06-10T11:33:43.288400+00:00",
+  "stage": "l1",
+  "namespace": "aeff661efc80bd56",
+  "key": "2606.10949",
+  "payload": {
+    "paper_id": "2606.10949",
+    "l1": {
+      "decision": "level2",
+      "model_decision": "archive_only",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "llm_memory.implicit_memory_and_persona"
+      ],
+      "scores": {
+        "topic_relevance": 3,
+        "scenario_fit": 2,
+        "landing_potential": 2,
+        "abstract_evidence_strength": 3,
+        "distance_penalty": 2
+      },
+      "total_score": 8,
+      "model_total_score": 8,
+      "reason_cn": "论文研究记忆系统放大模型迎合用户（sycophancy）的问题，提出评测基准和缓解方法，与记忆系统的人格一致性相关，但侧重于负面效应评估，缺乏明确的多智能体或个性化记忆框架落地设计。",
+      "archive_reason_cn": "涉及记忆系统的行为评估与缓解，虽有技术贡献，但距离用户关注的人格一致性、情绪稳定性等具体落地场景较远，可作为记忆系统可靠性参考存档。"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "paper_id": "2606.10078",
+  "arxiv_short_id": "2606.10078v1",
+  "published_date": "2026-06-08",
+  "title": "Mult-DPO: Multinomial Direct Preference Optimization for Recommender Systems",
+  "authors": "Yaochen Zhu et.al.",
+  "authors_full": [
+    "Yaochen Zhu",
+    "Harald Steck",
+    "James McInerney",
+    "Aditya Sinha",
+    "Yinhan He",
+    "Nathan Kallus",
+    "Jundong Li"
+  ],
+  "paper_url": "http://arxiv.org/abs/2606.10078v1",
+  "pdf_url": "https://arxiv.org/pdf/2606.10078v1.pdf",
+  "code_link": "https://github.com/yaochenzhu/Mult_DPO",
+  "abstract": "Direct preference optimization (DPO) is a simple and effective alignment strategy for large language models (LLMs) based on pairwise preferences. In recommender systems, however, user feedback is rarely pairwise. For a given context, e.g., a user, a session, or a conversation, we typically observe set-wise preferences with multiple positive items, where every positive item should outrank every unobserved or explicitly negative item, with no prescribed order among the positives or the negatives themselves. A natural generalization is to use the Plackett-Luce (PL) reward model, which extends the Bradley-Terry reward model underlying vanilla DPO from pairwise preferences to full rankings of candidates. However, we show that adapting the PL model to set-wise preferences requires marginalizing over all positive orderings, where the resulting expression is combinatorial in complexity. To address this fundamental challenge, we propose Mult-DPO, a novel DPO objective with a tractable multinomial surrogate likelihood over set-wise preference events for the user-preference alignment of LLM-based recommender systems. The multinomial construction is not itself a ranking distribution, but it is defined on the same reward-induced weight space and admits a closed-form DPO-style objective, enabling direct alignment of LLMs with multiple candidates through a classification-style objective. In addition, we prove that the multinomial DPO loss is a tractable upper bound on the marginalized PL DPO loss when optimizing against the set-wise preference data. We further characterize the tightness of this bound in terms of the relative total weight of positives versus negatives, which provides insights into tightening the bound with richer or harder negatives. Finally, we extend Mult-DPO to the alignment of LLMs with multiple preference levels. Code is available at https://github.com/yaochenzhu/Mult_DPO",
+  "categories": [
+    "cs.IR"
+  ]
+}

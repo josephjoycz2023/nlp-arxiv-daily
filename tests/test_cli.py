@@ -8,12 +8,15 @@ persisted JSON), and `fetch`-only must NOT touch markdown. The cron path
 from __future__ import annotations
 
 import datetime
+import json
 import textwrap
+from pathlib import Path
 
 import pytest
 
 from nlp_arxiv_daily import cli
 from nlp_arxiv_daily.fetcher import ArxivRateLimitExceeded
+from nlp_arxiv_daily.types import Paper
 
 
 @pytest.fixture
@@ -127,6 +130,12 @@ class TestDispatch:
         cli.main(["--config_path", fake_config_file, "filter-l1", "--date", "2026-06-06"])
         assert called == [("filter-l1", datetime.date(2026, 6, 6))]
 
+    def test_main_run_personalized_dispatches(self, monkeypatch, fake_config_file):
+        called = []
+        monkeypatch.setattr(cli, "cmd_run_personalized", lambda config, *, run_date: called.append(("run-personalized", run_date)))
+        cli.main(["--config_path", fake_config_file, "run-personalized", "--date", "2026-06-06"])
+        assert called == [("run-personalized", datetime.date(2026, 6, 6))]
+
     def test_main_review_l2_dispatches(self, monkeypatch, fake_config_file):
         called = []
         monkeypatch.setattr(cli, "cmd_review_l2", lambda config, *, run_date: called.append(("review-l2", run_date)))
@@ -198,12 +207,352 @@ class TestCommandIsolation:
 
 
 class TestCmdRunInvocation:
+    def _personalized_config(self, fake_config_file):
+        config = cli.load_config(fake_config_file)
+        sandbox_root = Path(fake_config_file).parent / "personalized"
+        config["personalized_docs_dir"] = str(sandbox_root)
+        config["analysis_cache_dir"] = str(sandbox_root / "cache")
+        config["personalized_logs_dir"] = str(sandbox_root / "logs")
+        config["personalized_runs_dir"] = str(sandbox_root / "runs")
+        return config
+
+    def _fetched_papers(self):
+        return {
+            "agent": [
+                Paper(
+                    paper_id="2606.00001",
+                    title="Memory Agent",
+                    first_author="Alice",
+                    update_time=datetime.date(2026, 6, 5),
+                    paper_url="http://arxiv.org/abs/2606.00001v1",
+                    code_link=None,
+                    abstract="A memory paper.",
+                    authors=("Alice",),
+                    categories=("cs.CL",),
+                    pdf_url="http://arxiv.org/pdf/2606.00001v1.pdf",
+                    arxiv_short_id="2606.00001v1",
+                )
+            ]
+        }
+
     def test_run_calls_fetch_then_render_in_order(self, monkeypatch, fake_config_file):
         order = []
         monkeypatch.setattr(cli, "cmd_fetch", lambda config: order.append("fetch"))
         monkeypatch.setattr(cli, "cmd_render", lambda config: order.append("render"))
         cli.main(["--config_path", fake_config_file, "run"])
         assert order == ["fetch", "render"]
+
+    def test_run_personalized_writes_stage_record(self, monkeypatch, fake_config_file):
+        config = self._personalized_config(fake_config_file)
+        personalized_root = Path(config["personalized_docs_dir"])
+        run_date = datetime.date(2026, 6, 6)
+
+        l1_dir = personalized_root / "l1"
+        reviews_dir = personalized_root / "reviews" / run_date.isoformat()
+        daily_dir = personalized_root / "daily"
+        l1_dir.mkdir(parents=True)
+        reviews_dir.mkdir(parents=True)
+        daily_dir.mkdir(parents=True)
+
+        l1_path = l1_dir / f"{run_date.isoformat()}.json"
+        l1_path.write_text(
+            json.dumps(
+                {
+                    "date": run_date.isoformat(),
+                    "stats": {"total_papers": 1, "reject": 0, "archive_only": 0, "level2": 1},
+                    "papers": [
+                        {
+                            "paper": {"paper_id": "2606.00001", "title": "Memory Agent"},
+                            "l1": {"decision": "level2"},
+                        }
+                    ],
+                }
+            ),
+            encoding="utf-8",
+        )
+
+        review_path = reviews_dir / "2606.00001.json"
+        review_path.write_text(
+            json.dumps(
+                {
+                    "paper": {"paper_id": "2606.00001", "title": "Memory Agent"},
+                    "review": {"decision": "highlight"},
+                }
+            ),
+            encoding="utf-8",
+        )
+
+        digest_path = daily_dir / f"{run_date.isoformat()}.json"
+        digest_path.write_text(
+            json.dumps(
+                {
+                    "date": run_date.isoformat(),
+                    "review_failures": [],
+                    "digest": {
+                        "must_read": [{"paper_id": "2606.00001"}],
+                        "worth_archiving": [],
+                    },
+                }
+            ),
+            encoding="utf-8",
+        )
+
+        order = []
+        monkeypatch.setattr(cli, "cmd_fetch", lambda cfg: order.append("fetch") or self._fetched_papers())
+        monkeypatch.setattr(cli, "cmd_render", lambda cfg: order.append("render"))
+        monkeypatch.setattr(cli, "filter_level1_for_date", lambda cfg, date: order.append("l1") or str(l1_path))
+        monkeypatch.setattr(cli, "review_level2_for_date", lambda cfg, date: order.append("l2") or [str(review_path)])
+        monkeypatch.setattr(cli, "build_digest_for_date", lambda cfg, date: order.append("digest") or str(digest_path))
+
+        cli.cmd_run_personalized(config, run_date=run_date)
+
+        assert order == ["fetch", "render", "l1", "l2", "digest"]
+        record_path = Path(config["personalized_runs_dir"]) / f"{run_date.isoformat()}.json"
+        latest_path = Path(config["personalized_runs_dir"]) / "latest.json"
+        record = json.loads(record_path.read_text(encoding="utf-8"))
+        latest = json.loads(latest_path.read_text(encoding="utf-8"))
+        analysis_pool = json.loads((personalized_root / "pools" / f"{run_date.isoformat()}.json").read_text(encoding="utf-8"))
+        pipeline_log = json.loads((personalized_root / "logs" / f"{run_date.isoformat()}" / "pipeline.json").read_text(encoding="utf-8"))
+        assert record["stages"]["l1"]["stats"]["level2"] == 1
+        assert record["stages"]["l2"]["stats"]["reviewed"] == 1
+        assert record["stages"]["digest"]["stats"]["must_read"] == 1
+        assert latest["date"] == run_date.isoformat()
+        assert analysis_pool["stats"]["unique_papers"] == 1
+        assert analysis_pool["papers"][0]["published_date"] == "2026-06-05"
+        assert pipeline_log["stages"]["digest"]["stats"]["must_read"] == 1
+
+    def test_run_personalized_resumes_from_next_incomplete_stage(self, monkeypatch, fake_config_file):
+        config = self._personalized_config(fake_config_file)
+        personalized_root = Path(config["personalized_docs_dir"])
+        run_date = datetime.date(2026, 6, 6)
+
+        (personalized_root / "pools").mkdir(parents=True)
+        (personalized_root / "l1").mkdir(parents=True)
+        (personalized_root / "reviews" / run_date.isoformat()).mkdir(parents=True)
+        Path(config["md_readme_path"]).write_text("rendered", encoding="utf-8")
+
+        analysis_pool_path = personalized_root / "pools" / f"{run_date.isoformat()}.json"
+        analysis_pool_path.write_text(
+            json.dumps(
+                {
+                    "date": run_date.isoformat(),
+                    "stats": {"topics": 1, "total_topic_hits": 1, "unique_papers": 1},
+                    "papers": [{"paper_id": "2606.00001", "title": "Memory Agent"}],
+                }
+            ),
+            encoding="utf-8",
+        )
+
+        l1_path = personalized_root / "l1" / f"{run_date.isoformat()}.json"
+        l1_path.write_text(
+            json.dumps(
+                {
+                    "date": run_date.isoformat(),
+                    "stats": {"total_papers": 1, "reject": 0, "archive_only": 0, "level2": 1},
+                    "papers": [
+                        {
+                            "paper": {"paper_id": "2606.00001", "title": "Memory Agent"},
+                            "l1": {"decision": "level2"},
+                        }
+                    ],
+                }
+            ),
+            encoding="utf-8",
+        )
+
+        runs_dir = Path(config["personalized_runs_dir"])
+        runs_dir.mkdir(parents=True)
+        state_path = runs_dir / f"{run_date.isoformat()}.json"
+        state_path.write_text(
+            json.dumps(
+                {
+                    "date": run_date.isoformat(),
+                    "pipeline": "run-personalized",
+                    "status": "failed",
+                    "created_at": "2026-06-06T00:00:00+00:00",
+                    "updated_at": "2026-06-06T00:00:01+00:00",
+                    "completed_at": None,
+                    "stages": {
+                        "fetch": {
+                            "status": "completed",
+                            "path": str(analysis_pool_path),
+                            "keyword_count": 1,
+                            "keywords": ["NLP"],
+                            "stats": {"topics": 1, "total_topic_hits": 1, "unique_papers": 1},
+                        },
+                        "render": {"status": "completed"},
+                        "l1": {
+                            "status": "completed",
+                            "path": str(l1_path),
+                            "stats": {"total_papers": 1, "reject": 0, "archive_only": 0, "level2": 1},
+                            "paper_ids": ["2606.00001"],
+                            "level2_candidate_ids": ["2606.00001"],
+                        },
+                        "l2": {"status": "failed", "error": {"type": "RuntimeError", "message": "boom"}},
+                        "digest": {"status": "pending"},
+                    },
+                }
+            ),
+            encoding="utf-8",
+        )
+
+        review_path = personalized_root / "reviews" / run_date.isoformat() / "2606.00001.json"
+        digest_path = personalized_root / "daily" / f"{run_date.isoformat()}.json"
+        digest_path.parent.mkdir(parents=True, exist_ok=True)
+
+        order = []
+        monkeypatch.setattr(cli, "cmd_fetch", lambda cfg: pytest.fail("fetch should be skipped"))
+        monkeypatch.setattr(cli, "cmd_render", lambda cfg: pytest.fail("render should be skipped"))
+        monkeypatch.setattr(cli, "filter_level1_for_date", lambda cfg, date: pytest.fail("l1 should be skipped"))
+        monkeypatch.setattr(cli, "review_level2_for_date", lambda cfg, date: order.append("l2") or [str(review_path)])
+        monkeypatch.setattr(cli, "build_digest_for_date", lambda cfg, date: order.append("digest") or str(digest_path))
+
+        review_path.write_text(
+            json.dumps(
+                {
+                    "paper": {"paper_id": "2606.00001", "title": "Memory Agent"},
+                    "review": {"decision": "highlight"},
+                }
+            ),
+            encoding="utf-8",
+        )
+        digest_path.write_text(
+            json.dumps(
+                {
+                    "date": run_date.isoformat(),
+                    "review_failures": [],
+                    "digest": {"must_read": [{"paper_id": "2606.00001"}], "worth_archiving": []},
+                }
+            ),
+            encoding="utf-8",
+        )
+
+        cli.cmd_run_personalized(config, run_date=run_date)
+
+        assert order == ["l2", "digest"]
+        resumed = json.loads(state_path.read_text(encoding="utf-8"))
+        assert resumed["status"] == "completed"
+        assert resumed["stages"]["fetch"]["status"] == "completed"
+        assert resumed["stages"]["l2"]["status"] == "completed"
+        assert resumed["stages"]["digest"]["status"] == "completed"
+
+    def test_run_personalized_marks_fetch_stage_failed(self, monkeypatch, fake_config_file):
+        config = self._personalized_config(fake_config_file)
+        run_date = datetime.date(2026, 6, 6)
+        monkeypatch.setattr(cli, "cmd_fetch", lambda cfg: (_ for _ in ()).throw(RuntimeError("fetch failed")))
+
+        with pytest.raises(RuntimeError, match="fetch failed"):
+            cli.cmd_run_personalized(config, run_date=run_date)
+
+        state = json.loads(
+            (Path(config["personalized_runs_dir"]) / f"{run_date.isoformat()}.json").read_text(encoding="utf-8")
+        )
+        assert state["status"] == "failed"
+        assert state["stages"]["fetch"]["status"] == "failed"
+        assert state["stages"]["fetch"]["error"]["message"] == "fetch failed"
+
+    def test_run_personalized_marks_render_stage_failed(self, monkeypatch, fake_config_file):
+        config = self._personalized_config(fake_config_file)
+        run_date = datetime.date(2026, 6, 6)
+
+        def fake_fetch(cfg):
+            papers = self._fetched_papers()
+            cli._write_analysis_pool_snapshot(cfg, papers, snapshot_date=run_date)
+            return papers
+
+        monkeypatch.setattr(cli, "cmd_fetch", fake_fetch)
+        monkeypatch.setattr(cli, "cmd_render", lambda cfg: (_ for _ in ()).throw(RuntimeError("render failed")))
+
+        with pytest.raises(RuntimeError, match="render failed"):
+            cli.cmd_run_personalized(config, run_date=run_date)
+
+        state = json.loads(
+            (Path(config["personalized_runs_dir"]) / f"{run_date.isoformat()}.json").read_text(encoding="utf-8")
+        )
+        assert state["status"] == "failed"
+        assert state["stages"]["fetch"]["status"] == "completed"
+        assert state["stages"]["render"]["status"] == "failed"
+
+    def test_run_personalized_marks_l1_stage_failed(self, monkeypatch, fake_config_file):
+        config = self._personalized_config(fake_config_file)
+        run_date = datetime.date(2026, 6, 6)
+
+        def fake_fetch(cfg):
+            papers = self._fetched_papers()
+            cli._write_analysis_pool_snapshot(cfg, papers, snapshot_date=run_date)
+            return papers
+
+        Path(config["md_readme_path"]).write_text("rendered", encoding="utf-8")
+        monkeypatch.setattr(cli, "cmd_fetch", fake_fetch)
+        monkeypatch.setattr(cli, "cmd_render", lambda cfg: None)
+        monkeypatch.setattr(cli, "filter_level1_for_date", lambda cfg, date: (_ for _ in ()).throw(RuntimeError("l1 failed")))
+
+        with pytest.raises(RuntimeError, match="l1 failed"):
+            cli.cmd_run_personalized(config, run_date=run_date)
+
+        state = json.loads(
+            (Path(config["personalized_runs_dir"]) / f"{run_date.isoformat()}.json").read_text(encoding="utf-8")
+        )
+        assert state["status"] == "failed"
+        assert state["stages"]["render"]["status"] == "completed"
+        assert state["stages"]["l1"]["status"] == "failed"
+
+
+def test_build_digest_stage_record_prefers_stage_log(tmp_path):
+    personalized_root = tmp_path / "personalized"
+    daily_dir = personalized_root / "daily"
+    logs_dir = personalized_root / "logs" / "2026-06-06"
+    daily_dir.mkdir(parents=True)
+    logs_dir.mkdir(parents=True)
+
+    digest_path = daily_dir / "2026-06-06.md"
+    digest_path.write_text("# digest", encoding="utf-8")
+    (logs_dir / "digest.json").write_text(
+        json.dumps(
+            {
+                "summary": {
+                    "must_read": 2,
+                    "worth_archiving": 1,
+                    "review_failures": 1,
+                    "must_read_paper_ids": ["2606.00001", "2606.00002"],
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    record = cli._build_digest_stage_record(str(digest_path))
+
+    assert record["status"] == "completed"
+    assert record["stats"] == {"must_read": 2, "worth_archiving": 1, "review_failures": 1}
+    assert record["must_read_paper_ids"] == ["2606.00001", "2606.00002"]
+
+
+def test_build_digest_stage_record_falls_back_to_legacy_digest_json(tmp_path):
+    personalized_root = tmp_path / "personalized"
+    daily_dir = personalized_root / "daily"
+    daily_dir.mkdir(parents=True)
+
+    digest_path = daily_dir / "2026-06-06.json"
+    digest_path.write_text(
+        json.dumps(
+            {
+                "date": "2026-06-06",
+                "review_failures": [{"paper_id": "2606.00003"}],
+                "digest": {
+                    "must_read": [{"paper_id": "2606.00001"}, {"paper_id": "2606.00002"}],
+                    "worth_archiving": [{"paper_id": "2606.00004"}],
+                },
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    record = cli._build_digest_stage_record(str(digest_path))
+
+    assert record["status"] == "completed"
+    assert record["stats"] == {"must_read": 2, "worth_archiving": 1, "review_failures": 1}
+    assert record["must_read_paper_ids"] == ["2606.00001", "2606.00002"]
 
 
 class TestParseYyyyMm:

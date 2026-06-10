@@ -1,104 +1,235 @@
 profile:
   short: >
-    关注面向真实产品落地的大模型应用研究，重点包括 Agent 系统、RAG/Memory、
-    长期记忆、个性化、SFT/RL/OPD 数据构造、LLM Judge、自动评测、
-    AI 伴侣与 POI 场景。优先关注可复现、实验充分、能转化为数据、
-    模型、评测或系统设计的工作；排除纯理论、早期概念验证、
-    与真实应用距离较远的优化论文。
+    关注五类可落地研究方向：
+    1. 大模型训练数据集制备与评测数据集，尤其是情感、多轮对话、tool use、SFT、RL、on-policy distillation。
+    2. 大模型记忆，尤其是多智能体记忆框架、长期记忆、个性化记忆、人格一致性、情绪稳定性与隐式记忆索引。
+    3. 神经科学与自然语言和记忆交叉，关注人脑如何理解语言、情绪与记忆。
+    4. 大模型训练加速与推理加速框架和方法。
+    5. POI 场景与 AI 结合，尤其是陪伴产品中的 tool use 与场景化能力。
 
   full: >
-    当前研究目标不是追踪所有 LLM/NLP 论文，而是筛选能够支持真实产品落地的研究。
-    重点关注：
-    1. Agent 系统在长期任务、用户交互、工具调用、规划、记忆中的落地方法；
-    2. RAG、长期记忆、用户偏好、角色记忆、个性化建模；
-    3. SFT/RL/OPD、数据生产、数据评估、LLM Judge、自动化评测；
-    4. AI 陪伴、角色人格、POI、生活/旅行推荐、情境记忆等应用；
-    5. 能够启发工程 pipeline、数据 schema、评测指标、模型训练或产品功能的工作。
+    当前目标不是泛化追踪所有 LLM/NLP 论文，而是筛选能直接支持数据生产、评测建设、记忆系统设计、
+    训练与推理加速、以及陪伴产品在 POI 场景落地的研究。
+    优先关注：
+    1. 能沉淀为数据集 schema、标注规范、采样策略、SFT/RL/OPD 数据流程或自动化评测协议的工作；
+    2. 能沉淀为记忆架构、长期记忆机制、个性化记忆模块、多智能体共享记忆、隐式记忆索引的工作；
+    3. 能解释语言理解、情绪感知、心理感知或记忆形成机制，并可反哺 NLP/LLM 建模的神经科学研究；
+    4. 能明显改善训练效率、推理吞吐、时延、成本或部署复杂度的框架和方法；
+    5. 能服务陪伴产品、POI 场景、工具调用、多轮交互与用户状态理解的应用型研究。
     不优先关注：
-    1. 纯数学/理论推导；
-    2. 只在小型 benchmark 上验证、没有明确落地路径的优化；
-    3. 与当前场景只有关键词相关但任务目标无关的论文；
-    4. 过度依赖尚不成熟硬件、私有数据或不可复现系统的工作。
+    1. 只有关键词重合、但任务目标与上述方向无直接关系的论文；
+    2. 只在小型 benchmark 上做边际提升、缺乏可迁移价值的工作；
+    3. 没有清晰方法贡献、数据贡献、评测贡献或系统贡献的纯 leaderboard 论文；
+    4. 与当前业务场景距离过远、不可复现或强依赖私有资源的方案。
 
-tracks:
-  - id: agent_system
-    name: Agent 系统与工具调用
-    include:
-      - LLM Agent
-      - multi-agent
-      - tool use
-      - planning
-      - workflow
-      - environment interaction
-    exclude:
-      - robotics-only
-      - game-only benchmark
-      - pure planning theory
+# 模块化研究策略：
+# - 每个 module 对应一个稳定研究方向
+# - 后续如方向调整，只需要新增/删除模块，或把 enabled 切换为 true/false
+# - 每个模块内部再拆成更细的 tracks，便于 L1/L2 对齐具体关注点
+modules:
+  - id: dataset_pipeline
+    name: 数据集制备与评测数据集
+    enabled: true
+    summary: >
+      关注训练数据集与评测数据集，特别是情感、多轮对话、tool use、SFT、RL、OPD、
+      情绪感知、心理感知与陪伴方向的数据构造和评测方法。
+    tracks:
+      - id: emotional_dialogue_training_data
+        name: 情感与多轮对话训练数据
+        include:
+          - emotional dialogue
+          - empathetic dialogue
+          - multi-turn dialogue
+          - affective conversation
+          - SFT data
+          - RL data
+          - preference data
+          - on-policy distillation
+          - synthetic data generation
+          - dialogue data curation
+        exclude:
+          - single-turn classification only
+          - speech-only
+          - vision-only
 
-  - id: memory_personalization
-    name: 记忆与个性化
-    include:
-      - long-term memory
-      - user preference
-      - personalization
-      - character memory
-      - episodic memory
-      - RAG memory
-    exclude:
-      - biological memory
-      - neuroscience-only
+      - id: tool_use_and_poi_data
+        name: Tool Use 与 POI 数据集
+        include:
+          - tool use data
+          - function calling
+          - agent trajectory
+          - POI recommendation
+          - travel planning
+          - action supervision
+          - API benchmark
+          - environment interaction logs
+        exclude:
+          - robotics-only
+          - code execution only
 
-  - id: data_eval_judge
-    name: 数据、评测与 Judge
-    include:
-      - LLM-as-a-judge
-      - evaluation
-      - SFT data
-      - RL data
-      - preference data
-      - synthetic data
-      - data quality
-    exclude:
-      - benchmark leaderboard only
-      - no method contribution
+      - id: emotional_and_psychological_eval
+        name: 情绪感知与心理感知评测集
+        include:
+          - emotional support benchmark
+          - emotion recognition
+          - emotion understanding
+          - psychological perception
+          - mental state understanding
+          - empathy evaluation
+          - multi-turn evaluation
+          - LLM judge for dialogue
+        exclude:
+          - generic sentiment classification only
+          - leaderboard only
 
-  - id: applied_companion_poi
-    name: AI 伴侣与 POI 落地场景
-    include:
-      - conversational agent
-      - companion
-      - recommendation
-      - POI
-      - travel recommendation
-      - user modeling
-    exclude:
-      - generic recommender without LLM
-      - e-commerce only
+  - id: llm_memory
+    name: 大模型记忆
+    enabled: true
+    summary: >
+      关注多智能体记忆框架、高效记忆模式、长期记忆、个性化记忆，以及模型内部隐式记忆、
+      人格一致性、情绪稳定性与记忆索引。
+    tracks:
+      - id: multi_agent_memory_frameworks
+        name: 多智能体记忆框架
+        include:
+          - multi-agent memory
+          - shared memory
+          - long-term memory
+          - memory framework
+          - memory orchestration
+          - episodic memory
+          - personalized memory
+          - memory retrieval strategy
+        exclude:
+          - biological memory
+          - generic rag without memory focus
+
+      - id: implicit_memory_and_persona
+        name: 隐式记忆、人格与情绪稳定性
+        include:
+          - implicit memory
+          - persona consistency
+          - personality consistency
+          - emotional stability
+          - memory indexing
+          - internal memory retrieval
+          - latent memory
+          - user state persistence
+        exclude:
+          - static persona prompting only
+          - one-shot role-play only
+
+  - id: neuro_nlp_memory
+    name: 神经科学、语言与记忆
+    enabled: true
+    summary: >
+      关注神经科学如何解释语言理解、情绪感知、记忆形成与检索，并寻找对 NLP/LLM 建模有启发的工作。
+    tracks:
+      - id: neuroscience_language_understanding
+        name: 脑科学视角的语言与情绪理解
+        include:
+          - neuroscience of language
+          - brain language model
+          - language comprehension in the brain
+          - emotion processing
+          - memory formation
+          - memory retrieval
+          - neural representation
+          - cognitive neuroscience
+        exclude:
+          - clinical treatment only
+          - molecular neuroscience only
+          - non-language neuroscience only
+
+  - id: acceleration
+    name: 训练加速与推理加速
+    enabled: true
+    summary: >
+      关注训练加速、推理加速、系统框架、缓存机制、并行与编译优化等方向，
+      优先考虑对真实训练或部署成本有明确改善的工作。
+    tracks:
+      - id: training_acceleration
+        name: 训练加速
+        include:
+          - training acceleration
+          - efficient training
+          - distillation system
+          - optimizer efficiency
+          - pipeline parallel
+          - distributed training
+          - memory efficient training
+          - low cost alignment
+        exclude:
+          - hardware-only
+          - chip design only
+
+      - id: inference_acceleration
+        name: 推理加速
+        include:
+          - inference acceleration
+          - serving framework
+          - KV cache optimization
+          - speculative decoding
+          - efficient decoding
+          - latency optimization
+          - throughput optimization
+          - agent inference system
+        exclude:
+          - hardware-only
+          - benchmark without method
+
+  - id: poi_companion
+    name: POI 场景与陪伴产品
+    enabled: true
+    summary: >
+      关注陪伴产品在 POI 场景中的多轮交互、tool use、用户状态理解、
+      推荐与任务执行相关研究。
+    tracks:
+      - id: poi_tool_use_companion
+        name: POI 场景下的陪伴与 Tool Use
+        include:
+          - POI
+          - conversational recommendation
+          - travel assistant
+          - companion agent
+          - tool use
+          - function calling
+          - itinerary planning
+          - place recommendation
+          - contextual memory
+          - user preference modeling
+        exclude:
+          - generic e-commerce recommendation
+          - map routing only
 
 level1:
-  max_prompt_profile_chars: 350
+  max_prompt_profile_chars: 420
   decision_thresholds:
     reject_below_relevance: 1
     archive_below_total: 6
     level2_min_total: 8
-  max_level2_candidates_per_day: 8
+  max_level2_candidates_per_day: 10
 
 level2:
-  max_papers_per_day: 5
+  max_papers_per_day: 6
   skip_sections:
     - introduction
     - related work
+    - background
   prefer_sections:
     - abstract
     - method
     - approach
+    - framework
     - experiments
     - results
+    - ablation
+    - analysis
     - discussion
     - limitation
     - conclusion
 
 output:
   language: Chinese
-  digest_max_papers: 5
+  digest_max_papers: 6
   include_archive_summary: true

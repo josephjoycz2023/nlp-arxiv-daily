@@ -1,0 +1,19 @@
+{
+  "paper_id": "2606.10974",
+  "arxiv_short_id": "2606.10974v1",
+  "published_date": "2026-06-09",
+  "title": "Language-Driven Cost Optimization for Autonomous Driving",
+  "authors": "Diego Martinez-Baselga et.al.",
+  "authors_full": [
+    "Diego Martinez-Baselga",
+    "Khaled Mustafa",
+    "Javier Alonso-Mora"
+  ],
+  "paper_url": "http://arxiv.org/abs/2606.10974v1",
+  "pdf_url": "https://arxiv.org/pdf/2606.10974v1.pdf",
+  "code_link": null,
+  "abstract": "The driving behavior of autonomous vehicles is typically governed by the cost function of their motion planner, which encodes objectives such as speed tracking, smoothness, lane keeping, and collision avoidance. However, tuning the parameters that shape this cost function is a challenging task that requires technical expertise, limiting the vehicle's ability to adapt to evolving traffic scenarios or end-user preferences. This work presents a language-driven framework for adaptive cost design in autonomous driving. A Large Language Model (LLM) interprets structured scenario descriptions and natural language user queries to generate the parameters applied to a risk-aware Model Predictive Path Integral (MPPI) controller. The system incorporates a human-in-the-loop validation stage in which the proposed behavioral changes are described in non-technical language and confirmed prior to deployment. Users may additionally provide feedback either before or after deployment, enabling iterative refinement of the vehicle's motion behavior. The framework is evaluated across multiple queries in realistic driving scenarios to assess its effectiveness. Simulation results demonstrate that the method successfully induces behavioral changes that align with the intended requirements in an intuitive manner, thereby bridging the gap between intelligent vehicle control systems and end users.",
+  "categories": [
+    "cs.RO"
+  ]
+}

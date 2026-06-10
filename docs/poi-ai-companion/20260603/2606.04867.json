@@ -1,0 +1,19 @@
+{
+  "paper_id": "2606.04867",
+  "arxiv_short_id": "2606.04867v1",
+  "published_date": "2026-06-03",
+  "title": "AICompanionBench: Benchmarking LLMs-as-Judges for AI Companion Safety",
+  "authors": "Yanjing Ren et.al.",
+  "authors_full": [
+    "Yanjing Ren",
+    "Reza Ebrahimi",
+    "TengTeng Ma"
+  ],
+  "paper_url": "http://arxiv.org/abs/2606.04867v1",
+  "pdf_url": "https://arxiv.org/pdf/2606.04867v1.pdf",
+  "code_link": "https://github.com/anonymousresearcher2026/AICompanionBench",
+  "abstract": "As AI companion platforms such as Replika and Character.AI rapidly grow, concerns about unsafe human-AI interactions have intensified. This study introduces AICompanionBench, to our knowledge the first publicly available benchmark dataset of human-AI companion conversations annotated with fine-grained safety risk categories. The dataset contains 2,123 real-world Replika conversations collected from Reddit and annotated through human-AI collaboration across nine categories: sexual behavior, antisocial behavior, physical aggression, verbal aggression, substance abuse, self-harm and suicide, control, manipulation, and no-harm. Using this benchmark, we evaluate 20 state-of-the-art open-source and closed-source LLMs under an LLM-as-judge framework for detecting unsafe interactions. Results show substantial variation in model performance, with stronger models achieving high overall accuracy but still struggling with nuanced categories such as manipulation, as well as benign conversations that are incorrectly identified as harmful. Our findings suggest that while current LLMs can effectively detect explicit harmful content, they remain limited in identifying implicit unsafe interactions. Overall, our work contributes a new benchmark dataset for AI companionship safety research and offers insights into monitoring AI companion systems using LLMs. The dataset is publicly available at: https://github.com/anonymousresearcher2026/AICompanionBench/blob/main/AICompanionBench.xlsx",
+  "categories": [
+    "cs.AI"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "paper_id": "2606.10671",
+  "arxiv_short_id": "2606.10671v1",
+  "published_date": "2026-06-09",
+  "title": "FadeMem: Distance-Aware Memory Consolidation for Autoregressive Video Diffusion",
+  "authors": "Yu Lu et.al.",
+  "authors_full": [
+    "Yu Lu",
+    "Junjie Yang",
+    "Piotr Koniusz",
+    "YuXin Song",
+    "Yi Yang"
+  ],
+  "paper_url": "http://arxiv.org/abs/2606.10671v1",
+  "pdf_url": "https://arxiv.org/pdf/2606.10671v1.pdf",
+  "code_link": null,
+  "abstract": "Autoregressive video generators synthesize long videos by generating successive temporal segments, but their historical KV cache grows with video length. Existing bounded-cache methods reduce this cost with local windows, sink tokens, or compressed memory states, yet they usually assign fixed roles to different parts of the history. We propose FadeMem, a distance-aware KV memory consolidation mechanism that organizes historical KV blocks into a temporal hierarchy under a fixed cache budget. This design is motivated by frequency-dependent temporal decay: fine details decorrelate quickly, while coarse scene structure and identity remain useful over longer horizons. During generation, new history is inserted as fine-grained entries, while older adjacent entries are progressively merged under a power-law temporal allocation schedule, yielding a dense-near, sparse-far memory within one cache. Without architectural changes, FadeMem preserves recent context for short-term dynamics and compact long-range anchors for identity and scene coherence. Experiments show improved subject consistency, background stability, and temporal coherence over existing bounded-cache strategies.",
+  "categories": [
+    "cs.CV"
+  ]
+}

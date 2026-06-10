@@ -1,0 +1,20 @@
+{
+  "paper_id": "2606.11050",
+  "arxiv_short_id": "2606.11050v1",
+  "published_date": "2026-06-09",
+  "title": "LLM-Mediated Demand Response Coordination in Smart Microgrids",
+  "authors": "J. de Curt\u00f2 et.al.",
+  "authors_full": [
+    "J. de Curt\u00f2",
+    "I. de Zarz\u00e0"
+  ],
+  "paper_url": "http://arxiv.org/abs/2606.11050v1",
+  "pdf_url": "https://arxiv.org/pdf/2606.11050v1.pdf",
+  "code_link": null,
+  "abstract": "Effective demand response in smart microgrids requires prosumers to cooperate voluntarily under strategic self-interest, a coordination problem structurally equivalent to a repeated Prisoner's Dilemma on a social network. This paper presents a multi-agent simulation in which a Large Language Model (LLM) Influence Compiler issues structured demand-response directives to a population of heterogeneous prosumer agents, each governed by a hybrid decision architecture combining game-theoretic base probability (derived from payoff history, neighbour imitation, and exploitation memory) with LLM narrative evaluation of incoming coordination signals. The hybrid architecture resolves a key methodological challenge: LLMs aligned via Reinforcement Learning from Human Feedback (RLHF) exhibit strong cooperation bias when used as direct decision-makers, producing flat dynamics regardless of grid conditions. By separating strategic reasoning from grounded narrative evaluation, the model generates realistic prosumer behaviour across six personality archetypes, with baseline cooperation near 50% and clear differentiation under influence. Compiled structured directives achieve 33.3% demand-curtailment cooperation versus 27.0% for unstructured messaging and 28.0% for a no-intervention baseline ($\u0394_\\mathrm{comp} = +0.063$), with the advantage preserved across both grounded and idealized agent substrates ($\u0394= +0.083$) and across all resistance levels ($R = 0.1$ to $0.7$). Hub-targeted dissemination via high-centrality network nodes outperforms peripheral or random targeting, confirming that grid topology provides mechanistic amplification independent of message content. These results suggest that structured LLM compilation, grounded agent reasoning, and network-aware targeting are complementary design principles for scalable, interpretable demand-response coordination in smart-city energy systems.",
+  "categories": [
+    "cs.MA",
+    "cs.GT",
+    "eess.SY"
+  ]
+}

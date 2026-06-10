@@ -1,0 +1,19 @@
+{
+  "paper_id": "2606.05995",
+  "arxiv_short_id": "2606.05995v1",
+  "published_date": "2026-06-04",
+  "title": "Empathy on Demand: How Empathic AI Can Scale Emotional Support for Verbal Harassment",
+  "authors": "Anouk Bergner et.al.",
+  "authors_full": [
+    "Anouk Bergner",
+    "Philipp Winder",
+    "Christian Hildebrand"
+  ],
+  "paper_url": "http://arxiv.org/abs/2606.05995v1",
+  "pdf_url": "https://arxiv.org/pdf/2606.05995v1.pdf",
+  "code_link": null,
+  "abstract": "Verbal harassment is a growing source of psychological stress for people around the world. It occurs both online and offline and relies on language to demean, threaten, or discredit its targets. Unlike other stressors such as loss or uncertainty, verbal harassment aims at silencing its targets by eroding their sense of being heard and weakening their perceived ability to respond. Many individuals lack access to adequate and timely support, however, when they experience such harassment. People increasingly turn to conversational artificial intelligence (AI) such as ChatGPT or dedicated AI companions for emotional support, raising questions about whether it can facilitate the same psychological benefits as actual human empathy. We focus on online contexts as a prevalent application of verbal harassment. We develop and test a psychological framework identifying three key linguistic signals of empathic listening (perspective-taking, emotional validation, and action orientation), that together restore a sense of feeling heard and enhance coping in the context of verbal harassment. We find that LLMs consistently produce language exhibiting stronger empathic-listening markers than human non-experts and trained mental health professionals, promoting more approach-oriented (vs. avoidance-oriented) coping strategies. A subsequent behavioral study shows that these linguistic signals boost recipients' sense of feeling heard and increase their coping self-efficacy. These findings reveal how specific linguistic features create empathic connections between humans and advanced conversational AI and can enhance people's psychological resilience. Our results highlight the potential for AI to serve as a scalable source of emotional support, especially when human support is unavailable or insufficient.",
+  "categories": [
+    "cs.HC"
+  ]
+}

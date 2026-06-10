@@ -1,0 +1,26 @@
+{
+  "paper_id": "2606.09827",
+  "arxiv_short_id": "2606.09827v1",
+  "published_date": "2026-06-08",
+  "title": "MemoryVLA++: Temporal Modeling via Memory and Imagination in Vision-Language-Action Models",
+  "authors": "Hao Shi et.al.",
+  "authors_full": [
+    "Hao Shi",
+    "Weiye Li",
+    "Bin Xie",
+    "Yulin Wang",
+    "Renping Zhou",
+    "Tiancai Wang",
+    "Xiangyu Zhang",
+    "Ping Luo",
+    "Gao Huang"
+  ],
+  "paper_url": "http://arxiv.org/abs/2606.09827v1",
+  "pdf_url": "https://arxiv.org/pdf/2606.09827v1.pdf",
+  "code_link": null,
+  "abstract": "Temporal modeling is essential for robotic manipulation, as effective control requires both memory of past interactions and imagination of future states. However, most VLA models rely primarily on the current observation and therefore struggle with long-horizon, temporally dependent tasks. Cognitive science suggests that humans rely on working memory to buffer short-lived context, the hippocampal system to preserve episodic memory of past experience, and internal models to imagine possible future state evolution. Inspired by these mechanisms, we propose MemoryVLA++, a full temporal modeling framework that equips VLA models with memory and imagination for robotic manipulation. A pretrained VLM encodes the current observation into perceptual and cognitive tokens, forming working memory. These tokens query a Perceptual-Cognitive Memory Bank to retrieve relevant historical context. This bank stores low-level details and high-level semantics from past interactions, and is updated through redundancy-aware consolidation. A world model imagines future states in a denoising latent space, and the imagined latents are integrated under memory guidance to form full temporal-aware tokens. The resulting tokens condition a diffusion action expert to predict temporally consistent action sequences. We conduct extensive experiments on 5 simulation benchmarks and 3 categories of real-robot tasks across 3 robots, covering general manipulation, long-horizon temporal tasks, robustness, and generalization. Our method achieves strong performance across Libero, SimplerEnv, Mikasa-Robo, Calvin, Libero-Plus, and diverse real-robot tasks, validating the effectiveness of full temporal modeling with memory and imagination. For example, on real robots, it achieves +9%, +26%, +28% gains on general, memory-dependent, and imagination-dependent tasks. Project Page: https://shihao1895.github.io/MemoryVLA-PP-Web",
+  "categories": [
+    "cs.RO",
+    "cs.CV"
+  ]
+}

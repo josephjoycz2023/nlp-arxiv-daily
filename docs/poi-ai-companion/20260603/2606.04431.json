@@ -1,0 +1,21 @@
+{
+  "paper_id": "2606.04431",
+  "arxiv_short_id": "2606.04431v1",
+  "published_date": "2026-06-03",
+  "title": "When Chatbots Accommodate: What AI Companions Optimize for in Vulnerable Conversations",
+  "authors": "Minh Duc Chu et.al.",
+  "authors_full": [
+    "Minh Duc Chu",
+    "Yifan Wu",
+    "Zhiyi Chen",
+    "Angel Hsing-Chi Hwang",
+    "Luca Luceri"
+  ],
+  "paper_url": "http://arxiv.org/abs/2606.04431v1",
+  "pdf_url": "https://arxiv.org/pdf/2606.04431v1.pdf",
+  "code_link": null,
+  "abstract": "Millions turn to AI companion chatbots during loneliness, grief, and personal crises. How these companion platforms respond in such moments can shape the trajectory of a user's vulnerable state. Yet we lack tools to characterize what each platform actually does when users open up. Existing audits score reactions to pre-defined crisis prompts and miss the underlying decision policy that governs sustained interaction. We address these gaps with two key contributions. First, we introduce the AI Companion Vulnerability-Response Taxonomy, a paired taxonomy of user vulnerability and chatbot response designed for analyzing extended companion chatbot interactions. Second, we infer the response policy each platform follows across distinct vulnerability scenarios by applying Inverse Reinforcement Learning to ~48k turns of real-world user conversations with GPT-4.1, Character.AI, and Replika. Our findings reveal what AI companions prioritize in conversations with vulnerable users: GPT-4.1 reaches for advice, Character.AI spreads its response across different strategies without a dominant mode, and Replika consistently asks questions and stays present. Each, however, downweights the responses that introduce corrective friction: GPT-4.1 probes less as conversations continue and when interacting with psychologically high-risk users; Replika advises bonded users more and challenges them less; Character.AI shows no committed engagement strategy on internal distress. Estimated policies are invisible to output-level audits, providing a new lens for auditing chatbots in the wild and enabling more realistic safety evaluation.",
+  "categories": [
+    "cs.HC"
+  ]
+}

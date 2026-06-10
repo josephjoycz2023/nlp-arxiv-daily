@@ -11,6 +11,17 @@ class TrackConfig:
     name: str
     include: tuple[str, ...]
     exclude: tuple[str, ...]
+    module_id: str = ""
+    module_name: str = ""
+
+
+@dataclass(frozen=True)
+class ModuleConfig:
+    id: str
+    name: str
+    summary: str
+    enabled: bool
+    tracks: tuple[TrackConfig, ...]
 
 
 @dataclass(frozen=True)
@@ -45,6 +56,7 @@ class OutputConfig:
 class ResearchProfile:
     short_profile: str
     full_profile: str
+    modules: tuple[ModuleConfig, ...]
     tracks: tuple[TrackConfig, ...]
     level1: Level1Config
     level2: Level2Config
@@ -61,19 +73,23 @@ def load_research_profile(path: str) -> ResearchProfile:
     level2_block = data.get("level2") or {}
     output_block = data.get("output") or {}
 
-    tracks = tuple(
-        TrackConfig(
-            id=str(track["id"]),
-            name=str(track["name"]),
-            include=tuple(str(item) for item in track.get("include", [])),
-            exclude=tuple(str(item) for item in track.get("exclude", [])),
+    modules = _load_modules(data)
+    tracks = tuple(track for module in modules if module.enabled for track in module.tracks)
+    if not tracks:
+        tracks = tuple(
+            TrackConfig(
+                id=str(track["id"]),
+                name=str(track["name"]),
+                include=tuple(str(item) for item in track.get("include", [])),
+                exclude=tuple(str(item) for item in track.get("exclude", [])),
+            )
+            for track in data.get("tracks", [])
         )
-        for track in data.get("tracks", [])
-    )
 
     return ResearchProfile(
         short_profile=str(profile_block.get("short", "")).strip(),
         full_profile=str(profile_block.get("full", "")).strip(),
+        modules=modules,
         tracks=tracks,
         level1=Level1Config(
             max_prompt_profile_chars=int(level1_block.get("max_prompt_profile_chars", 350)),
@@ -97,14 +113,73 @@ def load_research_profile(path: str) -> ResearchProfile:
     )
 
 
+def _load_modules(data: dict) -> tuple[ModuleConfig, ...]:
+    modules: list[ModuleConfig] = []
+    for module in data.get("modules", []):
+        module_id = str(module.get("id", "")).strip()
+        module_name = str(module.get("name", module_id)).strip()
+        module_tracks = tuple(
+            TrackConfig(
+                id=str(track["id"]),
+                name=str(track["name"]),
+                include=tuple(str(item) for item in track.get("include", [])),
+                exclude=tuple(str(item) for item in track.get("exclude", [])),
+                module_id=module_id,
+                module_name=module_name,
+            )
+            for track in module.get("tracks", [])
+        )
+        modules.append(
+            ModuleConfig(
+                id=module_id,
+                name=module_name,
+                summary=str(module.get("summary", "")).strip(),
+                enabled=bool(module.get("enabled", True)),
+                tracks=module_tracks,
+            )
+        )
+    return tuple(modules)
+
+
 def render_tracks(profile: ResearchProfile) -> str:
     lines: list[str] = []
+    if profile.modules:
+        for module in profile.modules:
+            if not module.enabled:
+                continue
+            lines.append(f"- module {module.id}: {module.name}")
+            if module.summary:
+                lines.append(f"  summary: {module.summary}")
+            for track in module.tracks:
+                include = ", ".join(track.include)
+                exclude = ", ".join(track.exclude)
+                lines.append(f"  - {track.id}: {track.name}")
+                lines.append(f"    include: {include}")
+                lines.append(f"    exclude: {exclude}")
+        return "\n".join(lines)
+
     for track in profile.tracks:
         include = ", ".join(track.include)
         exclude = ", ".join(track.exclude)
         lines.append(f"- {track.id}: {track.name}")
         lines.append(f"  include: {include}")
         lines.append(f"  exclude: {exclude}")
+    return "\n".join(lines)
+
+
+def render_modules(profile: ResearchProfile) -> str:
+    if not profile.modules:
+        return ""
+
+    lines: list[str] = []
+    for module in profile.modules:
+        if not module.enabled:
+            continue
+        lines.append(f"- {module.id}: {module.name}")
+        if module.summary:
+            lines.append(f"  summary: {module.summary}")
+        for track in module.tracks:
+            lines.append(f"  - track {track.id}: {track.name}")
     return "\n".join(lines)
 
 

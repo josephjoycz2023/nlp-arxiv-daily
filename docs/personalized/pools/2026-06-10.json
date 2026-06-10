@@ -1,0 +1,30 @@
+{
+  "date": "2026-06-10",
+  "created_at": "2026-06-10T11:59:32.916895+00:00",
+  "stats": {
+    "topics": 1,
+    "total_topic_hits": 1,
+    "unique_papers": 1
+  },
+  "papers": [
+    {
+      "paper_id": "2604.00001",
+      "arxiv_short_id": "2604.00001v1",
+      "published_date": "2026-04-22",
+      "title": "Paper A",
+      "authors": "Alice et.al.",
+      "authors_full": [
+        "Alice"
+      ],
+      "paper_url": "http://arxiv.org/abs/2604.00001v1",
+      "pdf_url": "http://arxiv.org/pdf/2604.00001v1.pdf",
+      "code_link": null,
+      "abstract": "no code",
+      "categories": [],
+      "matched_topics": [
+        "agent"
+      ],
+      "matched_topic": "agent"
+    }
+  ]
+}

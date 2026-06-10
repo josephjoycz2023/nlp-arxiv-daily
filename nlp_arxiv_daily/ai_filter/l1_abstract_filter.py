@@ -3,11 +3,13 @@ from __future__ import annotations
 import copy
 import datetime
 import json
+import logging
 import os
 from dataclasses import asdict
 
 from nlp_arxiv_daily.ai_filter.analysis_cache import build_cache_namespace, load_stage_cache, save_stage_cache
 from nlp_arxiv_daily.ai_filter.profile import ResearchProfile, load_research_profile, render_tracks, trim_profile
+from nlp_arxiv_daily.ai_filter.stage_logging import write_stage_log_bundle
 from nlp_arxiv_daily.openai_client import OpenAITextClient
 
 
@@ -31,9 +33,18 @@ def filter_level1_for_date(config: dict, run_date: datetime.date) -> str:
     )
 
     papers = _load_daily_papers(config, run_date)
+    logging.info("L1 start: %s papers queued for %s.", len(papers), run_date.isoformat())
     scored_entries: list[dict] = []
-    for paper in papers:
+    for index, paper in enumerate(papers, start=1):
+        logging.info(
+            "L1 progress %s/%s: paper_id=%s title=%s",
+            index,
+            len(papers),
+            paper.get("paper_id", ""),
+            paper.get("title", ""),
+        )
         cached_entry = load_stage_cache(config, "l1", cache_namespace, paper["paper_id"])
+        from_cache = cached_entry is not None
         if cached_entry is None:
             _validate_level1_inputs(paper, run_date)
             prompt = _render_l1_prompt(prompt_template, profile, paper)
@@ -60,7 +71,16 @@ def filter_level1_for_date(config: dict, run_date: datetime.date) -> str:
             {
                 "paper": paper,
                 "l1": copy.deepcopy(normalized_result),
+                "analysis_meta": {"from_cache": from_cache},
             }
+        )
+        logging.info(
+            "L1 finished %s/%s: paper_id=%s decision=%s cache=%s",
+            index,
+            len(papers),
+            paper.get("paper_id", ""),
+            normalized_result["decision"],
+            from_cache,
         )
 
     _apply_level2_daily_cap(scored_entries, profile)
@@ -87,6 +107,8 @@ def filter_level1_for_date(config: dict, run_date: datetime.date) -> str:
         json.dump(payload, f, ensure_ascii=False, indent=2)
     with open(md_path, "w", encoding="utf-8") as f:
         f.write(_render_l1_markdown(payload))
+    _write_l1_stage_logs(config, run_date, payload)
+    logging.info("L1 complete: %s passed to L2 for %s.", payload["stats"][LEVEL2_DECISION], run_date.isoformat())
     return json_path
 
 
@@ -111,6 +133,17 @@ def _topic_dir_name(topic: str) -> str:
 
 
 def _load_daily_papers(config: dict, run_date: datetime.date) -> list[dict]:
+    analysis_pool_path = os.path.join(config["personalized_docs_dir"], "pools", f"{run_date.isoformat()}.json")
+    if os.path.exists(analysis_pool_path):
+        with open(analysis_pool_path, encoding="utf-8") as f:
+            payload = json.load(f)
+        papers = list(payload.get("papers", []))
+        for paper in papers:
+            matched_topics = list(paper.get("matched_topics", []))
+            if matched_topics and not paper.get("matched_topic"):
+                paper["matched_topic"] = ", ".join(matched_topics)
+        return papers
+
     docs_root = _docs_root(config)
     snapshot_dir = run_date.strftime("%Y%m%d")
     papers_by_id: dict[str, dict] = {}
@@ -265,3 +298,59 @@ def _render_l1_markdown(payload: dict) -> str:
         )
 
     return "\n".join(lines).strip() + "\n"
+
+
+def _write_l1_stage_logs(config: dict, run_date: datetime.date, payload: dict) -> None:
+    passed_entries = [entry for entry in payload["papers"] if entry["l1"]["decision"] == LEVEL2_DECISION]
+    summary = {
+        "total_papers": payload["stats"]["total_papers"],
+        "passed_l1": len(passed_entries),
+        "archived": payload["stats"][ARCHIVE_DECISION],
+        "rejected": payload["stats"][REJECT_DECISION],
+        "passed_paper_ids": [entry["paper"]["paper_id"] for entry in passed_entries],
+    }
+    log_payload = {
+        "stage": "l1",
+        "date": run_date.isoformat(),
+        "summary": summary,
+        "papers": [
+            {
+                "paper_id": entry["paper"]["paper_id"],
+                "title": entry["paper"]["title"],
+                "matched_topic": entry["paper"].get("matched_topic", ""),
+                "passed_l1": entry["l1"]["decision"] == LEVEL2_DECISION,
+                "decision": entry["l1"]["decision"],
+                "total_score": entry["l1"]["total_score"],
+                "matched_tracks": entry["l1"]["matched_tracks"],
+                "reason_cn": entry["l1"]["reason_cn"],
+                "archive_reason_cn": entry["l1"].get("archive_reason_cn"),
+                "from_cache": entry.get("analysis_meta", {}).get("from_cache", False),
+            }
+            for entry in payload["papers"]
+        ],
+    }
+    lines = [
+        f"[L1] date={run_date.isoformat()} total={summary['total_papers']} passed={summary['passed_l1']} archived={summary['archived']} rejected={summary['rejected']}",
+        "",
+        "[Per Paper]",
+    ]
+    for item in log_payload["papers"]:
+        status = "PASS" if item["passed_l1"] else "SKIP"
+        reason = item["reason_cn"] if item["passed_l1"] else (item["archive_reason_cn"] or item["reason_cn"])
+        lines.append(
+            f"- [{status}] {item['paper_id']} | {item['title']} | decision={item['decision']} | score={item['total_score']} | topic={item['matched_topic']} | cache={item['from_cache']} | reason={reason}"
+        )
+    lines.extend(
+        [
+            "",
+            "[Summary]",
+            f"- passed paper ids: {', '.join(summary['passed_paper_ids']) if summary['passed_paper_ids'] else 'none'}",
+        ]
+    )
+    write_stage_log_bundle(
+        config,
+        run_date,
+        "l1",
+        payload=log_payload,
+        text="\n".join(lines),
+    )

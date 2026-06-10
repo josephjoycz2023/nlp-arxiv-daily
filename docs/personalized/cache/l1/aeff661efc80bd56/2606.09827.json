@@ -1,0 +1,28 @@
+{
+  "cached_at": "2026-06-10T11:26:30.139216+00:00",
+  "stage": "l1",
+  "namespace": "aeff661efc80bd56",
+  "key": "2606.09827",
+  "payload": {
+    "paper_id": "2606.09827",
+    "l1": {
+      "decision": "reject",
+      "model_decision": "archive_only",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "neuroscience_language_memory"
+      ],
+      "scores": {
+        "topic_relevance": 1,
+        "scenario_fit": 0,
+        "landing_potential": 0,
+        "abstract_evidence_strength": 4,
+        "distance_penalty": 4
+      },
+      "total_score": 1,
+      "model_total_score": 1,
+      "reason_cn": "论文从认知科学启发设计机器人VLA模型中的记忆模块，与用户关注的大模型记忆（多智能体、个性化）及神经科学对NLP启发方向有轻微关联，但主要场景为机器人操作，不涉及用户关注的大模型、对话系统或POI陪伴，落地场景差异大，因此仅归档。",
+      "archive_reason_cn": "论文从认知科学启发设计机器人VLA模型中的记忆模块，与用户关注的大模型记忆（多智能体、个性化）及神经科学对NLP启发方向有轻微关联，但主要场景为机器人操作，不涉及用户关注的大模型、对话系统或POI陪伴，落地场景差异大。"
+    }
+  }
+}

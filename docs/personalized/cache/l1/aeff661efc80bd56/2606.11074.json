@@ -1,0 +1,28 @@
+{
+  "cached_at": "2026-06-10T11:37:43.621324+00:00",
+  "stage": "l1",
+  "namespace": "aeff661efc80bd56",
+  "key": "2606.11074",
+  "payload": {
+    "paper_id": "2606.11074",
+    "l1": {
+      "decision": "archive_only",
+      "model_decision": "archive_only",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "llm_memory.implicit_memory_and_persona"
+      ],
+      "scores": {
+        "topic_relevance": 3,
+        "scenario_fit": 2,
+        "landing_potential": 1,
+        "abstract_evidence_strength": 3,
+        "distance_penalty": 3
+      },
+      "total_score": 6,
+      "model_total_score": 12,
+      "reason_cn": "论文研究多模态大模型中的多性格组合与动态切换，属于人格一致性方向，但仅构建评估框架和分析，未提出落地的记忆或个性化系统。",
+      "archive_reason_cn": "可作为人格建模评估参考，与个性化记忆、人格一致性相关，但无直接落地方法。"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "paper_id": "2606.10997",
+  "arxiv_short_id": "2606.10997v1",
+  "published_date": "2026-06-09",
+  "title": "A Companion App for an Autonomous Family Vehicle: Identification of Values for an Autonomous Mobility System",
+  "authors": "Leon Johann Brettin et.al.",
+  "authors_full": [
+    "Leon Johann Brettin",
+    "Tobias Schr\u00e4der",
+    "Kerstin Kuhlmann",
+    "Vanessa Schmidt",
+    "Markus Maurer"
+  ],
+  "paper_url": "http://arxiv.org/abs/2606.10997v1",
+  "pdf_url": "https://arxiv.org/pdf/2606.10997v1.pdf",
+  "code_link": null,
+  "abstract": "In this paper, we present a companion app for an autonomous vehicle aimed at user groups who would normally require an accompanying person to drive them. Two aspects of a companion app are presented in this paper: First, the possibility for a trusted person to track the ride of the person in need of support and second, to put the settings of the vehicle for persons in need of support in the hands of a trusted person. In addition, this article describes the requirements and addressed values and discusses the safety-relevant aspects of such a companion app. We also discuss and identify the values that influence passengers and trusted persons using the companion app. Overall, a companion app can provide new perspectives and opportunities for people in need of support, allowing them to take advantage of the features offered by autonomous vehicles. It enables trusted individuals to configure the vehicle according to the passengers needs. Also such an app can be a mechanism to involve trusted persons in the options given by the vehicle and give them the possibility to adapt the vehicle to the needs of the person in need of support.",
+  "categories": [
+    "eess.SY",
+    "cs.CY"
+  ]
+}

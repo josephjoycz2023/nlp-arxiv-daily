@@ -1,0 +1,23 @@
+{
+  "paper_id": "2606.10927",
+  "arxiv_short_id": "2606.10927v1",
+  "published_date": "2026-06-09",
+  "title": "AllDayNav: Lifelong Navigation via Real-World Reinforcement Learning",
+  "authors": "Hang Yin et.al.",
+  "authors_full": [
+    "Hang Yin",
+    "Yinan Liang",
+    "Jiazhao Zhang",
+    "Jiahang Liu",
+    "Minghan Li",
+    "Zhizheng Zhang",
+    "He Wang"
+  ],
+  "paper_url": "http://arxiv.org/abs/2606.10927v1",
+  "pdf_url": "https://arxiv.org/pdf/2606.10927v1.pdf",
+  "code_link": null,
+  "abstract": "Lifelong embodied navigation in dynamic environments requires robots to form persistent scene understanding from fragmentary observations, which remains difficult for existing methods that rely on explicit maps or scene graphs and struggle to generalize beyond structured settings. We propose AllDayNav, a lifelong self-learning navigation framework that implicitly encodes scene dynamics into the billion-scale parameters of a large model via reinforcement learning, powered by a self-evolving multimodal memory that maintains and updates visual keyframes, semantic descriptions, and temporal context while autonomously generating open-vocabulary instructions, image goals, and structured rewards. Experiments in both synthetic and real-world environments across cross-room, cross-episode, and cross-task scenarios show that AllDayNav achieves success rates approaching $100\\%$ and consistently surpasses strong map-based, VLM, and RL baselines in path efficiency and robustness, demonstrating implicit, memory-driven reinforcement learning as a scalable alternative to explicit mapping for reliable lifelong navigation.",
+  "categories": [
+    "cs.RO"
+  ]
+}

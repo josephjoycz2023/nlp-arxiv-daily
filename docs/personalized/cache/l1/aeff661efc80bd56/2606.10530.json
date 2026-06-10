@@ -1,0 +1,28 @@
+{
+  "cached_at": "2026-06-10T11:29:37.493360+00:00",
+  "stage": "l1",
+  "namespace": "aeff661efc80bd56",
+  "key": "2606.10530",
+  "payload": {
+    "paper_id": "2606.10530",
+    "l1": {
+      "decision": "archive_only",
+      "model_decision": "archive_only",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "neuro_nlp_memory"
+      ],
+      "scores": {
+        "topic_relevance": 2,
+        "scenario_fit": 0,
+        "landing_potential": 0,
+        "abstract_evidence_strength": 3,
+        "distance_penalty": 4
+      },
+      "total_score": 1,
+      "model_total_score": 9,
+      "reason_cn": "该论文综述了神经活动潜在动力学的机器学习方法，与用户关注的‘神经科学、语言与记忆’方向仅存在表层关键词关联。摘要未涉及语言理解、情绪处理或记忆机制，无法为NLP/LLM建模提供直接启发，落地距离极远。",
+      "archive_reason_cn": "可作为神经解码方法论的背景参考，但缺乏语言、情绪或记忆的交叉点，与用户主攻的LLM建模启发需求偏离较大。"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "cached_at": "2026-06-10T11:41:00.623331+00:00",
+  "stage": "l1",
+  "namespace": "aeff661efc80bd56",
+  "key": "2606.11122",
+  "payload": {
+    "paper_id": "2606.11122",
+    "l1": {
+      "decision": "reject",
+      "model_decision": "reject",
+      "decision_source": "thresholds",
+      "matched_tracks": [],
+      "scores": {
+        "topic_relevance": 0,
+        "scenario_fit": 0,
+        "landing_potential": 0,
+        "abstract_evidence_strength": 0,
+        "distance_penalty": 0
+      },
+      "total_score": 0,
+      "model_total_score": 0,
+      "reason_cn": "纯数学论文，研究导出skein模的公理化框架，属于代数拓扑与量子群表示范畴，与用户关注的大模型训练/推理加速、数据集构建、记忆机制、神经科学、POI陪伴等方向完全无关。关键词匹配为误匹配。",
+      "archive_reason_cn": null
+    }
+  }
+}

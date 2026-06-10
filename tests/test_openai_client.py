@@ -40,6 +40,22 @@ class _FakeSession:
         return self._response
 
 
+class _FakeSessionByAuthorization:
+    def __init__(self, responses_by_auth: dict[str, _FakeResponse]):
+        self.calls: list[dict] = []
+        self._responses_by_auth = responses_by_auth
+
+    def post(self, url, headers, json, timeout):
+        call = {
+            "url": url,
+            "headers": headers,
+            "json": json,
+            "timeout": timeout,
+        }
+        self.calls.append(call)
+        return self._responses_by_auth[headers["Authorization"]]
+
+
 class _FakeMessage:
     def __init__(self, content, reasoning_content: str = ""):
         self.content = content
@@ -142,6 +158,54 @@ class TestOpenAITextClient:
                 "timeout": 42,
             }
         ]
+
+    def test_openai_falls_back_to_next_api_key(self):
+        session = _FakeSessionByAuthorization(
+            {
+                "Bearer bad-key": _FakeResponse({"error": "unauthorized"}, status_code=401),
+                "Bearer good-key": _FakeResponse(
+                    {
+                        "output": [
+                            {
+                                "content": [
+                                    {"type": "output_text", "text": "hello world"},
+                                ]
+                            }
+                        ]
+                    }
+                ),
+            }
+        )
+        client = OpenAITextClient(
+            api_key="bad-key",
+            api_keys=["bad-key", "good-key"],
+            model="gpt-5-mini",
+            base_url="https://api.openai.com/v1",
+            timeout=42,
+            session=session,
+        )
+
+        assert client.complete("say hi") == "hello world"
+        assert [call["headers"]["Authorization"] for call in session.calls] == ["Bearer bad-key", "Bearer good-key"]
+
+    def test_openai_raises_when_all_api_keys_fail(self):
+        session = _FakeSessionByAuthorization(
+            {
+                "Bearer bad-key-1": _FakeResponse({"error": "unauthorized"}, status_code=401),
+                "Bearer bad-key-2": _FakeResponse({"error": "unauthorized"}, status_code=401),
+            }
+        )
+        client = OpenAITextClient(
+            api_key="bad-key-1",
+            api_keys=["bad-key-1", "bad-key-2"],
+            model="gpt-5-mini",
+            base_url="https://api.openai.com/v1",
+            timeout=42,
+            session=session,
+        )
+
+        with pytest.raises(OpenAIResponseError):
+            client.complete("say hi")
 
     def test_raises_when_output_text_missing(self):
         session = _FakeSession(_FakeResponse({"output": [{"content": [{"type": "refusal", "text": "no"}]}]}))
@@ -322,6 +386,41 @@ class TestOpenAITextClient:
             }
         ]
 
+    def test_deepseek_falls_back_to_next_api_key(self, monkeypatch):
+        clients = {
+            "bad-key": _FakeDeepSeekSDKClient(_FakeChatCompletionResponse("unused")),
+            "good-key": _FakeDeepSeekSDKClient(_FakeChatCompletionResponse("hello from deepseek")),
+        }
+
+        class _RetryableDeepSeekError(Exception):
+            pass
+
+        def build_client(self, *, api_key=None):
+            client = clients[api_key]
+            if api_key == "bad-key":
+                def raise_auth(**kwargs):
+                    raise _RetryableDeepSeekError("bad key")
+
+                client.completions.create = raise_auth
+            return client
+
+        monkeypatch.setattr(OpenAITextClient, "_build_deepseek_sdk_client", build_client)
+        monkeypatch.setattr(
+            "nlp_arxiv_daily.openai_client._should_failover_deepseek_error",
+            lambda error: isinstance(error, _RetryableDeepSeekError),
+        )
+        client = OpenAITextClient(
+            api_key="bad-key",
+            api_keys=["bad-key", "good-key"],
+            model="deepseek-v4-pro",
+            base_url="https://api.deepseek.com",
+            timeout=45,
+            provider="deepseek",
+        )
+
+        assert client.complete("say hi") == "hello from deepseek"
+        assert clients["good-key"].completions.calls[0]["messages"] == [{"role": "user", "content": "say hi"}]
+
     def test_deepseek_complete_json_requests_json_object(self):
         sdk_client = _FakeDeepSeekSDKClient(_FakeChatCompletionResponse('{"answer":"ok"}'))
         client = OpenAITextClient(
@@ -463,6 +562,95 @@ class TestOpenAITextClient:
         assert client._model == "deepseek-v4-pro"
         assert client._thinking_enabled is True
 
+    def test_from_config_falls_back_to_deepseek_when_openai_has_no_key(self):
+        client = OpenAITextClient.from_config(
+            {
+                "llm_provider": "openai",
+                "openai_api_key": "",
+                "openai_api_keys": [],
+                "openai_model": "gpt-5-mini",
+                "openai_base_url": "https://api.openai.com/v1",
+                "openai_timeout": 45,
+                "openai_instructions": "",
+                "deepseek_api_key": "deepseek-key",
+                "deepseek_api_keys": [],
+                "deepseek_model": "deepseek-v4-pro",
+                "deepseek_base_url": "https://api.deepseek.com",
+                "deepseek_timeout": 45,
+                "deepseek_instructions": "",
+                "deepseek_reasoning_effort": "high",
+                "deepseek_thinking_enabled": True,
+            }
+        )
+
+        assert client._provider == "deepseek"
+        assert client._api_keys == ["deepseek-key"]
+
+    def test_from_config_auto_prefers_deepseek_when_available(self):
+        client = OpenAITextClient.from_config(
+            {
+                "llm_provider": "auto",
+                "openai_api_key": "openai-key",
+                "deepseek_api_key": "deepseek-key",
+                "deepseek_model": "deepseek-v4-pro",
+                "deepseek_base_url": "https://api.deepseek.com",
+                "deepseek_timeout": 45,
+                "deepseek_instructions": "",
+                "deepseek_reasoning_effort": "high",
+                "deepseek_thinking_enabled": True,
+            }
+        )
+
+        assert client._provider == "deepseek"
+
+    def test_from_config_builds_openai_client_with_multiple_keys(self):
+        client = OpenAITextClient.from_config(
+            {
+                "llm_provider": "openai",
+                "openai_api_key": "key-1",
+                "openai_api_keys": ["key-1", "key-2"],
+                "openai_model": "gpt-5-mini",
+                "openai_base_url": "https://api.openai.com/v1",
+                "openai_timeout": 45,
+                "openai_instructions": "",
+            }
+        )
+
+        assert client._provider == "openai"
+        assert client._api_keys == ["key-1", "key-2"]
+
+    def test_from_config_uses_analysis_timeout_for_openai_when_provider_timeout_missing(self):
+        client = OpenAITextClient.from_config(
+            {
+                "llm_provider": "openai",
+                "openai_api_key": "openai-key",
+                "openai_model": "gpt-5-mini",
+                "openai_base_url": "https://api.openai.com/v1",
+                "analysis_request_timeout_seconds": 37,
+                "openai_instructions": "",
+            }
+        )
+
+        assert client._provider == "openai"
+        assert client._timeout == 37
+
+    def test_from_config_uses_analysis_timeout_for_deepseek_when_provider_timeout_missing(self):
+        client = OpenAITextClient.from_config(
+            {
+                "llm_provider": "deepseek",
+                "deepseek_api_key": "deepseek-key",
+                "deepseek_model": "deepseek-v4-pro",
+                "deepseek_base_url": "https://api.deepseek.com",
+                "analysis_request_timeout_seconds": 37,
+                "deepseek_instructions": "",
+                "deepseek_reasoning_effort": "high",
+                "deepseek_thinking_enabled": True,
+            }
+        )
+
+        assert client._provider == "deepseek"
+        assert client._timeout == 37
+
 
 class TestRequestOpenAIText:
     def test_one_shot_helper_uses_config(self, monkeypatch):
@@ -534,7 +722,7 @@ class TestRequestOpenAIText:
         monkeypatch.setattr(
             OpenAITextClient,
             "_build_deepseek_sdk_client",
-            lambda self: sdk_client,
+            lambda self, *, api_key=None: sdk_client,
         )
 
         text = request_openai_text(

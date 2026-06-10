@@ -1,0 +1,19 @@
+{
+  "paper_id": "2606.11122",
+  "arxiv_short_id": "2606.11122v1",
+  "published_date": "2026-06-09",
+  "title": "Derived skein module",
+  "authors": "Chun-Yu Bai et.al.",
+  "authors_full": [
+    "Chun-Yu Bai"
+  ],
+  "paper_url": "http://arxiv.org/abs/2606.11122v1",
+  "pdf_url": "https://arxiv.org/pdf/2606.11122v1.pdf",
+  "code_link": null,
+  "abstract": "We propose a model-independent axiomatic framework for the derived skein theory of oriented 3-manifolds with coefficients in a ribbon tensor category, especially focusing on the case where the input category is the category of finite-dimensional representations of a quantum group with quantum parameter not a root of unity. The axioms are designed so that the 0th homology recovers the ordinary skein module and gluing is governed by a bar construction. We establish several relationships between the derived skein theory and the ordinary skein theory. We show that this framework yields computable formulas in terms of ordinary internal skein modules and internal skein algebras. We also prove a Hochschild formula for Sigma x S^1. We give the first computations of derived skein modules and establish finiteness properties for generic parameters using deformation quantization methods.",
+  "categories": [
+    "math.QA",
+    "math.GT",
+    "math.RT"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "paper_id": "2606.10916",
+  "arxiv_short_id": "2606.10916v1",
+  "published_date": "2026-06-09",
+  "title": "Range Penalization: Theoretical Insights with Applications in Federated Learning",
+  "authors": "Yiyuan She et.al.",
+  "authors_full": [
+    "Yiyuan She",
+    "Zhaojun Hu",
+    "Yifan Sun"
+  ],
+  "paper_url": "http://arxiv.org/abs/2606.10916v1",
+  "pdf_url": "https://arxiv.org/pdf/2606.10916v1.pdf",
+  "code_link": null,
+  "abstract": "This paper introduces range regularization for federated learning with linear systematic components to enhance statistical accuracy and induce cross-client regularity conducive to quantization, coding, and resource efficiency. Our approach identifies features with shared weights across different clients and adaptively clusters the weights of personalized features at extreme values, a process we refer to as polar clustering. Theoretical analysis of the associated estimators poses significant challenges due to the seminorm nature and non-decomposability of the regularizer. We develop new proof techniques for the nonasymptotic analysis of statistical accuracy and faithful pattern recovery. Moreover, a fast optimization algorithm that leverages varying degrees of local strong convexity is proposed to reduce iteration complexity. Experiments support the efficacy and efficiency of the proposed approach.",
+  "categories": [
+    "stat.ML",
+    "cs.LG",
+    "math.ST",
+    "stat.ME"
+  ]
+}

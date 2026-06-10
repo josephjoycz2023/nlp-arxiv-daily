@@ -112,17 +112,22 @@ class TestLoadConfig:
     def test_loads_openai_defaults(self, config_file):
         config = load_config(config_file)
         assert config["openai_api_key"] == ""
+        assert config["openai_api_keys"] == []
         assert config["openai_model"] == "gpt-5-mini"
         assert config["openai_base_url"] == "https://api.openai.com/v1"
-        assert config["openai_timeout"] == 60
+        assert config["analysis_request_timeout_seconds"] == 45
+        assert config["openai_timeout"] == 45
         assert config["llm_provider"] == "openai"
         assert config["deepseek_api_key"] == ""
+        assert config["deepseek_api_keys"] == []
         assert config["deepseek_model"] == "deepseek-v4-pro"
         assert config["deepseek_base_url"] == "https://api.deepseek.com"
-        assert config["deepseek_timeout"] == 60
+        assert config["deepseek_timeout"] == 45
         assert config["deepseek_reasoning_effort"] == "high"
         assert config["deepseek_thinking_enabled"] is True
         assert config["analysis_cache_dir"].endswith("cache")
+        assert config["personalized_logs_dir"].endswith("logs")
+        assert config["personalized_runs_dir"].endswith("runs")
 
     def test_merges_config_local_override(self, tmp_path):
         config_file = tmp_path / "config.yaml"
@@ -154,6 +159,37 @@ class TestLoadConfig:
 
         assert config["openai_api_key"] == "local-key"
         assert config["openai_model"] == "gpt-5"
+
+    def test_loads_multiple_api_keys(self, tmp_path):
+        config_file = tmp_path / "config.yaml"
+        config_file.write_text(
+            textwrap.dedent(
+                """
+                user_name: "monologg"
+                repo_name: "nlp-arxiv-daily"
+                show_authors: true
+                show_links: true
+                show_badge: false
+                max_results: 10
+                publish_readme: true
+                publish_gitpage: true
+                json_readme_path: "./docs/a.json"
+                json_gitpage_path: "./docs/b.json"
+                md_readme_path: "README.md"
+                md_gitpage_path: "./docs/index.md"
+                openai_api_keys: ["key-1", "key-2"]
+                deepseek_api_keys: ["dkey-1", "dkey-2"]
+                keywords:
+                  "NLP":
+                    filters: ["NLP"]
+                """
+            ).strip()
+        )
+
+        config = load_config(str(config_file))
+
+        assert config["openai_api_keys"] == ["key-1", "key-2"]
+        assert config["deepseek_api_keys"] == ["dkey-1", "dkey-2"]
 
 
 class _FakeResponse:

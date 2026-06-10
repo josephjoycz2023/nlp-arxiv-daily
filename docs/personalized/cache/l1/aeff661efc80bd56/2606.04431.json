@@ -1,0 +1,28 @@
+{
+  "cached_at": "2026-06-10T11:11:37.068868+00:00",
+  "stage": "l1",
+  "namespace": "aeff661efc80bd56",
+  "key": "2606.04431",
+  "payload": {
+    "paper_id": "2606.04431",
+    "l1": {
+      "decision": "reject",
+      "model_decision": "archive_only",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "emotional_and_psychological_eval"
+      ],
+      "scores": {
+        "topic_relevance": 1,
+        "scenario_fit": 0,
+        "landing_potential": 1,
+        "abstract_evidence_strength": 3,
+        "distance_penalty": 4
+      },
+      "total_score": 1,
+      "model_total_score": 9,
+      "reason_cn": "论文研究AI伴侣聊天机器人的脆弱性响应策略审计，提出分类法和IRL推断，属于情感对话分析，与POI场景及tool use无关，与用户核心的POI陪伴方向不符，但方法可作为情绪感知评测的参考，故归档。",
+      "archive_reason_cn": "论文关注AI伴侣在用户脆弱时刻的响应策略，不涉及POI或tool use，但与情绪感知评测方向有微弱关联，其分类法和策略推断方法可启发情感对话评测设计，因此归档供后续参考。"
+    }
+  }
+}

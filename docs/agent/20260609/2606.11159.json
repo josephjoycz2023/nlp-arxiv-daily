@@ -1,0 +1,18 @@
+{
+  "paper_id": "2606.11159",
+  "arxiv_short_id": "2606.11159v1",
+  "published_date": "2026-06-09",
+  "title": "Unidirectional Entropic Solutions of the Pressureless Euler Alignment System",
+  "authors": "Joshua O. Adeleke et.al.",
+  "authors_full": [
+    "Joshua O. Adeleke",
+    "Trevor M. Leslie"
+  ],
+  "paper_url": "http://arxiv.org/abs/2606.11159v1",
+  "pdf_url": "https://arxiv.org/pdf/2606.11159v1.pdf",
+  "code_link": null,
+  "abstract": "We study the pressureless Euler Alignment system with unidirectional velocity (u,0,...,0). By re-casting the system as a family of coupled scalar balance laws, one for each horizontal slice of R^d, we are able to prove existence, uniqueness, and stability within the class of unidirectional solutions, under the assumption of a bounded Lipschitz communication protocol. The nonlocal coupling between horizontal slices provides the system with a rich structure that is absent from the 1D setting and also constitutes the main technical difficulty of the present work. We construct our solutions as limits of sticky particle Cucker-Smale dynamics, discretizing first transverse to the flow and then along it. The transverse discretization depends crucially on the more subtle of our two complementary stability estimates, which relies only on L^1-L^infty control of the flux difference. This low-regularity estimate is essential since our discretized fluxes cannot in general be expected to converge in (for instance) Lipschitz seminorm. The estimate itself is inspired by work of Bouchut and Perthame and adapted here through a careful additional analysis of the nonlocality. In order to compare the dynamics along different horizontal slices, both stability estimates are most naturally formulated in terms of quantities involving the optimal coupling between the projections of two density profiles onto R^{d-1}. \nWe also investigate the long-time behavior of unidirectional solutions. In addition to treating the standard heavy-tailed regime, we make the simple observation that the unidirectional geometry allows for flocking (with a rate independent of the number of agents) even when the communication protocol vanishes in a cylindrical neighborhood of the axis parallel to the flow. This demonstrates that direct communication along the direction of motion is not necessary for flocking to occur.",
+  "categories": [
+    "math.AP"
+  ]
+}

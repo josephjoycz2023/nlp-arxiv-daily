@@ -40,6 +40,46 @@ A GitHub Actions cron runs every 12 hours: it queries arXiv per keyword, merges 
 
 Code lives in `nlp_arxiv_daily/` (Python pipeline) and `web/` (Astro site).
 
+## Personalized AI Pipeline
+
+The repo also supports a one-shot personalized pipeline that runs the full chain for one analysis-pool date:
+
+1. fetch papers and persist snapshots
+2. freeze the current retrieval pool under `docs/personalized/pools/YYYY-MM-DD.json`
+3. render site artifacts
+4. run abstract-level `L1` filtering
+5. run full-paper `L2` review for selected papers
+6. build the final daily digest
+
+Use:
+
+```bash
+uv run python -m nlp_arxiv_daily run-personalized --date 2026-06-06
+```
+
+Artifacts are written under `docs/personalized/` by default:
+
+- `pools/YYYY-MM-DD.json`: the frozen paper pool retrieved in that run
+- `l1/YYYY-MM-DD.json|md`: L1 screening results
+- `reviews/YYYY-MM-DD/*.json`: per-paper L2 review outputs
+- `daily/YYYY-MM-DD.md`: final digest overview and watchlist
+- `runs/YYYY-MM-DD.json`: one unified pipeline run record
+- `runs/latest.json`: latest pipeline run summary
+- `cache/`: reusable analysis cache for L1, L2, and digest
+- `logs/YYYY-MM-DD/`: independent stage logs for `pipeline`, `l1`, `l2`, and `digest` in both `.json` and `.log`
+
+If you want to debug a single stage, the stage commands still exist:
+
+```bash
+uv run python -m nlp_arxiv_daily filter-l1 --date 2026-06-06
+uv run python -m nlp_arxiv_daily review-l2 --date 2026-06-06
+uv run python -m nlp_arxiv_daily build-digest --date 2026-06-06
+```
+
+Here `--date` refers to the analysis pool snapshot date, not each paper's `published_date`.
+The pipeline is resumable: after each stage it updates `runs/YYYY-MM-DD.json`, so if the process stops midway, re-running the same date will skip completed stages and continue from the next incomplete one.
+Each LLM request uses `analysis_request_timeout_seconds` as the default timeout for both OpenAI and DeepSeek, so a long-stuck request will fail fast instead of hanging silently for minutes.
+
 ## 🍴 Fork & make it yours
 
 Want a daily tracker for *your* keywords (vision, RecSys, robotics, your own niche)? Fork this repo and edit one file.
@@ -103,6 +143,7 @@ Requires Python 3.13+ and Node 22+. The repo uses [`uv`](https://docs.astral.sh/
 make set-dev
 uv run python -m nlp_arxiv_daily run        # fetch + persist JSON
 uv run python -m nlp_arxiv_daily fetch      # fetch only
+uv run python -m nlp_arxiv_daily run-personalized --date 2026-06-06
 make test                                   # run unit tests
 make quality                                # ruff lint + format
 

@@ -10,6 +10,7 @@ publish_gitpage: True
 enable_hf_papers: False
 
 openai_api_key: ""
+openai_api_keys: []
 openai_model: "gpt-5-mini"
 openai_base_url: "https://api.openai.com/v1"
 openai_timeout: 60
@@ -17,6 +18,7 @@ openai_instructions: ""
 
 llm_provider: "openai"
 deepseek_api_key: "sk-453bd6cf8642407c80e20a2a892e32e2"
+deepseek_api_keys: []
 deepseek_model: "deepseek-v4-pro"
 deepseek_base_url: "https://api.deepseek.com"
 deepseek_timeout: 60
@@ -25,6 +27,7 @@ deepseek_reasoning_effort: "high"
 deepseek_thinking_enabled: true
 
 analysis_cache_dir: "./docs/personalized/cache"
+personalized_runs_dir: "./docs/personalized/runs"
 
 # publish_gitpage uses the directory containing `json_gitpage_path`
 # as the docs root, and writes per-paper files under
@@ -47,4 +50,224 @@ keywords:
         "Multi-Agent",
         "Multi Agent System",
         "Multi-Agent System",
+        "Tool Use",
+        "Tool Learning",
+        "Function Calling",
+        "Agent Workflow",
+        "Agent Planning",
+        "Agent Evaluation",
+        "Agent Benchmark",
+      ]
+
+  "data_sft_rl_eval":
+    filters:
+      [
+        "SFT Data",
+        "Supervised Fine-Tuning Data",
+        "Instruction Tuning Data",
+        "Instruction Data",
+        "Preference Data",
+        "Preference Dataset",
+        "RLHF",
+        "RLAIF",
+        "DPO",
+        "Reward Model",
+        "Reward Modeling",
+        "On-Policy Distillation",
+        "Policy Distillation",
+        "Self-Training",
+        "Synthetic Data",
+        "Data Curation",
+        "Data Selection",
+        "Data Filtering",
+        "Data Quality",
+        "LLM-as-a-Judge",
+        "LLM Judge",
+        "Automatic Evaluation",
+        "Evaluation Dataset",
+        "Evaluation Benchmark",
+        "Multi-turn Dialogue Dataset",
+        "Multi-turn Conversation",
+        "Multi-turn Evaluation",
+        "Dialogue Evaluation",
+        "Conversational Evaluation",
+        "Emotional Support Dialogue",
+        "Emotional Support Conversation",
+        "Empathetic Dialogue",
+        "Empathetic Conversation",
+        "Emotion Recognition in Conversation",
+        "Emotion Detection in Conversation",
+        "Emotion Perception",
+        "Affective Dialogue",
+        "Affective Computing",
+        "Mental Health Dialogue",
+        "Counseling Dialogue",
+        "Psychological Support Dialogue",
+        "Psychological Assessment",
+        "Theory of Mind",
+        "Social Intelligence Benchmark",
+        "Tool Use Dataset",
+        "Tool Learning Dataset",
+        "Function Calling Dataset",
+        "Agent Trajectory",
+        "Trajectory Data",
+      ]
+
+  "memory_personalization":
+    filters:
+      [
+        "Long-Term Memory",
+        "Long Term Memory",
+        "Memory-Augmented Agent",
+        "Memory Augmented Agent",
+        "Agent Memory",
+        "Multi-Agent Memory",
+        "Personalized Agent",
+        "Personalization",
+        "User Modeling",
+        "User Preference",
+        "User Profile",
+        "Personalized Dialogue",
+        "Personalized Conversation",
+        "Episodic Memory",
+        "Semantic Memory",
+        "Memory Retrieval",
+        "Memory Updating",
+        "Memory Consolidation",
+        "Memory Management",
+        "Memory Framework",
+        "Memory Bank",
+        "Persistent Memory",
+        "Conversational Memory",
+        "Dialogue Memory",
+        "Character Memory",
+        "Persona Memory",
+        "Role-Playing Agent",
+        "Role Playing Agent",
+        "Persona Consistency",
+        "Personality Consistency",
+        "Character Consistency",
+        "Long-Term Consistency",
+        "Emotional Consistency",
+        "Emotional Stability",
+        "Parametric Memory",
+        "Implicit Memory",
+        "Latent Memory",
+        "Model Editing",
+        "Knowledge Editing",
+        "Knowledge Localization",
+        "Internal Knowledge",
+        "Mechanistic Interpretability",
+      ]
+
+  "neuroscience_language_memory":
+    filters:
+      [
+        "Neuroscience of Language",
+        "Language Comprehension",
+        "Human Language Processing",
+        "Brain Language Model",
+        "Brain Encoding Model",
+        "Neural Encoding",
+        "Neural Decoding",
+        "Semantic Representation",
+        "Semantic Memory",
+        "Episodic Memory",
+        "Working Memory",
+        "Memory Consolidation",
+        "Emotion Processing",
+        "Affective Neuroscience",
+        "Cognitive Neuroscience",
+        "Natural Language and Brain",
+        "Language and Memory",
+        "Emotion and Memory",
+        "fMRI Language",
+        "EEG Language",
+        "MEG Language",
+        "Neural Basis of Language",
+        "Neural Basis of Memory",
+        "Human Memory",
+        "Social Cognition",
+        "Theory of Mind",
+        "Mental State Inference",
+      ]
+
+  "training_inference_acceleration":
+    filters:
+      [
+        "LLM Inference Acceleration",
+        "LLM Serving",
+        "LLM Inference",
+        "Efficient Inference",
+        "Fast Inference",
+        "Speculative Decoding",
+        "Draft Model",
+        "KV Cache",
+        "KV Cache Compression",
+        "PagedAttention",
+        "FlashAttention",
+        "Attention Acceleration",
+        "Efficient Attention",
+        "Quantization",
+        "Low-Bit Quantization",
+        "Activation Quantization",
+        "Weight Quantization",
+        "Model Compression",
+        "Pruning",
+        "Distillation",
+        "Efficient Training",
+        "LLM Training Acceleration",
+        "Distributed Training",
+        "Parallel Training",
+        "Tensor Parallelism",
+        "Pipeline Parallelism",
+        "Sequence Parallelism",
+        "Data Parallelism",
+        "FSDP",
+        "ZeRO",
+        "Gradient Checkpointing",
+        "Training Efficiency",
+        "Memory Efficient Training",
+        "LoRA",
+        "Parameter-Efficient Fine-Tuning",
+        "PEFT",
+      ]
+
+  "poi_ai_companion":
+    filters:
+      [
+        "POI Recommendation",
+        "Point-of-Interest Recommendation",
+        "Point of Interest Recommendation",
+        "Location-Based Recommendation",
+        "Location Based Recommendation",
+        "Location-Aware Recommendation",
+        "Location Aware Recommendation",
+        "Travel Recommendation",
+        "Itinerary Planning",
+        "Trip Planning",
+        "Tourism Recommendation",
+        "Spatial-Temporal Recommendation",
+        "Spatio-Temporal Recommendation",
+        "Mobility Prediction",
+        "Human Mobility",
+        "Geospatial Reasoning",
+        "Geographic Question Answering",
+        "GeoQA",
+        "Location-Aware Agent",
+        "Location Aware Agent",
+        "Travel Agent",
+        "Recommendation Agent",
+        "LLM Recommender",
+        "LLM-based Recommender",
+        "Large Language Model Recommender",
+        "Conversational Recommender",
+        "Conversational Recommendation",
+        "Personalized Recommendation",
+        "Context-Aware Recommendation",
+        "Context Aware Recommendation",
+        "Tool Use Recommendation",
+        "Tool-Using Recommender",
+        "Companion Agent",
+        "AI Companion",
       ]

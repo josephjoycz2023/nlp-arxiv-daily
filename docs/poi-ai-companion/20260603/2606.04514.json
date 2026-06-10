@@ -1,0 +1,24 @@
+{
+  "paper_id": "2606.04514",
+  "arxiv_short_id": "2606.04514v1",
+  "published_date": "2026-06-03",
+  "title": "SAILRec: Steering LLM Attention to Dual-Side Semantically Aligned Collaborative Embeddings for Recommendation",
+  "authors": "Xi Wu et.al.",
+  "authors_full": [
+    "Xi Wu",
+    "Jiale Wang",
+    "Zihan Wang",
+    "Yichen Gao",
+    "Xiaocui Yang",
+    "Shi Feng",
+    "Daling Wang",
+    "Yifei Zhang"
+  ],
+  "paper_url": "http://arxiv.org/abs/2606.04514v1",
+  "pdf_url": "https://arxiv.org/pdf/2606.04514v1.pdf",
+  "code_link": null,
+  "abstract": "Recent LLM-based recommenders enhance language models with collaborative embeddings from user-item interactions, but making such embeddings available does not ensure their proper use during inference. Through a diagnostic attention analysis, we find that the utilization of collaborative embeddings is depth-dependent and alignment-sensitive, suggesting that LLMs need to balance their internal semantic knowledge with external collaborative knowledge. To address this issue, we propose SAILRec, an LLM-based recommender that improves this balance through dual-side semantic alignment and hierarchical attention steering. The former aligns item-side embeddings with item-text semantics and user-side embeddings with codebook-based semantic profiles, while the latter suppresses premature shallow-layer collaborative interference and strengthens collaborative evidence in deeper decision layers. Experiments on MovieLens-1M and Amazon-Book show that SAILRec consistently outperforms representative baselines, with ablation and masking analyses validating its key designs.",
+  "categories": [
+    "cs.IR"
+  ]
+}

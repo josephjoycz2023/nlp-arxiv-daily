@@ -1,0 +1,28 @@
+{
+  "cached_at": "2026-06-10T11:31:26.737782+00:00",
+  "stage": "l1",
+  "namespace": "aeff661efc80bd56",
+  "key": "2606.10916",
+  "payload": {
+    "paper_id": "2606.10916",
+    "l1": {
+      "decision": "archive_only",
+      "model_decision": "archive_only",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "acceleration"
+      ],
+      "scores": {
+        "topic_relevance": 2,
+        "scenario_fit": 1,
+        "landing_potential": 1,
+        "abstract_evidence_strength": 3,
+        "distance_penalty": 3
+      },
+      "total_score": 4,
+      "model_total_score": 4,
+      "reason_cn": "论文提出联邦学习中的范围正则化与快速优化算法以降低迭代复杂度，与训练加速模块边缘相关，但主要针对统计学习场景，不属于大模型训练/推理加速核心研究方向；记忆个性化关键词为误匹配。",
+      "archive_reason_cn": "联邦学习优化算法在训练加速上有一定参考价值，但应用场景差异大，非直接可落地于大模型训练框架。"
+    }
+  }
+}

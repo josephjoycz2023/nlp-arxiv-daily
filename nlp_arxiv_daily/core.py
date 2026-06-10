@@ -3,6 +3,7 @@ from __future__ import annotations
 import logging
 import os
 import re
+from typing import Any
 
 import yaml
 
@@ -11,6 +12,8 @@ from nlp_arxiv_daily.types import Paper
 
 
 logging.basicConfig(format="[%(asctime)s %(levelname)s] %(message)s", datefmt="%m/%d/%Y %H:%M:%S", level=logging.INFO)
+for noisy_logger in ("httpx", "httpcore", "openai", "openai._base_client"):
+    logging.getLogger(noisy_logger).setLevel(logging.WARNING)
 
 
 def _load_yaml_dict(path: str) -> dict:
@@ -47,9 +50,32 @@ def _redact_config_for_logging(config: dict) -> dict:
     redacted = dict(config)
     if redacted.get("openai_api_key"):
         redacted["openai_api_key"] = "***redacted***"
+    if redacted.get("openai_api_keys"):
+        redacted["openai_api_keys"] = ["***redacted***"] * len(redacted["openai_api_keys"])
     if redacted.get("deepseek_api_key"):
         redacted["deepseek_api_key"] = "***redacted***"
+    if redacted.get("deepseek_api_keys"):
+        redacted["deepseek_api_keys"] = ["***redacted***"] * len(redacted["deepseek_api_keys"])
     return redacted
+
+
+def _normalize_api_key_candidates(*values: Any) -> list[str]:
+    candidates: list[str] = []
+
+    def add_candidate(value: Any) -> None:
+        if isinstance(value, str):
+            parts = [part.strip() for part in re.split(r"[\r\n,;]+", value) if part.strip()]
+            for part in parts:
+                if part not in candidates:
+                    candidates.append(part)
+            return
+        if isinstance(value, (list, tuple)):
+            for item in value:
+                add_candidate(item)
+
+    for value in values:
+        add_candidate(value)
+    return candidates
 
 
 def papers_to_legacy_rows(papers: list[Paper], topic: str) -> tuple[dict, dict]:
@@ -108,21 +134,26 @@ def load_config(config_file: str) -> dict:
     config = _load_yaml_dict(config_file)
     config = _merge_local_config(config, config_file)
     config.setdefault("openai_api_key", os.getenv("OPENAI_API_KEY", ""))
+    config.setdefault("openai_api_keys", os.getenv("OPENAI_API_KEYS", ""))
+    config.setdefault("analysis_request_timeout_seconds", 45)
     config.setdefault("openai_model", "gpt-5-mini")
     config.setdefault("openai_base_url", "https://api.openai.com/v1")
-    config.setdefault("openai_timeout", 60)
+    config.setdefault("openai_timeout", int(config["analysis_request_timeout_seconds"]))
     config.setdefault("openai_instructions", "")
     config.setdefault("llm_provider", "openai")
     config.setdefault("deepseek_api_key", os.getenv("DEEPSEEK_API_KEY", ""))
+    config.setdefault("deepseek_api_keys", os.getenv("DEEPSEEK_API_KEYS", ""))
     config.setdefault("deepseek_model", "deepseek-v4-pro")
     config.setdefault("deepseek_base_url", "https://api.deepseek.com")
-    config.setdefault("deepseek_timeout", 60)
+    config.setdefault("deepseek_timeout", int(config["analysis_request_timeout_seconds"]))
     config.setdefault("deepseek_instructions", "")
     config.setdefault("deepseek_reasoning_effort", "high")
     config.setdefault("deepseek_thinking_enabled", True)
     config.setdefault("research_profile_path", "configs/research_profile.yaml")
     config.setdefault("personalized_docs_dir", "./docs/personalized")
     config.setdefault("analysis_cache_dir", os.path.join(config["personalized_docs_dir"], "cache"))
+    config.setdefault("personalized_runs_dir", os.path.join(config["personalized_docs_dir"], "runs"))
+    config.setdefault("personalized_logs_dir", os.path.join(config["personalized_docs_dir"], "logs"))
     config.setdefault("l1_prompt_path", "prompts/l1_abstract_filter.md")
     config.setdefault("l2_prompt_path", "prompts/l2_paper_review.md")
     config.setdefault("digest_prompt_path", "prompts/daily_digest.md")
@@ -130,6 +161,11 @@ def load_config(config_file: str) -> dict:
     config.setdefault("l2_schema_path", "schemas/l2_review.schema.json")
     config.setdefault("digest_schema_path", "schemas/digest.schema.json")
     config.setdefault("enable_hf_papers", True)
+    config["openai_api_keys"] = _normalize_api_key_candidates(config.get("openai_api_keys", ""), config["openai_api_key"])
+    config["deepseek_api_keys"] = _normalize_api_key_candidates(
+        config.get("deepseek_api_keys", ""),
+        config["deepseek_api_key"],
+    )
     configure_hf_papers(config["enable_hf_papers"])
     config["kv"] = pretty_filters(**config)
     logging.info(f"config = {_redact_config_for_logging(config)}")

@@ -1,0 +1,18 @@
+{
+  "paper_id": "2606.11058",
+  "arxiv_short_id": "2606.11058v1",
+  "published_date": "2026-06-09",
+  "title": "The social consequences of AI delegation",
+  "authors": "Henrique Ferraz de Arruda et.al.",
+  "authors_full": [
+    "Henrique Ferraz de Arruda",
+    "Yamir Moreno"
+  ],
+  "paper_url": "http://arxiv.org/abs/2606.11058v1",
+  "pdf_url": "https://arxiv.org/pdf/2606.11058v1.pdf",
+  "code_link": null,
+  "abstract": "A substantial body of recent work has debated whether large language models (LLMs) can serve as substitutes for human participants in behavioural research. This debate, however, captures only one direction of a rapidly changing relationship. The more consequential question is not simply whether researchers should use LLMs as human surrogates, but whether - and under what conditions - humans are beginning to use LLMs as surrogates for their own deliberation. Across domains including health, law, finance, education, and personal guidance, increasing numbers of people consult generative AI systems before, alongside, or instead of human experts, peers, or independent judgment. Although evidence for actual delegation remains uneven, this uncertainty makes the phenomenon an urgent social-scientific object of study. We argue for a research programme that treats LLMs as consequential social actors in a functional sense: systems whose outputs shape human decisions, social norms, and collective dynamics.",
+  "categories": [
+    "physics.soc-ph"
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "date": "2026-06-06",
+  "completed_at": "2026-06-10T10:30:33.279335+00:00",
+  "pipeline": "run-personalized",
+  "stages": {
+    "fetch": {
+      "status": "completed",
+      "keyword_count": 1,
+      "keywords": [
+        "NLP"
+      ]
+    },
+    "render": {
+      "status": "completed"
+    },
+    "l1": {
+      "status": "completed",
+      "path": "docs\\personalized\\l1\\2026-06-06.json",
+      "stats": {
+        "total_papers": 1,
+        "reject": 0,
+        "archive_only": 0,
+        "level2": 1
+      },
+      "paper_ids": [
+        "2606.00001"
+      ],
+      "level2_candidate_ids": [
+        "2606.00001"
+      ]
+    },
+    "l2": {
+      "status": "completed",
+      "paths": [
+        "docs\\personalized\\reviews\\2026-06-06\\2606.00001.json"
+      ],
+      "stats": {
+        "total": 1,
+        "reviewed": 1,
+        "failed": 0
+      },
+      "papers": [
+        {
+          "paper_id": "2606.00001",
+          "title": "Memory Agent",
+          "status": "reviewed"
+        }
+      ]
+    },
+    "digest": {
+      "status": "completed",
+      "path": "docs\\personalized\\daily\\2026-06-06.json",
+      "stats": {
+        "must_read": 1,
+        "worth_archiving": 0,
+        "review_failures": 0
+      },
+      "must_read_paper_ids": [
+        "2606.00001"
+      ]
+    }
+  }
+}

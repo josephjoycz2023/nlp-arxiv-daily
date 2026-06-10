@@ -1,0 +1,24 @@
+{
+  "paper_id": "2606.11155",
+  "arxiv_short_id": "2606.11155v1",
+  "published_date": "2026-06-09",
+  "title": "Mean Flow Distillation: Robust and Stable Distillation for Flow Matching Models",
+  "authors": "An Zhao et.al.",
+  "authors_full": [
+    "An Zhao",
+    "Shengyuan Zhang",
+    "Zhongjian Sun",
+    "Yixiang Zhou",
+    "Zejian Li",
+    "Ling Yang",
+    "Tianrun Chen",
+    "Lingyun Sun"
+  ],
+  "paper_url": "http://arxiv.org/abs/2606.11155v1",
+  "pdf_url": "https://arxiv.org/pdf/2606.11155v1.pdf",
+  "code_link": null,
+  "abstract": "Flow Matching models have demonstrated strong performance across a wide range of generative tasks. However, their reliance on ODE-based iterative sampling incurs substantial computational overhead in inference, which limits their applicability in real-time scenes. While distillation is a promising solution, existing approaches largely borrow from diffusion-based score matching, often failing to exploit the intrinsic geometric structure of flows and suffering from training instability, high variance, and degraded generation quality. In this paper, we propose Mean Flow Distillation (MFD), a novel distillation framework tailored for flow matching models. We theoretically demonstrate that MFD acts as a temporal low-pass filter, effectively suppressing the high-frequency optimization noise inherent in variational score distillation (VSD) while ensuring global trajectory consistency. We further prove the Mean Flow Matching Theorem, establishing that matching expected average velocities is sufficient for strict distribution alignment. Empirically, on challenging tasks of high-dimensional manifolds including 4D occupancy forecasting and text-to-image generation, MFD achieves state-of-the-art performance, enabling high-fidelity single-step generation.",
+  "categories": [
+    "cs.CV"
+  ]
+}

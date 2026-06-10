@@ -1,0 +1,28 @@
+{
+  "cached_at": "2026-06-10T11:38:24.912376+00:00",
+  "stage": "l1",
+  "namespace": "aeff661efc80bd56",
+  "key": "2606.11079",
+  "payload": {
+    "paper_id": "2606.11079",
+    "l1": {
+      "decision": "reject",
+      "model_decision": "archive_only",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "dataset_pipeline|tool_use_and_poi_data"
+      ],
+      "scores": {
+        "topic_relevance": 1,
+        "scenario_fit": 1,
+        "landing_potential": 1,
+        "abstract_evidence_strength": 2,
+        "distance_penalty": 2
+      },
+      "total_score": 3,
+      "model_total_score": 7,
+      "reason_cn": "论文提出用户模拟工具包VISTA，用于交互式agent评估，可产生交互轨迹。与tool use数据及环境交互日志有一定关联，但主要面向电子商务和客服场景，与POI/tool use数据制备的直接需求尚有距离，且不涉及情感、记忆或加速。",
+      "archive_reason_cn": "该工作属于交互式agent评测框架，可生成交互数据，但未针对tool use or POI场景，与用户研究方向的直接匹配度有限，作为相关技术存档备查。"
+    }
+  }
+}

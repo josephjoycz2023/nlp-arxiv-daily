@@ -1,0 +1,20 @@
+{
+  "paper_id": "2606.10653",
+  "arxiv_short_id": "2606.10653v1",
+  "published_date": "2026-06-09",
+  "title": "STEDiff: Strengthening Text Embedding for Text-to-Image Alignment in Diffusion Model",
+  "authors": "Hailan Zhang et.al.",
+  "authors_full": [
+    "Hailan Zhang",
+    "Haipeng Liu",
+    "Bo Fu",
+    "Yang Wang"
+  ],
+  "paper_url": "http://arxiv.org/abs/2606.10653v1",
+  "pdf_url": "https://arxiv.org/pdf/2606.10653v1.pdf",
+  "code_link": null,
+  "abstract": "Although pretrained text-to-image (T2I) generation models can produce high-quality images, they often fail to faithfully reflect the semantic intent of complex prompts due to stochastic noise and inherent model limitations. This issue frequently manifests as the model overlooking specific objects or failing to correctly bind attributes to their corresponding entities, a challenge referred to as semantic alignment. Unlike existing approaches that rely on computationally expensive fine-tuning or labor-intensive layout priors, we propose STEDiff, a training-free method designed to enhance semantic representations directly within the text-embedding space. Specifically, we introduce a method that primarily leverages the [EOT] token to strengthen the relevant semantics of sub-sentences and then replaces the corresponding tokens in the original prompt. Furthermore, a novel semantic enhancement loss is incorporated to enforce spatial constraints, ensuring that the semantics of each entity are precisely mapped to their respective image regions. Extensive quantitative and qualitative evaluations on the T2I-CompBench demonstrate that our method notably improves semantic consistency and generation integrity in complex scenarios.",
+  "categories": [
+    "cs.CV"
+  ]
+}

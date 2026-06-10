@@ -1,0 +1,26 @@
+{
+  "cached_at": "2026-06-10T11:22:56.545636+00:00",
+  "stage": "l1",
+  "namespace": "aeff661efc80bd56",
+  "key": "2606.04867",
+  "payload": {
+    "paper_id": "2606.04867",
+    "l1": {
+      "decision": "archive_only",
+      "model_decision": "archive_only",
+      "decision_source": "thresholds",
+      "matched_tracks": [],
+      "scores": {
+        "topic_relevance": 2,
+        "scenario_fit": 1,
+        "landing_potential": 0,
+        "abstract_evidence_strength": 3,
+        "distance_penalty": 3
+      },
+      "total_score": 3,
+      "model_total_score": 3,
+      "reason_cn": "论文构建 AI 陪伴安全评测基准，与用户关注的陪伴产品方向表面相关，但聚焦于安全检测而非 POI 场景、Tool Use 或情感对话能力，任务和落地目标偏离用户核心研究方向。",
+      "archive_reason_cn": "涉及 AI 陪伴产品安全监测，可作为安全模块的参考存档，但用户研究池重点不在安全过滤，落地距离远。"
+    }
+  }
+}

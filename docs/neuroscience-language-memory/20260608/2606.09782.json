@@ -1,0 +1,23 @@
+{
+  "paper_id": "2606.09782",
+  "arxiv_short_id": "2606.09782v1",
+  "published_date": "2026-06-08",
+  "title": "Cohort-based Semantic Labeling: AI-Enabled Recovery of Visualization Semantics from Deployed SVGs",
+  "authors": "Jeongah Lee et.al.",
+  "authors_full": [
+    "Jeongah Lee",
+    "Hima Varshini Surisetty",
+    "Durga Nirmaleswaran",
+    "Jahnavi Sharma",
+    "Srikiran Kavuri",
+    "Narges Mahyar",
+    "Ali Sarvghad"
+  ],
+  "paper_url": "http://arxiv.org/abs/2606.09782v1",
+  "pdf_url": "https://arxiv.org/pdf/2606.09782v1.pdf",
+  "code_link": null,
+  "abstract": "Many web-based visualizations are deployed as Scalable Vector Graphics (SVG), a format that faithfully preserves visual appearance but typically omits the higher-level semantic structure needed for machine interpretation. Once rendered and published, information about a visualization's components, roles, and encodings is no longer explicitly available, limiting downstream operations such as querying, accessibility augmentation, explanation, personalization, and transformation. To address this gap, we introduce CSL, an AI-enabled, multi-stage pipeline for automatically recovering visualization semantics from deployed SVGs through two complementary mechanisms: (1) cohort-based decomposition, which organizes heterogeneous SVG primitives into structurally coherent subsets that reduce the semantic assignment space, and (2) hybrid semantic grounding, which combines model-based inference with deterministic structural validation and propagation to make labeling both context-sensitive and structurally anchored. CSL produces Semantic SVG (SSVG), a representation in which SVG elements are annotated with graphical mark type, visualization role, and data role. We implemented CSL as an end-to-end prototype and evaluated it on 102 SVG visualizations, achieving global macro-averaged accuracies of 0.822 for mark type, 0.853 for visualization role, and 0.860 for data-role recovery. An ablation against a non-cohort whole-chart baseline showed that cohorting significantly improves accuracy (paired t-test: t > 20, p < 0.001; Cohen's d > 2.0), and repeated labeling of a randomly selected SVG over 100 runs yielded mean agreement above 91.9% across all three attributes. These results provide strong evidence that CSL can transform deployed SVGs into machine-usable semantic representations, enabling more accessible, adaptive, and user-steerable visualization systems.",
+  "categories": [
+    "cs.HC"
+  ]
+}
