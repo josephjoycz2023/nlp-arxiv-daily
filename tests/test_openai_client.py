@@ -630,6 +630,20 @@ class TestOpenAITextClient:
         assert client._model == "deepseek-v4-pro"
         assert client._thinking_enabled is True
 
+    def test_from_config_missing_key_message_points_to_local_config(self):
+        with pytest.raises(OpenAIConfigError) as excinfo:
+            OpenAITextClient.from_config(
+                {
+                    "llm_provider": "deepseek",
+                    "deepseek_api_key": "",
+                    "deepseek_api_keys": [],
+                    "config_local_path": "C:/repo/config.local.yaml",
+                }
+            )
+
+        assert "config.local.yaml" in str(excinfo.value)
+        assert "DEEPSEEK_API_KEY" in str(excinfo.value)
+
     def test_from_config_falls_back_to_deepseek_when_openai_has_no_key(self):
         client = OpenAITextClient.from_config(
             {

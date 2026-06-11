@@ -165,6 +165,13 @@ def _resolve_provider_from_config(config: dict, requested_provider: str) -> str:
     return requested_provider
 
 
+def _missing_api_key_message(config: dict, provider: str) -> str:
+    key_name = "deepseek_api_key" if provider == "deepseek" else "openai_api_key"
+    env_name = "DEEPSEEK_API_KEY" if provider == "deepseek" else "OPENAI_API_KEY"
+    local_path = config.get("config_local_path", "config.local.yaml")
+    return f"{key_name} is required. Set it in {local_path} or via the {env_name} environment variable."
+
+
 def _extract_chat_message_text(message: Any) -> str:
     content = getattr(message, "content", "")
     if isinstance(content, str):
@@ -259,6 +266,18 @@ class OpenAITextClient:
     def from_config(cls, config: dict) -> OpenAITextClient:
         requested_provider = _normalize_provider(config.get("llm_provider", "openai"))
         provider = _resolve_provider_from_config(config, requested_provider)
+        if provider == "deepseek":
+            provider_keys = _normalize_api_key_candidates(
+                config.get("deepseek_api_keys", []),
+                config.get("deepseek_api_key", ""),
+            )
+        else:
+            provider_keys = _normalize_api_key_candidates(
+                config.get("openai_api_keys", []),
+                config.get("openai_api_key", ""),
+            )
+        if not provider_keys:
+            raise OpenAIConfigError(_missing_api_key_message(config, provider))
         default_timeout = int(config.get("analysis_request_timeout_seconds", 60))
         request_retries = int(config.get("analysis_request_retries", 1))
         if provider == "deepseek":

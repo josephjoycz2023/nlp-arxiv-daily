@@ -2,6 +2,8 @@
 
 [中文](README.zh-CN.md) | [English](README.en.md)
 
+Website: [https://josephjoycz2023.github.io/nlp-arxiv-daily/](https://josephjoycz2023.github.io/nlp-arxiv-daily/)
+
 This repository is now a personalized arXiv research workflow rather than a generic keyword digest.
 It builds a fixed daily paper pool, runs weighted L1/L2 review stages around your research profile, writes per-paper outputs under `docs/personalized/`, and publishes a web dashboard grouped by `Digest`, `L2`, `L1`, and `Archived`.
 
@@ -11,11 +13,17 @@ It builds a fixed daily paper pool, runs weighted L1/L2 review stages around you
 - Runs profile-aware L1 relevance filtering and L2 feasibility review
 - Stores per-paper L2 outputs under `docs/personalized/l2/YYYY-MM-DD/*.json`
 - Stores the final markdown brief under `docs/personalized/digest/YYYY-MM-DD.md`
-- Publishes a pool-date based Astro dashboard for browsing results
+- Publishes a pool-date based Astro dashboard for browsing results:
+  `https://josephjoycz2023.github.io/nlp-arxiv-daily/`
+- Includes a manual-start background scheduler command for daily personalized runs:
+  `uv run python -m nlp_arxiv_daily run-scheduler`
 
 ## Quick Start
 
 ```bash
+cp config.local.example.yaml config.local.yaml
+# fill in your local API key in config.local.yaml or export OPENAI_API_KEY / DEEPSEEK_API_KEY
+
 uv run python -m nlp_arxiv_daily run-personalized --date 2026-06-11
 
 cd web
@@ -27,8 +35,20 @@ pnpm dev
 
 - Research profile and direction weights: `configs/research_profile.yaml`
 - General fetch/runtime config: `config.yaml`
+- Local secrets override (gitignored): `config.local.yaml`
 - L1 prompt: `prompts/l1_abstract_filter.md`
 - L2 prompt: `prompts/l2_paper_review.md`
+
+## Background Scheduler
+
+The repository now includes a cross-platform background scheduler entrypoint:
+
+```bash
+uv run python -m nlp_arxiv_daily run-scheduler
+```
+
+It is designed to be started manually, and can also be attached to OS autostart.
+Detailed Linux / macOS / Windows setup notes are in [docs/background-scheduler.md](docs/background-scheduler.md).
 
 ## Reference
 

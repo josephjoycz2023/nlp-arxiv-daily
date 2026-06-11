@@ -17,6 +17,7 @@ import datetime
 import json
 import logging
 import os
+import signal
 import sys
 from collections.abc import Iterator
 
@@ -31,7 +32,9 @@ from nlp_arxiv_daily.fetcher import (
     fetch_papers,
     fetch_papers_in_range,
 )
+from nlp_arxiv_daily.openai_client import OpenAIConfigError
 from nlp_arxiv_daily.renderer import json_to_md, render_archive_pages
+from nlp_arxiv_daily.scheduler import BackgroundPipelineScheduler
 from nlp_arxiv_daily.storage import write_papers_split, write_topic_paper_files
 from nlp_arxiv_daily.types import Paper
 
@@ -195,6 +198,31 @@ def cmd_review_l2(config: dict, *, run_date: datetime.date) -> None:
 
 def cmd_build_digest(config: dict, *, run_date: datetime.date) -> None:
     build_digest_for_date(config, run_date)
+
+
+def cmd_run_scheduler(config: dict, *, poll_seconds: float | None = None) -> None:
+    scheduler = BackgroundPipelineScheduler(
+        config,
+        run_pipeline=lambda run_date: cmd_run_personalized(config, run_date=run_date),
+        poll_seconds=float(poll_seconds or config["scheduler_poll_seconds"]),
+        lock_path=config["scheduler_lock_path"],
+    )
+    _install_scheduler_signal_handlers(scheduler)
+    logging.info("scheduler starting")
+    scheduler.run_forever()
+    logging.info("scheduler stopped")
+
+
+def _install_scheduler_signal_handlers(scheduler: BackgroundPipelineScheduler) -> None:
+    def _handle_signal(signum, _frame) -> None:
+        signal_name = signal.Signals(signum).name
+        logging.info("scheduler received %s, stopping gracefully", signal_name)
+        scheduler.stop()
+
+    for candidate in ("SIGINT", "SIGTERM", "SIGBREAK"):
+        sig = getattr(signal, candidate, None)
+        if sig is not None:
+            signal.signal(sig, _handle_signal)
 
 
 def _initial_personalized_run_state(config: dict, run_date: datetime.date) -> dict:
@@ -607,6 +635,13 @@ def build_parser() -> argparse.ArgumentParser:
     review_l2.add_argument("--date", required=True, type=_parse_yyyy_mm_dd, help="analysis pool date in YYYY-MM-DD")
     build_digest = sub.add_parser("build-digest", help="build the personalized daily digest for one analysis pool date")
     build_digest.add_argument("--date", required=True, type=_parse_yyyy_mm_dd, help="analysis pool date in YYYY-MM-DD")
+    run_scheduler = sub.add_parser("run-scheduler", help="run the background personalized pipeline scheduler")
+    run_scheduler.add_argument(
+        "--poll-seconds",
+        type=float,
+        default=None,
+        help="how often the scheduler checks for date rollover and pending work (default: config value)",
+    )
 
     backfill = sub.add_parser("backfill", help="fetch a date range and merge into archive")
     backfill.add_argument(
@@ -677,12 +712,18 @@ def main(argv: list[str] | None = None) -> int:
         if command == "build-digest":
             cmd_build_digest(config, run_date=args.date)
             return 0
+        if command == "run-scheduler":
+            cmd_run_scheduler(config, poll_seconds=args.poll_seconds)
+            return 0
 
         # Resolve handler at call time so tests can monkeypatch cmd_* on this module.
         handler = {"run": cmd_run, "fetch": cmd_fetch, "render": cmd_render}[command]
         handler(config)
         return 0
     except ArxivRateLimitExceeded as e:
+        logging.error(str(e))
+        return 1
+    except OpenAIConfigError as e:
         logging.error(str(e))
         return 1
 

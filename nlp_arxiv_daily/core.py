@@ -133,6 +133,8 @@ def load_config(config_file: str) -> dict:
 
     config = _load_yaml_dict(config_file)
     config = _merge_local_config(config, config_file)
+    config["config_file"] = os.path.abspath(config_file)
+    config["config_local_path"] = os.path.join(os.path.dirname(config["config_file"]), "config.local.yaml")
     config.setdefault("openai_api_key", os.getenv("OPENAI_API_KEY", ""))
     config.setdefault("openai_api_keys", os.getenv("OPENAI_API_KEYS", ""))
     config.setdefault("analysis_request_timeout_seconds", 45)
@@ -155,6 +157,8 @@ def load_config(config_file: str) -> dict:
     config.setdefault("analysis_cache_dir", os.path.join(config["personalized_docs_dir"], "cache"))
     config.setdefault("personalized_runs_dir", os.path.join(config["personalized_docs_dir"], "runs"))
     config.setdefault("personalized_logs_dir", os.path.join(config["personalized_docs_dir"], "logs"))
+    config.setdefault("scheduler_poll_seconds", 30)
+    config.setdefault("scheduler_lock_path", os.path.join(config["personalized_runs_dir"], "scheduler.lock"))
     config.setdefault("l1_prompt_path", "prompts/l1_abstract_filter.md")
     config.setdefault("l2_prompt_path", "prompts/l2_paper_review.md")
     config.setdefault("digest_prompt_path", "prompts/daily_digest.md")

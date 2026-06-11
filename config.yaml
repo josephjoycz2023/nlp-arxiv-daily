@@ -17,7 +17,7 @@ openai_timeout: 60
 openai_instructions: ""
 
 llm_provider: "openai"
-deepseek_api_key: "sk-453bd6cf8642407c80e20a2a892e32e2"
+deepseek_api_key: ""
 deepseek_api_keys: []
 deepseek_model: "deepseek-v4-pro"
 deepseek_base_url: "https://api.deepseek.com"

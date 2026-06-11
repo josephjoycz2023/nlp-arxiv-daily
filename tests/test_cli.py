@@ -16,6 +16,7 @@ import pytest
 
 from nlp_arxiv_daily import cli
 from nlp_arxiv_daily.fetcher import ArxivRateLimitExceeded
+from nlp_arxiv_daily.openai_client import OpenAIConfigError
 from nlp_arxiv_daily.types import Paper
 
 
@@ -87,6 +88,8 @@ class TestArgparser:
         assert ns.command == "review-l2"
         ns = cli.build_parser().parse_args(["build-digest", "--date", "2026-06-06"])
         assert ns.command == "build-digest"
+        ns = cli.build_parser().parse_args(["run-scheduler"])
+        assert ns.command == "run-scheduler"
 
     def test_config_path_default(self):
         ns = cli.build_parser().parse_args([])
@@ -147,6 +150,20 @@ class TestDispatch:
         monkeypatch.setattr(cli, "cmd_build_digest", lambda config, *, run_date: called.append(("build-digest", run_date)))
         cli.main(["--config_path", fake_config_file, "build-digest", "--date", "2026-06-06"])
         assert called == [("build-digest", datetime.date(2026, 6, 6))]
+
+    def test_main_run_scheduler_dispatches(self, monkeypatch, fake_config_file):
+        called = []
+        monkeypatch.setattr(cli, "cmd_run_scheduler", lambda config, *, poll_seconds: called.append(("run-scheduler", poll_seconds)))
+        cli.main(["--config_path", fake_config_file, "run-scheduler", "--poll-seconds", "12"])
+        assert called == [("run-scheduler", 12.0)]
+
+    def test_main_returns_1_for_missing_api_key(self, monkeypatch, fake_config_file):
+        monkeypatch.setattr(
+            cli,
+            "cmd_run_personalized",
+            lambda config, *, run_date=None: (_ for _ in ()).throw(OpenAIConfigError("missing key")),
+        )
+        assert cli.main(["--config_path", fake_config_file, "run-personalized"]) == 1
 
 
 class TestCommandIsolation:

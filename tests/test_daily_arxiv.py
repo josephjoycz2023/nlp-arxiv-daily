@@ -192,6 +192,11 @@ class TestLoadConfig:
         assert config["openai_api_keys"] == ["key-1", "key-2"]
         assert config["deepseek_api_keys"] == ["dkey-1", "dkey-2"]
 
+    def test_records_local_config_path(self, config_file):
+        config = load_config(config_file)
+        assert config["config_file"].endswith("config.yaml")
+        assert config["config_local_path"].endswith("config.local.yaml")
+
 
 class _FakeResponse:
     def __init__(self, status_code: int, payload: dict | None = None):
