@@ -1,48 +1,135 @@
 profile:
   short: >
-    关注五类可落地研究方向：
-    1. 大模型训练数据集制备与评测数据集，尤其是情感、多轮对话、tool use、SFT、RL、on-policy distillation。
-    2. 大模型记忆，尤其是多智能体记忆框架、长期记忆、个性化记忆、人格一致性、情绪稳定性与隐式记忆索引。
-    3. 神经科学与自然语言和记忆交叉，关注人脑如何理解语言、情绪与记忆。
-    4. 大模型训练加速与推理加速框架和方法。
-    5. POI 场景与 AI 结合，尤其是陪伴产品中的 tool use 与场景化能力。
+    研究方向按 1-5 级加权，5 级最高。
+    5级核心：大模型记忆，尤其是多智能体记忆框架、长期记忆、个性化记忆、人格一致性、情绪稳定性、隐式记忆索引，以及这些方向的评测、诊断、负面评估、缓解方法。
+    4级重点：大模型训练数据集制备与评测数据集，尤其是情感、多轮对话、tool use、SFT、RL、on-policy distillation，以及相关自动评测与 benchmark。
+    3级重要：POI 场景与 AI 结合，尤其是陪伴产品中的 tool use、场景化能力、用户状态理解。
+    2级次重点：大模型训练加速与推理加速框架和方法。
+    1级背景关注：神经科学与自然语言和记忆交叉，关注人脑如何理解语言、情绪与记忆。
+    判断原则：只要强命中任意一个高优先级方向就可以高分，不要求同时覆盖多个方向；核心方向中的评测/诊断/负面评估本身就是重要贡献；对 toC、情感陪伴、人格一致性、情绪稳定性、多轮交互、tool use、POI 场景有明确映射时额外加分。
 
   full: >
-    当前目标不是泛化追踪所有 LLM/NLP 论文，而是筛选能直接支持数据生产、评测建设、记忆系统设计、
-    训练与推理加速、以及陪伴产品在 POI 场景落地的研究。
-    优先关注：
-    1. 能沉淀为数据集 schema、标注规范、采样策略、SFT/RL/OPD 数据流程或自动化评测协议的工作；
-    2. 能沉淀为记忆架构、长期记忆机制、个性化记忆模块、多智能体共享记忆、隐式记忆索引的工作；
-    3. 能解释语言理解、情绪感知、心理感知或记忆形成机制，并可反哺 NLP/LLM 建模的神经科学研究；
-    4. 能明显改善训练效率、推理吞吐、时延、成本或部署复杂度的框架和方法；
-    5. 能服务陪伴产品、POI 场景、工具调用、多轮交互与用户状态理解的应用型研究。
+    当前目标不是泛化追踪所有 LLM/NLP 论文，而是优先筛出能够直接支持以下方向的研究，并按方向优先级加权。
+    第一原则：只要论文与任意一个方向强相关，就不要因为它和其他方向无关而扣分，更不要强行要求它同时命中“记忆框架 + 个性化 + 多智能体 + POI”等多个轴。
+    第二原则：评测、诊断、负面评估、缓解方法在核心方向里本身就是高价值贡献。对于记忆评测、人格一致性评测、多轮对话评测、tool use 评测、情感评测、agent benchmark，只要评测目标准确、方法具体、结论可迁移，就应高看，不要求它额外提出完整系统或产品架构。
+    第三原则：对 toC、情感陪伴、人格一致性、情绪稳定性、用户状态理解、连续多轮交互、工具调用、POI/陪伴场景有明确映射时，加分更高；如果还有具体可行的方法、数据、诊断协议、缓解方案或部署启发，应进一步加分。
+    第四原则：不要把论文硬拉到无关方向上，只需围绕它最相关、最强命中的那一个方向判断是否值得继续跟进。
+    优先方向如下：
+    1. 5级最高优先：大模型记忆，尤其是多智能体记忆框架、长期记忆、个性化记忆、人格一致性、情绪稳定性、隐式记忆索引、记忆检索/更新/管理，以及这些方向的评测、诊断、负面评估、缓解与可靠性分析。
+    2. 4级重点：大模型训练数据集制备与评测数据集，尤其是情感、多轮对话、tool use、SFT、RL、on-policy distillation，以及相关 benchmark、judge、数据构建流程和评测协议。
+    3. 3级重要：POI 场景与 AI 结合，尤其是陪伴产品中的 tool use、场景化能力、用户状态建模、连续交互与任务执行。
+    4. 2级次重点：大模型训练加速与推理加速框架和方法。
+    5. 1级背景关注：神经科学与自然语言和记忆交叉，关注人脑如何理解语言、情绪与记忆，并优先考虑能反哺 NLP/LLM 建模的工作。
     不优先关注：
-    1. 只有关键词重合、但任务目标与上述方向无直接关系的论文；
-    2. 只在小型 benchmark 上做边际提升、缺乏可迁移价值的工作；
-    3. 没有清晰方法贡献、数据贡献、评测贡献或系统贡献的纯 leaderboard 论文；
-    4. 与当前业务场景距离过远、不可复现或强依赖私有资源的方案。
+    1. 只是在标题或摘要里碰到 memory、agent、tool use、dialogue 等关键词，但任务目标与上述方向并不真正相关。
+    2. 只做小规模分数提升、没有方法贡献、没有数据贡献、没有评测贡献、没有诊断价值的纯 leaderboard 论文。
+    3. 与当前重点方向无关、同时又缺乏可迁移方法启发的通用 benchmark。
 
-# 模块化研究策略：
-# - 每个 module 对应一个稳定研究方向
-# - 后续如方向调整，只需要新增/删除模块，或把 enabled 切换为 true/false
-# - 每个模块内部再拆成更细的 tracks，便于 L1/L2 对齐具体关注点
 modules:
-  - id: dataset_pipeline
-    name: 数据集制备与评测数据集
+  - id: llm_memory
+    name: 大模型记忆
     enabled: true
+    priority: 5
     summary: >
-      关注训练数据集与评测数据集，特别是情感、多轮对话、tool use、SFT、RL、OPD、
-      情绪感知、心理感知与陪伴方向的数据构造和评测方法。
+      核心方向。关注多智能体记忆框架、长期记忆、个性化记忆、记忆索引、人格一致性、情绪稳定性，以及这些方向的评测、诊断、负面评估、缓解和可靠性分析。
+    decision_rules:
+      - 命中记忆方向时，只要与记忆框架、记忆机制、人格一致性、情绪稳定性或隐式记忆索引中的任一子方向强相关，就可以判为高相关，不要求同时覆盖多个记忆子方向。
+      - 记忆方向中的评测、诊断、负面评估、缓解方法本身就是高价值贡献，不要求额外提出完整的多智能体系统或个性化产品架构。
+    bonus_signals:
+      - 与 toC、情感陪伴、人格一致性、情绪稳定性、长期用户关系直接相关时加分。
+      - 提供具体评测协议、失效模式分析、缓解方法、可执行工程启发时加分。
+    tracks:
+      - id: multi_agent_memory_frameworks
+        name: 多智能体与长期记忆框架
+        priority: 5
+        include:
+          - multi-agent memory
+          - shared memory
+          - long-term memory
+          - memory framework
+          - memory orchestration
+          - episodic memory
+          - semantic memory
+          - memory retrieval
+          - memory update
+          - memory management
+        exclude:
+          - biological memory only
+          - generic rag without memory focus
+
+      - id: personalized_memory_and_user_state
+        name: 个性化记忆与用户状态建模
+        priority: 5
+        include:
+          - personalized memory
+          - user memory
+          - user state persistence
+          - user profile memory
+          - preference memory
+          - character memory
+          - conversational memory
+          - memory personalization
+        exclude:
+          - static persona prompting only
+          - one-shot role-play only
+
+      - id: memory_evaluation_and_reliability
+        name: 记忆评测、负面评估与可靠性
+        priority: 5
+        include:
+          - memory evaluation
+          - memory benchmark
+          - memory reliability
+          - sycophancy
+          - persona consistency evaluation
+          - emotional stability evaluation
+          - memory failure analysis
+          - memory mitigation
+          - agent memory safety
+          - long-term consistency evaluation
+        exclude:
+          - generic benchmark with no memory angle
+          - unrelated safety policy only
+
+      - id: implicit_memory_and_persona
+        name: 隐式记忆、人格一致性与情绪稳定性
+        priority: 5
+        include:
+          - implicit memory
+          - latent memory
+          - memory indexing
+          - internal memory retrieval
+          - persona consistency
+          - personality consistency
+          - emotional stability
+          - long-term consistency
+        exclude:
+          - static persona prompting only
+          - one-shot role-play only
+
+  - id: dataset_pipeline
+    name: 数据集制备与评测集
+    enabled: true
+    priority: 4
+    summary: >
+      重点方向。关注训练数据集与评测数据集，特别是情感、多轮对话、tool use、SFT、RL、on-policy distillation，以及相关评测协议、judge、自动化评测和 benchmark。
+    decision_rules:
+      - 评测集、benchmark、judge、诊断框架本身就是该方向的重要产出，不要求论文同时提出新模型或特定产品系统。
+      - 多轮交互、工具调用、对话指令、情感理解、心理感知相关的评测工作应高看，不要因为它不绑定 POI 或记忆系统而降级。
+    bonus_signals:
+      - 与 toC、情感陪伴、心理感知、连续多轮交互、用户体验质量直接相关时加分。
+      - 提供清晰的数据构建流程、标签体系、评测协议、judge 设计或可复用 benchmark 时加分。
     tracks:
       - id: emotional_dialogue_training_data
-        name: 情感与多轮对话训练数据
+        name: 情感、多轮对话、SFT/RL/OPD 训练数据
+        priority: 4
         include:
           - emotional dialogue
           - empathetic dialogue
           - multi-turn dialogue
           - affective conversation
-          - SFT data
-          - RL data
+          - sft data
+          - rl data
           - preference data
           - on-policy distillation
           - synthetic data generation
@@ -52,23 +139,27 @@ modules:
           - speech-only
           - vision-only
 
-      - id: tool_use_and_poi_data
-        name: Tool Use 与 POI 数据集
+      - id: tool_use_and_multi_turn_eval
+        name: Tool Use、多轮交互与 agent 评测
+        priority: 4
         include:
-          - tool use data
-          - function calling
-          - agent trajectory
-          - POI recommendation
-          - travel planning
-          - action supervision
+          - tool use benchmark
+          - function calling benchmark
+          - multi-turn evaluation
+          - agent benchmark
+          - multi-domain interaction benchmark
+          - customer service benchmark
+          - dialogue quality evaluation
+          - tool use evaluation
           - API benchmark
-          - environment interaction logs
+          - agent trajectory evaluation
         exclude:
           - robotics-only
           - code execution only
 
       - id: emotional_and_psychological_eval
-        name: 情绪感知与心理感知评测集
+        name: 情感、心理感知与陪伴相关评测
+        priority: 4
         include:
           - emotional support benchmark
           - emotion recognition
@@ -76,57 +167,99 @@ modules:
           - psychological perception
           - mental state understanding
           - empathy evaluation
-          - multi-turn evaluation
-          - LLM judge for dialogue
+          - affective evaluation
+          - persona evaluation
+          - llm judge for dialogue
         exclude:
           - generic sentiment classification only
           - leaderboard only
 
-  - id: llm_memory
-    name: 大模型记忆
+  - id: poi_companion
+    name: POI 场景与陪伴产品
     enabled: true
+    priority: 3
     summary: >
-      关注多智能体记忆框架、高效记忆模式、长期记忆、个性化记忆，以及模型内部隐式记忆、
-      人格一致性、情绪稳定性与记忆索引。
+      重要方向。关注 POI 场景、陪伴产品、多轮交互、tool use、用户状态理解、场景化能力和任务执行。
+    decision_rules:
+      - 如果论文直接服务于陪伴产品、POI、旅行助手、连续交互或用户状态理解，应作为独立方向判断，不要求同时命中记忆或数据方向。
+    bonus_signals:
+      - 与 toC 陪伴、情感陪伴、连续关系维护、场景化任务执行直接相关时加分。
     tracks:
-      - id: multi_agent_memory_frameworks
-        name: 多智能体记忆框架
+      - id: poi_tool_use_companion
+        name: POI、陪伴 agent 与场景化 tool use
+        priority: 3
         include:
-          - multi-agent memory
-          - shared memory
-          - long-term memory
-          - memory framework
-          - memory orchestration
-          - episodic memory
-          - personalized memory
-          - memory retrieval strategy
+          - poi
+          - conversational recommendation
+          - travel assistant
+          - companion agent
+          - tool use
+          - function calling
+          - itinerary planning
+          - place recommendation
+          - user state understanding
+          - contextual interaction
         exclude:
-          - biological memory
-          - generic rag without memory focus
+          - generic e-commerce recommendation
+          - map routing only
 
-      - id: implicit_memory_and_persona
-        name: 隐式记忆、人格与情绪稳定性
+  - id: acceleration
+    name: 训练加速与推理加速
+    enabled: true
+    priority: 2
+    summary: >
+      次重点方向。关注训练加速、推理加速、系统框架、缓存机制、并行与编译优化，优先考虑对真实训练或部署成本有明确改善的工作。
+    decision_rules:
+      - 仅当方法、系统设计或实测收益清晰时才给高分；纯硬件信息或无方法的 benchmark 不算重点。
+    bonus_signals:
+      - 如果能直接帮助 agent/陪伴系统部署成本下降、吞吐提升或延迟下降，可额外加分。
+    tracks:
+      - id: training_acceleration
+        name: 训练加速
+        priority: 2
         include:
-          - implicit memory
-          - persona consistency
-          - personality consistency
-          - emotional stability
-          - memory indexing
-          - internal memory retrieval
-          - latent memory
-          - user state persistence
+          - training acceleration
+          - efficient training
+          - optimizer efficiency
+          - pipeline parallel
+          - distributed training
+          - memory efficient training
+          - low cost alignment
+          - distillation system
         exclude:
-          - static persona prompting only
-          - one-shot role-play only
+          - hardware-only
+          - chip design only
+
+      - id: inference_acceleration
+        name: 推理加速
+        priority: 2
+        include:
+          - inference acceleration
+          - serving framework
+          - kv cache optimization
+          - speculative decoding
+          - efficient decoding
+          - latency optimization
+          - throughput optimization
+          - agent inference system
+        exclude:
+          - hardware-only
+          - benchmark without method
 
   - id: neuro_nlp_memory
     name: 神经科学、语言与记忆
     enabled: true
+    priority: 1
     summary: >
-      关注神经科学如何解释语言理解、情绪感知、记忆形成与检索，并寻找对 NLP/LLM 建模有启发的工作。
+      背景关注方向。关注神经科学如何解释语言理解、情绪感知、记忆形成与检索，并优先寻找能反哺 NLP/LLM 建模的工作。
+    decision_rules:
+      - 这是低优先级背景方向，只有当论文对语言、情绪、记忆建模有明确启发时才值得跟进。
+    bonus_signals:
+      - 如果可以直接转化为记忆系统、人格一致性或情绪感知建模启发，可额外加分。
     tracks:
       - id: neuroscience_language_understanding
-        name: 脑科学视角的语言与情绪理解
+        name: 人脑中的语言、情绪与记忆理解
+        priority: 1
         include:
           - neuroscience of language
           - brain language model
@@ -141,69 +274,8 @@ modules:
           - molecular neuroscience only
           - non-language neuroscience only
 
-  - id: acceleration
-    name: 训练加速与推理加速
-    enabled: true
-    summary: >
-      关注训练加速、推理加速、系统框架、缓存机制、并行与编译优化等方向，
-      优先考虑对真实训练或部署成本有明确改善的工作。
-    tracks:
-      - id: training_acceleration
-        name: 训练加速
-        include:
-          - training acceleration
-          - efficient training
-          - distillation system
-          - optimizer efficiency
-          - pipeline parallel
-          - distributed training
-          - memory efficient training
-          - low cost alignment
-        exclude:
-          - hardware-only
-          - chip design only
-
-      - id: inference_acceleration
-        name: 推理加速
-        include:
-          - inference acceleration
-          - serving framework
-          - KV cache optimization
-          - speculative decoding
-          - efficient decoding
-          - latency optimization
-          - throughput optimization
-          - agent inference system
-        exclude:
-          - hardware-only
-          - benchmark without method
-
-  - id: poi_companion
-    name: POI 场景与陪伴产品
-    enabled: true
-    summary: >
-      关注陪伴产品在 POI 场景中的多轮交互、tool use、用户状态理解、
-      推荐与任务执行相关研究。
-    tracks:
-      - id: poi_tool_use_companion
-        name: POI 场景下的陪伴与 Tool Use
-        include:
-          - POI
-          - conversational recommendation
-          - travel assistant
-          - companion agent
-          - tool use
-          - function calling
-          - itinerary planning
-          - place recommendation
-          - contextual memory
-          - user preference modeling
-        exclude:
-          - generic e-commerce recommendation
-          - map routing only
-
 level1:
-  max_prompt_profile_chars: 420
+  max_prompt_profile_chars: 900
   decision_thresholds:
     reject_below_relevance: 1
     archive_below_total: 6

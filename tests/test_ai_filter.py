@@ -74,6 +74,7 @@ def ai_workspace(tmp_path):
             tracks:
               - id: memory_personalization
                 name: memory
+                priority: 5
                 include: ["memory"]
                 exclude: ["biology"]
             level1:
@@ -123,6 +124,7 @@ def test_load_research_profile(ai_workspace):
     assert profile.short_profile == "focus on memory agents"
     assert profile.level1.max_level2_candidates_per_day == 8
     assert profile.modules == ()
+    assert profile.tracks[0].priority == 5
 
 
 def test_load_research_profile_from_modules(tmp_path):
@@ -137,10 +139,16 @@ def test_load_research_profile_from_modules(tmp_path):
               - id: memory
                 name: Memory
                 enabled: true
+                priority: 5
                 summary: "memory topics"
+                decision_rules:
+                  - "evaluation itself is important"
+                bonus_signals:
+                  - "toC scenarios"
                 tracks:
                   - id: long_term_memory
                     name: Long-term Memory
+                    priority: 5
                     include: ["memory", "long-term"]
                     exclude: ["biology"]
               - id: disabled_module
@@ -176,7 +184,11 @@ def test_load_research_profile_from_modules(tmp_path):
 
     assert len(profile.modules) == 2
     assert len(profile.tracks) == 1
+    assert profile.modules[0].priority == 5
+    assert profile.modules[0].decision_rules == ("evaluation itself is important",)
+    assert profile.modules[0].bonus_signals == ("toC scenarios",)
     assert profile.tracks[0].id == "long_term_memory"
+    assert profile.tracks[0].priority == 5
     assert profile.tracks[0].module_id == "memory"
     assert profile.tracks[0].module_name == "Memory"
 
@@ -193,10 +205,16 @@ def test_render_tracks_and_modules_with_modular_profile(tmp_path):
               - id: memory
                 name: Memory
                 enabled: true
+                priority: 5
                 summary: "memory topics"
+                decision_rules:
+                  - "single strong match is enough"
+                bonus_signals:
+                  - "toC emotional companion"
                 tracks:
                   - id: long_term_memory
                     name: Long-term Memory
+                    priority: 5
                     include: ["memory", "long-term"]
                     exclude: ["biology"]
               - id: disabled_module
@@ -233,10 +251,13 @@ def test_render_tracks_and_modules_with_modular_profile(tmp_path):
     modules_text = render_modules(profile)
 
     assert "- module memory: Memory" in tracks_text
+    assert "priority: 5/5" in tracks_text
     assert "summary: memory topics" in tracks_text
+    assert "decision_rule: single strong match is enough" in tracks_text
+    assert "bonus_signal: toC emotional companion" in tracks_text
     assert "track ignored_track" not in modules_text
     assert "- memory: Memory" in modules_text
-    assert "track long_term_memory: Long-term Memory" in modules_text
+    assert "track long_term_memory: Long-term Memory (priority 5/5)" in modules_text
 
 
 def test_render_tracks_without_modules_and_trim_profile(ai_workspace):
@@ -245,6 +266,7 @@ def test_render_tracks_without_modules_and_trim_profile(ai_workspace):
     tracks_text = render_tracks(profile)
 
     assert "- memory_personalization: memory" in tracks_text
+    assert "priority: 5/5" in tracks_text
     assert "include: memory" in tracks_text
     assert render_modules(profile) == ""
     assert trim_profile("abcdefghijklmnopqrstuvwxyz", 10) == "abcdefg..."
