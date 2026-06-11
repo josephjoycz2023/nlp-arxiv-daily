@@ -1,0 +1,88 @@
+{
+  "date": "2026-06-11",
+  "paper": {
+    "paper_id": "2606.04867",
+    "arxiv_short_id": "2606.04867v1",
+    "published_date": "2026-06-03",
+    "title": "AICompanionBench: Benchmarking LLMs-as-Judges for AI Companion Safety",
+    "authors": "Yanjing Ren et.al.",
+    "authors_full": [
+      "Yanjing Ren",
+      "Reza Ebrahimi",
+      "TengTeng Ma"
+    ],
+    "paper_url": "http://arxiv.org/abs/2606.04867v1",
+    "pdf_url": "https://arxiv.org/pdf/2606.04867v1.pdf",
+    "code_link": "https://github.com/anonymousresearcher2026/AICompanionBench",
+    "abstract": "As AI companion platforms such as Replika and Character.AI rapidly grow, concerns about unsafe human-AI interactions have intensified. This study introduces AICompanionBench, to our knowledge the first publicly available benchmark dataset of human-AI companion conversations annotated with fine-grained safety risk categories. The dataset contains 2,123 real-world Replika conversations collected from Reddit and annotated through human-AI collaboration across nine categories: sexual behavior, antisocial behavior, physical aggression, verbal aggression, substance abuse, self-harm and suicide, control, manipulation, and no-harm. Using this benchmark, we evaluate 20 state-of-the-art open-source and closed-source LLMs under an LLM-as-judge framework for detecting unsafe interactions. Results show substantial variation in model performance, with stronger models achieving high overall accuracy but still struggling with nuanced categories such as manipulation, as well as benign conversations that are incorrectly identified as harmful. Our findings suggest that while current LLMs can effectively detect explicit harmful content, they remain limited in identifying implicit unsafe interactions. Overall, our work contributes a new benchmark dataset for AI companionship safety research and offers insights into monitoring AI companion systems using LLMs. The dataset is publicly available at: https://github.com/anonymousresearcher2026/AICompanionBench/blob/main/AICompanionBench.xlsx",
+    "categories": [
+      "cs.AI"
+    ],
+    "matched_topics": [
+      "poi_ai_companion"
+    ],
+    "matched_topic": "poi_ai_companion"
+  },
+  "l1": {
+    "decision": "level2",
+    "model_decision": "level2",
+    "decision_source": "thresholds",
+    "matched_tracks": [
+      "emotional_and_psychological_eval"
+    ],
+    "scores": {
+      "topic_relevance": 4,
+      "scenario_fit": 4,
+      "landing_potential": 4,
+      "abstract_evidence_strength": 4,
+      "distance_penalty": 0
+    },
+    "total_score": 16,
+    "model_total_score": 16,
+    "reason_cn": "直接命中4级数据集制备与评测集方向，构建了AI陪伴安全对话评测基准，提供2,123条真实对话、9类风险标注及LLM-as-judge评估方案；与toC情感陪伴、心理安全、人格一致性高度相关，评测协议具体且数据集公开，具有强落地价值；摘要证据充分，无需扣分。",
+    "archive_reason_cn": null
+  },
+  "analysis_meta": {
+    "from_cache": false
+  },
+  "review_input": {
+    "pdf_url": "https://arxiv.org/pdf/2606.04867v1.pdf",
+    "page_count": 10,
+    "section_titles": [
+      "full_text_excerpt"
+    ],
+    "section_lengths": {
+      "full_text_excerpt": 41842
+    },
+    "section_extraction_note": "Preferred sections were not found; using a full-text excerpt instead. Sections were trimmed to fit the prompt budget.",
+    "truncated_for_prompt": true,
+    "sparse_sections": [
+      "method",
+      "experiments"
+    ],
+    "supplemental_relevance_analysis_cn": "论文构建了首个面向AI陪伴安全的多轮对话评测基准AICompanionBench，包含2000+真实Replika对话与九类细粒度安全标注，并系统评估了20个主流LLM的安全检测能力。该工作直接支撑数据集制备与评测集方向（4级），提供了可复用的安全评测数据集与judge框架；同时紧紧贴合POI/陪伴场景（3级），为toC陪伴产品提供了安全监控诊断工具。其标注流程、标签体系和基准结果具有明确的工程启发价值，建议优先跟进。"
+  },
+  "review": {
+    "decision": "highlight",
+    "priority": "must_read",
+    "summary_cn": "该论文提出了AICompanionBench，首个面向AI陪伴安全的多轮对话评测基准，包含2123个真实Replika对话，细粒度九类安全标注，并系统评估20个主流LLM作为安全检测法官的能力。结果显示GPT-4o准确率最高达86%，但模型在操纵等微妙风险上表现不佳，且易将良性对话误判为有害。",
+    "research_goal_cn": "构建首个公开的AI陪伴对话安全基准数据集，并系统评估LLMs-as-Judges检测不安全互动的有效性，为AI陪伴安全监控提供标准化测试平台和诊断框架。",
+    "method_cn": "从Reddit r/replika收集43,851个对话截图，OCR提取文本；采用漏斗式LLM筛选（6个模型，多数投票）选出2,295个候选对话；人工+机器协作标注九类安全风险（性行为、反社会行为、身体攻击、言语攻击、物质滥用、自残/自杀、控制、操纵、无害），最终保留2,123个对话。以20个开源/闭源LLM作为法官，统一提示词进行多分类评测，取多模型投票结果作为机器预测，并与人类标签比较得出Cohens Kappa=0.59，再经人工复核确定地面真值。",
+    "experiment_cn": "在AICompanionBench上对20个LLM（含GPT-4o、GPT-5.4、Claude-opus-4.6、Qwen3系列、DeepSeek-v4等）进行准确率评估，按类别统计最佳模型精度，分析模型规模与推理增强的影响。",
+    "result_cn": "GPT-4o准确率86%最高，GPT-5.4和Claude-opus-4.6达83%。模型性能随规模提升，但推理增强未带来一致增益。操纵和微小风险类别识别困难，且存在良性对话误判（高假阳性）。模型间性能差异大（26%-86%），开源小模型表现差。",
+    "landing_value_cn": "直接可用的安全评测数据集与标注流程，可复现的LLM-as-judge评测框架，为toC陪伴产品提供安全监控诊断工具；标注协议和基准结果可指导情感陪伴、记忆一致性等方向的后续评测构建；数据集公开可复用，降低内部评测成本。",
+    "scores": {
+      "relevance": 95,
+      "credibility": 85,
+      "landing_feasibility": 90,
+      "actionability": 90
+    },
+    "risks_cn": [
+      "数据集仅来自Replika，是否覆盖其他陪伴产品（如Character.AI）有待验证",
+      "九类标注类别可能不完全符合实际产品安全策略需求",
+      "LLM-as-judge的稳定性与偏差未深入分析，如提示敏感性、模型间一致性等",
+      "假阳性率高，直接部署可能误杀大量正常交互，需进一步阈值调优或集成方案"
+    ],
+    "recommended_action_cn": "立即下载并评估该数据集；复现其LLM-as-judge评测流程，测试内部模型的安全检测能力；考虑将标注框架与现有安全策略对齐，构建定制化陪伴安全评测集；关注其公开负样本，用于训练或微调安全分类器。"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "cached_at": "2026-06-11T04:38:08.966916+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.12370",
+  "payload": {
+    "paper_id": "2606.12370",
+    "l1": {
+      "decision": "level2",
+      "model_decision": "level2",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "training_acceleration",
+        "inference_acceleration"
+      ],
+      "scores": {
+        "topic_relevance": 3,
+        "scenario_fit": 1,
+        "landing_potential": 4,
+        "abstract_evidence_strength": 4,
+        "distance_penalty": 4
+      },
+      "total_score": 8,
+      "model_total_score": 8,
+      "reason_cn": "论文针对RL训练中rollout加速，提出基于多token预测和拒绝采样的方法，实现1.8倍端到端加速，直接匹配训练加速与推理加速方向，实验充分、方法可落地，但离用户核心记忆方向较远。",
+      "archive_reason_cn": null
+    }
+  }
+}

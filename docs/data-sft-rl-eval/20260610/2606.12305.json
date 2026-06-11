@@ -1,0 +1,19 @@
+{
+  "paper_id": "2606.12305",
+  "arxiv_short_id": "2606.12305v1",
+  "published_date": "2026-06-10",
+  "title": "Bayesian nonparametric Mallows model for clustering preference data",
+  "authors": "Lorenzo Zuccato et.al.",
+  "authors_full": [
+    "Lorenzo Zuccato",
+    "Veronica Vinciotti",
+    "Valeria Vitelli"
+  ],
+  "paper_url": "http://arxiv.org/abs/2606.12305v1",
+  "pdf_url": "https://arxiv.org/pdf/2606.12305v1.pdf",
+  "code_link": null,
+  "abstract": "Preference learning refers to the learning of latent patterns from ranking and preference data of different kinds. Typical aims of preference learning are to infer a shared consensus ranking, to learn individual-level preferences, and to perform unsupervised clustering. The Mallows model is among the few approaches that can achieve all these objectives jointly. Previous work has developed computationally tractable methods for Bayesian inference based on a MCMC Metropolis-Hastings scheme, where clustering is performed via a finite mixture of Mallows models. Inference on the number of clusters is then conducted a posteriori. Here we propose a Bayesian nonparametric Mallows model, based on a Dirichlet process mixture model. This allows joint inference on the number of non-empty clusters and on the clustering allocation, as well as posterior inference on cluster-specific parameters. The implementation of the proposed sampling algorithm is integrated into the existing R package BayesMallows, which also supports data in the form of incomplete rankings and pairwise comparisons. Simulated data show good performance of the nonparametric model compared to a finite mixture model in terms of recovery of the correct number of clusters, while empirical data on movie ratings show the model's effectiveness in providing personalized movie recommendations on discarded ratings.",
+  "categories": [
+    "stat.ME"
+  ]
+}

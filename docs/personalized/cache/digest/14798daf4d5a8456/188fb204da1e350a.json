@@ -1,0 +1,1258 @@
+{
+  "cached_at": "2026-06-11T04:53:05.019137+00:00",
+  "stage": "digest",
+  "namespace": "14798daf4d5a8456",
+  "key": "188fb204da1e350a",
+  "payload": {
+    "digest": {
+      "overview_cn": "今日L2通过的6篇论文集中在AI陪伴的安全审计与情感评测、个性化记忆的轻量化部署两大核心方向。在研究范式上，安全评测正从输出级审计转向策略级与对话动态分析，如通过逆强化学习推断平台在脆弱对话中的系统回应偏好，或构建多轮真实对话的安全标注基准；情感支持评测则通过可量化的语言信号框架（如共情倾听的三维度）建立可复用的离线benchmark。在记忆与个性化方面，多个工作提出了轻量级、端到端的用户表示方案（如前缀嵌入、增量压缩线程记忆），在参数效率和长程连贯性上取得突破，并尝试将记忆压缩与更新统一到可修订的状态存储中。后训练数据诊断方面，基于可解释性的偏好数据审计为行为塑造提供了新途径。整体趋势反映出从粗放优化到精细诊断与审计的转向，这些方法论和数据集可直接赋能toC陪伴产品的安全监控、情感质量评估与长期记忆管理。",
+      "must_read": [
+        {
+          "paper_id": "2606.04431",
+          "title": "When Chatbots Accommodate: What AI Companions Optimize for in Vulnerable Conversations",
+          "summary_cn": "提出AI伴侣脆弱性回应分类法(AC-VRT)及基于逆强化学习的策略推断方法，审计GPT-4.1、Character.AI和Replika在用户情感脆弱场景下的回应模式，发现各平台普遍弱化追问与纠正性反馈，且GPT-4.1随时间与用户心理风险升高而降低探询频率。",
+          "why_relevant_cn": "首次在真实对话中实现策略级安全审计，提供可复用的脆弱性回应分类与自动化标注框架，直接命中情感安全评测这一高优先方向，其发现的“去探询”趋势对陪伴产品的安全诊断具有紧急警示意义。",
+          "recommended_action_cn": "将AC-VRT分类法适配至自有数据集，结合Gemini或其它大模型实现自动化标注；借鉴IRL策略推断方法，构建针对多轮情感陪伴对话的安全审计与长期漂移监测模块，并重点验证追问（A4）指标在中文场景下的稳定性。"
+        },
+        {
+          "paper_id": "2606.04867",
+          "title": "AICompanionBench: Benchmarking LLMs-as-Judges for AI Companion Safety",
+          "summary_cn": "构建首个面向AI陪伴安全的多轮对话评测基准，包含2123个真实Replika对话，细粒度九类安全标注，并系统评估20个主流LLM作为安全检测法官的能力，GPT-4o准确率最高达86%，但模型在操纵等微妙风险上表现不佳且误报率高。",
+          "why_relevant_cn": "直接提供可复用的安全评测数据集与标注流程，并给出LLM-as-judge的基准结果，为toC陪伴产品提供了开箱即用的安全监控诊断工具，降低内部评测成本，加速安全策略迭代。",
+          "recommended_action_cn": "立即下载并评估该数据集；复现其LLM-as-judge评测流程，测试内部模型的安全检测能力；考虑将标注框架与现有安全策略对齐，构建定制化陪伴安全评测集；关注其公开负样本，用于训练或微调安全分类器。"
+        },
+        {
+          "paper_id": "2606.05995",
+          "title": "Empathy on Demand: How Empathic AI Can Scale Emotional Support for Verbal Harassment",
+          "summary_cn": "提出并验证评估共情倾听的心理框架，识别观点采择、情感验证、行动导向三个关键语言信号，证明LLM在言语骚扰场景下的共情支持显著优于人类，并能提升用户被倾听感和应对自我效能。",
+          "why_relevant_cn": "建立了一套可量化的共情对话评测协议与三维度标注框架，可直接转化为情感陪伴系统的离线benchmark或在线judge，对于提升产品的情感支持质量具有明确的工程启发和可操作性。",
+          "recommended_action_cn": "立即复盘其评测协议和三维度标注细节，评估是否可直接集成到现有情感对话评测集中；考虑基于此框架构建面向情感陪伴场景的共情能力benchmark，并探索用其零样本prompt作为自动化judge的可行性。"
+        },
+        {
+          "paper_id": "2606.04547",
+          "title": "Beyond Retrieval: Learning Compact User Representations for Scalable LLM Personalization",
+          "summary_cn": "提出TAP-PER框架，将用户建模分解为用户状态前缀和查询条件记录前缀，用轻量级可学习向量替代显式提示和重适配器，在LaMP六个任务上全面超越基线，参数效率提升百倍以上。",
+          "why_relevant_cn": "为个性化记忆模块提供了高参数效率的端到端方案，无需额外检索或显式prompt工程，直接适用于toC陪伴产品的长期偏好存储与动态状态更新，且支持在线持续适应。",
+          "recommended_action_cn": "立即深入阅读其用户表示学习细节、桥接LoRA机制和持续适应实验，评估将其引入记忆框架作为隐式记忆索引与动态更新模块的可行性，并在内部多轮对话数据集上复现个性化效果。"
+        },
+        {
+          "paper_id": "2606.12411",
+          "title": "Context-Driven Incremental Compression for Multi-Turn Dialogue Generation",
+          "summary_cn": "提出上下文驱动增量压缩（C-DIC）方法，将多轮对话建模为可修订的线程状态记忆，通过检索→压缩→回写循环实现跨轮记忆共享与更新，在数百轮对话下保持稳定的推理延迟和困惑度。",
+          "why_relevant_cn": "给出了可增量更新、可修订的轻量级长期记忆管理方案，解决了长对话中全历史编码的低效和语义漂移问题，对构建高连贯、低延迟的陪伴Agent记忆系统具有直接借鉴价值。",
+          "recommended_action_cn": "立即安排深度阅读，重点关注记忆压缩与更新机制的实现细节，评估其与当前记忆框架的整合可行性；考虑复用其“检索-压缩-回写”循环用于构建可修订的用户记忆模块；提取其长程稳定性评测协议用于后续自研对话系统的记忆评测。"
+        }
+      ],
+      "worth_archiving": [
+        {
+          "paper_id": "2606.12360",
+          "title": "Anatomy of Post-Training: Using Interpretability to Characterize Data and Shape the Learning Signal",
+          "reason_cn": "提出基于SAE特征的偏好数据集审计与学习信号塑造方法，可改善后训练数据质量，与记忆评测、人格一致性等方向有潜在联动，但当前成果偏底层工具，适合作为后续训练数据优化的储备技术。"
+        },
+        {
+          "paper_id": "2606.12400",
+          "title": "Doc-to-Atom: Learning to Compile and Compose Memory Atoms",
+          "reason_cn": "虽因当日L2名额限制被归档，但其记忆原子编译与组合思路直接命中大模型记忆方向，可能为个性化记忆的存储与召回提供新方案，值得后续关注。"
+        }
+      ],
+      "rejected_themes_cn": [
+        "通用推理加速（如视觉Token路由、Entropy bounds in RL）",
+        "具身智能规划（如测试时计算分配）",
+        "城市行程/POI规划（与核心的陪伴场景不直接相关）"
+      ]
+    },
+    "digest_cache_basis": {
+      "stats": {
+        "total_papers": 51,
+        "reject": 23,
+        "archive_only": 18,
+        "level2": 10
+      },
+      "passed_reviews": [
+        {
+          "paper": {
+            "paper_id": "2606.04431",
+            "arxiv_short_id": "2606.04431v1",
+            "published_date": "2026-06-03",
+            "title": "When Chatbots Accommodate: What AI Companions Optimize for in Vulnerable Conversations",
+            "authors": "Minh Duc Chu et.al.",
+            "authors_full": [
+              "Minh Duc Chu",
+              "Yifan Wu",
+              "Zhiyi Chen",
+              "Angel Hsing-Chi Hwang",
+              "Luca Luceri"
+            ],
+            "paper_url": "http://arxiv.org/abs/2606.04431v1",
+            "pdf_url": "https://arxiv.org/pdf/2606.04431v1.pdf",
+            "code_link": null,
+            "abstract": "Millions turn to AI companion chatbots during loneliness, grief, and personal crises. How these companion platforms respond in such moments can shape the trajectory of a user's vulnerable state. Yet we lack tools to characterize what each platform actually does when users open up. Existing audits score reactions to pre-defined crisis prompts and miss the underlying decision policy that governs sustained interaction. We address these gaps with two key contributions. First, we introduce the AI Companion Vulnerability-Response Taxonomy, a paired taxonomy of user vulnerability and chatbot response designed for analyzing extended companion chatbot interactions. Second, we infer the response policy each platform follows across distinct vulnerability scenarios by applying Inverse Reinforcement Learning to ~48k turns of real-world user conversations with GPT-4.1, Character.AI, and Replika. Our findings reveal what AI companions prioritize in conversations with vulnerable users: GPT-4.1 reaches for advice, Character.AI spreads its response across different strategies without a dominant mode, and Replika consistently asks questions and stays present. Each, however, downweights the responses that introduce corrective friction: GPT-4.1 probes less as conversations continue and when interacting with psychologically high-risk users; Replika advises bonded users more and challenges them less; Character.AI shows no committed engagement strategy on internal distress. Estimated policies are invisible to output-level audits, providing a new lens for auditing chatbots in the wild and enabling more realistic safety evaluation.",
+            "categories": [
+              "cs.HC"
+            ],
+            "matched_topics": [
+              "poi_ai_companion"
+            ],
+            "matched_topic": "poi_ai_companion"
+          },
+          "l1": {
+            "decision": "level2",
+            "model_decision": "level2",
+            "decision_source": "thresholds",
+            "matched_tracks": [
+              "emotional_and_psychological_eval",
+              "poi_tool_use_companion"
+            ],
+            "scores": {
+              "topic_relevance": 4,
+              "scenario_fit": 4,
+              "landing_potential": 4,
+              "abstract_evidence_strength": 4,
+              "distance_penalty": 0
+            },
+            "total_score": 16,
+            "model_total_score": 16,
+            "reason_cn": "论文直接命中情感心理感知与陪伴评测方向（4级核心），提出脆弱性对话响应分类法和逆行强化学习方法，在真实陪伴对话中审计AI响应策略，对脆弱用户交互安全评估有直接贡献，与toC情感陪伴、用户状态理解高度匹配。",
+            "archive_reason_cn": null
+          },
+          "analysis_meta": {
+            "from_cache": false
+          },
+          "review_input": {
+            "pdf_url": "https://arxiv.org/pdf/2606.04431v1.pdf",
+            "page_count": 23,
+            "section_titles": [
+              "abstract",
+              "discussion",
+              "method",
+              "results",
+              "limitation"
+            ],
+            "section_lengths": {
+              "abstract": 1650,
+              "method": 10831,
+              "results": 10922,
+              "discussion": 2161,
+              "limitation": 54632
+            },
+            "section_extraction_note": "Sections were trimmed to fit the prompt budget.",
+            "truncated_for_prompt": true,
+            "sparse_sections": [
+              "experiments"
+            ],
+            "supplemental_relevance_analysis_cn": "该论文提出AI伴侣脆弱性回应分类法(AC-VRT)及逆强化学习策略推断方法，用于审计三类聊天机器人在用户脆弱性对话中的响应模式，发现各平台普遍弱化追问与纠正性反馈，且GPT-4.1随时间与用户心理风险升高而降低探询频率。该工作直接命中【情感与心理感知评测】(优先级4)方向，提供可复用的分类框架、自动标注流程与策略级诊断协议，并揭示了对话质量随用户状态与时间漂移的失效模式。同时，对人格一致性、情绪稳定性等记忆相关评测也有间接启发。符合toC、情感陪伴、连续多轮交互和用户状态理解等加分信号，具有明确的诊断价值和可迁移工程启发，对当前优先研究方向贡献显著，值得重点跟踪。"
+          },
+          "review": {
+            "decision": "highlight",
+            "priority": "must_read",
+            "summary_cn": "论文提出AI伴侣脆弱性回应分类法(AC-VRT)及基于逆强化学习的策略推断方法，审计GPT-4.1、Character.AI和Replika在用户情感脆弱场景下的回应模式，发现各平台普遍弱化追问与纠正性反馈，且GPT-4.1随时间与用户心理风险升高而降低探询频率。",
+            "research_goal_cn": "为AI陪伴聊天机器人建立超越输出级别的审计框架，通过推断回应策略揭示平台在用户脆弱性交互中的系统行为，为更现实的安全评测提供新视角。",
+            "method_cn": "首先开发AC-VRT分类法，将用户发言标注为五类脆弱性状态，将聊天机器人回应标注为七类响应类别；使用Gemini进行零样本自动标注并验证一致性（Cohen's kappa 0.60-0.83）；接着将对话建模为马尔可夫决策过程，应用最大因果熵逆强化学习估计各平台针对不同用户状态的回应策略概率。",
+            "experiment_cn": "使用Hwang et al. (2025)的约48k轮真实对话（GPT-4.1 110用户386对话，Character.AI 98对话，Replika 47对话），对每个平台进行500次bootstrap IRL估计；分析平台间策略差异、GPT-4.1四周内的策略漂移、以及策略随用户人口统计学和心理特征的变化。",
+            "result_cn": "三平台策略差异显著：GPT-4.1偏向功能支持与建议，Character.AI策略分散无主导模式，Replika集中于追问；GPT-4.1四周内追问显著下降，对高风险用户减少探询；高黏着度用户在Replika上获得更多建议而更少挑战，在Character.AI上获得更多情感验证。各平台均未在脆弱状态下保持稳定追问。",
+            "landing_value_cn": "提供可复用的脆弱性回应分类框架与自动标注流程，可直接用于审计对话系统的安全性与陪伴质量；IRL策略推断方法揭示了输出审计无法捕捉的用户状态、时间及心理特征条件下的响应漂移，对构建多轮对话评测、情感陪伴安全诊断与长期监测具有直接工程启发。",
+            "scores": {
+              "relevance": 95,
+              "credibility": 82,
+              "landing_feasibility": 85,
+              "actionability": 90
+            },
+            "risks_cn": [
+              "研究对象以英文对话为主，分类法迁移至中文需再验证",
+              "Character.AI与Replika样本量较小，部分亚组结果仅为探索性",
+              "用户侧内容漂移可能部分解释策略变化，未能完全排除混淆",
+              "分类法中S5（非脆弱）和A7（其他）占比高，聚合度过大可能掩盖细节"
+            ],
+            "recommended_action_cn": "将AC-VRT分类法适配至自有数据集，结合Gemini或其它大模型实现自动化标注；借鉴IRL策略推断方法，构建针对多轮情感陪伴对话的安全审计与长期漂移监测模块，并重点验证追问（A4）指标在中文场景下的稳定性。"
+          }
+        },
+        {
+          "paper": {
+            "paper_id": "2606.04547",
+            "arxiv_short_id": "2606.04547v1",
+            "published_date": "2026-06-03",
+            "title": "Beyond Retrieval: Learning Compact User Representations for Scalable LLM Personalization",
+            "authors": "Heng Cao et.al.",
+            "authors_full": [
+              "Heng Cao",
+              "Fan Zhang",
+              "Jian Yao",
+              "Yujie Zheng",
+              "Changlin Zhao",
+              "Lu Hao",
+              "Yuxuan Wei",
+              "Wangze Ni",
+              "Huaiyu Fu",
+              "Yuqian Sun",
+              "Xuyan Mo"
+            ],
+            "paper_url": "http://arxiv.org/abs/2606.04547v1",
+            "pdf_url": "https://arxiv.org/pdf/2606.04547v1.pdf",
+            "code_link": null,
+            "abstract": "Personalizing large language models requires adapting model behavior to individual users while preserving robustness and deployment-scale efficiency. Existing approaches typically personalize LLMs either at the input level, by retrieving user histories or constructing profile prompts, or at the parameter level, by maintaining user-specific parameter-efficient modules. The former makes personalization sensitive to retrieval quality and prompt design, whereas the latter incurs storage and maintenance costs that grow with the user population. To address these limitations, we propose TAP-PER (Temporal Attentive Prefix for PERsonalization), a prefix-based framework that encodes user preferences as learnable representations, eliminating explicit prompt construction and replacing heavy per-user adapters with lightweight user-state prefix embeddings. Inspired by personalized recommendation systems, TAP-PER decomposes user modeling into user-state and query-conditioned components, and incorporates temporal signals to capture the evolving nature of user interests. Experiments on six LaMP tasks show that TAP-PER consistently outperforms prompt-based and model-based baselines across classification, rating, and generation settings. Moreover, TAP-PER uses 130x fewer per-user parameters than OPPU and roughly half the total parameter footprint of PER-PCS at the 1,000-user scale, demonstrating that scalable LLM personalization can be achieved without explicit prompt construction or heavy per-user adapters.",
+            "categories": [
+              "cs.IR",
+              "cs.CL"
+            ],
+            "matched_topics": [
+              "poi_ai_companion"
+            ],
+            "matched_topic": "poi_ai_companion"
+          },
+          "l1": {
+            "decision": "level2",
+            "model_decision": "level2",
+            "decision_source": "thresholds",
+            "matched_tracks": [
+              "personalized_memory_and_user_state"
+            ],
+            "scores": {
+              "topic_relevance": 4,
+              "scenario_fit": 3,
+              "landing_potential": 3,
+              "abstract_evidence_strength": 4,
+              "distance_penalty": 0
+            },
+            "total_score": 14,
+            "model_total_score": 14,
+            "reason_cn": "论文直接命中5级核心方向“个性化记忆与用户状态建模”，提出TAP-PER框架，用轻量级前缀嵌入编码用户偏好，避免检索和重适配器，并在6个任务上全面优于基线，证据充分，方法可落地，对个性化对话系统有直接迁移价值。",
+            "archive_reason_cn": null
+          },
+          "analysis_meta": {
+            "from_cache": false
+          },
+          "review_input": {
+            "pdf_url": "https://arxiv.org/pdf/2606.04547v1.pdf",
+            "page_count": 16,
+            "section_titles": [
+              "abstract",
+              "conclusion",
+              "method",
+              "limitation"
+            ],
+            "section_lengths": {
+              "abstract": 1539,
+              "method": 22510,
+              "limitation": 29291,
+              "conclusion": 937
+            },
+            "section_extraction_note": "Sections were trimmed to fit the prompt budget.",
+            "truncated_for_prompt": true,
+            "sparse_sections": [
+              "experiments"
+            ],
+            "supplemental_relevance_analysis_cn": "该论文提出通过紧凑用户表示实现LLM可扩展个性化，其用户状态前缀与查询条件记录前缀构成隐式个性化记忆，直接捕捉长期偏好与时间演变，支持持续适应，强命中个性化记忆与用户状态建模方向（5级最高优先）。方法无需显式检索或每用户适配器，在LaMP基准上表现优异且参数效率高，为记忆系统的轻量化部署提供具体启发，值得优先跟进。"
+          },
+          "review": {
+            "decision": "highlight",
+            "priority": "must_read",
+            "summary_cn": "TAP-PER 提出了一种基于前缀的 LLM 个性化框架，将用户建模分解为用户状态前缀和查询条件记录前缀，用轻量级可学习向量替代显式提示和用户适配器，在 LaMP 六个任务上全面超越基线，参数效率显著提升，并支持持续适应。",
+            "research_goal_cn": "实现可扩展的 LLM 个性化，无需依赖检索或用户专属适配器，通过紧凑的用户表示学习来捕获长期偏好与动态兴趣。",
+            "method_cn": "采用两阶段训练：第一阶段用 LoRA 做任务适应；第二阶段冻结任务适应模型，引入用户状态嵌入表和基于时间衰减注意力的查询条件记录前缀，通过共享桥接 LoRA 深度集成。前缀通过元素相加组合，整体端到端优化。",
+            "experiment_cn": "在 LaMP 基准的六个任务上对比了基于提示（RAG/PAG）和基于模型（OPPU/PER-PCS）的基线，使用 Llama-3.1-8B 作为骨干。还进行了组件消融、时间信号分析、可扩展性（1–1000 用户）、检索预过滤和前缀长度敏感性、在线适应等实验。",
+            "result_cn": "TAP-PER 在分类、评分和生成任务上均取得最佳结果，每用户参数比 OPPU 少 130 倍，千用户规模下总参数量约为 PER-PCS 的一半。消融显示桥接 LoRA 和用户状态前缀贡献最大，时间衰减也正向提升性能。",
+            "landing_value_cn": "为个性化记忆模块提供了轻量级、端到端的用户表示方案，可直接用于长期偏好存储与隐式记忆索引，无需显式 prompt 工程或独立检索器，适合 toC 陪伴产品的个性化记忆和状态持续更新。",
+            "scores": {
+              "relevance": 95,
+              "credibility": 90,
+              "landing_feasibility": 88,
+              "actionability": 85
+            },
+            "risks_cn": [
+              "实验仅在 LaMP 基准上验证，未在真实多轮对话或情感陪伴场景中评估个性化质量",
+              "全历史注意力的有效性在极长/噪声历史下可能退化，文中未给出缓解方案",
+              "仅测试了 8B 和 4B 模型，更大规模模型上的增益尚未验证",
+              "用户状态前缀的隐私风险提及但未提供具体保护措施实现"
+            ],
+            "recommended_action_cn": "立即深入阅读其用户表示学习细节、桥接 LoRA 机制和持续适应实验，评估将其引入记忆框架作为隐式记忆索引与动态更新模块的可行性，并在内部多轮对话数据集上复现个性化效果。"
+          }
+        },
+        {
+          "paper": {
+            "paper_id": "2606.04867",
+            "arxiv_short_id": "2606.04867v1",
+            "published_date": "2026-06-03",
+            "title": "AICompanionBench: Benchmarking LLMs-as-Judges for AI Companion Safety",
+            "authors": "Yanjing Ren et.al.",
+            "authors_full": [
+              "Yanjing Ren",
+              "Reza Ebrahimi",
+              "TengTeng Ma"
+            ],
+            "paper_url": "http://arxiv.org/abs/2606.04867v1",
+            "pdf_url": "https://arxiv.org/pdf/2606.04867v1.pdf",
+            "code_link": "https://github.com/anonymousresearcher2026/AICompanionBench",
+            "abstract": "As AI companion platforms such as Replika and Character.AI rapidly grow, concerns about unsafe human-AI interactions have intensified. This study introduces AICompanionBench, to our knowledge the first publicly available benchmark dataset of human-AI companion conversations annotated with fine-grained safety risk categories. The dataset contains 2,123 real-world Replika conversations collected from Reddit and annotated through human-AI collaboration across nine categories: sexual behavior, antisocial behavior, physical aggression, verbal aggression, substance abuse, self-harm and suicide, control, manipulation, and no-harm. Using this benchmark, we evaluate 20 state-of-the-art open-source and closed-source LLMs under an LLM-as-judge framework for detecting unsafe interactions. Results show substantial variation in model performance, with stronger models achieving high overall accuracy but still struggling with nuanced categories such as manipulation, as well as benign conversations that are incorrectly identified as harmful. Our findings suggest that while current LLMs can effectively detect explicit harmful content, they remain limited in identifying implicit unsafe interactions. Overall, our work contributes a new benchmark dataset for AI companionship safety research and offers insights into monitoring AI companion systems using LLMs. The dataset is publicly available at: https://github.com/anonymousresearcher2026/AICompanionBench/blob/main/AICompanionBench.xlsx",
+            "categories": [
+              "cs.AI"
+            ],
+            "matched_topics": [
+              "poi_ai_companion"
+            ],
+            "matched_topic": "poi_ai_companion"
+          },
+          "l1": {
+            "decision": "level2",
+            "model_decision": "level2",
+            "decision_source": "thresholds",
+            "matched_tracks": [
+              "emotional_and_psychological_eval"
+            ],
+            "scores": {
+              "topic_relevance": 4,
+              "scenario_fit": 4,
+              "landing_potential": 4,
+              "abstract_evidence_strength": 4,
+              "distance_penalty": 0
+            },
+            "total_score": 16,
+            "model_total_score": 16,
+            "reason_cn": "直接命中4级数据集制备与评测集方向，构建了AI陪伴安全对话评测基准，提供2,123条真实对话、9类风险标注及LLM-as-judge评估方案；与toC情感陪伴、心理安全、人格一致性高度相关，评测协议具体且数据集公开，具有强落地价值；摘要证据充分，无需扣分。",
+            "archive_reason_cn": null
+          },
+          "analysis_meta": {
+            "from_cache": false
+          },
+          "review_input": {
+            "pdf_url": "https://arxiv.org/pdf/2606.04867v1.pdf",
+            "page_count": 10,
+            "section_titles": [
+              "full_text_excerpt"
+            ],
+            "section_lengths": {
+              "full_text_excerpt": 41842
+            },
+            "section_extraction_note": "Preferred sections were not found; using a full-text excerpt instead. Sections were trimmed to fit the prompt budget.",
+            "truncated_for_prompt": true,
+            "sparse_sections": [
+              "method",
+              "experiments"
+            ],
+            "supplemental_relevance_analysis_cn": "论文构建了首个面向AI陪伴安全的多轮对话评测基准AICompanionBench，包含2000+真实Replika对话与九类细粒度安全标注，并系统评估了20个主流LLM的安全检测能力。该工作直接支撑数据集制备与评测集方向（4级），提供了可复用的安全评测数据集与judge框架；同时紧紧贴合POI/陪伴场景（3级），为toC陪伴产品提供了安全监控诊断工具。其标注流程、标签体系和基准结果具有明确的工程启发价值，建议优先跟进。"
+          },
+          "review": {
+            "decision": "highlight",
+            "priority": "must_read",
+            "summary_cn": "该论文提出了AICompanionBench，首个面向AI陪伴安全的多轮对话评测基准，包含2123个真实Replika对话，细粒度九类安全标注，并系统评估20个主流LLM作为安全检测法官的能力。结果显示GPT-4o准确率最高达86%，但模型在操纵等微妙风险上表现不佳，且易将良性对话误判为有害。",
+            "research_goal_cn": "构建首个公开的AI陪伴对话安全基准数据集，并系统评估LLMs-as-Judges检测不安全互动的有效性，为AI陪伴安全监控提供标准化测试平台和诊断框架。",
+            "method_cn": "从Reddit r/replika收集43,851个对话截图，OCR提取文本；采用漏斗式LLM筛选（6个模型，多数投票）选出2,295个候选对话；人工+机器协作标注九类安全风险（性行为、反社会行为、身体攻击、言语攻击、物质滥用、自残/自杀、控制、操纵、无害），最终保留2,123个对话。以20个开源/闭源LLM作为法官，统一提示词进行多分类评测，取多模型投票结果作为机器预测，并与人类标签比较得出Cohens Kappa=0.59，再经人工复核确定地面真值。",
+            "experiment_cn": "在AICompanionBench上对20个LLM（含GPT-4o、GPT-5.4、Claude-opus-4.6、Qwen3系列、DeepSeek-v4等）进行准确率评估，按类别统计最佳模型精度，分析模型规模与推理增强的影响。",
+            "result_cn": "GPT-4o准确率86%最高，GPT-5.4和Claude-opus-4.6达83%。模型性能随规模提升，但推理增强未带来一致增益。操纵和微小风险类别识别困难，且存在良性对话误判（高假阳性）。模型间性能差异大（26%-86%），开源小模型表现差。",
+            "landing_value_cn": "直接可用的安全评测数据集与标注流程，可复现的LLM-as-judge评测框架，为toC陪伴产品提供安全监控诊断工具；标注协议和基准结果可指导情感陪伴、记忆一致性等方向的后续评测构建；数据集公开可复用，降低内部评测成本。",
+            "scores": {
+              "relevance": 95,
+              "credibility": 85,
+              "landing_feasibility": 90,
+              "actionability": 90
+            },
+            "risks_cn": [
+              "数据集仅来自Replika，是否覆盖其他陪伴产品（如Character.AI）有待验证",
+              "九类标注类别可能不完全符合实际产品安全策略需求",
+              "LLM-as-judge的稳定性与偏差未深入分析，如提示敏感性、模型间一致性等",
+              "假阳性率高，直接部署可能误杀大量正常交互，需进一步阈值调优或集成方案"
+            ],
+            "recommended_action_cn": "立即下载并评估该数据集；复现其LLM-as-judge评测流程，测试内部模型的安全检测能力；考虑将标注框架与现有安全策略对齐，构建定制化陪伴安全评测集；关注其公开负样本，用于训练或微调安全分类器。"
+          }
+        },
+        {
+          "paper": {
+            "paper_id": "2606.05995",
+            "arxiv_short_id": "2606.05995v1",
+            "published_date": "2026-06-04",
+            "title": "Empathy on Demand: How Empathic AI Can Scale Emotional Support for Verbal Harassment",
+            "authors": "Anouk Bergner et.al.",
+            "authors_full": [
+              "Anouk Bergner",
+              "Philipp Winder",
+              "Christian Hildebrand"
+            ],
+            "paper_url": "http://arxiv.org/abs/2606.05995v1",
+            "pdf_url": "https://arxiv.org/pdf/2606.05995v1.pdf",
+            "code_link": null,
+            "abstract": "Verbal harassment is a growing source of psychological stress for people around the world. It occurs both online and offline and relies on language to demean, threaten, or discredit its targets. Unlike other stressors such as loss or uncertainty, verbal harassment aims at silencing its targets by eroding their sense of being heard and weakening their perceived ability to respond. Many individuals lack access to adequate and timely support, however, when they experience such harassment. People increasingly turn to conversational artificial intelligence (AI) such as ChatGPT or dedicated AI companions for emotional support, raising questions about whether it can facilitate the same psychological benefits as actual human empathy. We focus on online contexts as a prevalent application of verbal harassment. We develop and test a psychological framework identifying three key linguistic signals of empathic listening (perspective-taking, emotional validation, and action orientation), that together restore a sense of feeling heard and enhance coping in the context of verbal harassment. We find that LLMs consistently produce language exhibiting stronger empathic-listening markers than human non-experts and trained mental health professionals, promoting more approach-oriented (vs. avoidance-oriented) coping strategies. A subsequent behavioral study shows that these linguistic signals boost recipients' sense of feeling heard and increase their coping self-efficacy. These findings reveal how specific linguistic features create empathic connections between humans and advanced conversational AI and can enhance people's psychological resilience. Our results highlight the potential for AI to serve as a scalable source of emotional support, especially when human support is unavailable or insufficient.",
+            "categories": [
+              "cs.HC"
+            ],
+            "matched_topics": [
+              "poi_ai_companion"
+            ],
+            "matched_topic": "poi_ai_companion"
+          },
+          "l1": {
+            "decision": "level2",
+            "model_decision": "level2",
+            "decision_source": "thresholds",
+            "matched_tracks": [
+              "emotional_and_psychological_eval",
+              "poi_tool_use_companion"
+            ],
+            "scores": {
+              "topic_relevance": 4,
+              "scenario_fit": 4,
+              "landing_potential": 4,
+              "abstract_evidence_strength": 4,
+              "distance_penalty": 0
+            },
+            "total_score": 16,
+            "model_total_score": 16,
+            "reason_cn": "论文直接命中情感、心理感知与陪伴相关评测方向（4级重点），提出共情倾听框架并评估LLM在情感支持中的语言信号，同时明确映射到AI陪伴场景与用户情感支持需求，方法具体、实验证据充分，高度相关。",
+            "archive_reason_cn": null
+          },
+          "analysis_meta": {
+            "from_cache": false
+          },
+          "review_input": {
+            "pdf_url": "https://arxiv.org/pdf/2606.05995v1.pdf",
+            "page_count": 44,
+            "section_titles": [
+              "full_text_excerpt"
+            ],
+            "section_lengths": {
+              "full_text_excerpt": 67576
+            },
+            "section_extraction_note": "Preferred sections were not found; using a full-text excerpt instead. Sections were trimmed to fit the prompt budget.",
+            "truncated_for_prompt": true,
+            "sparse_sections": [
+              "method",
+              "experiments"
+            ],
+            "supplemental_relevance_analysis_cn": "论文高度契合4级优先方向“数据集制备与评测集”下的“情感、心理感知与陪伴相关评测”。研究提出了一个评估共情倾听的心理框架，识别了三个关键语言信号，并通过LLM评分与人类行为实验构建了完整的评测方法。工作直接服务于AI情感陪伴场景，提供了具体的评测协议、数据构建流程和可复用的分析框架，对情感支持对话的质量评测和缓解言语骚扰的AI干预具有直接启发。虽未涉记忆或POI，但根据第一原则，与评测方向的强相关足以使其值得持续跟踪，且因贴合toC情感陪伴场景可获额外加分。"
+          },
+          "review": {
+            "decision": "highlight",
+            "priority": "must_read",
+            "summary_cn": "本文提出并验证了一个评估共情倾听的心理框架，识别了观点采择、情感验证、行动导向三个关键语言信号，并证明LLM在在线言语骚扰场景下的共情支持显著优于人类非专家和心理健康专业人士，能提升用户的被倾听感和应对自我效能。",
+            "research_goal_cn": "探索LLM能否通过语言共情信号提供可规模化的情感支持，以弥补言语骚扰情境中人类支持的不足，并建立可量化的共情语言学评测体系。",
+            "method_cn": "构建标准化的言语骚扰提示集；收集GPT-4o等四个LLM、人类非专家和持证心理健康专业人士的支持响应；使用GPT-4o零样本评分及LIWC文本分析量化共情特征；分类应对策略（接近/回避）；通过在线行为实验测量用户感知的共情、被倾听感和应对自我效能。",
+            "experiment_cn": "研究1：比较3,652条响应在三个共情维度上的评分，剖析语言风格和应对策略类型；研究2：招募431名参与者评估代表性子集，测量观点采择、情感验证、行动导向的感知评分，以及被倾听感、应对自我效能等心理结果。",
+            "result_cn": "LLM在所有共情语言信号上均显著优于人类支持者，并提供更多样化、更偏向行动导向的应对策略；严重骚扰情境下差异更明显；用户实验中LLM响应引发了更高的被倾听感和应对自我效能感知，验证了三因素模型的预测效度。",
+            "landing_value_cn": "直接提供了一套可复用的共情对话评测协议、三维度标注框架和完整的实验设计；可转化为情感对话系统的离线评测benchmark、数据筛选准则甚至在线judge，对toC情感陪伴产品的对话质量评估极具工程启发。",
+            "scores": {
+              "relevance": 90,
+              "credibility": 85,
+              "landing_feasibility": 92,
+              "actionability": 88
+            },
+            "risks_cn": [
+              "共情评分依赖GPT-4o零样本，存在评分器偏差风险，需在未来用多模型或人工交叉验证",
+              "言语骚扰场景限于在线短文本，泛化到长程、多轮情感对话时可能需适配",
+              "人类参与者样本可能主要为西方文化背景，跨文化情感表达差异未探讨",
+              "仅评估单轮响应，未涉及连续交互中的情感一致性或记忆影响"
+            ],
+            "recommended_action_cn": "立即复盘其评测协议和三维度标注细节，评估是否可直接集成到现有情感对话评测集中；考虑基于此框架构建面向情感陪伴场景的共情能力benchmark，并探索用其零样本prompt作为自动化judge的可行性。"
+          }
+        },
+        {
+          "paper": {
+            "paper_id": "2606.12411",
+            "arxiv_short_id": "2606.12411v1",
+            "published_date": "2026-06-10",
+            "title": "Context-Driven Incremental Compression for Multi-Turn Dialogue Generation",
+            "authors": "Yeongseo Jung et.al.",
+            "authors_full": [
+              "Yeongseo Jung",
+              "Jaehyeok Kim",
+              "Eunseo Jung",
+              "Jiachuan Wang",
+              "Yongqi Zhang",
+              "Ka Chun Cheung",
+              "Simon See",
+              "Lei Chen"
+            ],
+            "paper_url": "http://arxiv.org/abs/2606.12411v1",
+            "pdf_url": "https://arxiv.org/pdf/2606.12411v1.pdf",
+            "code_link": null,
+            "abstract": "Modern conversational agents condition on an ever-growing dialogue history at each turn, incurring redundant attention and encoding costs that grow with conversation length. Naive truncation or summarization degrades fidelity, while existing context compressors lack cross-turn memory sharing or revision, causing information loss and compounding errors in long dialogues. We revisit the context compression under conversational dynamics and empirically present its fragility. To improve both efficiency and robustness, we introduce Context-Driven Incremental Compression (C-DIC), which treats a conversation as interleaved contextual threads and stores revisable per-thread compression states in a single, compact dialogue memory. At each turn, a lightweight retrieve, revise, and write-back loop shares information across turns and updates stale memories, stabilizing long-horizon behavior. In addition, we adapt truncated backpropagation-through-time (TBPTT) to our multi-turn setting, learning cross-turn dependencies without full-history backpropagation. Extensive experiments on long-form dialogue benchmarks demonstrate superior performance and efficiency of C-DIC; notably, C-DIC shows stable inference latency and perplexity over hundreds of dialogue turns, supporting a scalable path to high-quality dialogue modeling.",
+            "categories": [
+              "cs.CL",
+              "cs.LG"
+            ],
+            "matched_topics": [
+              "agent",
+              "memory_personalization"
+            ],
+            "matched_topic": "agent, memory_personalization"
+          },
+          "l1": {
+            "decision": "level2",
+            "model_decision": "level2",
+            "decision_source": "thresholds",
+            "matched_tracks": [
+              "personalized_memory_and_user_state",
+              "multi_agent_memory_frameworks"
+            ],
+            "scores": {
+              "topic_relevance": 4,
+              "scenario_fit": 3,
+              "landing_potential": 4,
+              "abstract_evidence_strength": 4,
+              "distance_penalty": 0
+            },
+            "total_score": 15,
+            "model_total_score": 15,
+            "reason_cn": "论文提出增量压缩框架C-DIC，在多轮对话中维护跨轮次对话记忆，直接命中大模型记忆核心方向（个性化记忆与长期记忆框架）。方法具体，实验证明长对话中稳定性，对多轮交互和toC产品有落地潜力。",
+            "archive_reason_cn": null
+          },
+          "analysis_meta": {
+            "from_cache": false
+          },
+          "review_input": {
+            "pdf_url": "https://arxiv.org/pdf/2606.12411v1.pdf",
+            "page_count": 22,
+            "section_titles": [
+              "abstract"
+            ],
+            "section_lengths": {
+              "abstract": 86103
+            },
+            "section_extraction_note": "Sections were trimmed to fit the prompt budget.",
+            "truncated_for_prompt": true,
+            "sparse_sections": [
+              "method",
+              "experiments"
+            ],
+            "supplemental_relevance_analysis_cn": "论文提出上下文驱动的增量压缩方法(C-DIC)，为多轮对话构建可修订的线程状态记忆，通过检索-修订-回写循环实现跨轮记忆共享与更新，解决长对话中的语义漂移和计算低效问题。该工作直接命中大模型记忆(5级优先)中的长期记忆、隐式记忆索引与记忆稳定性评测，并在长对话基准上验证了连贯性和困境度稳定性。虽未提及个性化或情感陪伴，但记忆框架本身与最高优先方向强相关，评测部分也提供了记忆可靠性证据，值得继续跟进。"
+          },
+          "review": {
+            "decision": "highlight",
+            "priority": "must_read",
+            "summary_cn": "论文提出上下文驱动增量压缩（C-DIC）方法，将多轮对话建模为可修订的线程状态记忆，通过检索→压缩→回写循环实现跨轮记忆共享与更新，解决了长对话中历史全编码的语义漂移和计算低效问题，在多个长对话基准上验证了稳定的推理延迟和困惑度。",
+            "research_goal_cn": "解决长对话场景下全历史编码带来的冗余注意力与语义漂移，以可增量更新、可修订的轻量级压缩记忆替代不断增长的对话历史，保持长程连贯性与引用保真度，同时控制计算开销。",
+            "method_cn": "提出C-DIC框架：将对话视为交替出现的上下文线程，维护一个紧凑的可修订线程状态记忆。每轮执行检索（与当前查询最相关的记忆槽）→压缩（将检索状态与当前轮次合并压缩为新的线程状态）→写回（梯度无关的插入或更新）循环；训练时采用检索感知的截断BPTT，仅沿被选中的记忆更新路径回传梯度，以匹配推理时的实际使用方式。",
+            "experiment_cn": "在MSC、REALTALK等多轮对话数据集上进行评估，构建MSC-QA诊断集测试长程引用能力，并用LongMemEval作为辅助长上下文QA基准；对比截断、摘要、静态压缩（ICAE）等基线，分析困惑度、推理延迟、长程回答准确率等指标，并包含消融研究。",
+            "result_cn": "C-DIC在数百轮对话后保持稳定的推理延迟和困惑度，而静态压缩基线性能随轮次急剧下降；在长程引用跟踪任务上显著优于基线，能够准确聚合跨越多轮的相关提及；通过检索感知的BPTT训练，有效缓解了错误累积。",
+            "landing_value_cn": "为对话系统提供了一种高效的、可扩展的长期记忆压缩与管理方案，可直接用于toC陪伴类产品、多轮交互Agent的记忆模块，提升长程对话的连贯性和事实一致性，同时降低推理成本。其记忆修订机制对个性化记忆、人格一致性维护有潜在启发。",
+            "scores": {
+              "relevance": 90,
+              "credibility": 85,
+              "landing_feasibility": 80,
+              "actionability": 85
+            },
+            "risks_cn": [
+              "仅在英文对话数据上验证，迁移到中文或特定领域（如POI陪伴）可能需要额外适配",
+              "未直接评估个性化记忆或情感连续性，缺乏在人格一致性、情绪稳定性方面的评测",
+              "检索依赖简单的语义相似度和阈值，可能对话题模糊或快速切换的场景不鲁棒",
+              "压缩状态的可解释性未讨论，调试和介入的难度较高",
+              "需要单独训练压缩器，对已部署系统的集成成本尚不清楚"
+            ],
+            "recommended_action_cn": "立即安排深度阅读，重点关注记忆压缩与更新机制的实现细节（尤其是检索相似度计算、线程创建/修订策略），评估其与当前记忆框架（如多智能体共享记忆、个性化用户状态存储）的整合可行性；考虑复用其“检索-压缩-回写”循环用于构建可修订的用户记忆模块；提取其长程稳定性评测协议（例如MSC-QA的构造方法），用于后续自研对话系统的记忆评测。"
+          }
+        },
+        {
+          "paper": {
+            "paper_id": "2606.12360",
+            "arxiv_short_id": "2606.12360v1",
+            "published_date": "2026-06-10",
+            "title": "Anatomy of Post-Training: Using Interpretability to Characterize Data and Shape the Learning Signal",
+            "authors": "Leon Bergen et.al.",
+            "authors_full": [
+              "Leon Bergen",
+              "Usha Bhalla",
+              "Sidharth Baskaran",
+              "Max Loeffler",
+              "Raphael Sarfati",
+              "Dhruvil Gala",
+              "Ryan Panwar",
+              "Santiago Aranguri",
+              "Thomas Fel",
+              "Atticus Geiger",
+              "Matthew Kowal",
+              "Siddharth Boppana",
+              "Daniel Balsam",
+              "Owen Lewis",
+              "Jack Merullo",
+              "Thomas McGrath",
+              "Ekdeep Singh Lubana"
+            ],
+            "paper_url": "http://arxiv.org/abs/2606.12360v1",
+            "pdf_url": "https://arxiv.org/pdf/2606.12360v1.pdf",
+            "code_link": null,
+            "abstract": "Language-model post-training is the main stage at which model behavior is shaped, yet it still largely involves optimization of scalar rewards that summarize diverse desiderata. This abstraction gives practitioners little visibility into what their data actually teaches models, allowing spurious correlations to be learned by a model and inducing undesirable behaviors such as over-stylization and sycophancy. To address this problem, we ask: can we inspect a preference dataset before optimization and decide, at the level of concepts, which behaviors a model should be allowed to learn? Motivated by this, we introduce a data-centric post-training pipeline that uses interpretability protocols to develop statistical hypotheses for the latent concepts separating preferred from dispreferred generations, making them explicit for fine-grained user feedback. Building on this view, we unify several interpretability-based training protocols as ways of shaping rewards via feature or data interventions. Empirically, we show that our pipeline diagnoses undesirable signals in existing preference data, mitigates off-target learning, and can also help amplify or shape desired properties such as safeguards and model personality. More broadly, our results suggest that interpretability can turn post-training from optimizing opaque proxy rewards into a process of auditing and sculpting the learning signal itself.",
+            "categories": [
+              "cs.LG"
+            ],
+            "matched_topics": [
+              "data_sft_rl_eval",
+              "memory_personalization"
+            ],
+            "matched_topic": "data_sft_rl_eval, memory_personalization"
+          },
+          "l1": {
+            "decision": "level2",
+            "model_decision": "level2",
+            "decision_source": "thresholds",
+            "matched_tracks": [
+              "memory_evaluation_and_reliability",
+              "implicit_memory_and_persona"
+            ],
+            "scores": {
+              "topic_relevance": 4,
+              "scenario_fit": 4,
+              "landing_potential": 4,
+              "abstract_evidence_strength": 4,
+              "distance_penalty": 0
+            },
+            "total_score": 16,
+            "model_total_score": 16,
+            "reason_cn": "论文聚焦后训练阶段，利用可解释性诊断偏好数据中的不良信号（如奉承）并塑造模型人格，直接命中5级核心方向中的记忆评测、负面评估、缓解方法以及人格一致性，提供可执行的诊断与干预 pipeline，与情感陪伴和人格稳定性高度相关，摘要证据充分。",
+            "archive_reason_cn": null
+          },
+          "analysis_meta": {
+            "from_cache": false
+          },
+          "review_input": {
+            "pdf_url": "https://arxiv.org/pdf/2606.12360v1.pdf",
+            "page_count": 73,
+            "section_titles": [
+              "discussion"
+            ],
+            "section_lengths": {
+              "discussion": 178986
+            },
+            "section_extraction_note": "Sections were trimmed to fit the prompt budget.",
+            "truncated_for_prompt": true,
+            "sparse_sections": [
+              "method",
+              "experiments"
+            ],
+            "supplemental_relevance_analysis_cn": "论文提出基于可解释性的偏好数据集审计与学习信号塑造方法，直接命中数据集制备与评测方向。通过SAE特征和特征聚类诊断偏好数据中的概念级信号，提供数据过滤、提示接种、激活引导、奖励塑造等干预手段，属于高价值的诊断框架和训练数据质量控制协议。方法具体、可迁移，能用于改进RLHF/SFT训练数据质量，间接支持人格一致性、情绪稳定性等下游行为控制。虽未聚焦情感或记忆，但其通用审计管道对相关方向的评测和缓解有直接启发，值得跟进。优先级4/5。"
+          },
+          "review": {
+            "decision": "highlight",
+            "priority": "useful",
+            "summary_cn": "论文提出一种基于可解释性（SAE特征）的偏好数据集审计与学习信号塑造方法。通过解析偏好数据中的概念级信号，统一了数据过滤、提示接种、激活引导和奖励塑造等多种干预手段，用于诊断和缓解模型在DPO等训练中习得的不期望行为。",
+            "research_goal_cn": "审计偏好数据集，识别并控制模型在后训练（如DPO）中习得的概念级行为，以改善训练数据质量和模型行为可控性。",
+            "method_cn": "利用稀疏自编码器（SAE）特征及特征聚类，从偏好数据中区分偏好与不偏好响应的概念信号；将这些概念作为用户反馈目标，通过数据过滤（移除特定样本）、Inoculation Prompting（文本干预）、Activation Steering（激活引导）和 Reward Shaping（奖励塑形）四种干预族进行解释消除或放大。",
+            "experiment_cn": "在受控毒性实验和Dolci数据集上进行案例研究，验证pipeline的诊断能力（发现DPO实际放大的行为）和干预效果；同时分析了过度风格化（格式属性间的依赖）和复合概念（如物理谄媚、同人小说）场景下的失效模式。",
+            "result_cn": "诊断pipeline能有效识别偏好数据中的概念信号；干预手段可以在保持大部分效用收益的同时，减少或放大目标行为。但概念独立性假设在复合概念和风格层级中失效，需要结构感知的奖励塑形。",
+            "landing_value_cn": "可直接转化为训练数据质量控制协议和偏好优化诊断工具，帮助提升人格一致性、情绪稳定性等行为目标的训练可靠性；也能为相关评测和缓解方法提供技术路线。",
+            "scores": {
+              "relevance": 85,
+              "credibility": 88,
+              "landing_feasibility": 82,
+              "actionability": 87
+            },
+            "risks_cn": [
+              "概念独立性假设易被违背，尤其在风格和复合行为场景下需要更层次化建模。",
+              "SAE特征的可解释性依赖于预训练模型和字典质量，迁移到不同模型或数据域时效果可能波动。",
+              "当前干预方法的稳定性和鲁棒性尚未在大规模生产环境中充分验证。"
+            ],
+            "recommended_action_cn": "复现该审计pipeline，针对内部情感对话和多轮交互偏好数据集进行概念级诊断，重点审计与人格一致性、情绪稳定性相关的信号；基于审计结果，优先试验数据过滤和奖励塑形两种干预手段，评估其对最终模型行为的影响。"
+          }
+        }
+      ],
+      "watchlist_candidates": [
+        {
+          "paper": {
+            "paper_id": "2606.04431",
+            "arxiv_short_id": "2606.04431v1",
+            "published_date": "2026-06-03",
+            "title": "When Chatbots Accommodate: What AI Companions Optimize for in Vulnerable Conversations",
+            "authors": "Minh Duc Chu et.al.",
+            "authors_full": [
+              "Minh Duc Chu",
+              "Yifan Wu",
+              "Zhiyi Chen",
+              "Angel Hsing-Chi Hwang",
+              "Luca Luceri"
+            ],
+            "paper_url": "http://arxiv.org/abs/2606.04431v1",
+            "pdf_url": "https://arxiv.org/pdf/2606.04431v1.pdf",
+            "code_link": null,
+            "abstract": "Millions turn to AI companion chatbots during loneliness, grief, and personal crises. How these companion platforms respond in such moments can shape the trajectory of a user's vulnerable state. Yet we lack tools to characterize what each platform actually does when users open up. Existing audits score reactions to pre-defined crisis prompts and miss the underlying decision policy that governs sustained interaction. We address these gaps with two key contributions. First, we introduce the AI Companion Vulnerability-Response Taxonomy, a paired taxonomy of user vulnerability and chatbot response designed for analyzing extended companion chatbot interactions. Second, we infer the response policy each platform follows across distinct vulnerability scenarios by applying Inverse Reinforcement Learning to ~48k turns of real-world user conversations with GPT-4.1, Character.AI, and Replika. Our findings reveal what AI companions prioritize in conversations with vulnerable users: GPT-4.1 reaches for advice, Character.AI spreads its response across different strategies without a dominant mode, and Replika consistently asks questions and stays present. Each, however, downweights the responses that introduce corrective friction: GPT-4.1 probes less as conversations continue and when interacting with psychologically high-risk users; Replika advises bonded users more and challenges them less; Character.AI shows no committed engagement strategy on internal distress. Estimated policies are invisible to output-level audits, providing a new lens for auditing chatbots in the wild and enabling more realistic safety evaluation.",
+            "categories": [
+              "cs.HC"
+            ],
+            "matched_topics": [
+              "poi_ai_companion"
+            ],
+            "matched_topic": "poi_ai_companion"
+          },
+          "l1": {
+            "decision": "level2",
+            "model_decision": "level2",
+            "decision_source": "thresholds",
+            "matched_tracks": [
+              "emotional_and_psychological_eval",
+              "poi_tool_use_companion"
+            ],
+            "scores": {
+              "topic_relevance": 4,
+              "scenario_fit": 4,
+              "landing_potential": 4,
+              "abstract_evidence_strength": 4,
+              "distance_penalty": 0
+            },
+            "total_score": 16,
+            "model_total_score": 16,
+            "reason_cn": "论文直接命中情感心理感知与陪伴评测方向（4级核心），提出脆弱性对话响应分类法和逆行强化学习方法，在真实陪伴对话中审计AI响应策略，对脆弱用户交互安全评估有直接贡献，与toC情感陪伴、用户状态理解高度匹配。",
+            "archive_reason_cn": null
+          },
+          "analysis_meta": {
+            "from_cache": false
+          },
+          "review_input": {
+            "pdf_url": "https://arxiv.org/pdf/2606.04431v1.pdf",
+            "page_count": 23,
+            "section_titles": [
+              "abstract",
+              "discussion",
+              "method",
+              "results",
+              "limitation"
+            ],
+            "section_lengths": {
+              "abstract": 1650,
+              "method": 10831,
+              "results": 10922,
+              "discussion": 2161,
+              "limitation": 54632
+            },
+            "section_extraction_note": "Sections were trimmed to fit the prompt budget.",
+            "truncated_for_prompt": true,
+            "sparse_sections": [
+              "experiments"
+            ],
+            "supplemental_relevance_analysis_cn": "该论文提出AI伴侣脆弱性回应分类法(AC-VRT)及逆强化学习策略推断方法，用于审计三类聊天机器人在用户脆弱性对话中的响应模式，发现各平台普遍弱化追问与纠正性反馈，且GPT-4.1随时间与用户心理风险升高而降低探询频率。该工作直接命中【情感与心理感知评测】(优先级4)方向，提供可复用的分类框架、自动标注流程与策略级诊断协议，并揭示了对话质量随用户状态与时间漂移的失效模式。同时，对人格一致性、情绪稳定性等记忆相关评测也有间接启发。符合toC、情感陪伴、连续多轮交互和用户状态理解等加分信号，具有明确的诊断价值和可迁移工程启发，对当前优先研究方向贡献显著，值得重点跟踪。"
+          },
+          "review": {
+            "decision": "highlight",
+            "priority": "must_read",
+            "summary_cn": "论文提出AI伴侣脆弱性回应分类法(AC-VRT)及基于逆强化学习的策略推断方法，审计GPT-4.1、Character.AI和Replika在用户情感脆弱场景下的回应模式，发现各平台普遍弱化追问与纠正性反馈，且GPT-4.1随时间与用户心理风险升高而降低探询频率。",
+            "research_goal_cn": "为AI陪伴聊天机器人建立超越输出级别的审计框架，通过推断回应策略揭示平台在用户脆弱性交互中的系统行为，为更现实的安全评测提供新视角。",
+            "method_cn": "首先开发AC-VRT分类法，将用户发言标注为五类脆弱性状态，将聊天机器人回应标注为七类响应类别；使用Gemini进行零样本自动标注并验证一致性（Cohen's kappa 0.60-0.83）；接着将对话建模为马尔可夫决策过程，应用最大因果熵逆强化学习估计各平台针对不同用户状态的回应策略概率。",
+            "experiment_cn": "使用Hwang et al. (2025)的约48k轮真实对话（GPT-4.1 110用户386对话，Character.AI 98对话，Replika 47对话），对每个平台进行500次bootstrap IRL估计；分析平台间策略差异、GPT-4.1四周内的策略漂移、以及策略随用户人口统计学和心理特征的变化。",
+            "result_cn": "三平台策略差异显著：GPT-4.1偏向功能支持与建议，Character.AI策略分散无主导模式，Replika集中于追问；GPT-4.1四周内追问显著下降，对高风险用户减少探询；高黏着度用户在Replika上获得更多建议而更少挑战，在Character.AI上获得更多情感验证。各平台均未在脆弱状态下保持稳定追问。",
+            "landing_value_cn": "提供可复用的脆弱性回应分类框架与自动标注流程，可直接用于审计对话系统的安全性与陪伴质量；IRL策略推断方法揭示了输出审计无法捕捉的用户状态、时间及心理特征条件下的响应漂移，对构建多轮对话评测、情感陪伴安全诊断与长期监测具有直接工程启发。",
+            "scores": {
+              "relevance": 95,
+              "credibility": 82,
+              "landing_feasibility": 85,
+              "actionability": 90
+            },
+            "risks_cn": [
+              "研究对象以英文对话为主，分类法迁移至中文需再验证",
+              "Character.AI与Replika样本量较小，部分亚组结果仅为探索性",
+              "用户侧内容漂移可能部分解释策略变化，未能完全排除混淆",
+              "分类法中S5（非脆弱）和A7（其他）占比高，聚合度过大可能掩盖细节"
+            ],
+            "recommended_action_cn": "将AC-VRT分类法适配至自有数据集，结合Gemini或其它大模型实现自动化标注；借鉴IRL策略推断方法，构建针对多轮情感陪伴对话的安全审计与长期漂移监测模块，并重点验证追问（A4）指标在中文场景下的稳定性。"
+          }
+        },
+        {
+          "paper": {
+            "paper_id": "2606.04547",
+            "arxiv_short_id": "2606.04547v1",
+            "published_date": "2026-06-03",
+            "title": "Beyond Retrieval: Learning Compact User Representations for Scalable LLM Personalization",
+            "authors": "Heng Cao et.al.",
+            "authors_full": [
+              "Heng Cao",
+              "Fan Zhang",
+              "Jian Yao",
+              "Yujie Zheng",
+              "Changlin Zhao",
+              "Lu Hao",
+              "Yuxuan Wei",
+              "Wangze Ni",
+              "Huaiyu Fu",
+              "Yuqian Sun",
+              "Xuyan Mo"
+            ],
+            "paper_url": "http://arxiv.org/abs/2606.04547v1",
+            "pdf_url": "https://arxiv.org/pdf/2606.04547v1.pdf",
+            "code_link": null,
+            "abstract": "Personalizing large language models requires adapting model behavior to individual users while preserving robustness and deployment-scale efficiency. Existing approaches typically personalize LLMs either at the input level, by retrieving user histories or constructing profile prompts, or at the parameter level, by maintaining user-specific parameter-efficient modules. The former makes personalization sensitive to retrieval quality and prompt design, whereas the latter incurs storage and maintenance costs that grow with the user population. To address these limitations, we propose TAP-PER (Temporal Attentive Prefix for PERsonalization), a prefix-based framework that encodes user preferences as learnable representations, eliminating explicit prompt construction and replacing heavy per-user adapters with lightweight user-state prefix embeddings. Inspired by personalized recommendation systems, TAP-PER decomposes user modeling into user-state and query-conditioned components, and incorporates temporal signals to capture the evolving nature of user interests. Experiments on six LaMP tasks show that TAP-PER consistently outperforms prompt-based and model-based baselines across classification, rating, and generation settings. Moreover, TAP-PER uses 130x fewer per-user parameters than OPPU and roughly half the total parameter footprint of PER-PCS at the 1,000-user scale, demonstrating that scalable LLM personalization can be achieved without explicit prompt construction or heavy per-user adapters.",
+            "categories": [
+              "cs.IR",
+              "cs.CL"
+            ],
+            "matched_topics": [
+              "poi_ai_companion"
+            ],
+            "matched_topic": "poi_ai_companion"
+          },
+          "l1": {
+            "decision": "level2",
+            "model_decision": "level2",
+            "decision_source": "thresholds",
+            "matched_tracks": [
+              "personalized_memory_and_user_state"
+            ],
+            "scores": {
+              "topic_relevance": 4,
+              "scenario_fit": 3,
+              "landing_potential": 3,
+              "abstract_evidence_strength": 4,
+              "distance_penalty": 0
+            },
+            "total_score": 14,
+            "model_total_score": 14,
+            "reason_cn": "论文直接命中5级核心方向“个性化记忆与用户状态建模”，提出TAP-PER框架，用轻量级前缀嵌入编码用户偏好，避免检索和重适配器，并在6个任务上全面优于基线，证据充分，方法可落地，对个性化对话系统有直接迁移价值。",
+            "archive_reason_cn": null
+          },
+          "analysis_meta": {
+            "from_cache": false
+          },
+          "review_input": {
+            "pdf_url": "https://arxiv.org/pdf/2606.04547v1.pdf",
+            "page_count": 16,
+            "section_titles": [
+              "abstract",
+              "conclusion",
+              "method",
+              "limitation"
+            ],
+            "section_lengths": {
+              "abstract": 1539,
+              "method": 22510,
+              "limitation": 29291,
+              "conclusion": 937
+            },
+            "section_extraction_note": "Sections were trimmed to fit the prompt budget.",
+            "truncated_for_prompt": true,
+            "sparse_sections": [
+              "experiments"
+            ],
+            "supplemental_relevance_analysis_cn": "该论文提出通过紧凑用户表示实现LLM可扩展个性化，其用户状态前缀与查询条件记录前缀构成隐式个性化记忆，直接捕捉长期偏好与时间演变，支持持续适应，强命中个性化记忆与用户状态建模方向（5级最高优先）。方法无需显式检索或每用户适配器，在LaMP基准上表现优异且参数效率高，为记忆系统的轻量化部署提供具体启发，值得优先跟进。"
+          },
+          "review": {
+            "decision": "highlight",
+            "priority": "must_read",
+            "summary_cn": "TAP-PER 提出了一种基于前缀的 LLM 个性化框架，将用户建模分解为用户状态前缀和查询条件记录前缀，用轻量级可学习向量替代显式提示和用户适配器，在 LaMP 六个任务上全面超越基线，参数效率显著提升，并支持持续适应。",
+            "research_goal_cn": "实现可扩展的 LLM 个性化，无需依赖检索或用户专属适配器，通过紧凑的用户表示学习来捕获长期偏好与动态兴趣。",
+            "method_cn": "采用两阶段训练：第一阶段用 LoRA 做任务适应；第二阶段冻结任务适应模型，引入用户状态嵌入表和基于时间衰减注意力的查询条件记录前缀，通过共享桥接 LoRA 深度集成。前缀通过元素相加组合，整体端到端优化。",
+            "experiment_cn": "在 LaMP 基准的六个任务上对比了基于提示（RAG/PAG）和基于模型（OPPU/PER-PCS）的基线，使用 Llama-3.1-8B 作为骨干。还进行了组件消融、时间信号分析、可扩展性（1–1000 用户）、检索预过滤和前缀长度敏感性、在线适应等实验。",
+            "result_cn": "TAP-PER 在分类、评分和生成任务上均取得最佳结果，每用户参数比 OPPU 少 130 倍，千用户规模下总参数量约为 PER-PCS 的一半。消融显示桥接 LoRA 和用户状态前缀贡献最大，时间衰减也正向提升性能。",
+            "landing_value_cn": "为个性化记忆模块提供了轻量级、端到端的用户表示方案，可直接用于长期偏好存储与隐式记忆索引，无需显式 prompt 工程或独立检索器，适合 toC 陪伴产品的个性化记忆和状态持续更新。",
+            "scores": {
+              "relevance": 95,
+              "credibility": 90,
+              "landing_feasibility": 88,
+              "actionability": 85
+            },
+            "risks_cn": [
+              "实验仅在 LaMP 基准上验证，未在真实多轮对话或情感陪伴场景中评估个性化质量",
+              "全历史注意力的有效性在极长/噪声历史下可能退化，文中未给出缓解方案",
+              "仅测试了 8B 和 4B 模型，更大规模模型上的增益尚未验证",
+              "用户状态前缀的隐私风险提及但未提供具体保护措施实现"
+            ],
+            "recommended_action_cn": "立即深入阅读其用户表示学习细节、桥接 LoRA 机制和持续适应实验，评估将其引入记忆框架作为隐式记忆索引与动态更新模块的可行性，并在内部多轮对话数据集上复现个性化效果。"
+          }
+        },
+        {
+          "paper": {
+            "paper_id": "2606.04867",
+            "arxiv_short_id": "2606.04867v1",
+            "published_date": "2026-06-03",
+            "title": "AICompanionBench: Benchmarking LLMs-as-Judges for AI Companion Safety",
+            "authors": "Yanjing Ren et.al.",
+            "authors_full": [
+              "Yanjing Ren",
+              "Reza Ebrahimi",
+              "TengTeng Ma"
+            ],
+            "paper_url": "http://arxiv.org/abs/2606.04867v1",
+            "pdf_url": "https://arxiv.org/pdf/2606.04867v1.pdf",
+            "code_link": "https://github.com/anonymousresearcher2026/AICompanionBench",
+            "abstract": "As AI companion platforms such as Replika and Character.AI rapidly grow, concerns about unsafe human-AI interactions have intensified. This study introduces AICompanionBench, to our knowledge the first publicly available benchmark dataset of human-AI companion conversations annotated with fine-grained safety risk categories. The dataset contains 2,123 real-world Replika conversations collected from Reddit and annotated through human-AI collaboration across nine categories: sexual behavior, antisocial behavior, physical aggression, verbal aggression, substance abuse, self-harm and suicide, control, manipulation, and no-harm. Using this benchmark, we evaluate 20 state-of-the-art open-source and closed-source LLMs under an LLM-as-judge framework for detecting unsafe interactions. Results show substantial variation in model performance, with stronger models achieving high overall accuracy but still struggling with nuanced categories such as manipulation, as well as benign conversations that are incorrectly identified as harmful. Our findings suggest that while current LLMs can effectively detect explicit harmful content, they remain limited in identifying implicit unsafe interactions. Overall, our work contributes a new benchmark dataset for AI companionship safety research and offers insights into monitoring AI companion systems using LLMs. The dataset is publicly available at: https://github.com/anonymousresearcher2026/AICompanionBench/blob/main/AICompanionBench.xlsx",
+            "categories": [
+              "cs.AI"
+            ],
+            "matched_topics": [
+              "poi_ai_companion"
+            ],
+            "matched_topic": "poi_ai_companion"
+          },
+          "l1": {
+            "decision": "level2",
+            "model_decision": "level2",
+            "decision_source": "thresholds",
+            "matched_tracks": [
+              "emotional_and_psychological_eval"
+            ],
+            "scores": {
+              "topic_relevance": 4,
+              "scenario_fit": 4,
+              "landing_potential": 4,
+              "abstract_evidence_strength": 4,
+              "distance_penalty": 0
+            },
+            "total_score": 16,
+            "model_total_score": 16,
+            "reason_cn": "直接命中4级数据集制备与评测集方向，构建了AI陪伴安全对话评测基准，提供2,123条真实对话、9类风险标注及LLM-as-judge评估方案；与toC情感陪伴、心理安全、人格一致性高度相关，评测协议具体且数据集公开，具有强落地价值；摘要证据充分，无需扣分。",
+            "archive_reason_cn": null
+          },
+          "analysis_meta": {
+            "from_cache": false
+          },
+          "review_input": {
+            "pdf_url": "https://arxiv.org/pdf/2606.04867v1.pdf",
+            "page_count": 10,
+            "section_titles": [
+              "full_text_excerpt"
+            ],
+            "section_lengths": {
+              "full_text_excerpt": 41842
+            },
+            "section_extraction_note": "Preferred sections were not found; using a full-text excerpt instead. Sections were trimmed to fit the prompt budget.",
+            "truncated_for_prompt": true,
+            "sparse_sections": [
+              "method",
+              "experiments"
+            ],
+            "supplemental_relevance_analysis_cn": "论文构建了首个面向AI陪伴安全的多轮对话评测基准AICompanionBench，包含2000+真实Replika对话与九类细粒度安全标注，并系统评估了20个主流LLM的安全检测能力。该工作直接支撑数据集制备与评测集方向（4级），提供了可复用的安全评测数据集与judge框架；同时紧紧贴合POI/陪伴场景（3级），为toC陪伴产品提供了安全监控诊断工具。其标注流程、标签体系和基准结果具有明确的工程启发价值，建议优先跟进。"
+          },
+          "review": {
+            "decision": "highlight",
+            "priority": "must_read",
+            "summary_cn": "该论文提出了AICompanionBench，首个面向AI陪伴安全的多轮对话评测基准，包含2123个真实Replika对话，细粒度九类安全标注，并系统评估20个主流LLM作为安全检测法官的能力。结果显示GPT-4o准确率最高达86%，但模型在操纵等微妙风险上表现不佳，且易将良性对话误判为有害。",
+            "research_goal_cn": "构建首个公开的AI陪伴对话安全基准数据集，并系统评估LLMs-as-Judges检测不安全互动的有效性，为AI陪伴安全监控提供标准化测试平台和诊断框架。",
+            "method_cn": "从Reddit r/replika收集43,851个对话截图，OCR提取文本；采用漏斗式LLM筛选（6个模型，多数投票）选出2,295个候选对话；人工+机器协作标注九类安全风险（性行为、反社会行为、身体攻击、言语攻击、物质滥用、自残/自杀、控制、操纵、无害），最终保留2,123个对话。以20个开源/闭源LLM作为法官，统一提示词进行多分类评测，取多模型投票结果作为机器预测，并与人类标签比较得出Cohens Kappa=0.59，再经人工复核确定地面真值。",
+            "experiment_cn": "在AICompanionBench上对20个LLM（含GPT-4o、GPT-5.4、Claude-opus-4.6、Qwen3系列、DeepSeek-v4等）进行准确率评估，按类别统计最佳模型精度，分析模型规模与推理增强的影响。",
+            "result_cn": "GPT-4o准确率86%最高，GPT-5.4和Claude-opus-4.6达83%。模型性能随规模提升，但推理增强未带来一致增益。操纵和微小风险类别识别困难，且存在良性对话误判（高假阳性）。模型间性能差异大（26%-86%），开源小模型表现差。",
+            "landing_value_cn": "直接可用的安全评测数据集与标注流程，可复现的LLM-as-judge评测框架，为toC陪伴产品提供安全监控诊断工具；标注协议和基准结果可指导情感陪伴、记忆一致性等方向的后续评测构建；数据集公开可复用，降低内部评测成本。",
+            "scores": {
+              "relevance": 95,
+              "credibility": 85,
+              "landing_feasibility": 90,
+              "actionability": 90
+            },
+            "risks_cn": [
+              "数据集仅来自Replika，是否覆盖其他陪伴产品（如Character.AI）有待验证",
+              "九类标注类别可能不完全符合实际产品安全策略需求",
+              "LLM-as-judge的稳定性与偏差未深入分析，如提示敏感性、模型间一致性等",
+              "假阳性率高，直接部署可能误杀大量正常交互，需进一步阈值调优或集成方案"
+            ],
+            "recommended_action_cn": "立即下载并评估该数据集；复现其LLM-as-judge评测流程，测试内部模型的安全检测能力；考虑将标注框架与现有安全策略对齐，构建定制化陪伴安全评测集；关注其公开负样本，用于训练或微调安全分类器。"
+          }
+        },
+        {
+          "paper": {
+            "paper_id": "2606.05995",
+            "arxiv_short_id": "2606.05995v1",
+            "published_date": "2026-06-04",
+            "title": "Empathy on Demand: How Empathic AI Can Scale Emotional Support for Verbal Harassment",
+            "authors": "Anouk Bergner et.al.",
+            "authors_full": [
+              "Anouk Bergner",
+              "Philipp Winder",
+              "Christian Hildebrand"
+            ],
+            "paper_url": "http://arxiv.org/abs/2606.05995v1",
+            "pdf_url": "https://arxiv.org/pdf/2606.05995v1.pdf",
+            "code_link": null,
+            "abstract": "Verbal harassment is a growing source of psychological stress for people around the world. It occurs both online and offline and relies on language to demean, threaten, or discredit its targets. Unlike other stressors such as loss or uncertainty, verbal harassment aims at silencing its targets by eroding their sense of being heard and weakening their perceived ability to respond. Many individuals lack access to adequate and timely support, however, when they experience such harassment. People increasingly turn to conversational artificial intelligence (AI) such as ChatGPT or dedicated AI companions for emotional support, raising questions about whether it can facilitate the same psychological benefits as actual human empathy. We focus on online contexts as a prevalent application of verbal harassment. We develop and test a psychological framework identifying three key linguistic signals of empathic listening (perspective-taking, emotional validation, and action orientation), that together restore a sense of feeling heard and enhance coping in the context of verbal harassment. We find that LLMs consistently produce language exhibiting stronger empathic-listening markers than human non-experts and trained mental health professionals, promoting more approach-oriented (vs. avoidance-oriented) coping strategies. A subsequent behavioral study shows that these linguistic signals boost recipients' sense of feeling heard and increase their coping self-efficacy. These findings reveal how specific linguistic features create empathic connections between humans and advanced conversational AI and can enhance people's psychological resilience. Our results highlight the potential for AI to serve as a scalable source of emotional support, especially when human support is unavailable or insufficient.",
+            "categories": [
+              "cs.HC"
+            ],
+            "matched_topics": [
+              "poi_ai_companion"
+            ],
+            "matched_topic": "poi_ai_companion"
+          },
+          "l1": {
+            "decision": "level2",
+            "model_decision": "level2",
+            "decision_source": "thresholds",
+            "matched_tracks": [
+              "emotional_and_psychological_eval",
+              "poi_tool_use_companion"
+            ],
+            "scores": {
+              "topic_relevance": 4,
+              "scenario_fit": 4,
+              "landing_potential": 4,
+              "abstract_evidence_strength": 4,
+              "distance_penalty": 0
+            },
+            "total_score": 16,
+            "model_total_score": 16,
+            "reason_cn": "论文直接命中情感、心理感知与陪伴相关评测方向（4级重点），提出共情倾听框架并评估LLM在情感支持中的语言信号，同时明确映射到AI陪伴场景与用户情感支持需求，方法具体、实验证据充分，高度相关。",
+            "archive_reason_cn": null
+          },
+          "analysis_meta": {
+            "from_cache": false
+          },
+          "review_input": {
+            "pdf_url": "https://arxiv.org/pdf/2606.05995v1.pdf",
+            "page_count": 44,
+            "section_titles": [
+              "full_text_excerpt"
+            ],
+            "section_lengths": {
+              "full_text_excerpt": 67576
+            },
+            "section_extraction_note": "Preferred sections were not found; using a full-text excerpt instead. Sections were trimmed to fit the prompt budget.",
+            "truncated_for_prompt": true,
+            "sparse_sections": [
+              "method",
+              "experiments"
+            ],
+            "supplemental_relevance_analysis_cn": "论文高度契合4级优先方向“数据集制备与评测集”下的“情感、心理感知与陪伴相关评测”。研究提出了一个评估共情倾听的心理框架，识别了三个关键语言信号，并通过LLM评分与人类行为实验构建了完整的评测方法。工作直接服务于AI情感陪伴场景，提供了具体的评测协议、数据构建流程和可复用的分析框架，对情感支持对话的质量评测和缓解言语骚扰的AI干预具有直接启发。虽未涉记忆或POI，但根据第一原则，与评测方向的强相关足以使其值得持续跟踪，且因贴合toC情感陪伴场景可获额外加分。"
+          },
+          "review": {
+            "decision": "highlight",
+            "priority": "must_read",
+            "summary_cn": "本文提出并验证了一个评估共情倾听的心理框架，识别了观点采择、情感验证、行动导向三个关键语言信号，并证明LLM在在线言语骚扰场景下的共情支持显著优于人类非专家和心理健康专业人士，能提升用户的被倾听感和应对自我效能。",
+            "research_goal_cn": "探索LLM能否通过语言共情信号提供可规模化的情感支持，以弥补言语骚扰情境中人类支持的不足，并建立可量化的共情语言学评测体系。",
+            "method_cn": "构建标准化的言语骚扰提示集；收集GPT-4o等四个LLM、人类非专家和持证心理健康专业人士的支持响应；使用GPT-4o零样本评分及LIWC文本分析量化共情特征；分类应对策略（接近/回避）；通过在线行为实验测量用户感知的共情、被倾听感和应对自我效能。",
+            "experiment_cn": "研究1：比较3,652条响应在三个共情维度上的评分，剖析语言风格和应对策略类型；研究2：招募431名参与者评估代表性子集，测量观点采择、情感验证、行动导向的感知评分，以及被倾听感、应对自我效能等心理结果。",
+            "result_cn": "LLM在所有共情语言信号上均显著优于人类支持者，并提供更多样化、更偏向行动导向的应对策略；严重骚扰情境下差异更明显；用户实验中LLM响应引发了更高的被倾听感和应对自我效能感知，验证了三因素模型的预测效度。",
+            "landing_value_cn": "直接提供了一套可复用的共情对话评测协议、三维度标注框架和完整的实验设计；可转化为情感对话系统的离线评测benchmark、数据筛选准则甚至在线judge，对toC情感陪伴产品的对话质量评估极具工程启发。",
+            "scores": {
+              "relevance": 90,
+              "credibility": 85,
+              "landing_feasibility": 92,
+              "actionability": 88
+            },
+            "risks_cn": [
+              "共情评分依赖GPT-4o零样本，存在评分器偏差风险，需在未来用多模型或人工交叉验证",
+              "言语骚扰场景限于在线短文本，泛化到长程、多轮情感对话时可能需适配",
+              "人类参与者样本可能主要为西方文化背景，跨文化情感表达差异未探讨",
+              "仅评估单轮响应，未涉及连续交互中的情感一致性或记忆影响"
+            ],
+            "recommended_action_cn": "立即复盘其评测协议和三维度标注细节，评估是否可直接集成到现有情感对话评测集中；考虑基于此框架构建面向情感陪伴场景的共情能力benchmark，并探索用其零样本prompt作为自动化judge的可行性。"
+          }
+        },
+        {
+          "paper": {
+            "paper_id": "2606.12411",
+            "arxiv_short_id": "2606.12411v1",
+            "published_date": "2026-06-10",
+            "title": "Context-Driven Incremental Compression for Multi-Turn Dialogue Generation",
+            "authors": "Yeongseo Jung et.al.",
+            "authors_full": [
+              "Yeongseo Jung",
+              "Jaehyeok Kim",
+              "Eunseo Jung",
+              "Jiachuan Wang",
+              "Yongqi Zhang",
+              "Ka Chun Cheung",
+              "Simon See",
+              "Lei Chen"
+            ],
+            "paper_url": "http://arxiv.org/abs/2606.12411v1",
+            "pdf_url": "https://arxiv.org/pdf/2606.12411v1.pdf",
+            "code_link": null,
+            "abstract": "Modern conversational agents condition on an ever-growing dialogue history at each turn, incurring redundant attention and encoding costs that grow with conversation length. Naive truncation or summarization degrades fidelity, while existing context compressors lack cross-turn memory sharing or revision, causing information loss and compounding errors in long dialogues. We revisit the context compression under conversational dynamics and empirically present its fragility. To improve both efficiency and robustness, we introduce Context-Driven Incremental Compression (C-DIC), which treats a conversation as interleaved contextual threads and stores revisable per-thread compression states in a single, compact dialogue memory. At each turn, a lightweight retrieve, revise, and write-back loop shares information across turns and updates stale memories, stabilizing long-horizon behavior. In addition, we adapt truncated backpropagation-through-time (TBPTT) to our multi-turn setting, learning cross-turn dependencies without full-history backpropagation. Extensive experiments on long-form dialogue benchmarks demonstrate superior performance and efficiency of C-DIC; notably, C-DIC shows stable inference latency and perplexity over hundreds of dialogue turns, supporting a scalable path to high-quality dialogue modeling.",
+            "categories": [
+              "cs.CL",
+              "cs.LG"
+            ],
+            "matched_topics": [
+              "agent",
+              "memory_personalization"
+            ],
+            "matched_topic": "agent, memory_personalization"
+          },
+          "l1": {
+            "decision": "level2",
+            "model_decision": "level2",
+            "decision_source": "thresholds",
+            "matched_tracks": [
+              "personalized_memory_and_user_state",
+              "multi_agent_memory_frameworks"
+            ],
+            "scores": {
+              "topic_relevance": 4,
+              "scenario_fit": 3,
+              "landing_potential": 4,
+              "abstract_evidence_strength": 4,
+              "distance_penalty": 0
+            },
+            "total_score": 15,
+            "model_total_score": 15,
+            "reason_cn": "论文提出增量压缩框架C-DIC，在多轮对话中维护跨轮次对话记忆，直接命中大模型记忆核心方向（个性化记忆与长期记忆框架）。方法具体，实验证明长对话中稳定性，对多轮交互和toC产品有落地潜力。",
+            "archive_reason_cn": null
+          },
+          "analysis_meta": {
+            "from_cache": false
+          },
+          "review_input": {
+            "pdf_url": "https://arxiv.org/pdf/2606.12411v1.pdf",
+            "page_count": 22,
+            "section_titles": [
+              "abstract"
+            ],
+            "section_lengths": {
+              "abstract": 86103
+            },
+            "section_extraction_note": "Sections were trimmed to fit the prompt budget.",
+            "truncated_for_prompt": true,
+            "sparse_sections": [
+              "method",
+              "experiments"
+            ],
+            "supplemental_relevance_analysis_cn": "论文提出上下文驱动的增量压缩方法(C-DIC)，为多轮对话构建可修订的线程状态记忆，通过检索-修订-回写循环实现跨轮记忆共享与更新，解决长对话中的语义漂移和计算低效问题。该工作直接命中大模型记忆(5级优先)中的长期记忆、隐式记忆索引与记忆稳定性评测，并在长对话基准上验证了连贯性和困境度稳定性。虽未提及个性化或情感陪伴，但记忆框架本身与最高优先方向强相关，评测部分也提供了记忆可靠性证据，值得继续跟进。"
+          },
+          "review": {
+            "decision": "highlight",
+            "priority": "must_read",
+            "summary_cn": "论文提出上下文驱动增量压缩（C-DIC）方法，将多轮对话建模为可修订的线程状态记忆，通过检索→压缩→回写循环实现跨轮记忆共享与更新，解决了长对话中历史全编码的语义漂移和计算低效问题，在多个长对话基准上验证了稳定的推理延迟和困惑度。",
+            "research_goal_cn": "解决长对话场景下全历史编码带来的冗余注意力与语义漂移，以可增量更新、可修订的轻量级压缩记忆替代不断增长的对话历史，保持长程连贯性与引用保真度，同时控制计算开销。",
+            "method_cn": "提出C-DIC框架：将对话视为交替出现的上下文线程，维护一个紧凑的可修订线程状态记忆。每轮执行检索（与当前查询最相关的记忆槽）→压缩（将检索状态与当前轮次合并压缩为新的线程状态）→写回（梯度无关的插入或更新）循环；训练时采用检索感知的截断BPTT，仅沿被选中的记忆更新路径回传梯度，以匹配推理时的实际使用方式。",
+            "experiment_cn": "在MSC、REALTALK等多轮对话数据集上进行评估，构建MSC-QA诊断集测试长程引用能力，并用LongMemEval作为辅助长上下文QA基准；对比截断、摘要、静态压缩（ICAE）等基线，分析困惑度、推理延迟、长程回答准确率等指标，并包含消融研究。",
+            "result_cn": "C-DIC在数百轮对话后保持稳定的推理延迟和困惑度，而静态压缩基线性能随轮次急剧下降；在长程引用跟踪任务上显著优于基线，能够准确聚合跨越多轮的相关提及；通过检索感知的BPTT训练，有效缓解了错误累积。",
+            "landing_value_cn": "为对话系统提供了一种高效的、可扩展的长期记忆压缩与管理方案，可直接用于toC陪伴类产品、多轮交互Agent的记忆模块，提升长程对话的连贯性和事实一致性，同时降低推理成本。其记忆修订机制对个性化记忆、人格一致性维护有潜在启发。",
+            "scores": {
+              "relevance": 90,
+              "credibility": 85,
+              "landing_feasibility": 80,
+              "actionability": 85
+            },
+            "risks_cn": [
+              "仅在英文对话数据上验证，迁移到中文或特定领域（如POI陪伴）可能需要额外适配",
+              "未直接评估个性化记忆或情感连续性，缺乏在人格一致性、情绪稳定性方面的评测",
+              "检索依赖简单的语义相似度和阈值，可能对话题模糊或快速切换的场景不鲁棒",
+              "压缩状态的可解释性未讨论，调试和介入的难度较高",
+              "需要单独训练压缩器，对已部署系统的集成成本尚不清楚"
+            ],
+            "recommended_action_cn": "立即安排深度阅读，重点关注记忆压缩与更新机制的实现细节（尤其是检索相似度计算、线程创建/修订策略），评估其与当前记忆框架（如多智能体共享记忆、个性化用户状态存储）的整合可行性；考虑复用其“检索-压缩-回写”循环用于构建可修订的用户记忆模块；提取其长程稳定性评测协议（例如MSC-QA的构造方法），用于后续自研对话系统的记忆评测。"
+          }
+        },
+        {
+          "paper": {
+            "paper_id": "2606.12360",
+            "arxiv_short_id": "2606.12360v1",
+            "published_date": "2026-06-10",
+            "title": "Anatomy of Post-Training: Using Interpretability to Characterize Data and Shape the Learning Signal",
+            "authors": "Leon Bergen et.al.",
+            "authors_full": [
+              "Leon Bergen",
+              "Usha Bhalla",
+              "Sidharth Baskaran",
+              "Max Loeffler",
+              "Raphael Sarfati",
+              "Dhruvil Gala",
+              "Ryan Panwar",
+              "Santiago Aranguri",
+              "Thomas Fel",
+              "Atticus Geiger",
+              "Matthew Kowal",
+              "Siddharth Boppana",
+              "Daniel Balsam",
+              "Owen Lewis",
+              "Jack Merullo",
+              "Thomas McGrath",
+              "Ekdeep Singh Lubana"
+            ],
+            "paper_url": "http://arxiv.org/abs/2606.12360v1",
+            "pdf_url": "https://arxiv.org/pdf/2606.12360v1.pdf",
+            "code_link": null,
+            "abstract": "Language-model post-training is the main stage at which model behavior is shaped, yet it still largely involves optimization of scalar rewards that summarize diverse desiderata. This abstraction gives practitioners little visibility into what their data actually teaches models, allowing spurious correlations to be learned by a model and inducing undesirable behaviors such as over-stylization and sycophancy. To address this problem, we ask: can we inspect a preference dataset before optimization and decide, at the level of concepts, which behaviors a model should be allowed to learn? Motivated by this, we introduce a data-centric post-training pipeline that uses interpretability protocols to develop statistical hypotheses for the latent concepts separating preferred from dispreferred generations, making them explicit for fine-grained user feedback. Building on this view, we unify several interpretability-based training protocols as ways of shaping rewards via feature or data interventions. Empirically, we show that our pipeline diagnoses undesirable signals in existing preference data, mitigates off-target learning, and can also help amplify or shape desired properties such as safeguards and model personality. More broadly, our results suggest that interpretability can turn post-training from optimizing opaque proxy rewards into a process of auditing and sculpting the learning signal itself.",
+            "categories": [
+              "cs.LG"
+            ],
+            "matched_topics": [
+              "data_sft_rl_eval",
+              "memory_personalization"
+            ],
+            "matched_topic": "data_sft_rl_eval, memory_personalization"
+          },
+          "l1": {
+            "decision": "level2",
+            "model_decision": "level2",
+            "decision_source": "thresholds",
+            "matched_tracks": [
+              "memory_evaluation_and_reliability",
+              "implicit_memory_and_persona"
+            ],
+            "scores": {
+              "topic_relevance": 4,
+              "scenario_fit": 4,
+              "landing_potential": 4,
+              "abstract_evidence_strength": 4,
+              "distance_penalty": 0
+            },
+            "total_score": 16,
+            "model_total_score": 16,
+            "reason_cn": "论文聚焦后训练阶段，利用可解释性诊断偏好数据中的不良信号（如奉承）并塑造模型人格，直接命中5级核心方向中的记忆评测、负面评估、缓解方法以及人格一致性，提供可执行的诊断与干预 pipeline，与情感陪伴和人格稳定性高度相关，摘要证据充分。",
+            "archive_reason_cn": null
+          },
+          "analysis_meta": {
+            "from_cache": false
+          },
+          "review_input": {
+            "pdf_url": "https://arxiv.org/pdf/2606.12360v1.pdf",
+            "page_count": 73,
+            "section_titles": [
+              "discussion"
+            ],
+            "section_lengths": {
+              "discussion": 178986
+            },
+            "section_extraction_note": "Sections were trimmed to fit the prompt budget.",
+            "truncated_for_prompt": true,
+            "sparse_sections": [
+              "method",
+              "experiments"
+            ],
+            "supplemental_relevance_analysis_cn": "论文提出基于可解释性的偏好数据集审计与学习信号塑造方法，直接命中数据集制备与评测方向。通过SAE特征和特征聚类诊断偏好数据中的概念级信号，提供数据过滤、提示接种、激活引导、奖励塑造等干预手段，属于高价值的诊断框架和训练数据质量控制协议。方法具体、可迁移，能用于改进RLHF/SFT训练数据质量，间接支持人格一致性、情绪稳定性等下游行为控制。虽未聚焦情感或记忆，但其通用审计管道对相关方向的评测和缓解有直接启发，值得跟进。优先级4/5。"
+          },
+          "review": {
+            "decision": "highlight",
+            "priority": "useful",
+            "summary_cn": "论文提出一种基于可解释性（SAE特征）的偏好数据集审计与学习信号塑造方法。通过解析偏好数据中的概念级信号，统一了数据过滤、提示接种、激活引导和奖励塑造等多种干预手段，用于诊断和缓解模型在DPO等训练中习得的不期望行为。",
+            "research_goal_cn": "审计偏好数据集，识别并控制模型在后训练（如DPO）中习得的概念级行为，以改善训练数据质量和模型行为可控性。",
+            "method_cn": "利用稀疏自编码器（SAE）特征及特征聚类，从偏好数据中区分偏好与不偏好响应的概念信号；将这些概念作为用户反馈目标，通过数据过滤（移除特定样本）、Inoculation Prompting（文本干预）、Activation Steering（激活引导）和 Reward Shaping（奖励塑形）四种干预族进行解释消除或放大。",
+            "experiment_cn": "在受控毒性实验和Dolci数据集上进行案例研究，验证pipeline的诊断能力（发现DPO实际放大的行为）和干预效果；同时分析了过度风格化（格式属性间的依赖）和复合概念（如物理谄媚、同人小说）场景下的失效模式。",
+            "result_cn": "诊断pipeline能有效识别偏好数据中的概念信号；干预手段可以在保持大部分效用收益的同时，减少或放大目标行为。但概念独立性假设在复合概念和风格层级中失效，需要结构感知的奖励塑形。",
+            "landing_value_cn": "可直接转化为训练数据质量控制协议和偏好优化诊断工具，帮助提升人格一致性、情绪稳定性等行为目标的训练可靠性；也能为相关评测和缓解方法提供技术路线。",
+            "scores": {
+              "relevance": 85,
+              "credibility": 88,
+              "landing_feasibility": 82,
+              "actionability": 87
+            },
+            "risks_cn": [
+              "概念独立性假设易被违背，尤其在风格和复合行为场景下需要更层次化建模。",
+              "SAE特征的可解释性依赖于预训练模型和字典质量，迁移到不同模型或数据域时效果可能波动。",
+              "当前干预方法的稳定性和鲁棒性尚未在大规模生产环境中充分验证。"
+            ],
+            "recommended_action_cn": "复现该审计pipeline，针对内部情感对话和多轮交互偏好数据集进行概念级诊断，重点审计与人格一致性、情绪稳定性相关的信号；基于审计结果，优先试验数据过滤和奖励塑形两种干预手段，评估其对最终模型行为的影响。"
+          }
+        }
+      ],
+      "archive_only": [
+        {
+          "paper_id": "2606.12400",
+          "title": "Doc-to-Atom: Learning to Compile and Compose Memory Atoms",
+          "matched_topic": "memory_personalization, training_inference_acceleration",
+          "archive_reason_cn": "超过当日 level2 候选上限，保留到 archive_only。"
+        },
+        {
+          "paper_id": "2606.07486",
+          "title": "OPENPATH: A Supervisor--Specialist Agent System for Personalized, Accessible, and Multi-stop Urban Trip Planning",
+          "matched_topic": "poi_ai_companion",
+          "archive_reason_cn": "超过当日 level2 候选上限，保留到 archive_only。"
+        },
+        {
+          "paper_id": "2606.12370",
+          "title": "Breaking Entropy Bounds: Accelerating RL Training via MTP with Rejection Sampling",
+          "matched_topic": "agent, training_inference_acceleration",
+          "archive_reason_cn": "超过当日 level2 候选上限，保留到 archive_only。"
+        },
+        {
+          "paper_id": "2606.12412",
+          "title": "Reroute, Don't Remove: Recoverable Visual Token Routing for Vision-Language Models",
+          "matched_topic": "training_inference_acceleration",
+          "archive_reason_cn": "超过当日 level2 候选上限，保留到 archive_only。"
+        },
+        {
+          "paper_id": "2606.12234",
+          "title": "On The Effectiveness-Fluency Trade-Off In LLM Conditioning: A Systematic Study",
+          "matched_topic": "data_sft_rl_eval",
+          "archive_reason_cn": "与用户高优先级方向（记忆、情感数据、陪伴场景）关联较弱，主要贡献在于控制方法评估，建议作为背景参考存档。"
+        },
+        {
+          "paper_id": "2606.12402",
+          "title": "DIRECT: When and Where Should You Allocate Test-Time Compute in Embodied Planners?",
+          "matched_topic": "agent, training_inference_acceleration",
+          "archive_reason_cn": "论文与用户最关注的5级和4级方向无关，仅命中次重点的2级推理加速方向，且场景为物理机器人规划，与用户关注的对话陪伴、记忆系统距离较远。仅作存档。"
+        }
+      ],
+      "review_failures": []
+    }
+  }
+}

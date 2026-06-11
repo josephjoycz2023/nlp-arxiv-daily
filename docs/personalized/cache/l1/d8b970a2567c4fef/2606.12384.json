@@ -1,0 +1,26 @@
+{
+  "cached_at": "2026-06-11T04:40:00.807242+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.12384",
+  "payload": {
+    "paper_id": "2606.12384",
+    "l1": {
+      "decision": "reject",
+      "model_decision": "archive_only",
+      "decision_source": "thresholds",
+      "matched_tracks": [],
+      "scores": {
+        "topic_relevance": 1,
+        "scenario_fit": 0,
+        "landing_potential": 0,
+        "abstract_evidence_strength": 3,
+        "distance_penalty": 3
+      },
+      "total_score": 1,
+      "model_total_score": 2,
+      "reason_cn": "论文提出APPO方法优化agentic RL的多轮工具使用，通过细粒度分支和功劳分配提升性能。与用户核心的大模型记忆方向无直接关联，也不涉及情感陪伴、POI或评测场景，仅有微弱的工具使用背景参考价值。",
+      "archive_reason_cn": "方法对多轮工具使用RL训练有一定启发，但用户当前研究池不包含底层训练优化，暂存档。"
+    }
+  }
+}

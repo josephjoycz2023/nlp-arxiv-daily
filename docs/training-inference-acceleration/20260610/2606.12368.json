@@ -1,0 +1,22 @@
+{
+  "paper_id": "2606.12368",
+  "arxiv_short_id": "2606.12368v1",
+  "published_date": "2026-06-10",
+  "title": "DepthMaster: Unified Monocular Depth Estimation for Perspective and Panoramic Images",
+  "authors": "Pengfei Wang et.al.",
+  "authors_full": [
+    "Pengfei Wang",
+    "Shihao Wang",
+    "Liyi Chen",
+    "Zhiyuan Ma",
+    "Guowen Zhang",
+    "Lei Zhang"
+  ],
+  "paper_url": "http://arxiv.org/abs/2606.12368v1",
+  "pdf_url": "https://arxiv.org/pdf/2606.12368v1.pdf",
+  "code_link": null,
+  "abstract": "While monocular depth estimation has achieved significant progress, achieving generalized metric depth estimation for both narrow field-of-view (FoV) perspectives and $360^\\circ$ panoramas remains an unsolved challenge. Existing methods are often tailored to specific camera types and struggle to produce accurate metric depth that generalizes across diverse settings. This limitation stems from two key challenges: the inherent geometric discrepancy between perspective and panoramic cameras, and the scarcity of panoramic training data with metric annotations. In this work, we introduce DepthMaster, a unified metric depth estimation framework. Rather than employing specialized networks to learn spherical distortions, we reformulate the problem by decomposing panoramic images into overlapping perspective patches. Crucially, distinct from prior projection-based methods that rely on ad-hoc architectural modifications to handle boundaries, we introduce a novel Correspondence Consistency Loss (CCL) and inject virtual projection cameras as geometric priors, allowing us to seamlessly stitch the patches while avoiding specialized operators and keeping the backbone largely compatible with standard Transformer designs. This strategy also resolves the geometric differences by unifying all inputs into a canonical perspective representation, and effectively circumvents data scarcity by directly unlocking powerful metric priors from vast perspective datasets. Trained on a mixed dataset that contains only one panorama dataset, DepthMaster achieves state-of-the-art zero-shot performance on 13 diverse datasets, outperforming not only universal methods but also leading specialist models in both perspective and panoramic domains.",
+  "categories": [
+    "cs.CV"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "cached_at": "2026-06-11T04:40:42.145578+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.12385",
+  "payload": {
+    "paper_id": "2606.12385",
+    "l1": {
+      "decision": "archive_only",
+      "model_decision": "archive_only",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "dataset_pipeline"
+      ],
+      "scores": {
+        "topic_relevance": 2,
+        "scenario_fit": 1,
+        "landing_potential": 2,
+        "abstract_evidence_strength": 4,
+        "distance_penalty": 4
+      },
+      "total_score": 5,
+      "model_total_score": 5,
+      "reason_cn": "论文提出ModSleuth系统审计LLM训练流水线中的模型依赖，属于数据制备与评测的通用基础设施，与4级方向（数据集制备与评测）间接相关，但未命中情感对话、tool use、记忆等高优先级具体主题，且与toC陪伴场景无关，因此topic_relevance和scenario_fit较低。抽象证据充分，但距离用户核心方向很远，故归档处理。",
+      "archive_reason_cn": "未直接命中5级记忆或4级情感/对话评测方向；方法为训练数据依赖审计提供通用工具，可备查但不作为高优先级跟进。"
+    }
+  }
+}

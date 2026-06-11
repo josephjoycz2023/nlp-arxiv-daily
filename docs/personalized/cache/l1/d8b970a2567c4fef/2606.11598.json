@@ -1,0 +1,28 @@
+{
+  "cached_at": "2026-06-11T04:28:27.268131+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.11598",
+  "payload": {
+    "paper_id": "2606.11598",
+    "l1": {
+      "decision": "archive_only",
+      "model_decision": "archive_only",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "neuroscience_language_memory"
+      ],
+      "scores": {
+        "topic_relevance": 2,
+        "scenario_fit": 1,
+        "landing_potential": 1,
+        "abstract_evidence_strength": 3,
+        "distance_penalty": 3
+      },
+      "total_score": 4,
+      "model_total_score": 4,
+      "reason_cn": "该论文属于1级背景关注的神经科学方向，通过MEG超扫描实验比较LLM与人类在语义表征上的对齐，发现LLM在情感、社会性等维度上与人脑存在系统性差异。对理解LLM的社会情感建模缺陷有一定启发，但未提出具体的训练数据、评测方案或记忆相关系统，可迁移性有限。",
+      "archive_reason_cn": "仅作为神经科学背景参考，缺乏对核心方向（记忆、评测、陪伴等）的直接方法或数据贡献，落地潜力弱。"
+    }
+  }
+}

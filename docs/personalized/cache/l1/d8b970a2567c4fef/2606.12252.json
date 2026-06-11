@@ -1,0 +1,26 @@
+{
+  "cached_at": "2026-06-11T04:32:12.118195+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.12252",
+  "payload": {
+    "paper_id": "2606.12252",
+    "l1": {
+      "decision": "reject",
+      "model_decision": "reject",
+      "decision_source": "thresholds",
+      "matched_tracks": [],
+      "scores": {
+        "topic_relevance": 0,
+        "scenario_fit": 0,
+        "landing_potential": 0,
+        "abstract_evidence_strength": 3,
+        "distance_penalty": 4
+      },
+      "total_score": -1,
+      "model_total_score": 1,
+      "reason_cn": "论文聚焦于临床心电信号分类的训练加速，通过可解释性信号筛选样本，虽提及训练效率但与用户关注的大模型记忆、情感数据集、POI陪伴、训练/推理加速框架等方向无实质关联，核心方法属于医疗时间序列领域，无相关评测、数据集或方法可迁移至用户研究池。",
+      "archive_reason_cn": null
+    }
+  }
+}

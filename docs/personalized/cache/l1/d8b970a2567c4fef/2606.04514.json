@@ -1,0 +1,26 @@
+{
+  "cached_at": "2026-06-11T04:23:49.516341+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.04514",
+  "payload": {
+    "paper_id": "2606.04514",
+    "l1": {
+      "decision": "reject",
+      "model_decision": "reject",
+      "decision_source": "thresholds",
+      "matched_tracks": [],
+      "scores": {
+        "topic_relevance": 0,
+        "scenario_fit": 0,
+        "landing_potential": 0,
+        "abstract_evidence_strength": 2,
+        "distance_penalty": 4
+      },
+      "total_score": -2,
+      "model_total_score": -2,
+      "reason_cn": "论文是面向通用推荐系统的 LLM 协同嵌入与注意力引导方法，未涉及用户关注的记忆、情感、多智能体、评测数据集、陪伴产品、POI 等任何高优先级方向，无迁移价值。",
+      "archive_reason_cn": null
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "paper_id": "2606.12290",
+  "arxiv_short_id": "2606.12290v1",
+  "published_date": "2026-06-10",
+  "title": "Selection Integrity for LLM Graph Memory: An Accumulability Criterion for Information-Flow-Blind Retrieval",
+  "authors": "Zeming Fei et.al.",
+  "authors_full": [
+    "Zeming Fei",
+    "Hongming Fei",
+    "Xiaoyang Wang",
+    "Yang yang",
+    "Prosanta Gope",
+    "Biplab Sikdar",
+    "Ying Zhang"
+  ],
+  "paper_url": "http://arxiv.org/abs/2606.12290v1",
+  "pdf_url": "https://arxiv.org/pdf/2606.12290v1.pdf",
+  "code_link": null,
+  "abstract": "Agent memory is moving to graphs, and the provenance defenses now being built for it all check one thing: the provenance of the records an agent retrieves. We show that this entire class of defense is blind by construction. A long-term graph memory runs a global selection step over writable graph structure, so structure that an untrusted principal writes changes \\emph{which} authenticated facts are selected while the cited evidence stays fully authenticated; faithful information-flow control (IFC), checking the provenance of what the reader uses (all of it authenticated), makes the byte-identical decision to no defense at all, across document-QA substrates and real multi-session agent memory. In the most consequential instance, a no-source structural write silently misdirects $28$ irreversible ledger transfers over $499$ live actions: faithful IFC permits every one, and \\authselect\\ prevents every one. We then characterize exactly which memories are exposed: a selector admits the channel when its structural term can reallocate an $\u03a9(1)$ share of top-$k$ membership past a selected fact's margin. Personalized PageRank can, since a sourceless write reroutes conserved random-walk mass; a content-fixed reranker cannot, and Graphiti's node-distance, which leans on structure \\emph{more} than PageRank does, stays immune. Reallocatability, not reliance, is the predictor. We prove the immune case in general and the open case under a chokepoint condition we verify. Closing the channel forces any provenance defense to recompute selection on the authenticated subgraph, which is what \\authselect\\ does, at zero over-block and $2$--$3\\%$ latency.",
+  "categories": [
+    "cs.CR"
+  ]
+}

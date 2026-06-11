@@ -1,0 +1,26 @@
+{
+  "cached_at": "2026-06-11T04:31:22.330563+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.12232",
+  "payload": {
+    "paper_id": "2606.12232",
+    "l1": {
+      "decision": "reject",
+      "model_decision": "reject",
+      "decision_source": "thresholds",
+      "matched_tracks": [],
+      "scores": {
+        "topic_relevance": 0,
+        "scenario_fit": 0,
+        "landing_potential": 0,
+        "abstract_evidence_strength": 3,
+        "distance_penalty": 4
+      },
+      "total_score": -1,
+      "model_total_score": 0,
+      "reason_cn": "论文研究掩码扩散语言模型的置信度重新掩码解码方法评估，与用户关注的大模型记忆、情感对话数据、POI陪伴、模型加速等方向无实质关联，无任何可迁移的方法、数据或评测价值。",
+      "archive_reason_cn": null
+    }
+  }
+}

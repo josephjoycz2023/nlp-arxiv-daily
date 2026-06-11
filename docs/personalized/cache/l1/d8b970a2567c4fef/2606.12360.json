@@ -1,0 +1,29 @@
+{
+  "cached_at": "2026-06-11T04:36:27.401422+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.12360",
+  "payload": {
+    "paper_id": "2606.12360",
+    "l1": {
+      "decision": "level2",
+      "model_decision": "level2",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "memory_evaluation_and_reliability",
+        "implicit_memory_and_persona"
+      ],
+      "scores": {
+        "topic_relevance": 4,
+        "scenario_fit": 4,
+        "landing_potential": 4,
+        "abstract_evidence_strength": 4,
+        "distance_penalty": 0
+      },
+      "total_score": 16,
+      "model_total_score": 16,
+      "reason_cn": "论文聚焦后训练阶段，利用可解释性诊断偏好数据中的不良信号（如奉承）并塑造模型人格，直接命中5级核心方向中的记忆评测、负面评估、缓解方法以及人格一致性，提供可执行的诊断与干预 pipeline，与情感陪伴和人格稳定性高度相关，摘要证据充分。",
+      "archive_reason_cn": null
+    }
+  }
+}

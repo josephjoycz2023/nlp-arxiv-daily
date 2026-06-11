@@ -1,0 +1,30 @@
+{
+  "cached_at": "2026-06-11T04:33:13.775683+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.12290",
+  "payload": {
+    "paper_id": "2606.12290",
+    "l1": {
+      "decision": "level2",
+      "model_decision": "level2",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "memory_evaluation_and_reliability",
+        "personalized_memory_and_user_state",
+        "implicit_memory_and_persona"
+      ],
+      "scores": {
+        "topic_relevance": 4,
+        "scenario_fit": 3,
+        "landing_potential": 4,
+        "abstract_evidence_strength": 4,
+        "distance_penalty": 1
+      },
+      "total_score": 14,
+      "model_total_score": 14,
+      "reason_cn": "论文直接针对大模型图记忆的选择完整性漏洞，属于核心记忆方向中的负面评估与缓解子方向，命中5级优先级。提出的accumulability criterion和AuthSelect防御方法具体可执行，实验证据充分（28次错误交易被阻止，2-3%延迟），对长期记忆系统安全与可靠性有重要价值。与个性化记忆、隐式记忆索引强相关，落地潜力高。",
+      "archive_reason_cn": null
+    }
+  }
+}

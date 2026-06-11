@@ -1,0 +1,28 @@
+{
+  "cached_at": "2026-06-11T04:25:26.585419+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.05130",
+  "payload": {
+    "paper_id": "2606.05130",
+    "l1": {
+      "decision": "archive_only",
+      "model_decision": "archive_only",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "poi_tool_use_companion"
+      ],
+      "scores": {
+        "topic_relevance": 2,
+        "scenario_fit": 1,
+        "landing_potential": 1,
+        "abstract_evidence_strength": 3,
+        "distance_penalty": 3
+      },
+      "total_score": 4,
+      "model_total_score": 4,
+      "reason_cn": "论文提出基于LLM agent的移动预测框架，虽涉及tool use和地理位置，但与POI陪伴、场景化推荐等用户方向关联较弱；未涉及记忆、评测或情感交互，对研究池贡献有限。",
+      "archive_reason_cn": "方向相关性低（仅间接匹配POI工具调用，无陪伴产品映射），且未与高优先级方向（记忆、数据集评测）产生实质关联，仅作为LLM agent在移动预测中的应用备查。"
+    }
+  }
+}

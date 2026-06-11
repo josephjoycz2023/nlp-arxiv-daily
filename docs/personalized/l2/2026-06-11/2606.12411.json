@@ -1,0 +1,97 @@
+{
+  "date": "2026-06-11",
+  "paper": {
+    "paper_id": "2606.12411",
+    "arxiv_short_id": "2606.12411v1",
+    "published_date": "2026-06-10",
+    "title": "Context-Driven Incremental Compression for Multi-Turn Dialogue Generation",
+    "authors": "Yeongseo Jung et.al.",
+    "authors_full": [
+      "Yeongseo Jung",
+      "Jaehyeok Kim",
+      "Eunseo Jung",
+      "Jiachuan Wang",
+      "Yongqi Zhang",
+      "Ka Chun Cheung",
+      "Simon See",
+      "Lei Chen"
+    ],
+    "paper_url": "http://arxiv.org/abs/2606.12411v1",
+    "pdf_url": "https://arxiv.org/pdf/2606.12411v1.pdf",
+    "code_link": null,
+    "abstract": "Modern conversational agents condition on an ever-growing dialogue history at each turn, incurring redundant attention and encoding costs that grow with conversation length. Naive truncation or summarization degrades fidelity, while existing context compressors lack cross-turn memory sharing or revision, causing information loss and compounding errors in long dialogues. We revisit the context compression under conversational dynamics and empirically present its fragility. To improve both efficiency and robustness, we introduce Context-Driven Incremental Compression (C-DIC), which treats a conversation as interleaved contextual threads and stores revisable per-thread compression states in a single, compact dialogue memory. At each turn, a lightweight retrieve, revise, and write-back loop shares information across turns and updates stale memories, stabilizing long-horizon behavior. In addition, we adapt truncated backpropagation-through-time (TBPTT) to our multi-turn setting, learning cross-turn dependencies without full-history backpropagation. Extensive experiments on long-form dialogue benchmarks demonstrate superior performance and efficiency of C-DIC; notably, C-DIC shows stable inference latency and perplexity over hundreds of dialogue turns, supporting a scalable path to high-quality dialogue modeling.",
+    "categories": [
+      "cs.CL",
+      "cs.LG"
+    ],
+    "matched_topics": [
+      "agent",
+      "memory_personalization"
+    ],
+    "matched_topic": "agent, memory_personalization"
+  },
+  "l1": {
+    "decision": "level2",
+    "model_decision": "level2",
+    "decision_source": "thresholds",
+    "matched_tracks": [
+      "personalized_memory_and_user_state",
+      "multi_agent_memory_frameworks"
+    ],
+    "scores": {
+      "topic_relevance": 4,
+      "scenario_fit": 3,
+      "landing_potential": 4,
+      "abstract_evidence_strength": 4,
+      "distance_penalty": 0
+    },
+    "total_score": 15,
+    "model_total_score": 15,
+    "reason_cn": "论文提出增量压缩框架C-DIC，在多轮对话中维护跨轮次对话记忆，直接命中大模型记忆核心方向（个性化记忆与长期记忆框架）。方法具体，实验证明长对话中稳定性，对多轮交互和toC产品有落地潜力。",
+    "archive_reason_cn": null
+  },
+  "analysis_meta": {
+    "from_cache": false
+  },
+  "review_input": {
+    "pdf_url": "https://arxiv.org/pdf/2606.12411v1.pdf",
+    "page_count": 22,
+    "section_titles": [
+      "abstract"
+    ],
+    "section_lengths": {
+      "abstract": 86103
+    },
+    "section_extraction_note": "Sections were trimmed to fit the prompt budget.",
+    "truncated_for_prompt": true,
+    "sparse_sections": [
+      "method",
+      "experiments"
+    ],
+    "supplemental_relevance_analysis_cn": "论文提出上下文驱动的增量压缩方法(C-DIC)，为多轮对话构建可修订的线程状态记忆，通过检索-修订-回写循环实现跨轮记忆共享与更新，解决长对话中的语义漂移和计算低效问题。该工作直接命中大模型记忆(5级优先)中的长期记忆、隐式记忆索引与记忆稳定性评测，并在长对话基准上验证了连贯性和困境度稳定性。虽未提及个性化或情感陪伴，但记忆框架本身与最高优先方向强相关，评测部分也提供了记忆可靠性证据，值得继续跟进。"
+  },
+  "review": {
+    "decision": "highlight",
+    "priority": "must_read",
+    "summary_cn": "论文提出上下文驱动增量压缩（C-DIC）方法，将多轮对话建模为可修订的线程状态记忆，通过检索→压缩→回写循环实现跨轮记忆共享与更新，解决了长对话中历史全编码的语义漂移和计算低效问题，在多个长对话基准上验证了稳定的推理延迟和困惑度。",
+    "research_goal_cn": "解决长对话场景下全历史编码带来的冗余注意力与语义漂移，以可增量更新、可修订的轻量级压缩记忆替代不断增长的对话历史，保持长程连贯性与引用保真度，同时控制计算开销。",
+    "method_cn": "提出C-DIC框架：将对话视为交替出现的上下文线程，维护一个紧凑的可修订线程状态记忆。每轮执行检索（与当前查询最相关的记忆槽）→压缩（将检索状态与当前轮次合并压缩为新的线程状态）→写回（梯度无关的插入或更新）循环；训练时采用检索感知的截断BPTT，仅沿被选中的记忆更新路径回传梯度，以匹配推理时的实际使用方式。",
+    "experiment_cn": "在MSC、REALTALK等多轮对话数据集上进行评估，构建MSC-QA诊断集测试长程引用能力，并用LongMemEval作为辅助长上下文QA基准；对比截断、摘要、静态压缩（ICAE）等基线，分析困惑度、推理延迟、长程回答准确率等指标，并包含消融研究。",
+    "result_cn": "C-DIC在数百轮对话后保持稳定的推理延迟和困惑度，而静态压缩基线性能随轮次急剧下降；在长程引用跟踪任务上显著优于基线，能够准确聚合跨越多轮的相关提及；通过检索感知的BPTT训练，有效缓解了错误累积。",
+    "landing_value_cn": "为对话系统提供了一种高效的、可扩展的长期记忆压缩与管理方案，可直接用于toC陪伴类产品、多轮交互Agent的记忆模块，提升长程对话的连贯性和事实一致性，同时降低推理成本。其记忆修订机制对个性化记忆、人格一致性维护有潜在启发。",
+    "scores": {
+      "relevance": 90,
+      "credibility": 85,
+      "landing_feasibility": 80,
+      "actionability": 85
+    },
+    "risks_cn": [
+      "仅在英文对话数据上验证，迁移到中文或特定领域（如POI陪伴）可能需要额外适配",
+      "未直接评估个性化记忆或情感连续性，缺乏在人格一致性、情绪稳定性方面的评测",
+      "检索依赖简单的语义相似度和阈值，可能对话题模糊或快速切换的场景不鲁棒",
+      "压缩状态的可解释性未讨论，调试和介入的难度较高",
+      "需要单独训练压缩器，对已部署系统的集成成本尚不清楚"
+    ],
+    "recommended_action_cn": "立即安排深度阅读，重点关注记忆压缩与更新机制的实现细节（尤其是检索相似度计算、线程创建/修订策略），评估其与当前记忆框架（如多智能体共享记忆、个性化用户状态存储）的整合可行性；考虑复用其“检索-压缩-回写”循环用于构建可修订的用户记忆模块；提取其长程稳定性评测协议（例如MSC-QA的构造方法），用于后续自研对话系统的记忆评测。"
+  }
+}

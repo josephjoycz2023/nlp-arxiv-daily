@@ -1,0 +1,28 @@
+{
+  "cached_at": "2026-06-11T04:29:46.791210+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.11724",
+  "payload": {
+    "paper_id": "2606.11724",
+    "l1": {
+      "decision": "reject",
+      "model_decision": "archive_only",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "neuroscience_language_memory"
+      ],
+      "scores": {
+        "topic_relevance": 1,
+        "scenario_fit": 0,
+        "landing_potential": 1,
+        "abstract_evidence_strength": 3,
+        "distance_penalty": 3
+      },
+      "total_score": 2,
+      "model_total_score": 2,
+      "reason_cn": "论文聚焦于Theory of Mind推理，提出RecToM框架，并在多个ToM基准上取得SOTA。该方向属于认知推理，与用户高优先级的大模型记忆、情感对话评测、tool use、POI场景等方向无直接关联，仅匹配最低优先级的神经科学背景关注方向，启发价值有限，故归档。",
+      "archive_reason_cn": "属于1级背景关注方向，对语言、情绪与记忆建模有潜在启发，但与核心5级/4级方向无直接迁移价值，仅作为认知建模参考存档。"
+    }
+  }
+}

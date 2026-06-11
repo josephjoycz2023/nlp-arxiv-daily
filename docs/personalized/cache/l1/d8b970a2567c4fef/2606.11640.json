@@ -1,0 +1,26 @@
+{
+  "cached_at": "2026-06-11T04:28:47.696569+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.11640",
+  "payload": {
+    "paper_id": "2606.11640",
+    "l1": {
+      "decision": "reject",
+      "model_decision": "reject",
+      "decision_source": "thresholds",
+      "matched_tracks": [],
+      "scores": {
+        "topic_relevance": 0,
+        "scenario_fit": 0,
+        "landing_potential": 0,
+        "abstract_evidence_strength": 1,
+        "distance_penalty": 4
+      },
+      "total_score": -3,
+      "model_total_score": 0,
+      "reason_cn": "论文研究少样本表格学习，利用LLM推断特征语义关系构建图进行GNN预测，与用户研究方向（大模型记忆、情感陪伴、POI场景、数据集/评测等）无直接或间接关联，不属于任何相关track，因此不予纳入。",
+      "archive_reason_cn": null
+    }
+  }
+}

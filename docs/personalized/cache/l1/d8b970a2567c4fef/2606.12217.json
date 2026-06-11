@@ -1,0 +1,26 @@
+{
+  "cached_at": "2026-06-11T04:30:59.894382+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.12217",
+  "payload": {
+    "paper_id": "2606.12217",
+    "l1": {
+      "decision": "reject",
+      "model_decision": "reject",
+      "decision_source": "thresholds",
+      "matched_tracks": [],
+      "scores": {
+        "topic_relevance": 0,
+        "scenario_fit": 0,
+        "landing_potential": 0,
+        "abstract_evidence_strength": 3,
+        "distance_penalty": 4
+      },
+      "total_score": -1,
+      "model_total_score": -1,
+      "reason_cn": "该论文聚焦于机器人操作中的世界行动模型表示对齐，与用户研究方向（大模型记忆、数据集、POI、加速、神经科学）完全无关。",
+      "archive_reason_cn": null
+    }
+  }
+}

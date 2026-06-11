@@ -1,0 +1,26 @@
+{
+  "cached_at": "2026-06-11T04:41:05.504770+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.12386",
+  "payload": {
+    "paper_id": "2606.12386",
+    "l1": {
+      "decision": "reject",
+      "model_decision": "reject",
+      "decision_source": "thresholds",
+      "matched_tracks": [],
+      "scores": {
+        "topic_relevance": 0,
+        "scenario_fit": 0,
+        "landing_potential": 0,
+        "abstract_evidence_strength": 3,
+        "distance_penalty": 4
+      },
+      "total_score": -1,
+      "model_total_score": 0,
+      "reason_cn": "该论文提出主动学习框架用于自动化科学发现，旨在恢复强化学习智能体的行为模型，与用户关注的大模型记忆、情感对话、陪伴产品、数据集制备等方向无关。",
+      "archive_reason_cn": null
+    }
+  }
+}

@@ -1,0 +1,700 @@
+{
+  "stage": "l1",
+  "date": "2026-06-11",
+  "summary": {
+    "total_papers": 51,
+    "passed_l1": 10,
+    "archived": 18,
+    "rejected": 23,
+    "passed_paper_ids": [
+      "2606.04431",
+      "2606.04867",
+      "2606.05995",
+      "2606.12360",
+      "2606.12411",
+      "2606.04547",
+      "2606.11680",
+      "2606.12290",
+      "2606.12332",
+      "2606.10921"
+    ]
+  },
+  "papers": [
+    {
+      "paper_id": "2606.04431",
+      "title": "When Chatbots Accommodate: What AI Companions Optimize for in Vulnerable Conversations",
+      "matched_topic": "poi_ai_companion",
+      "passed_l1": true,
+      "decision": "level2",
+      "total_score": 16,
+      "matched_tracks": [
+        "emotional_and_psychological_eval",
+        "poi_tool_use_companion"
+      ],
+      "reason_cn": "论文直接命中情感心理感知与陪伴评测方向（4级核心），提出脆弱性对话响应分类法和逆行强化学习方法，在真实陪伴对话中审计AI响应策略，对脆弱用户交互安全评估有直接贡献，与toC情感陪伴、用户状态理解高度匹配。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.04867",
+      "title": "AICompanionBench: Benchmarking LLMs-as-Judges for AI Companion Safety",
+      "matched_topic": "poi_ai_companion",
+      "passed_l1": true,
+      "decision": "level2",
+      "total_score": 16,
+      "matched_tracks": [
+        "emotional_and_psychological_eval"
+      ],
+      "reason_cn": "直接命中4级数据集制备与评测集方向，构建了AI陪伴安全对话评测基准，提供2,123条真实对话、9类风险标注及LLM-as-judge评估方案；与toC情感陪伴、心理安全、人格一致性高度相关，评测协议具体且数据集公开，具有强落地价值；摘要证据充分，无需扣分。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.05995",
+      "title": "Empathy on Demand: How Empathic AI Can Scale Emotional Support for Verbal Harassment",
+      "matched_topic": "poi_ai_companion",
+      "passed_l1": true,
+      "decision": "level2",
+      "total_score": 16,
+      "matched_tracks": [
+        "emotional_and_psychological_eval",
+        "poi_tool_use_companion"
+      ],
+      "reason_cn": "论文直接命中情感、心理感知与陪伴相关评测方向（4级重点），提出共情倾听框架并评估LLM在情感支持中的语言信号，同时明确映射到AI陪伴场景与用户情感支持需求，方法具体、实验证据充分，高度相关。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.12360",
+      "title": "Anatomy of Post-Training: Using Interpretability to Characterize Data and Shape the Learning Signal",
+      "matched_topic": "data_sft_rl_eval, memory_personalization",
+      "passed_l1": true,
+      "decision": "level2",
+      "total_score": 16,
+      "matched_tracks": [
+        "memory_evaluation_and_reliability",
+        "implicit_memory_and_persona"
+      ],
+      "reason_cn": "论文聚焦后训练阶段，利用可解释性诊断偏好数据中的不良信号（如奉承）并塑造模型人格，直接命中5级核心方向中的记忆评测、负面评估、缓解方法以及人格一致性，提供可执行的诊断与干预 pipeline，与情感陪伴和人格稳定性高度相关，摘要证据充分。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.12411",
+      "title": "Context-Driven Incremental Compression for Multi-Turn Dialogue Generation",
+      "matched_topic": "agent, memory_personalization",
+      "passed_l1": true,
+      "decision": "level2",
+      "total_score": 15,
+      "matched_tracks": [
+        "personalized_memory_and_user_state",
+        "multi_agent_memory_frameworks"
+      ],
+      "reason_cn": "论文提出增量压缩框架C-DIC，在多轮对话中维护跨轮次对话记忆，直接命中大模型记忆核心方向（个性化记忆与长期记忆框架）。方法具体，实验证明长对话中稳定性，对多轮交互和toC产品有落地潜力。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.04547",
+      "title": "Beyond Retrieval: Learning Compact User Representations for Scalable LLM Personalization",
+      "matched_topic": "poi_ai_companion",
+      "passed_l1": true,
+      "decision": "level2",
+      "total_score": 14,
+      "matched_tracks": [
+        "personalized_memory_and_user_state"
+      ],
+      "reason_cn": "论文直接命中5级核心方向“个性化记忆与用户状态建模”，提出TAP-PER框架，用轻量级前缀嵌入编码用户偏好，避免检索和重适配器，并在6个任务上全面优于基线，证据充分，方法可落地，对个性化对话系统有直接迁移价值。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.11680",
+      "title": "Organize then Retrieve: Hierarchical Memory Navigation for Efficient Agents",
+      "matched_topic": "neuroscience_language_memory",
+      "passed_l1": true,
+      "decision": "level2",
+      "total_score": 14,
+      "matched_tracks": [
+        "multi_agent_memory_frameworks",
+        "memory_evaluation_and_reliability"
+      ],
+      "reason_cn": "论文直接命中5级核心方向“大模型记忆”：提出分层记忆组织与导航框架HORMA，解决长期任务中的上下文膨胀问题，涉及记忆构造、检索、更新等核心机制，并在LongMemEval等记忆基准上评测，属于记忆框架与记忆评测双重强相关。方法创新性强、实验扎实，token用量降低至22.17%且性能提升，工程启发明确。虽未明确关联情感陪伴或POI场景，但多轮交互优化可间接收益，符合level2入库标准。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.12290",
+      "title": "Selection Integrity for LLM Graph Memory: An Accumulability Criterion for Information-Flow-Blind Retrieval",
+      "matched_topic": "memory_personalization",
+      "passed_l1": true,
+      "decision": "level2",
+      "total_score": 14,
+      "matched_tracks": [
+        "memory_evaluation_and_reliability",
+        "personalized_memory_and_user_state",
+        "implicit_memory_and_persona"
+      ],
+      "reason_cn": "论文直接针对大模型图记忆的选择完整性漏洞，属于核心记忆方向中的负面评估与缓解子方向，命中5级优先级。提出的accumulability criterion和AuthSelect防御方法具体可执行，实验证据充分（28次错误交易被阻止，2-3%延迟），对长期记忆系统安全与可靠性有重要价值。与个性化记忆、隐式记忆索引强相关，落地潜力高。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.12332",
+      "title": "Measuring Semantic Progress in Multi-turn Dialogue via Information Gain",
+      "matched_topic": "data_sft_rl_eval",
+      "passed_l1": true,
+      "decision": "level2",
+      "total_score": 14,
+      "matched_tracks": [
+        "dataset_pipeline.tool_use_and_multi_turn_eval"
+      ],
+      "reason_cn": "论文提出衡量多轮对话语义进展的信息论指标，直接命中数据集评测方向（4级）中的多轮交互评测 track，提供了具体可执行的自动评测方法与理论性质，在主流对话 Benchmark 上验证有效性，方法轻量且可复现，对对话质量自动评测具有明确的落地价值。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.10921",
+      "title": "Trace Only What You Need: Structure-Aware On-Demand Hypergraph Memory for Long-Document Question Answering",
+      "matched_topic": "neuroscience_language_memory",
+      "passed_l1": true,
+      "decision": "level2",
+      "total_score": 12,
+      "matched_tracks": [
+        "multi_agent_memory_frameworks"
+      ],
+      "reason_cn": "论文提出多智能体RAG框架DocTrace，构建共享超图工作记忆和经验记忆，直接命中大模型记忆核心方向（多智能体记忆框架），方法具体，实验表明性能提升，属于高相关可跟进研究。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.12400",
+      "title": "Doc-to-Atom: Learning to Compile and Compose Memory Atoms",
+      "matched_topic": "memory_personalization, training_inference_acceleration",
+      "passed_l1": false,
+      "decision": "archive_only",
+      "total_score": 12,
+      "matched_tracks": [
+        "multi_agent_memory_frameworks"
+      ],
+      "reason_cn": "论文提出了Doc-to-Atom的组合式参数化记忆框架，将文档分解为知识原子并编译为微LoRA适配器，配合检索键实现按需组装，直接命中5级核心方向“大模型记忆”下的记忆框架与记忆检索子方向。方法具体，包含端到端训练和实验验证，对记忆机制设计有明确启发。虽未直接涉及toC场景，但基础记忆贡献强，适合进入研究池。",
+      "archive_reason_cn": "超过当日 level2 候选上限，保留到 archive_only。",
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.07486",
+      "title": "OPENPATH: A Supervisor--Specialist Agent System for Personalized, Accessible, and Multi-stop Urban Trip Planning",
+      "matched_topic": "poi_ai_companion",
+      "passed_l1": false,
+      "decision": "archive_only",
+      "total_score": 12,
+      "matched_tracks": [
+        "poi_tool_use_companion"
+      ],
+      "reason_cn": "论文直接命中3级方向 POI 场景与陪伴产品：提出面向个性化、多站点、无障碍的城市旅行规划多智能体系统 OPENPATH，融合 LLM 与经典算法，用于行程规划与城市可访问性分析，与 travel assistant、tool use、user state understanding 高度匹配。",
+      "archive_reason_cn": "超过当日 level2 候选上限，保留到 archive_only。",
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.12370",
+      "title": "Breaking Entropy Bounds: Accelerating RL Training via MTP with Rejection Sampling",
+      "matched_topic": "agent, training_inference_acceleration",
+      "passed_l1": false,
+      "decision": "archive_only",
+      "total_score": 8,
+      "matched_tracks": [
+        "training_acceleration",
+        "inference_acceleration"
+      ],
+      "reason_cn": "论文针对RL训练中rollout加速，提出基于多token预测和拒绝采样的方法，实现1.8倍端到端加速，直接匹配训练加速与推理加速方向，实验充分、方法可落地，但离用户核心记忆方向较远。",
+      "archive_reason_cn": "超过当日 level2 候选上限，保留到 archive_only。",
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.12412",
+      "title": "Reroute, Don't Remove: Recoverable Visual Token Routing for Vision-Language Models",
+      "matched_topic": "training_inference_acceleration",
+      "passed_l1": false,
+      "decision": "archive_only",
+      "total_score": 8,
+      "matched_tracks": [
+        "inference_acceleration"
+      ],
+      "reason_cn": "论文提出一种可恢复的视觉token路由方法Reroute，用于视觉语言模型推理加速，直接命中inference_acceleration方向（2级次重点）。方法训练无关、即插即用，可保留理论算力和KV缓存预算，在LLaVA和Qwen上实验表明能改善激进剪枝下的定位性能。但论文未涉及记忆、陪伴、情感等核心方向，与用户高优场景链接较弱。",
+      "archive_reason_cn": "超过当日 level2 候选上限，保留到 archive_only。",
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.12234",
+      "title": "On The Effectiveness-Fluency Trade-Off In LLM Conditioning: A Systematic Study",
+      "matched_topic": "data_sft_rl_eval",
+      "passed_l1": false,
+      "decision": "archive_only",
+      "total_score": 6,
+      "matched_tracks": [
+        "data_sft_rl_eval"
+      ],
+      "reason_cn": "论文系统研究了LLM调节方法的有效性-流畅性权衡，评估了激活引导、提示、SFT等在概念注入和移除上的表现，并发现廉价文本度量与LLM-as-judge高度相关。虽然涉及SFT和评测，但未专注于情感、多轮对话、tool use等用户核心方向，与记忆、情感陪伴等无直接关联，属于LLM可控性方法论，对用户方向启发有限。",
+      "archive_reason_cn": "与用户高优先级方向（记忆、情感数据、陪伴场景）关联较弱，主要贡献在于控制方法评估，建议作为背景参考存档。",
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.12402",
+      "title": "DIRECT: When and Where Should You Allocate Test-Time Compute in Embodied Planners?",
+      "matched_topic": "agent, training_inference_acceleration",
+      "passed_l1": false,
+      "decision": "archive_only",
+      "total_score": 5,
+      "matched_tracks": [
+        "inference_acceleration"
+      ],
+      "reason_cn": "论文提出了面向具身规划器的测试时计算分配框架DIRECT，通过多模态场景上下文路由选择计算策略，降低推理成本，属于推理加速方向。与用户核心记忆、情感陪伴、数据集等方向无直接关联，但命中2级推理加速track，方法有明确实验验证。",
+      "archive_reason_cn": "论文与用户最关注的5级和4级方向无关，仅命中次重点的2级推理加速方向，且场景为物理机器人规划，与用户关注的对话陪伴、记忆系统距离较远。仅作存档。",
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.12342",
+      "title": "ALIGNBEAM : Inference-Time Alignment Transfer via Cross-Vocabulary Logit Mixing",
+      "matched_topic": "data_sft_rl_eval",
+      "passed_l1": false,
+      "decision": "archive_only",
+      "total_score": 5,
+      "matched_tracks": [
+        "dataset_pipeline"
+      ],
+      "reason_cn": "论文研究跨词汇表推理时安全对齐迁移，属于大模型安全防御方法。与用户核心方向（大模型记忆、情感对话数据、POI陪伴）关联较弱，仅在安全评测层面有间接相关，难以对记忆框架或陪伴产品产生直接启发。方法具体，但落地场景与用户研究池匹配度低。",
+      "archive_reason_cn": "可作为模型安全与对齐的参考案例归档，但不对用户当前核心记忆或情感陪伴方向提供直接方法或数据贡献。",
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.12385",
+      "title": "Which Models Are Our Models Built On? Auditing Invisible Dependencies in Modern LLMs",
+      "matched_topic": "agent, data_sft_rl_eval",
+      "passed_l1": false,
+      "decision": "archive_only",
+      "total_score": 5,
+      "matched_tracks": [
+        "dataset_pipeline"
+      ],
+      "reason_cn": "论文提出ModSleuth系统审计LLM训练流水线中的模型依赖，属于数据制备与评测的通用基础设施，与4级方向（数据集制备与评测）间接相关，但未命中情感对话、tool use、记忆等高优先级具体主题，且与toC陪伴场景无关，因此topic_relevance和scenario_fit较低。抽象证据充分，但距离用户核心方向很远，故归档处理。",
+      "archive_reason_cn": "未直接命中5级记忆或4级情感/对话评测方向；方法为训练数据依赖审计提供通用工具，可备查但不作为高优先级跟进。",
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.05130",
+      "title": "Towards Efficient and Evidence-grounded Mobility Prediction with LLM-Driven Agent",
+      "matched_topic": "poi_ai_companion",
+      "passed_l1": false,
+      "decision": "archive_only",
+      "total_score": 4,
+      "matched_tracks": [
+        "poi_tool_use_companion"
+      ],
+      "reason_cn": "论文提出基于LLM agent的移动预测框架，虽涉及tool use和地理位置，但与POI陪伴、场景化推荐等用户方向关联较弱；未涉及记忆、评测或情感交互，对研究池贡献有限。",
+      "archive_reason_cn": "方向相关性低（仅间接匹配POI工具调用，无陪伴产品映射），且未与高优先级方向（记忆、数据集评测）产生实质关联，仅作为LLM agent在移动预测中的应用备查。",
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.09204",
+      "title": "The Injection Paradox: Brand-Level Suppression in Safety-Trained LLM Recommendations via RAG Context Injection",
+      "matched_topic": "poi_ai_companion",
+      "passed_l1": false,
+      "decision": "archive_only",
+      "total_score": 4,
+      "matched_tracks": [
+        "poi_tool_use_companion"
+      ],
+      "reason_cn": "该论文研究了RAG注入攻击导致LLM推荐中品牌抑制的现象，属于LLM安全与推荐交叉方向，与POI场景下的推荐安全有间接关联。但论文并未直接涉及记忆、情感数据集、tool use评测等用户高优先级方向，也未提出可落地的评测或缓解方法，仅作为RAG安全案例参考。",
+      "archive_reason_cn": "论文未命中核心方向（记忆、数据集/评测、POI陪伴产品等），且无直接可迁移的方法、数据或评测框架，仅提供LLM推荐中的安全行为观察，更适合作为背景知识存档。",
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.11598",
+      "title": "Large language models selectively converge with human-shared neural semantic representations",
+      "matched_topic": "neuroscience_language_memory",
+      "passed_l1": false,
+      "decision": "archive_only",
+      "total_score": 4,
+      "matched_tracks": [
+        "neuroscience_language_memory"
+      ],
+      "reason_cn": "该论文属于1级背景关注的神经科学方向，通过MEG超扫描实验比较LLM与人类在语义表征上的对齐，发现LLM在情感、社会性等维度上与人脑存在系统性差异。对理解LLM的社会情感建模缺陷有一定启发，但未提出具体的训练数据、评测方案或记忆相关系统，可迁移性有限。",
+      "archive_reason_cn": "仅作为神经科学背景参考，缺乏对核心方向（记忆、评测、陪伴等）的直接方法或数据贡献，落地潜力弱。",
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.12344",
+      "title": "Claw-SWE-Bench: A Benchmark for Evaluating OpenClaw-style Agent Harnesses on Coding Tasks",
+      "matched_topic": "agent",
+      "passed_l1": false,
+      "decision": "archive_only",
+      "total_score": 4,
+      "matched_tracks": [
+        "tool_use_and_multi_turn_eval"
+      ],
+      "reason_cn": "论文提出 Claw-SWE-Bench，评测 OpenClaw 风格 Agent 在编码任务上的表现，属于 Agent Benchmark 范畴，与 4 级方向「tool_use_and_multi_turn_eval」间接相关，但聚焦于代码修复而非我们所关注的情感陪伴、多轮对话、工具调用及用户状态理解场景。摘要提供了清晰的基准与实验，但方向匹配度低，对核心记忆、人格一致性、情绪稳定性等无直接启发。",
+      "archive_reason_cn": "方向与编码 Agent Benchmark 间接相关，但与用户核心关注的记忆、情感陪伴、多轮交互等方向距离较远，无明确可迁移价值，暂归档为低优先级参考。",
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.10671",
+      "title": "FadeMem: Distance-Aware Memory Consolidation for Autoregressive Video Diffusion",
+      "matched_topic": "neuroscience_language_memory",
+      "passed_l1": false,
+      "decision": "archive_only",
+      "total_score": 3,
+      "matched_tracks": [
+        "inference_acceleration"
+      ],
+      "reason_cn": "论文提出视频扩散模型的KV缓存优化技术(FadeMem)，命中推理加速方向(2级)，但领域为计算机视觉，与用户核心的大模型记忆、人格一致性、情感陪伴等方向无直接关联，且方法迁移至LLM/agent系统的潜力有限。",
+      "archive_reason_cn": "KV缓存优化方法本身有工程参考价值，但视频生成领域与用户研究主线距离较远，暂不进入深度评审池，归档备查。",
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.12369",
+      "title": "Should LLM Agents Decide in Social Simulations? Comparing Finite-State and LLM-Based Decision Policies",
+      "matched_topic": "agent",
+      "passed_l1": false,
+      "decision": "archive_only",
+      "total_score": 3,
+      "matched_tracks": [],
+      "reason_cn": "该论文研究LLM在社会模拟中的决策对齐问题，评估LLM替代有限状态机时的策略保持性与效率。虽然涉及多智能体及行为评测，但未围绕大模型记忆、人格一致性、情绪稳定性、数据集制备、训练/推理加速或POI陪伴等用户核心方向展开，与用户高优先级方向匹配度低。",
+      "archive_reason_cn": "与用户研究池核心方向（大模型记忆、评测集制备、POI陪伴等）缺乏直接强相关性；方法迁移价值有限，不足以进入 level2。",
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.12373",
+      "title": "Verifiable Environments Are LEGO Bricks: Recursive Composition for Reasoning Generalization",
+      "matched_topic": "training_inference_acceleration",
+      "passed_l1": false,
+      "decision": "archive_only",
+      "total_score": 3,
+      "matched_tracks": [
+        "training_inference_acceleration"
+      ],
+      "reason_cn": "论文提出RACES框架，通过递归组合可验证环境提升LLM推理泛化，属于训练效率优化方向，匹配2级次重点（训练加速与推理加速）。与用户核心的5级记忆、4级情感评测等方向无关，也未映射到toC、陪伴等场景。方法虽具体有效，但对高优先级方向无直接迁移价值。",
+      "archive_reason_cn": "命中2级方向但距离核心记忆与情感方向较远，且仅与训练效率间接相关，缺少对高优先级方向的直接启发，归档作为背景储备。",
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.12387",
+      "title": "TAHOE: Text-to-SQL with Automated Hint Optimization from Experience",
+      "matched_topic": "agent, memory_personalization, training_inference_acceleration",
+      "passed_l1": false,
+      "decision": "archive_only",
+      "total_score": 2,
+      "matched_tracks": [
+        "inference_acceleration"
+      ],
+      "reason_cn": "论文提出基于错误驱动的提示优化系统TAHOE，用于Text-to-SQL，主要贡献在数据库自然语言交互领域。与用户研究池的高优先级方向（大模型记忆、情感对话数据集、POI陪伴等）无实质关联。仅因减少编译器反馈轮次与推理加速有微弱相关，但未提出新的加速框架或方法。因此归档处理。",
+      "archive_reason_cn": "论文在Text-to-SQL评测上有良好表现，其提示优化和策略层设计可能对一般提示工程有启发，但与用户核心方向（记忆、陪伴、情感评测等）距离较远，可归档作为背景参考。",
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.11724",
+      "title": "Mind the Perspective: Let's Reason Recursively for Theory of Mind",
+      "matched_topic": "neuroscience_language_memory",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": 2,
+      "matched_tracks": [
+        "neuroscience_language_memory"
+      ],
+      "reason_cn": "论文聚焦于Theory of Mind推理，提出RecToM框架，并在多个ToM基准上取得SOTA。该方向属于认知推理，与用户高优先级的大模型记忆、情感对话评测、tool use、POI场景等方向无直接关联，仅匹配最低优先级的神经科学背景关注方向，启发价值有限，故归档。",
+      "archive_reason_cn": "属于1级背景关注方向，对语言、情绪与记忆建模有潜在启发，但与核心5级/4级方向无直接迁移价值，仅作为认知建模参考存档。",
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.01745",
+      "title": "Enhancing the Socioeconomic Understanding of Foundation Models with Urban Mobility",
+      "matched_topic": "poi_ai_companion",
+      "passed_l1": false,
+      "decision": "archive_only",
+      "total_score": 1,
+      "matched_tracks": [
+        "poi_tool_use_companion"
+      ],
+      "reason_cn": "论文利用城市移动性增强基础模型对POI相关城市指标的理解，与POI场景轻度相关，但缺乏陪伴产品、对话交互、用户状态理解等核心方向，实用价值有限。",
+      "archive_reason_cn": "论文将移动性数据与POI文本结合用于城市社会经济预测，与POI场景相关但未涉及陪伴产品、用户状态理解等核心关注点，可作为背景参考。",
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.12392",
+      "title": "System Report for CCL25-Eval Task 5: New Dataset and LoRA-Fine-Tuned Qwen2.5",
+      "matched_topic": "training_inference_acceleration",
+      "passed_l1": false,
+      "decision": "archive_only",
+      "total_score": 1,
+      "matched_tracks": [],
+      "reason_cn": "论文聚焦于古典诗歌的精确翻译与情感理解，构建领域数据集并微调模型，与用户核心的大模型记忆、人格一致性、情感陪伴、多轮对话、tool use 等方向无直接关联。虽涉及情感推断，但属于文学领域，与 toC 陪伴或智能体记忆场景距离很远，无可迁移的方法、数据或评测价值。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.11023",
+      "title": "Generative Archetype-Grounded Item Representations for Sequential Recommendation",
+      "matched_topic": "neuroscience_language_memory",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": 1,
+      "matched_tracks": [],
+      "reason_cn": "论文聚焦于序列推荐中利用LLM生成物品表示，核心贡献在于物品侧建模，与用户关注的大模型记忆、情感陪伴、多轮交互、POI场景等方向无实质关联。虽然涉及LLM和用户行为，但未构建记忆框架、人格一致性或用户状态持久化，也未涉及情感评测或工具调用，仅属于通用推荐系统研究，方向匹配度极低。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.12384",
+      "title": "APPO: Agentic Procedural Policy Optimization",
+      "matched_topic": "agent",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": 1,
+      "matched_tracks": [],
+      "reason_cn": "论文提出APPO方法优化agentic RL的多轮工具使用，通过细粒度分支和功劳分配提升性能。与用户核心的大模型记忆方向无直接关联，也不涉及情感陪伴、POI或评测场景，仅有微弱的工具使用背景参考价值。",
+      "archive_reason_cn": "方法对多轮工具使用RL训练有一定启发，但用户当前研究池不包含底层训练优化，暂存档。",
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.12305",
+      "title": "Bayesian nonparametric Mallows model for clustering preference data",
+      "matched_topic": "data_sft_rl_eval, memory_personalization",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": -1,
+      "matched_tracks": [
+        "personalized_memory_and_user_state"
+      ],
+      "reason_cn": "论文提出一种贝叶斯非参数Mallows模型用于偏好数据聚类，主要贡献在统计方法，虽提及个性化电影推荐，但与用户核心的大模型记忆框架、长期记忆、人格一致性、评测等方向无实质关联，仅因'个性化'关键词被误匹配，方向距离远。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.10078",
+      "title": "Mult-DPO: Multinomial Direct Preference Optimization for Recommender Systems",
+      "matched_topic": "poi_ai_companion",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": -1,
+      "matched_tracks": [],
+      "reason_cn": "论文聚焦推荐系统中的直接偏好优化（Mult-DPO），与用户大模型记忆、数据集评测、POI陪伴等高优先级方向均无实质关联，仅系统匹配到poi_ai_companion但无具体场景映射，无迁移价值。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.12217",
+      "title": "Making Foresight Actionable: Repurposing Representation Alignment in World Action Models",
+      "matched_topic": "neuroscience_language_memory",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": -1,
+      "matched_tracks": [],
+      "reason_cn": "该论文聚焦于机器人操作中的世界行动模型表示对齐，与用户研究方向（大模型记忆、数据集、POI、加速、神经科学）完全无关。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.12232",
+      "title": "Re-evaluating Confidence Remasking in Masked Diffusion Language Models",
+      "matched_topic": "data_sft_rl_eval",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": -1,
+      "matched_tracks": [],
+      "reason_cn": "论文研究掩码扩散语言模型的置信度重新掩码解码方法评估，与用户关注的大模型记忆、情感对话数据、POI陪伴、模型加速等方向无实质关联，无任何可迁移的方法、数据或评测价值。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.12252",
+      "title": "Using Explainability as a Training-Time Reliability Signal for Efficient ECG Classification",
+      "matched_topic": "data_sft_rl_eval",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": -1,
+      "matched_tracks": [],
+      "reason_cn": "论文聚焦于临床心电信号分类的训练加速，通过可解释性信号筛选样本，虽提及训练效率但与用户关注的大模型记忆、情感数据集、POI陪伴、训练/推理加速框架等方向无实质关联，核心方法属于医疗时间序列领域，无相关评测、数据集或方法可迁移至用户研究池。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.12386",
+      "title": "ATLAS: Active Theory Learning for Automated Science",
+      "matched_topic": "agent",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": -1,
+      "matched_tracks": [],
+      "reason_cn": "该论文提出主动学习框架用于自动化科学发现，旨在恢复强化学习智能体的行为模型，与用户关注的大模型记忆、情感对话、陪伴产品、数据集制备等方向无关。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.04514",
+      "title": "SAILRec: Steering LLM Attention to Dual-Side Semantically Aligned Collaborative Embeddings for Recommendation",
+      "matched_topic": "poi_ai_companion",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": -2,
+      "matched_tracks": [],
+      "reason_cn": "论文是面向通用推荐系统的 LLM 协同嵌入与注意力引导方法，未涉及用户关注的记忆、情感、多智能体、评测数据集、陪伴产品、POI 等任何高优先级方向，无迁移价值。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.12005",
+      "title": "Game-Theoretic Latent Space Alignment for Multi-user Semantic MIMO Communications",
+      "matched_topic": "neuroscience_language_memory",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": -2,
+      "matched_tracks": [],
+      "reason_cn": "论文研究多用户语义MIMO通信中的潜在空间对齐，属于无线通信与信息论领域，与用户的大模型记忆、数据集评测、POI陪伴等研究方向完全无关。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.12258",
+      "title": "Bridging Day and Night: Unsupervised Cross-Domain Re-Identification with Synergistic Prompt and Prototype Learning",
+      "matched_topic": "memory_personalization",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": -2,
+      "matched_tracks": [],
+      "reason_cn": "论文聚焦无监督日夜行人重识别，属于计算机视觉领域，与用户关注的大模型记忆、多智能体、情感对话、POI陪伴等方向毫无关联，无任何可迁移方法、数据或评测价值。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.12289",
+      "title": "The Standard Interpretable Model: A general theory of interpretable machine learning to deductively design interpretable methods using Lagrangian mechanics",
+      "matched_topic": "memory_personalization",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": -2,
+      "matched_tracks": [],
+      "reason_cn": "论文主题为可解释性的通用理论，与用户所有研究方向（大模型记忆、数据集评测、POI陪伴、加速、神经科学）均无实质关联，无记忆、情感、工具调用或用户建模相关内容。误匹配的 memory_personalization 关键词未在摘要中得到支撑。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.12341",
+      "title": "OCELOT: Inference-Leakage Budgets for Privacy-Preserving LLM Agents",
+      "matched_topic": "memory_personalization",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": -2,
+      "matched_tracks": [],
+      "reason_cn": "论文聚焦于LLM agent的隐私保护与推理泄露预算控制，属于安全和密码学领域，与用户关注的大模型记忆、人格一致性、情感评测等核心方向无实际关联，仅有关键词重合。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.12350",
+      "title": "Nonslop: A Gamified Experiment in Human-AI Collaborative Writing",
+      "matched_topic": "memory_personalization",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": -2,
+      "matched_tracks": [],
+      "reason_cn": "论文聚焦人类在游戏化写作实验中采纳AI建议的行为模式，与用户核心方向（大模型记忆、数据集制备与评测、POI陪伴等）无实质关联，未涉及记忆框架、评测、个性化或陪伴场景，缺乏可迁移的方法或数据价值。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.12403",
+      "title": "World Pilot: Steering Vision-Language-Action Models with World-Action Priors",
+      "matched_topic": "training_inference_acceleration",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": -2,
+      "matched_tracks": [],
+      "reason_cn": "论文聚焦于机器人操作领域的VLA模型，通过世界-动作先验提升泛化能力，与用户研究方向（大模型记忆、对话数据、POI陪伴、加速、神经科学）无任何交集，即使存在误匹配的“训练推理加速”标签，实际内容也完全不涉及。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.11640",
+      "title": "TAROT: Task-Adaptive Refinement of LLM-prior Graphs for Few-shot Tabular Learning",
+      "matched_topic": "neuroscience_language_memory",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": -3,
+      "matched_tracks": [],
+      "reason_cn": "论文研究少样本表格学习，利用LLM推断特征语义关系构建图进行GNN预测，与用户研究方向（大模型记忆、情感陪伴、POI场景、数据集/评测等）无直接或间接关联，不属于任何相关track，因此不予纳入。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.12365",
+      "title": "Ambient Diffusion Policy: Imitation Learning from Suboptimal Data in Robotics",
+      "matched_topic": "data_sft_rl_eval",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": -3,
+      "matched_tracks": [],
+      "reason_cn": "论文聚焦于机器人模仿学习中的次优数据处理方法，与用户关注的大模型记忆、数据集制备、POI陪伴、训练推理加速、神经科学等方向无实质性关联。唯一可能的交叉点“数据利用”仅停留在机器人动作数据层面，不涉及情感对话、工具调用、评测等核心关注点，无迁移价值。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.11863",
+      "title": "Enhancing LLM-Based Code Translation with Verified Multi-Semantic Representations",
+      "matched_topic": "neuroscience_language_memory",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": -4,
+      "matched_tracks": [],
+      "reason_cn": "论文研究基于LLM的代码翻译，提出多语义增强和自校准框架。与用户关注的大模型记忆、数据集制备、POI陪伴、加速或神经科学等方向均无直接关联，无迁移价值。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.12348",
+      "title": "MATLAB-Based Layerwise Self-Adaptive Physics-Informed Neural Network in Applications to Multidimensional Coupled Burgers' Equations with High Reynolds Numbers",
+      "matched_topic": "data_sft_rl_eval",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": -4,
+      "matched_tracks": [],
+      "reason_cn": "论文属于计算物理/数值分析领域，研究物理信息神经网络求解Burgers方程，与用户关注的LLM记忆、数据集、POI陪伴、加速或神经科学方向完全无关，无任何可迁移价值。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.12368",
+      "title": "DepthMaster: Unified Monocular Depth Estimation for Perspective and Panoramic Images",
+      "matched_topic": "training_inference_acceleration",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": -4,
+      "matched_tracks": [],
+      "reason_cn": "论文属于计算机视觉领域的单目深度估计，与用户研究方向（大模型记忆、数据集制备、POI陪伴、加速、神经科学）完全无关，无任何可迁移价值。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.12372",
+      "title": "UniIntervene: Agentic Intervention for Efficient Real-World Reinforcement Learning",
+      "matched_topic": "agent",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": -4,
+      "matched_tracks": [],
+      "reason_cn": "论文研究机器人操控中的人机协同强化学习，通过智能干预减少人类纠正，所涉及的记忆仅为经验回放式的历史干预重用，与用户关注的大模型记忆、人格一致性、情感陪伴、POI场景、数据集制备等方向无直接关联，属于不同领域。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    },
+    {
+      "paper_id": "2606.12376",
+      "title": "A note on a conjecture of Ng",
+      "matched_topic": "training_inference_acceleration",
+      "passed_l1": false,
+      "decision": "reject",
+      "total_score": -4,
+      "matched_tracks": [],
+      "reason_cn": "纯数论论文，关于黎曼zeta函数零点性质，与用户的大模型记忆、数据集、POI、加速、神经科学等方向完全无关，无任何迁移价值。",
+      "archive_reason_cn": null,
+      "from_cache": false
+    }
+  ]
+}

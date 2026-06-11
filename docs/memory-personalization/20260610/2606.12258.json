@@ -1,0 +1,19 @@
+{
+  "paper_id": "2606.12258",
+  "arxiv_short_id": "2606.12258v1",
+  "published_date": "2026-06-10",
+  "title": "Bridging Day and Night: Unsupervised Cross-Domain Re-Identification with Synergistic Prompt and Prototype Learning",
+  "authors": "Jiyang Xu et.al.",
+  "authors_full": [
+    "Jiyang Xu",
+    "Rui Liu",
+    "Hang Dai"
+  ],
+  "paper_url": "http://arxiv.org/abs/2606.12258v1",
+  "pdf_url": "https://arxiv.org/pdf/2606.12258v1.pdf",
+  "code_link": null,
+  "abstract": "Cross-domain day-night re-identification (ReID) is fundamentally challenged by the substantial visual appearance discrepancies between daytime and nighttime scenes. Existing fully supervised methods rely heavily on labor-intensive annotations, which are costly and exhibit limited generalization across domains. In this work, we investigate unsupervised day-night ReID and propose a novel framework that synergistically combines prompt learning and prototype-based representation learning to associate identities across domains without requiring manual labels. Our approach follows a progressive two-stage training strategy. In the first stage, we exploit the vision-language model to generate instance-specific textual prompts in an annotation-free manner. We employ an instance-level alignment mechanism to embed visual features and textual prompts into a unified semantic space, aligning unlabeled day/night images with learnable prompts via instance-aware dynamic-bias adaptation. In the second stage, we construct domain-specific prototype memory banks and introduce two complementary modules: i) an intra-domain identity association module to enhance feature discriminability within each domain, and ii) a cross-domain prototype matching module to reliably identify positive and negative prototype pairs, thereby establishing robust identity correspondences across day and night. Extensive experiments on public benchmarks validate the effectiveness of our method. Under the unsupervised setting, our framework attains Rank-1 accuracy comparable to state-of-the-art fully supervised methods.",
+  "categories": [
+    "cs.CV"
+  ]
+}

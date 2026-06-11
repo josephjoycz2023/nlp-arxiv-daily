@@ -1,0 +1,26 @@
+{
+  "cached_at": "2026-06-11T04:32:29.612929+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.12258",
+  "payload": {
+    "paper_id": "2606.12258",
+    "l1": {
+      "decision": "reject",
+      "model_decision": "reject",
+      "decision_source": "thresholds",
+      "matched_tracks": [],
+      "scores": {
+        "topic_relevance": 0,
+        "scenario_fit": 0,
+        "landing_potential": 0,
+        "abstract_evidence_strength": 2,
+        "distance_penalty": 4
+      },
+      "total_score": -2,
+      "model_total_score": 0,
+      "reason_cn": "论文聚焦无监督日夜行人重识别，属于计算机视觉领域，与用户关注的大模型记忆、多智能体、情感对话、POI陪伴等方向毫无关联，无任何可迁移方法、数据或评测价值。",
+      "archive_reason_cn": null
+    }
+  }
+}

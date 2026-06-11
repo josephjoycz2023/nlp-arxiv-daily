@@ -1,0 +1,28 @@
+{
+  "cached_at": "2026-06-11T04:41:49.699480+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.12387",
+  "payload": {
+    "paper_id": "2606.12387",
+    "l1": {
+      "decision": "archive_only",
+      "model_decision": "archive_only",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "inference_acceleration"
+      ],
+      "scores": {
+        "topic_relevance": 2,
+        "scenario_fit": 0,
+        "landing_potential": 0,
+        "abstract_evidence_strength": 4,
+        "distance_penalty": 4
+      },
+      "total_score": 2,
+      "model_total_score": 5,
+      "reason_cn": "论文提出基于错误驱动的提示优化系统TAHOE，用于Text-to-SQL，主要贡献在数据库自然语言交互领域。与用户研究池的高优先级方向（大模型记忆、情感对话数据集、POI陪伴等）无实质关联。仅因减少编译器反馈轮次与推理加速有微弱相关，但未提出新的加速框架或方法。因此归档处理。",
+      "archive_reason_cn": "论文在Text-to-SQL评测上有良好表现，其提示优化和策略层设计可能对一般提示工程有启发，但与用户核心方向（记忆、陪伴、情感评测等）距离较远，可归档作为背景参考。"
+    }
+  }
+}

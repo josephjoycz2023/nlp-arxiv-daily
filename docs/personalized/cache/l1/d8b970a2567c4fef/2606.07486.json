@@ -1,0 +1,28 @@
+{
+  "cached_at": "2026-06-11T04:26:04.901163+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.07486",
+  "payload": {
+    "paper_id": "2606.07486",
+    "l1": {
+      "decision": "level2",
+      "model_decision": "level2",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "poi_tool_use_companion"
+      ],
+      "scores": {
+        "topic_relevance": 3,
+        "scenario_fit": 3,
+        "landing_potential": 3,
+        "abstract_evidence_strength": 3,
+        "distance_penalty": 0
+      },
+      "total_score": 12,
+      "model_total_score": 12,
+      "reason_cn": "论文直接命中3级方向 POI 场景与陪伴产品：提出面向个性化、多站点、无障碍的城市旅行规划多智能体系统 OPENPATH，融合 LLM 与经典算法，用于行程规划与城市可访问性分析，与 travel assistant、tool use、user state understanding 高度匹配。",
+      "archive_reason_cn": null
+    }
+  }
+}

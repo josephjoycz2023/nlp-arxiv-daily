@@ -1,0 +1,28 @@
+{
+  "cached_at": "2026-06-11T04:33:50.401699+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.12332",
+  "payload": {
+    "paper_id": "2606.12332",
+    "l1": {
+      "decision": "level2",
+      "model_decision": "level2",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "dataset_pipeline.tool_use_and_multi_turn_eval"
+      ],
+      "scores": {
+        "topic_relevance": 4,
+        "scenario_fit": 2,
+        "landing_potential": 4,
+        "abstract_evidence_strength": 4,
+        "distance_penalty": 0
+      },
+      "total_score": 14,
+      "model_total_score": 14,
+      "reason_cn": "论文提出衡量多轮对话语义进展的信息论指标，直接命中数据集评测方向（4级）中的多轮交互评测 track，提供了具体可执行的自动评测方法与理论性质，在主流对话 Benchmark 上验证有效性，方法轻量且可复现，对对话质量自动评测具有明确的落地价值。",
+      "archive_reason_cn": null
+    }
+  }
+}

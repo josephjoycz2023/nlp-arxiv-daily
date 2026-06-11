@@ -1,0 +1,26 @@
+{
+  "cached_at": "2026-06-11T04:36:38.624120+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.12365",
+  "payload": {
+    "paper_id": "2606.12365",
+    "l1": {
+      "decision": "reject",
+      "model_decision": "reject",
+      "decision_source": "thresholds",
+      "matched_tracks": [],
+      "scores": {
+        "topic_relevance": 0,
+        "scenario_fit": 0,
+        "landing_potential": 0,
+        "abstract_evidence_strength": 1,
+        "distance_penalty": 4
+      },
+      "total_score": -3,
+      "model_total_score": 1,
+      "reason_cn": "论文聚焦于机器人模仿学习中的次优数据处理方法，与用户关注的大模型记忆、数据集制备、POI陪伴、训练推理加速、神经科学等方向无实质性关联。唯一可能的交叉点“数据利用”仅停留在机器人动作数据层面，不涉及情感对话、工具调用、评测等核心关注点，无迁移价值。",
+      "archive_reason_cn": null
+    }
+  }
+}

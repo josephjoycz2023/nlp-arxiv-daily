@@ -1,0 +1,28 @@
+{
+  "cached_at": "2026-06-11T04:27:10.287409+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.10671",
+  "payload": {
+    "paper_id": "2606.10671",
+    "l1": {
+      "decision": "archive_only",
+      "model_decision": "archive_only",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "inference_acceleration"
+      ],
+      "scores": {
+        "topic_relevance": 2,
+        "scenario_fit": 0,
+        "landing_potential": 1,
+        "abstract_evidence_strength": 3,
+        "distance_penalty": 3
+      },
+      "total_score": 3,
+      "model_total_score": 3,
+      "reason_cn": "论文提出视频扩散模型的KV缓存优化技术(FadeMem)，命中推理加速方向(2级)，但领域为计算机视觉，与用户核心的大模型记忆、人格一致性、情感陪伴等方向无直接关联，且方法迁移至LLM/agent系统的潜力有限。",
+      "archive_reason_cn": "KV缓存优化方法本身有工程参考价值，但视频生成领域与用户研究主线距离较远，暂不进入深度评审池，归档备查。"
+    }
+  }
+}

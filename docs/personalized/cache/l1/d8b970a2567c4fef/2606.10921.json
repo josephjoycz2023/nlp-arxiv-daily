@@ -1,0 +1,28 @@
+{
+  "cached_at": "2026-06-11T04:27:30.658824+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.10921",
+  "payload": {
+    "paper_id": "2606.10921",
+    "l1": {
+      "decision": "level2",
+      "model_decision": "level2",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "multi_agent_memory_frameworks"
+      ],
+      "scores": {
+        "topic_relevance": 4,
+        "scenario_fit": 2,
+        "landing_potential": 3,
+        "abstract_evidence_strength": 4,
+        "distance_penalty": 1
+      },
+      "total_score": 12,
+      "model_total_score": 14,
+      "reason_cn": "论文提出多智能体RAG框架DocTrace，构建共享超图工作记忆和经验记忆，直接命中大模型记忆核心方向（多智能体记忆框架），方法具体，实验表明性能提升，属于高相关可跟进研究。",
+      "archive_reason_cn": null
+    }
+  }
+}

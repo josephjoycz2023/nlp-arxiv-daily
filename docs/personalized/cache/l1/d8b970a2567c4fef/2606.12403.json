@@ -1,0 +1,26 @@
+{
+  "cached_at": "2026-06-11T04:43:49.083775+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.12403",
+  "payload": {
+    "paper_id": "2606.12403",
+    "l1": {
+      "decision": "reject",
+      "model_decision": "reject",
+      "decision_source": "thresholds",
+      "matched_tracks": [],
+      "scores": {
+        "topic_relevance": 0,
+        "scenario_fit": 0,
+        "landing_potential": 0,
+        "abstract_evidence_strength": 2,
+        "distance_penalty": 4
+      },
+      "total_score": -2,
+      "model_total_score": -2,
+      "reason_cn": "论文聚焦于机器人操作领域的VLA模型，通过世界-动作先验提升泛化能力，与用户研究方向（大模型记忆、对话数据、POI陪伴、加速、神经科学）无任何交集，即使存在误匹配的“训练推理加速”标签，实际内容也完全不涉及。",
+      "archive_reason_cn": null
+    }
+  }
+}

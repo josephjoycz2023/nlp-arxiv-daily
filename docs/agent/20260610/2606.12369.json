@@ -1,0 +1,19 @@
+{
+  "paper_id": "2606.12369",
+  "arxiv_short_id": "2606.12369v1",
+  "published_date": "2026-06-10",
+  "title": "Should LLM Agents Decide in Social Simulations? Comparing Finite-State and LLM-Based Decision Policies",
+  "authors": "Alejandro Buitrago L\u00f3pez et.al.",
+  "authors_full": [
+    "Alejandro Buitrago L\u00f3pez",
+    "Javier Pastor-Galindo",
+    "Jos\u00e9 A. Ruip\u00e9rez-Valiente"
+  ],
+  "paper_url": "http://arxiv.org/abs/2606.12369v1",
+  "pdf_url": "https://arxiv.org/pdf/2606.12369v1.pdf",
+  "code_link": null,
+  "abstract": "Large language models (LLMs) are increasingly used as decision-making components in social simulations. This introduces a methodological risk: the simulation may deviate from the explicit behavioral policy defined by the researcher. In online social network (OSN) simulations, action choices shape system dynamics, interaction patterns, and model interpretability.\n  This paper evaluates whether LLM action selectors preserve an interpretable reference policy in an OSN simulation. The reference is a finite state machine implemented as a first-order Markov model, with transition probabilities depending on the user type. The evaluation uses a synthetic network with 1,000 agents and 10,000 action decisions. Three open-weight LLMs are tested: LLaMA 3.1, GPT-OSS, and Mistral 24B. Each model is evaluated under three prompting strategies: base, guided, and probabilistic. Alignment is measured using Jensen-Shannon Divergence with Laplace smoothing, and execution time is reported. Results show that LLMs can approximate the reference policy in some configurations, but do not preserve it reliably. Alignment varies across models and prompts, and additional guidance can introduce systematic action biases. Even the best-aligned LLM configurations are several hundred times slower than direct Markov chain sampling. These findings indicate that LLM-based action selection is not a direct replacement for explicit decision policies: it can alter the intended behavior while increasing computational cost.",
+  "categories": [
+    "cs.CY"
+  ]
+}

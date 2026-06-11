@@ -1,0 +1,28 @@
+{
+  "cached_at": "2026-06-11T04:24:15.714382+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.04547",
+  "payload": {
+    "paper_id": "2606.04547",
+    "l1": {
+      "decision": "level2",
+      "model_decision": "level2",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "personalized_memory_and_user_state"
+      ],
+      "scores": {
+        "topic_relevance": 4,
+        "scenario_fit": 3,
+        "landing_potential": 3,
+        "abstract_evidence_strength": 4,
+        "distance_penalty": 0
+      },
+      "total_score": 14,
+      "model_total_score": 14,
+      "reason_cn": "论文直接命中5级核心方向“个性化记忆与用户状态建模”，提出TAP-PER框架，用轻量级前缀嵌入编码用户偏好，避免检索和重适配器，并在6个任务上全面优于基线，证据充分，方法可落地，对个性化对话系统有直接迁移价值。",
+      "archive_reason_cn": null
+    }
+  }
+}

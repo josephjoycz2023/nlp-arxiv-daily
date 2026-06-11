@@ -1,0 +1,28 @@
+{
+  "cached_at": "2026-06-11T04:39:00.241855+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.12373",
+  "payload": {
+    "paper_id": "2606.12373",
+    "l1": {
+      "decision": "archive_only",
+      "model_decision": "archive_only",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "training_inference_acceleration"
+      ],
+      "scores": {
+        "topic_relevance": 2,
+        "scenario_fit": 0,
+        "landing_potential": 1,
+        "abstract_evidence_strength": 3,
+        "distance_penalty": 3
+      },
+      "total_score": 3,
+      "model_total_score": 3,
+      "reason_cn": "论文提出RACES框架，通过递归组合可验证环境提升LLM推理泛化，属于训练效率优化方向，匹配2级次重点（训练加速与推理加速）。与用户核心的5级记忆、4级情感评测等方向无关，也未映射到toC、陪伴等场景。方法虽具体有效，但对高优先级方向无直接迁移价值。",
+      "archive_reason_cn": "命中2级方向但距离核心记忆与情感方向较远，且仅与训练效率间接相关，缺少对高优先级方向的直接启发，归档作为背景储备。"
+    }
+  }
+}

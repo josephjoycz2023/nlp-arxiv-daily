@@ -1,0 +1,28 @@
+{
+  "cached_at": "2026-06-11T04:35:21.150227+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.12344",
+  "payload": {
+    "paper_id": "2606.12344",
+    "l1": {
+      "decision": "archive_only",
+      "model_decision": "archive_only",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "tool_use_and_multi_turn_eval"
+      ],
+      "scores": {
+        "topic_relevance": 2,
+        "scenario_fit": 1,
+        "landing_potential": 1,
+        "abstract_evidence_strength": 3,
+        "distance_penalty": 3
+      },
+      "total_score": 4,
+      "model_total_score": 4,
+      "reason_cn": "论文提出 Claw-SWE-Bench，评测 OpenClaw 风格 Agent 在编码任务上的表现，属于 Agent Benchmark 范畴，与 4 级方向「tool_use_and_multi_turn_eval」间接相关，但聚焦于代码修复而非我们所关注的情感陪伴、多轮对话、工具调用及用户状态理解场景。摘要提供了清晰的基准与实验，但方向匹配度低，对核心记忆、人格一致性、情绪稳定性等无直接启发。",
+      "archive_reason_cn": "方向与编码 Agent Benchmark 间接相关，但与用户核心关注的记忆、情感陪伴、多轮交互等方向距离较远，无明确可迁移价值，暂归档为低优先级参考。"
+    }
+  }
+}

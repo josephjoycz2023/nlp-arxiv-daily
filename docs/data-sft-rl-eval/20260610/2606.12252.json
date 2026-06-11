@@ -1,0 +1,21 @@
+{
+  "paper_id": "2606.12252",
+  "arxiv_short_id": "2606.12252v1",
+  "published_date": "2026-06-10",
+  "title": "Using Explainability as a Training-Time Reliability Signal for Efficient ECG Classification",
+  "authors": "Veerendhra Kumar Dangeti et.al.",
+  "authors_full": [
+    "Veerendhra Kumar Dangeti",
+    "Xiao Gu",
+    "Ying Weng",
+    "Shreyank N Gowda"
+  ],
+  "paper_url": "http://arxiv.org/abs/2606.12252v1",
+  "pdf_url": "https://arxiv.org/pdf/2606.12252v1.pdf",
+  "code_link": null,
+  "abstract": "Training deep neural networks for clinical time-series analysis is computationally demanding, yet many healthcare settings lack the resources required for repeated model development and deployment. This challenge is particularly evident in electrocardiogram classification, where large datasets and long training schedules make efficiency practically important. Progressive Data Dropout reduces training cost by excluding samples from gradient updates once they are learned, but it relies on model confidence and may retain samples that are difficult due to noise or ambiguity rather than useful signal. In this work, we introduce ERTS, an explainability-based reliability training signal for efficient ECG classification. ERTS uses explanation quality during training to distinguish between informative and unreliable uncertainty. Building on progressive data selection, we compute Grad-CAM attention maps for candidate samples and derive a focus score that measures whether model predictions are supported by coherent and localised patterns. Samples with low focus are filtered out, while those with meaningful attention are prioritised for gradient updates. We evaluate ERTS across three ECG datasets and multiple backbone architectures, showing consistent improvements in macro-F1 alongside reduced effective training cost. These results suggest that explanation quality can serve as a practical signal for improving both efficiency and reliability in clinical time-series learning. Code will be released.",
+  "categories": [
+    "cs.LG",
+    "cs.AI"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "cached_at": "2026-06-11T04:26:45.286580+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.10078",
+  "payload": {
+    "paper_id": "2606.10078",
+    "l1": {
+      "decision": "reject",
+      "model_decision": "reject",
+      "decision_source": "thresholds",
+      "matched_tracks": [],
+      "scores": {
+        "topic_relevance": 0,
+        "scenario_fit": 0,
+        "landing_potential": 0,
+        "abstract_evidence_strength": 3,
+        "distance_penalty": 4
+      },
+      "total_score": -1,
+      "model_total_score": 7,
+      "reason_cn": "论文聚焦推荐系统中的直接偏好优化（Mult-DPO），与用户大模型记忆、数据集评测、POI陪伴等高优先级方向均无实质关联，仅系统匹配到poi_ai_companion但无具体场景映射，无迁移价值。",
+      "archive_reason_cn": null
+    }
+  }
+}

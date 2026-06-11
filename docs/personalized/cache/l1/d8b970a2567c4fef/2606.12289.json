@@ -1,0 +1,26 @@
+{
+  "cached_at": "2026-06-11T04:32:47.276311+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.12289",
+  "payload": {
+    "paper_id": "2606.12289",
+    "l1": {
+      "decision": "reject",
+      "model_decision": "reject",
+      "decision_source": "thresholds",
+      "matched_tracks": [],
+      "scores": {
+        "topic_relevance": 0,
+        "scenario_fit": 0,
+        "landing_potential": 0,
+        "abstract_evidence_strength": 2,
+        "distance_penalty": 4
+      },
+      "total_score": -2,
+      "model_total_score": 6,
+      "reason_cn": "论文主题为可解释性的通用理论，与用户所有研究方向（大模型记忆、数据集评测、POI陪伴、加速、神经科学）均无实质关联，无记忆、情感、工具调用或用户建模相关内容。误匹配的 memory_personalization 关键词未在摘要中得到支撑。",
+      "archive_reason_cn": null
+    }
+  }
+}

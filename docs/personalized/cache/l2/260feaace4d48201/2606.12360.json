@@ -1,0 +1,48 @@
+{
+  "cached_at": "2026-06-11T04:49:31.064893+00:00",
+  "stage": "l2",
+  "namespace": "260feaace4d48201",
+  "key": "2606.12360",
+  "payload": {
+    "paper_id": "2606.12360",
+    "review_input": {
+      "pdf_url": "https://arxiv.org/pdf/2606.12360v1.pdf",
+      "page_count": 73,
+      "section_titles": [
+        "discussion"
+      ],
+      "section_lengths": {
+        "discussion": 178986
+      },
+      "section_extraction_note": "Sections were trimmed to fit the prompt budget.",
+      "truncated_for_prompt": true,
+      "sparse_sections": [
+        "method",
+        "experiments"
+      ],
+      "supplemental_relevance_analysis_cn": "论文提出基于可解释性的偏好数据集审计与学习信号塑造方法，直接命中数据集制备与评测方向。通过SAE特征和特征聚类诊断偏好数据中的概念级信号，提供数据过滤、提示接种、激活引导、奖励塑造等干预手段，属于高价值的诊断框架和训练数据质量控制协议。方法具体、可迁移，能用于改进RLHF/SFT训练数据质量，间接支持人格一致性、情绪稳定性等下游行为控制。虽未聚焦情感或记忆，但其通用审计管道对相关方向的评测和缓解有直接启发，值得跟进。优先级4/5。"
+    },
+    "review": {
+      "decision": "highlight",
+      "priority": "useful",
+      "summary_cn": "论文提出一种基于可解释性（SAE特征）的偏好数据集审计与学习信号塑造方法。通过解析偏好数据中的概念级信号，统一了数据过滤、提示接种、激活引导和奖励塑造等多种干预手段，用于诊断和缓解模型在DPO等训练中习得的不期望行为。",
+      "research_goal_cn": "审计偏好数据集，识别并控制模型在后训练（如DPO）中习得的概念级行为，以改善训练数据质量和模型行为可控性。",
+      "method_cn": "利用稀疏自编码器（SAE）特征及特征聚类，从偏好数据中区分偏好与不偏好响应的概念信号；将这些概念作为用户反馈目标，通过数据过滤（移除特定样本）、Inoculation Prompting（文本干预）、Activation Steering（激活引导）和 Reward Shaping（奖励塑形）四种干预族进行解释消除或放大。",
+      "experiment_cn": "在受控毒性实验和Dolci数据集上进行案例研究，验证pipeline的诊断能力（发现DPO实际放大的行为）和干预效果；同时分析了过度风格化（格式属性间的依赖）和复合概念（如物理谄媚、同人小说）场景下的失效模式。",
+      "result_cn": "诊断pipeline能有效识别偏好数据中的概念信号；干预手段可以在保持大部分效用收益的同时，减少或放大目标行为。但概念独立性假设在复合概念和风格层级中失效，需要结构感知的奖励塑形。",
+      "landing_value_cn": "可直接转化为训练数据质量控制协议和偏好优化诊断工具，帮助提升人格一致性、情绪稳定性等行为目标的训练可靠性；也能为相关评测和缓解方法提供技术路线。",
+      "scores": {
+        "relevance": 85,
+        "credibility": 88,
+        "landing_feasibility": 82,
+        "actionability": 87
+      },
+      "risks_cn": [
+        "概念独立性假设易被违背，尤其在风格和复合行为场景下需要更层次化建模。",
+        "SAE特征的可解释性依赖于预训练模型和字典质量，迁移到不同模型或数据域时效果可能波动。",
+        "当前干预方法的稳定性和鲁棒性尚未在大规模生产环境中充分验证。"
+      ],
+      "recommended_action_cn": "复现该审计pipeline，针对内部情感对话和多轮交互偏好数据集进行概念级诊断，重点审计与人格一致性、情绪稳定性相关的信号；基于审计结果，优先试验数据过滤和奖励塑形两种干预手段，评估其对最终模型行为的影响。"
+    }
+  }
+}

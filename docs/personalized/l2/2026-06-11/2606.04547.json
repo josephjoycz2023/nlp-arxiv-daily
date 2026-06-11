@@ -1,0 +1,102 @@
+{
+  "date": "2026-06-11",
+  "paper": {
+    "paper_id": "2606.04547",
+    "arxiv_short_id": "2606.04547v1",
+    "published_date": "2026-06-03",
+    "title": "Beyond Retrieval: Learning Compact User Representations for Scalable LLM Personalization",
+    "authors": "Heng Cao et.al.",
+    "authors_full": [
+      "Heng Cao",
+      "Fan Zhang",
+      "Jian Yao",
+      "Yujie Zheng",
+      "Changlin Zhao",
+      "Lu Hao",
+      "Yuxuan Wei",
+      "Wangze Ni",
+      "Huaiyu Fu",
+      "Yuqian Sun",
+      "Xuyan Mo"
+    ],
+    "paper_url": "http://arxiv.org/abs/2606.04547v1",
+    "pdf_url": "https://arxiv.org/pdf/2606.04547v1.pdf",
+    "code_link": null,
+    "abstract": "Personalizing large language models requires adapting model behavior to individual users while preserving robustness and deployment-scale efficiency. Existing approaches typically personalize LLMs either at the input level, by retrieving user histories or constructing profile prompts, or at the parameter level, by maintaining user-specific parameter-efficient modules. The former makes personalization sensitive to retrieval quality and prompt design, whereas the latter incurs storage and maintenance costs that grow with the user population. To address these limitations, we propose TAP-PER (Temporal Attentive Prefix for PERsonalization), a prefix-based framework that encodes user preferences as learnable representations, eliminating explicit prompt construction and replacing heavy per-user adapters with lightweight user-state prefix embeddings. Inspired by personalized recommendation systems, TAP-PER decomposes user modeling into user-state and query-conditioned components, and incorporates temporal signals to capture the evolving nature of user interests. Experiments on six LaMP tasks show that TAP-PER consistently outperforms prompt-based and model-based baselines across classification, rating, and generation settings. Moreover, TAP-PER uses 130x fewer per-user parameters than OPPU and roughly half the total parameter footprint of PER-PCS at the 1,000-user scale, demonstrating that scalable LLM personalization can be achieved without explicit prompt construction or heavy per-user adapters.",
+    "categories": [
+      "cs.IR",
+      "cs.CL"
+    ],
+    "matched_topics": [
+      "poi_ai_companion"
+    ],
+    "matched_topic": "poi_ai_companion"
+  },
+  "l1": {
+    "decision": "level2",
+    "model_decision": "level2",
+    "decision_source": "thresholds",
+    "matched_tracks": [
+      "personalized_memory_and_user_state"
+    ],
+    "scores": {
+      "topic_relevance": 4,
+      "scenario_fit": 3,
+      "landing_potential": 3,
+      "abstract_evidence_strength": 4,
+      "distance_penalty": 0
+    },
+    "total_score": 14,
+    "model_total_score": 14,
+    "reason_cn": "论文直接命中5级核心方向“个性化记忆与用户状态建模”，提出TAP-PER框架，用轻量级前缀嵌入编码用户偏好，避免检索和重适配器，并在6个任务上全面优于基线，证据充分，方法可落地，对个性化对话系统有直接迁移价值。",
+    "archive_reason_cn": null
+  },
+  "analysis_meta": {
+    "from_cache": false
+  },
+  "review_input": {
+    "pdf_url": "https://arxiv.org/pdf/2606.04547v1.pdf",
+    "page_count": 16,
+    "section_titles": [
+      "abstract",
+      "conclusion",
+      "method",
+      "limitation"
+    ],
+    "section_lengths": {
+      "abstract": 1539,
+      "method": 22510,
+      "limitation": 29291,
+      "conclusion": 937
+    },
+    "section_extraction_note": "Sections were trimmed to fit the prompt budget.",
+    "truncated_for_prompt": true,
+    "sparse_sections": [
+      "experiments"
+    ],
+    "supplemental_relevance_analysis_cn": "该论文提出通过紧凑用户表示实现LLM可扩展个性化，其用户状态前缀与查询条件记录前缀构成隐式个性化记忆，直接捕捉长期偏好与时间演变，支持持续适应，强命中个性化记忆与用户状态建模方向（5级最高优先）。方法无需显式检索或每用户适配器，在LaMP基准上表现优异且参数效率高，为记忆系统的轻量化部署提供具体启发，值得优先跟进。"
+  },
+  "review": {
+    "decision": "highlight",
+    "priority": "must_read",
+    "summary_cn": "TAP-PER 提出了一种基于前缀的 LLM 个性化框架，将用户建模分解为用户状态前缀和查询条件记录前缀，用轻量级可学习向量替代显式提示和用户适配器，在 LaMP 六个任务上全面超越基线，参数效率显著提升，并支持持续适应。",
+    "research_goal_cn": "实现可扩展的 LLM 个性化，无需依赖检索或用户专属适配器，通过紧凑的用户表示学习来捕获长期偏好与动态兴趣。",
+    "method_cn": "采用两阶段训练：第一阶段用 LoRA 做任务适应；第二阶段冻结任务适应模型，引入用户状态嵌入表和基于时间衰减注意力的查询条件记录前缀，通过共享桥接 LoRA 深度集成。前缀通过元素相加组合，整体端到端优化。",
+    "experiment_cn": "在 LaMP 基准的六个任务上对比了基于提示（RAG/PAG）和基于模型（OPPU/PER-PCS）的基线，使用 Llama-3.1-8B 作为骨干。还进行了组件消融、时间信号分析、可扩展性（1–1000 用户）、检索预过滤和前缀长度敏感性、在线适应等实验。",
+    "result_cn": "TAP-PER 在分类、评分和生成任务上均取得最佳结果，每用户参数比 OPPU 少 130 倍，千用户规模下总参数量约为 PER-PCS 的一半。消融显示桥接 LoRA 和用户状态前缀贡献最大，时间衰减也正向提升性能。",
+    "landing_value_cn": "为个性化记忆模块提供了轻量级、端到端的用户表示方案，可直接用于长期偏好存储与隐式记忆索引，无需显式 prompt 工程或独立检索器，适合 toC 陪伴产品的个性化记忆和状态持续更新。",
+    "scores": {
+      "relevance": 95,
+      "credibility": 90,
+      "landing_feasibility": 88,
+      "actionability": 85
+    },
+    "risks_cn": [
+      "实验仅在 LaMP 基准上验证，未在真实多轮对话或情感陪伴场景中评估个性化质量",
+      "全历史注意力的有效性在极长/噪声历史下可能退化，文中未给出缓解方案",
+      "仅测试了 8B 和 4B 模型，更大规模模型上的增益尚未验证",
+      "用户状态前缀的隐私风险提及但未提供具体保护措施实现"
+    ],
+    "recommended_action_cn": "立即深入阅读其用户表示学习细节、桥接 LoRA 机制和持续适应实验，评估将其引入记忆框架作为隐式记忆索引与动态更新模块的可行性，并在内部多轮对话数据集上复现个性化效果。"
+  }
+}

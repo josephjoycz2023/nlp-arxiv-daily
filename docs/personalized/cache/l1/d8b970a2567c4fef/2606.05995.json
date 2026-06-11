@@ -1,0 +1,29 @@
+{
+  "cached_at": "2026-06-11T04:25:47.406145+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.05995",
+  "payload": {
+    "paper_id": "2606.05995",
+    "l1": {
+      "decision": "level2",
+      "model_decision": "level2",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "emotional_and_psychological_eval",
+        "poi_tool_use_companion"
+      ],
+      "scores": {
+        "topic_relevance": 4,
+        "scenario_fit": 4,
+        "landing_potential": 4,
+        "abstract_evidence_strength": 4,
+        "distance_penalty": 0
+      },
+      "total_score": 16,
+      "model_total_score": 16,
+      "reason_cn": "论文直接命中情感、心理感知与陪伴相关评测方向（4级重点），提出共情倾听框架并评估LLM在情感支持中的语言信号，同时明确映射到AI陪伴场景与用户情感支持需求，方法具体、实验证据充分，高度相关。",
+      "archive_reason_cn": null
+    }
+  }
+}

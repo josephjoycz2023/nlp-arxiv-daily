@@ -1,0 +1,29 @@
+{
+  "cached_at": "2026-06-11T04:23:35.497145+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.04431",
+  "payload": {
+    "paper_id": "2606.04431",
+    "l1": {
+      "decision": "level2",
+      "model_decision": "level2",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "emotional_and_psychological_eval",
+        "poi_tool_use_companion"
+      ],
+      "scores": {
+        "topic_relevance": 4,
+        "scenario_fit": 4,
+        "landing_potential": 4,
+        "abstract_evidence_strength": 4,
+        "distance_penalty": 0
+      },
+      "total_score": 16,
+      "model_total_score": 16,
+      "reason_cn": "论文直接命中情感心理感知与陪伴评测方向（4级核心），提出脆弱性对话响应分类法和逆行强化学习方法，在真实陪伴对话中审计AI响应策略，对脆弱用户交互安全评估有直接贡献，与toC情感陪伴、用户状态理解高度匹配。",
+      "archive_reason_cn": null
+    }
+  }
+}

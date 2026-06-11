@@ -1,0 +1,29 @@
+{
+  "cached_at": "2026-06-11T04:44:22.130056+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.12411",
+  "payload": {
+    "paper_id": "2606.12411",
+    "l1": {
+      "decision": "level2",
+      "model_decision": "level2",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "personalized_memory_and_user_state",
+        "multi_agent_memory_frameworks"
+      ],
+      "scores": {
+        "topic_relevance": 4,
+        "scenario_fit": 3,
+        "landing_potential": 4,
+        "abstract_evidence_strength": 4,
+        "distance_penalty": 0
+      },
+      "total_score": 15,
+      "model_total_score": 15,
+      "reason_cn": "论文提出增量压缩框架C-DIC，在多轮对话中维护跨轮次对话记忆，直接命中大模型记忆核心方向（个性化记忆与长期记忆框架）。方法具体，实验证明长对话中稳定性，对多轮交互和toC产品有落地潜力。",
+      "archive_reason_cn": null
+    }
+  }
+}

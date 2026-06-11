@@ -1,0 +1,28 @@
+{
+  "cached_at": "2026-06-11T04:33:33.030600+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.12305",
+  "payload": {
+    "paper_id": "2606.12305",
+    "l1": {
+      "decision": "reject",
+      "model_decision": "reject",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "personalized_memory_and_user_state"
+      ],
+      "scores": {
+        "topic_relevance": 1,
+        "scenario_fit": 0,
+        "landing_potential": 0,
+        "abstract_evidence_strength": 2,
+        "distance_penalty": 4
+      },
+      "total_score": -1,
+      "model_total_score": 7,
+      "reason_cn": "论文提出一种贝叶斯非参数Mallows模型用于偏好数据聚类，主要贡献在统计方法，虽提及个性化电影推荐，但与用户核心的大模型记忆框架、长期记忆、人格一致性、评测等方向无实质关联，仅因'个性化'关键词被误匹配，方向距离远。",
+      "archive_reason_cn": null
+    }
+  }
+}

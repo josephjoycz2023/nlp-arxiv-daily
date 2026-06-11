@@ -1,0 +1,28 @@
+{
+  "cached_at": "2026-06-11T04:43:35.031180+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.12402",
+  "payload": {
+    "paper_id": "2606.12402",
+    "l1": {
+      "decision": "archive_only",
+      "model_decision": "archive_only",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "inference_acceleration"
+      ],
+      "scores": {
+        "topic_relevance": 3,
+        "scenario_fit": 0,
+        "landing_potential": 2,
+        "abstract_evidence_strength": 4,
+        "distance_penalty": 4
+      },
+      "total_score": 5,
+      "model_total_score": 5,
+      "reason_cn": "论文提出了面向具身规划器的测试时计算分配框架DIRECT，通过多模态场景上下文路由选择计算策略，降低推理成本，属于推理加速方向。与用户核心记忆、情感陪伴、数据集等方向无直接关联，但命中2级推理加速track，方法有明确实验验证。",
+      "archive_reason_cn": "论文与用户最关注的5级和4级方向无关，仅命中次重点的2级推理加速方向，且场景为物理机器人规划，与用户关注的对话陪伴、记忆系统距离较远。仅作存档。"
+    }
+  }
+}

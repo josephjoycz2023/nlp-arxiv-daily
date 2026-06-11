@@ -1,0 +1,29 @@
+{
+  "cached_at": "2026-06-11T04:29:18.554083+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.11680",
+  "payload": {
+    "paper_id": "2606.11680",
+    "l1": {
+      "decision": "level2",
+      "model_decision": "level2",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "multi_agent_memory_frameworks",
+        "memory_evaluation_and_reliability"
+      ],
+      "scores": {
+        "topic_relevance": 4,
+        "scenario_fit": 2,
+        "landing_potential": 4,
+        "abstract_evidence_strength": 4,
+        "distance_penalty": 0
+      },
+      "total_score": 14,
+      "model_total_score": 48,
+      "reason_cn": "论文直接命中5级核心方向“大模型记忆”：提出分层记忆组织与导航框架HORMA，解决长期任务中的上下文膨胀问题，涉及记忆构造、检索、更新等核心机制，并在LongMemEval等记忆基准上评测，属于记忆框架与记忆评测双重强相关。方法创新性强、实验扎实，token用量降低至22.17%且性能提升，工程启发明确。虽未明确关联情感陪伴或POI场景，但多轮交互优化可间接收益，符合level2入库标准。",
+      "archive_reason_cn": null
+    }
+  }
+}

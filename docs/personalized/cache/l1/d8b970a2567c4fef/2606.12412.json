@@ -1,0 +1,28 @@
+{
+  "cached_at": "2026-06-11T04:45:02.690025+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.12412",
+  "payload": {
+    "paper_id": "2606.12412",
+    "l1": {
+      "decision": "level2",
+      "model_decision": "archive_only",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "inference_acceleration"
+      ],
+      "scores": {
+        "topic_relevance": 3,
+        "scenario_fit": 1,
+        "landing_potential": 3,
+        "abstract_evidence_strength": 3,
+        "distance_penalty": 2
+      },
+      "total_score": 8,
+      "model_total_score": 8,
+      "reason_cn": "论文提出一种可恢复的视觉token路由方法Reroute，用于视觉语言模型推理加速，直接命中inference_acceleration方向（2级次重点）。方法训练无关、即插即用，可保留理论算力和KV缓存预算，在LLaVA和Qwen上实验表明能改善激进剪枝下的定位性能。但论文未涉及记忆、陪伴、情感等核心方向，与用户高优场景链接较弱。",
+      "archive_reason_cn": "虽为推理加速方向的有效方法，但与用户核心的大模型记忆、情感陪伴、POI场景等领域关联有限，建议归档备查。"
+    }
+  }
+}

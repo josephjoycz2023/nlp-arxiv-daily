@@ -1,0 +1,26 @@
+{
+  "cached_at": "2026-06-11T04:27:53.347071+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.11023",
+  "payload": {
+    "paper_id": "2606.11023",
+    "l1": {
+      "decision": "reject",
+      "model_decision": "reject",
+      "decision_source": "thresholds",
+      "matched_tracks": [],
+      "scores": {
+        "topic_relevance": 1,
+        "scenario_fit": 0,
+        "landing_potential": 1,
+        "abstract_evidence_strength": 3,
+        "distance_penalty": 4
+      },
+      "total_score": 1,
+      "model_total_score": 1,
+      "reason_cn": "论文聚焦于序列推荐中利用LLM生成物品表示，核心贡献在于物品侧建模，与用户关注的大模型记忆、情感陪伴、多轮交互、POI场景等方向无实质关联。虽然涉及LLM和用户行为，但未构建记忆框架、人格一致性或用户状态持久化，也未涉及情感评测或工具调用，仅属于通用推荐系统研究，方向匹配度极低。",
+      "archive_reason_cn": null
+    }
+  }
+}

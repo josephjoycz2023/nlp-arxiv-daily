@@ -1,0 +1,26 @@
+{
+  "cached_at": "2026-06-11T04:38:28.658956+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.12372",
+  "payload": {
+    "paper_id": "2606.12372",
+    "l1": {
+      "decision": "reject",
+      "model_decision": "reject",
+      "decision_source": "thresholds",
+      "matched_tracks": [],
+      "scores": {
+        "topic_relevance": 0,
+        "scenario_fit": 0,
+        "landing_potential": 0,
+        "abstract_evidence_strength": 0,
+        "distance_penalty": 4
+      },
+      "total_score": -4,
+      "model_total_score": 0,
+      "reason_cn": "论文研究机器人操控中的人机协同强化学习，通过智能干预减少人类纠正，所涉及的记忆仅为经验回放式的历史干预重用，与用户关注的大模型记忆、人格一致性、情感陪伴、POI场景、数据集制备等方向无直接关联，属于不同领域。",
+      "archive_reason_cn": null
+    }
+  }
+}

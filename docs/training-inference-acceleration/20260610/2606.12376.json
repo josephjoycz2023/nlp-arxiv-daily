@@ -1,0 +1,17 @@
+{
+  "paper_id": "2606.12376",
+  "arxiv_short_id": "2606.12376v1",
+  "published_date": "2026-06-10",
+  "title": "A note on a conjecture of Ng",
+  "authors": "Andrew Pearce-Crump et.al.",
+  "authors_full": [
+    "Andrew Pearce-Crump"
+  ],
+  "paper_url": "http://arxiv.org/abs/2606.12376v1",
+  "pdf_url": "https://arxiv.org/pdf/2606.12376v1.pdf",
+  "code_link": null,
+  "abstract": "In this note we give a lower bound for the second moment of a ratio of zeta functions summed over the non-trivial zeros of the Riemann zeta function that is half the size of the conjectured value. Our result is conditional on the assumption of the Riemann Hypothesis and that all the non-trivial zeros of the zeta function are simple.",
+  "categories": [
+    "math.NT"
+  ]
+}

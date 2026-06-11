@@ -1,0 +1,26 @@
+{
+  "cached_at": "2026-06-11T04:42:28.877364+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.12392",
+  "payload": {
+    "paper_id": "2606.12392",
+    "l1": {
+      "decision": "archive_only",
+      "model_decision": "reject",
+      "decision_source": "thresholds",
+      "matched_tracks": [],
+      "scores": {
+        "topic_relevance": 2,
+        "scenario_fit": 0,
+        "landing_potential": 0,
+        "abstract_evidence_strength": 3,
+        "distance_penalty": 4
+      },
+      "total_score": 1,
+      "model_total_score": 1,
+      "reason_cn": "论文聚焦于古典诗歌的精确翻译与情感理解，构建领域数据集并微调模型，与用户核心的大模型记忆、人格一致性、情感陪伴、多轮对话、tool use 等方向无直接关联。虽涉及情感推断，但属于文学领域，与 toC 陪伴或智能体记忆场景距离很远，无可迁移的方法、数据或评测价值。",
+      "archive_reason_cn": null
+    }
+  }
+}

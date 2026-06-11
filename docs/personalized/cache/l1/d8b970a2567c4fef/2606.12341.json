@@ -1,0 +1,26 @@
+{
+  "cached_at": "2026-06-11T04:34:19.086656+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.12341",
+  "payload": {
+    "paper_id": "2606.12341",
+    "l1": {
+      "decision": "reject",
+      "model_decision": "reject",
+      "decision_source": "thresholds",
+      "matched_tracks": [],
+      "scores": {
+        "topic_relevance": 0,
+        "scenario_fit": 0,
+        "landing_potential": 0,
+        "abstract_evidence_strength": 2,
+        "distance_penalty": 4
+      },
+      "total_score": -2,
+      "model_total_score": 0,
+      "reason_cn": "论文聚焦于LLM agent的隐私保护与推理泄露预算控制，属于安全和密码学领域，与用户关注的大模型记忆、人格一致性、情感评测等核心方向无实际关联，仅有关键词重合。",
+      "archive_reason_cn": null
+    }
+  }
+}

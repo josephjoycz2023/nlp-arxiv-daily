@@ -1,0 +1,26 @@
+{
+  "cached_at": "2026-06-11T04:30:05.736040+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.11863",
+  "payload": {
+    "paper_id": "2606.11863",
+    "l1": {
+      "decision": "reject",
+      "model_decision": "reject",
+      "decision_source": "thresholds",
+      "matched_tracks": [],
+      "scores": {
+        "topic_relevance": 0,
+        "scenario_fit": 0,
+        "landing_potential": 0,
+        "abstract_evidence_strength": 0,
+        "distance_penalty": 4
+      },
+      "total_score": -4,
+      "model_total_score": -4,
+      "reason_cn": "论文研究基于LLM的代码翻译，提出多语义增强和自校准框架。与用户关注的大模型记忆、数据集制备、POI陪伴、加速或神经科学等方向均无直接关联，无迁移价值。",
+      "archive_reason_cn": null
+    }
+  }
+}

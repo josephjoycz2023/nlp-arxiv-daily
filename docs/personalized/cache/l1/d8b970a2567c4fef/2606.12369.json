@@ -1,0 +1,26 @@
+{
+  "cached_at": "2026-06-11T04:37:34.757378+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.12369",
+  "payload": {
+    "paper_id": "2606.12369",
+    "l1": {
+      "decision": "archive_only",
+      "model_decision": "archive_only",
+      "decision_source": "thresholds",
+      "matched_tracks": [],
+      "scores": {
+        "topic_relevance": 2,
+        "scenario_fit": 0,
+        "landing_potential": 1,
+        "abstract_evidence_strength": 3,
+        "distance_penalty": 3
+      },
+      "total_score": 3,
+      "model_total_score": 3,
+      "reason_cn": "该论文研究LLM在社会模拟中的决策对齐问题，评估LLM替代有限状态机时的策略保持性与效率。虽然涉及多智能体及行为评测，但未围绕大模型记忆、人格一致性、情绪稳定性、数据集制备、训练/推理加速或POI陪伴等用户核心方向展开，与用户高优先级方向匹配度低。",
+      "archive_reason_cn": "与用户研究池核心方向（大模型记忆、评测集制备、POI陪伴等）缺乏直接强相关性；方法迁移价值有限，不足以进入 level2。"
+    }
+  }
+}

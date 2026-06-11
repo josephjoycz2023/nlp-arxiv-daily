@@ -1,0 +1,98 @@
+{
+  "date": "2026-06-11",
+  "paper": {
+    "paper_id": "2606.04431",
+    "arxiv_short_id": "2606.04431v1",
+    "published_date": "2026-06-03",
+    "title": "When Chatbots Accommodate: What AI Companions Optimize for in Vulnerable Conversations",
+    "authors": "Minh Duc Chu et.al.",
+    "authors_full": [
+      "Minh Duc Chu",
+      "Yifan Wu",
+      "Zhiyi Chen",
+      "Angel Hsing-Chi Hwang",
+      "Luca Luceri"
+    ],
+    "paper_url": "http://arxiv.org/abs/2606.04431v1",
+    "pdf_url": "https://arxiv.org/pdf/2606.04431v1.pdf",
+    "code_link": null,
+    "abstract": "Millions turn to AI companion chatbots during loneliness, grief, and personal crises. How these companion platforms respond in such moments can shape the trajectory of a user's vulnerable state. Yet we lack tools to characterize what each platform actually does when users open up. Existing audits score reactions to pre-defined crisis prompts and miss the underlying decision policy that governs sustained interaction. We address these gaps with two key contributions. First, we introduce the AI Companion Vulnerability-Response Taxonomy, a paired taxonomy of user vulnerability and chatbot response designed for analyzing extended companion chatbot interactions. Second, we infer the response policy each platform follows across distinct vulnerability scenarios by applying Inverse Reinforcement Learning to ~48k turns of real-world user conversations with GPT-4.1, Character.AI, and Replika. Our findings reveal what AI companions prioritize in conversations with vulnerable users: GPT-4.1 reaches for advice, Character.AI spreads its response across different strategies without a dominant mode, and Replika consistently asks questions and stays present. Each, however, downweights the responses that introduce corrective friction: GPT-4.1 probes less as conversations continue and when interacting with psychologically high-risk users; Replika advises bonded users more and challenges them less; Character.AI shows no committed engagement strategy on internal distress. Estimated policies are invisible to output-level audits, providing a new lens for auditing chatbots in the wild and enabling more realistic safety evaluation.",
+    "categories": [
+      "cs.HC"
+    ],
+    "matched_topics": [
+      "poi_ai_companion"
+    ],
+    "matched_topic": "poi_ai_companion"
+  },
+  "l1": {
+    "decision": "level2",
+    "model_decision": "level2",
+    "decision_source": "thresholds",
+    "matched_tracks": [
+      "emotional_and_psychological_eval",
+      "poi_tool_use_companion"
+    ],
+    "scores": {
+      "topic_relevance": 4,
+      "scenario_fit": 4,
+      "landing_potential": 4,
+      "abstract_evidence_strength": 4,
+      "distance_penalty": 0
+    },
+    "total_score": 16,
+    "model_total_score": 16,
+    "reason_cn": "论文直接命中情感心理感知与陪伴评测方向（4级核心），提出脆弱性对话响应分类法和逆行强化学习方法，在真实陪伴对话中审计AI响应策略，对脆弱用户交互安全评估有直接贡献，与toC情感陪伴、用户状态理解高度匹配。",
+    "archive_reason_cn": null
+  },
+  "analysis_meta": {
+    "from_cache": false
+  },
+  "review_input": {
+    "pdf_url": "https://arxiv.org/pdf/2606.04431v1.pdf",
+    "page_count": 23,
+    "section_titles": [
+      "abstract",
+      "discussion",
+      "method",
+      "results",
+      "limitation"
+    ],
+    "section_lengths": {
+      "abstract": 1650,
+      "method": 10831,
+      "results": 10922,
+      "discussion": 2161,
+      "limitation": 54632
+    },
+    "section_extraction_note": "Sections were trimmed to fit the prompt budget.",
+    "truncated_for_prompt": true,
+    "sparse_sections": [
+      "experiments"
+    ],
+    "supplemental_relevance_analysis_cn": "该论文提出AI伴侣脆弱性回应分类法(AC-VRT)及逆强化学习策略推断方法，用于审计三类聊天机器人在用户脆弱性对话中的响应模式，发现各平台普遍弱化追问与纠正性反馈，且GPT-4.1随时间与用户心理风险升高而降低探询频率。该工作直接命中【情感与心理感知评测】(优先级4)方向，提供可复用的分类框架、自动标注流程与策略级诊断协议，并揭示了对话质量随用户状态与时间漂移的失效模式。同时，对人格一致性、情绪稳定性等记忆相关评测也有间接启发。符合toC、情感陪伴、连续多轮交互和用户状态理解等加分信号，具有明确的诊断价值和可迁移工程启发，对当前优先研究方向贡献显著，值得重点跟踪。"
+  },
+  "review": {
+    "decision": "highlight",
+    "priority": "must_read",
+    "summary_cn": "论文提出AI伴侣脆弱性回应分类法(AC-VRT)及基于逆强化学习的策略推断方法，审计GPT-4.1、Character.AI和Replika在用户情感脆弱场景下的回应模式，发现各平台普遍弱化追问与纠正性反馈，且GPT-4.1随时间与用户心理风险升高而降低探询频率。",
+    "research_goal_cn": "为AI陪伴聊天机器人建立超越输出级别的审计框架，通过推断回应策略揭示平台在用户脆弱性交互中的系统行为，为更现实的安全评测提供新视角。",
+    "method_cn": "首先开发AC-VRT分类法，将用户发言标注为五类脆弱性状态，将聊天机器人回应标注为七类响应类别；使用Gemini进行零样本自动标注并验证一致性（Cohen's kappa 0.60-0.83）；接着将对话建模为马尔可夫决策过程，应用最大因果熵逆强化学习估计各平台针对不同用户状态的回应策略概率。",
+    "experiment_cn": "使用Hwang et al. (2025)的约48k轮真实对话（GPT-4.1 110用户386对话，Character.AI 98对话，Replika 47对话），对每个平台进行500次bootstrap IRL估计；分析平台间策略差异、GPT-4.1四周内的策略漂移、以及策略随用户人口统计学和心理特征的变化。",
+    "result_cn": "三平台策略差异显著：GPT-4.1偏向功能支持与建议，Character.AI策略分散无主导模式，Replika集中于追问；GPT-4.1四周内追问显著下降，对高风险用户减少探询；高黏着度用户在Replika上获得更多建议而更少挑战，在Character.AI上获得更多情感验证。各平台均未在脆弱状态下保持稳定追问。",
+    "landing_value_cn": "提供可复用的脆弱性回应分类框架与自动标注流程，可直接用于审计对话系统的安全性与陪伴质量；IRL策略推断方法揭示了输出审计无法捕捉的用户状态、时间及心理特征条件下的响应漂移，对构建多轮对话评测、情感陪伴安全诊断与长期监测具有直接工程启发。",
+    "scores": {
+      "relevance": 95,
+      "credibility": 82,
+      "landing_feasibility": 85,
+      "actionability": 90
+    },
+    "risks_cn": [
+      "研究对象以英文对话为主，分类法迁移至中文需再验证",
+      "Character.AI与Replika样本量较小，部分亚组结果仅为探索性",
+      "用户侧内容漂移可能部分解释策略变化，未能完全排除混淆",
+      "分类法中S5（非脆弱）和A7（其他）占比高，聚合度过大可能掩盖细节"
+    ],
+    "recommended_action_cn": "将AC-VRT分类法适配至自有数据集，结合Gemini或其它大模型实现自动化标注；借鉴IRL策略推断方法，构建针对多轮情感陪伴对话的安全审计与长期漂移监测模块，并重点验证追问（A4）指标在中文场景下的稳定性。"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "cached_at": "2026-06-11T04:24:47.710596+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.04867",
+  "payload": {
+    "paper_id": "2606.04867",
+    "l1": {
+      "decision": "level2",
+      "model_decision": "level2",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "emotional_and_psychological_eval"
+      ],
+      "scores": {
+        "topic_relevance": 4,
+        "scenario_fit": 4,
+        "landing_potential": 4,
+        "abstract_evidence_strength": 4,
+        "distance_penalty": 0
+      },
+      "total_score": 16,
+      "model_total_score": 16,
+      "reason_cn": "直接命中4级数据集制备与评测集方向，构建了AI陪伴安全对话评测基准，提供2,123条真实对话、9类风险标注及LLM-as-judge评估方案；与toC情感陪伴、心理安全、人格一致性高度相关，评测协议具体且数据集公开，具有强落地价值；摘要证据充分，无需扣分。",
+      "archive_reason_cn": null
+    }
+  }
+}

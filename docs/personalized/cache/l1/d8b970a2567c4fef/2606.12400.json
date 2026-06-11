@@ -1,0 +1,28 @@
+{
+  "cached_at": "2026-06-11T04:42:51.746966+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.12400",
+  "payload": {
+    "paper_id": "2606.12400",
+    "l1": {
+      "decision": "level2",
+      "model_decision": "level2",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "multi_agent_memory_frameworks"
+      ],
+      "scores": {
+        "topic_relevance": 4,
+        "scenario_fit": 2,
+        "landing_potential": 3,
+        "abstract_evidence_strength": 3,
+        "distance_penalty": 0
+      },
+      "total_score": 12,
+      "model_total_score": 12,
+      "reason_cn": "论文提出了Doc-to-Atom的组合式参数化记忆框架，将文档分解为知识原子并编译为微LoRA适配器，配合检索键实现按需组装，直接命中5级核心方向“大模型记忆”下的记忆框架与记忆检索子方向。方法具体，包含端到端训练和实验验证，对记忆机制设计有明确启发。虽未直接涉及toC场景，但基础记忆贡献强，适合进入研究池。",
+      "archive_reason_cn": null
+    }
+  }
+}

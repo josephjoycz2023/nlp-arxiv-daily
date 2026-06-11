@@ -1,0 +1,28 @@
+{
+  "cached_at": "2026-06-11T04:23:14.424205+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.01745",
+  "payload": {
+    "paper_id": "2606.01745",
+    "l1": {
+      "decision": "archive_only",
+      "model_decision": "archive_only",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "poi_tool_use_companion"
+      ],
+      "scores": {
+        "topic_relevance": 2,
+        "scenario_fit": 0,
+        "landing_potential": 0,
+        "abstract_evidence_strength": 2,
+        "distance_penalty": 3
+      },
+      "total_score": 1,
+      "model_total_score": 1,
+      "reason_cn": "论文利用城市移动性增强基础模型对POI相关城市指标的理解，与POI场景轻度相关，但缺乏陪伴产品、对话交互、用户状态理解等核心方向，实用价值有限。",
+      "archive_reason_cn": "论文将移动性数据与POI文本结合用于城市社会经济预测，与POI场景相关但未涉及陪伴产品、用户状态理解等核心关注点，可作为背景参考。"
+    }
+  }
+}

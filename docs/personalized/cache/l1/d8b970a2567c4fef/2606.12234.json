@@ -1,0 +1,28 @@
+{
+  "cached_at": "2026-06-11T04:31:53.302931+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.12234",
+  "payload": {
+    "paper_id": "2606.12234",
+    "l1": {
+      "decision": "archive_only",
+      "model_decision": "archive_only",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "data_sft_rl_eval"
+      ],
+      "scores": {
+        "topic_relevance": 2,
+        "scenario_fit": 1,
+        "landing_potential": 2,
+        "abstract_evidence_strength": 3,
+        "distance_penalty": 2
+      },
+      "total_score": 6,
+      "model_total_score": 6,
+      "reason_cn": "论文系统研究了LLM调节方法的有效性-流畅性权衡，评估了激活引导、提示、SFT等在概念注入和移除上的表现，并发现廉价文本度量与LLM-as-judge高度相关。虽然涉及SFT和评测，但未专注于情感、多轮对话、tool use等用户核心方向，与记忆、情感陪伴等无直接关联，属于LLM可控性方法论，对用户方向启发有限。",
+      "archive_reason_cn": "与用户高优先级方向（记忆、情感数据、陪伴场景）关联较弱，主要贡献在于控制方法评估，建议作为背景参考存档。"
+    }
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "stage": "digest",
+  "date": "2026-06-11",
+  "summary": {
+    "must_read": 5,
+    "worth_archiving": 2,
+    "review_failures": 0,
+    "must_read_paper_ids": [
+      "2606.04431",
+      "2606.04867",
+      "2606.05995",
+      "2606.04547",
+      "2606.12411"
+    ]
+  },
+  "overview_cn": "今日L2通过的6篇论文集中在AI陪伴的安全审计与情感评测、个性化记忆的轻量化部署两大核心方向。在研究范式上，安全评测正从输出级审计转向策略级与对话动态分析，如通过逆强化学习推断平台在脆弱对话中的系统回应偏好，或构建多轮真实对话的安全标注基准；情感支持评测则通过可量化的语言信号框架（如共情倾听的三维度）建立可复用的离线benchmark。在记忆与个性化方面，多个工作提出了轻量级、端到端的用户表示方案（如前缀嵌入、增量压缩线程记忆），在参数效率和长程连贯性上取得突破，并尝试将记忆压缩与更新统一到可修订的状态存储中。后训练数据诊断方面，基于可解释性的偏好数据审计为行为塑造提供了新途径。整体趋势反映出从粗放优化到精细诊断与审计的转向，这些方法论和数据集可直接赋能toC陪伴产品的安全监控、情感质量评估与长期记忆管理。",
+  "must_read": [
+    {
+      "paper_id": "2606.04431",
+      "title": "When Chatbots Accommodate: What AI Companions Optimize for in Vulnerable Conversations",
+      "summary_cn": "提出AI伴侣脆弱性回应分类法(AC-VRT)及基于逆强化学习的策略推断方法，审计GPT-4.1、Character.AI和Replika在用户情感脆弱场景下的回应模式，发现各平台普遍弱化追问与纠正性反馈，且GPT-4.1随时间与用户心理风险升高而降低探询频率。",
+      "why_relevant_cn": "首次在真实对话中实现策略级安全审计，提供可复用的脆弱性回应分类与自动化标注框架，直接命中情感安全评测这一高优先方向，其发现的“去探询”趋势对陪伴产品的安全诊断具有紧急警示意义。",
+      "recommended_action_cn": "将AC-VRT分类法适配至自有数据集，结合Gemini或其它大模型实现自动化标注；借鉴IRL策略推断方法，构建针对多轮情感陪伴对话的安全审计与长期漂移监测模块，并重点验证追问（A4）指标在中文场景下的稳定性。"
+    },
+    {
+      "paper_id": "2606.04867",
+      "title": "AICompanionBench: Benchmarking LLMs-as-Judges for AI Companion Safety",
+      "summary_cn": "构建首个面向AI陪伴安全的多轮对话评测基准，包含2123个真实Replika对话，细粒度九类安全标注，并系统评估20个主流LLM作为安全检测法官的能力，GPT-4o准确率最高达86%，但模型在操纵等微妙风险上表现不佳且误报率高。",
+      "why_relevant_cn": "直接提供可复用的安全评测数据集与标注流程，并给出LLM-as-judge的基准结果，为toC陪伴产品提供了开箱即用的安全监控诊断工具，降低内部评测成本，加速安全策略迭代。",
+      "recommended_action_cn": "立即下载并评估该数据集；复现其LLM-as-judge评测流程，测试内部模型的安全检测能力；考虑将标注框架与现有安全策略对齐，构建定制化陪伴安全评测集；关注其公开负样本，用于训练或微调安全分类器。"
+    },
+    {
+      "paper_id": "2606.05995",
+      "title": "Empathy on Demand: How Empathic AI Can Scale Emotional Support for Verbal Harassment",
+      "summary_cn": "提出并验证评估共情倾听的心理框架，识别观点采择、情感验证、行动导向三个关键语言信号，证明LLM在言语骚扰场景下的共情支持显著优于人类，并能提升用户被倾听感和应对自我效能。",
+      "why_relevant_cn": "建立了一套可量化的共情对话评测协议与三维度标注框架，可直接转化为情感陪伴系统的离线benchmark或在线judge，对于提升产品的情感支持质量具有明确的工程启发和可操作性。",
+      "recommended_action_cn": "立即复盘其评测协议和三维度标注细节，评估是否可直接集成到现有情感对话评测集中；考虑基于此框架构建面向情感陪伴场景的共情能力benchmark，并探索用其零样本prompt作为自动化judge的可行性。"
+    },
+    {
+      "paper_id": "2606.04547",
+      "title": "Beyond Retrieval: Learning Compact User Representations for Scalable LLM Personalization",
+      "summary_cn": "提出TAP-PER框架，将用户建模分解为用户状态前缀和查询条件记录前缀，用轻量级可学习向量替代显式提示和重适配器，在LaMP六个任务上全面超越基线，参数效率提升百倍以上。",
+      "why_relevant_cn": "为个性化记忆模块提供了高参数效率的端到端方案，无需额外检索或显式prompt工程，直接适用于toC陪伴产品的长期偏好存储与动态状态更新，且支持在线持续适应。",
+      "recommended_action_cn": "立即深入阅读其用户表示学习细节、桥接LoRA机制和持续适应实验，评估将其引入记忆框架作为隐式记忆索引与动态更新模块的可行性，并在内部多轮对话数据集上复现个性化效果。"
+    },
+    {
+      "paper_id": "2606.12411",
+      "title": "Context-Driven Incremental Compression for Multi-Turn Dialogue Generation",
+      "summary_cn": "提出上下文驱动增量压缩（C-DIC）方法，将多轮对话建模为可修订的线程状态记忆，通过检索→压缩→回写循环实现跨轮记忆共享与更新，在数百轮对话下保持稳定的推理延迟和困惑度。",
+      "why_relevant_cn": "给出了可增量更新、可修订的轻量级长期记忆管理方案，解决了长对话中全历史编码的低效和语义漂移问题，对构建高连贯、低延迟的陪伴Agent记忆系统具有直接借鉴价值。",
+      "recommended_action_cn": "立即安排深度阅读，重点关注记忆压缩与更新机制的实现细节，评估其与当前记忆框架的整合可行性；考虑复用其“检索-压缩-回写”循环用于构建可修订的用户记忆模块；提取其长程稳定性评测协议用于后续自研对话系统的记忆评测。"
+    }
+  ],
+  "worth_archiving": [
+    {
+      "paper_id": "2606.12360",
+      "title": "Anatomy of Post-Training: Using Interpretability to Characterize Data and Shape the Learning Signal",
+      "reason_cn": "提出基于SAE特征的偏好数据集审计与学习信号塑造方法，可改善后训练数据质量，与记忆评测、人格一致性等方向有潜在联动，但当前成果偏底层工具，适合作为后续训练数据优化的储备技术。"
+    },
+    {
+      "paper_id": "2606.12400",
+      "title": "Doc-to-Atom: Learning to Compile and Compose Memory Atoms",
+      "reason_cn": "虽因当日L2名额限制被归档，但其记忆原子编译与组合思路直接命中大模型记忆方向，可能为个性化记忆的存储与召回提供新方案，值得后续关注。"
+    }
+  ],
+  "review_failures": [],
+  "rejected_themes_cn": [
+    "通用推理加速（如视觉Token路由、Entropy bounds in RL）",
+    "具身智能规划（如测试时计算分配）",
+    "城市行程/POI规划（与核心的陪伴场景不直接相关）"
+  ]
+}

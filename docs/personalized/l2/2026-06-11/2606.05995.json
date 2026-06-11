@@ -1,0 +1,89 @@
+{
+  "date": "2026-06-11",
+  "paper": {
+    "paper_id": "2606.05995",
+    "arxiv_short_id": "2606.05995v1",
+    "published_date": "2026-06-04",
+    "title": "Empathy on Demand: How Empathic AI Can Scale Emotional Support for Verbal Harassment",
+    "authors": "Anouk Bergner et.al.",
+    "authors_full": [
+      "Anouk Bergner",
+      "Philipp Winder",
+      "Christian Hildebrand"
+    ],
+    "paper_url": "http://arxiv.org/abs/2606.05995v1",
+    "pdf_url": "https://arxiv.org/pdf/2606.05995v1.pdf",
+    "code_link": null,
+    "abstract": "Verbal harassment is a growing source of psychological stress for people around the world. It occurs both online and offline and relies on language to demean, threaten, or discredit its targets. Unlike other stressors such as loss or uncertainty, verbal harassment aims at silencing its targets by eroding their sense of being heard and weakening their perceived ability to respond. Many individuals lack access to adequate and timely support, however, when they experience such harassment. People increasingly turn to conversational artificial intelligence (AI) such as ChatGPT or dedicated AI companions for emotional support, raising questions about whether it can facilitate the same psychological benefits as actual human empathy. We focus on online contexts as a prevalent application of verbal harassment. We develop and test a psychological framework identifying three key linguistic signals of empathic listening (perspective-taking, emotional validation, and action orientation), that together restore a sense of feeling heard and enhance coping in the context of verbal harassment. We find that LLMs consistently produce language exhibiting stronger empathic-listening markers than human non-experts and trained mental health professionals, promoting more approach-oriented (vs. avoidance-oriented) coping strategies. A subsequent behavioral study shows that these linguistic signals boost recipients' sense of feeling heard and increase their coping self-efficacy. These findings reveal how specific linguistic features create empathic connections between humans and advanced conversational AI and can enhance people's psychological resilience. Our results highlight the potential for AI to serve as a scalable source of emotional support, especially when human support is unavailable or insufficient.",
+    "categories": [
+      "cs.HC"
+    ],
+    "matched_topics": [
+      "poi_ai_companion"
+    ],
+    "matched_topic": "poi_ai_companion"
+  },
+  "l1": {
+    "decision": "level2",
+    "model_decision": "level2",
+    "decision_source": "thresholds",
+    "matched_tracks": [
+      "emotional_and_psychological_eval",
+      "poi_tool_use_companion"
+    ],
+    "scores": {
+      "topic_relevance": 4,
+      "scenario_fit": 4,
+      "landing_potential": 4,
+      "abstract_evidence_strength": 4,
+      "distance_penalty": 0
+    },
+    "total_score": 16,
+    "model_total_score": 16,
+    "reason_cn": "论文直接命中情感、心理感知与陪伴相关评测方向（4级重点），提出共情倾听框架并评估LLM在情感支持中的语言信号，同时明确映射到AI陪伴场景与用户情感支持需求，方法具体、实验证据充分，高度相关。",
+    "archive_reason_cn": null
+  },
+  "analysis_meta": {
+    "from_cache": false
+  },
+  "review_input": {
+    "pdf_url": "https://arxiv.org/pdf/2606.05995v1.pdf",
+    "page_count": 44,
+    "section_titles": [
+      "full_text_excerpt"
+    ],
+    "section_lengths": {
+      "full_text_excerpt": 67576
+    },
+    "section_extraction_note": "Preferred sections were not found; using a full-text excerpt instead. Sections were trimmed to fit the prompt budget.",
+    "truncated_for_prompt": true,
+    "sparse_sections": [
+      "method",
+      "experiments"
+    ],
+    "supplemental_relevance_analysis_cn": "论文高度契合4级优先方向“数据集制备与评测集”下的“情感、心理感知与陪伴相关评测”。研究提出了一个评估共情倾听的心理框架，识别了三个关键语言信号，并通过LLM评分与人类行为实验构建了完整的评测方法。工作直接服务于AI情感陪伴场景，提供了具体的评测协议、数据构建流程和可复用的分析框架，对情感支持对话的质量评测和缓解言语骚扰的AI干预具有直接启发。虽未涉记忆或POI，但根据第一原则，与评测方向的强相关足以使其值得持续跟踪，且因贴合toC情感陪伴场景可获额外加分。"
+  },
+  "review": {
+    "decision": "highlight",
+    "priority": "must_read",
+    "summary_cn": "本文提出并验证了一个评估共情倾听的心理框架，识别了观点采择、情感验证、行动导向三个关键语言信号，并证明LLM在在线言语骚扰场景下的共情支持显著优于人类非专家和心理健康专业人士，能提升用户的被倾听感和应对自我效能。",
+    "research_goal_cn": "探索LLM能否通过语言共情信号提供可规模化的情感支持，以弥补言语骚扰情境中人类支持的不足，并建立可量化的共情语言学评测体系。",
+    "method_cn": "构建标准化的言语骚扰提示集；收集GPT-4o等四个LLM、人类非专家和持证心理健康专业人士的支持响应；使用GPT-4o零样本评分及LIWC文本分析量化共情特征；分类应对策略（接近/回避）；通过在线行为实验测量用户感知的共情、被倾听感和应对自我效能。",
+    "experiment_cn": "研究1：比较3,652条响应在三个共情维度上的评分，剖析语言风格和应对策略类型；研究2：招募431名参与者评估代表性子集，测量观点采择、情感验证、行动导向的感知评分，以及被倾听感、应对自我效能等心理结果。",
+    "result_cn": "LLM在所有共情语言信号上均显著优于人类支持者，并提供更多样化、更偏向行动导向的应对策略；严重骚扰情境下差异更明显；用户实验中LLM响应引发了更高的被倾听感和应对自我效能感知，验证了三因素模型的预测效度。",
+    "landing_value_cn": "直接提供了一套可复用的共情对话评测协议、三维度标注框架和完整的实验设计；可转化为情感对话系统的离线评测benchmark、数据筛选准则甚至在线judge，对toC情感陪伴产品的对话质量评估极具工程启发。",
+    "scores": {
+      "relevance": 90,
+      "credibility": 85,
+      "landing_feasibility": 92,
+      "actionability": 88
+    },
+    "risks_cn": [
+      "共情评分依赖GPT-4o零样本，存在评分器偏差风险，需在未来用多模型或人工交叉验证",
+      "言语骚扰场景限于在线短文本，泛化到长程、多轮情感对话时可能需适配",
+      "人类参与者样本可能主要为西方文化背景，跨文化情感表达差异未探讨",
+      "仅评估单轮响应，未涉及连续交互中的情感一致性或记忆影响"
+    ],
+    "recommended_action_cn": "立即复盘其评测协议和三维度标注细节，评估是否可直接集成到现有情感对话评测集中；考虑基于此框架构建面向情感陪伴场景的共情能力benchmark，并探索用其零样本prompt作为自动化judge的可行性。"
+  }
+}

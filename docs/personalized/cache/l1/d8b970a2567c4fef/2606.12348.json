@@ -1,0 +1,26 @@
+{
+  "cached_at": "2026-06-11T04:35:29.179121+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.12348",
+  "payload": {
+    "paper_id": "2606.12348",
+    "l1": {
+      "decision": "reject",
+      "model_decision": "reject",
+      "decision_source": "thresholds",
+      "matched_tracks": [],
+      "scores": {
+        "topic_relevance": 0,
+        "scenario_fit": 0,
+        "landing_potential": 0,
+        "abstract_evidence_strength": 0,
+        "distance_penalty": 4
+      },
+      "total_score": -4,
+      "model_total_score": 0,
+      "reason_cn": "论文属于计算物理/数值分析领域，研究物理信息神经网络求解Burgers方程，与用户关注的LLM记忆、数据集、POI陪伴、加速或神经科学方向完全无关，无任何可迁移价值。",
+      "archive_reason_cn": null
+    }
+  }
+}

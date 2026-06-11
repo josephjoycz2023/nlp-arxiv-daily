@@ -1,0 +1,28 @@
+{
+  "cached_at": "2026-06-11T04:34:57.818589+00:00",
+  "stage": "l1",
+  "namespace": "d8b970a2567c4fef",
+  "key": "2606.12342",
+  "payload": {
+    "paper_id": "2606.12342",
+    "l1": {
+      "decision": "archive_only",
+      "model_decision": "archive_only",
+      "decision_source": "thresholds",
+      "matched_tracks": [
+        "dataset_pipeline"
+      ],
+      "scores": {
+        "topic_relevance": 2,
+        "scenario_fit": 1,
+        "landing_potential": 2,
+        "abstract_evidence_strength": 3,
+        "distance_penalty": 3
+      },
+      "total_score": 5,
+      "model_total_score": 11,
+      "reason_cn": "论文研究跨词汇表推理时安全对齐迁移，属于大模型安全防御方法。与用户核心方向（大模型记忆、情感对话数据、POI陪伴）关联较弱，仅在安全评测层面有间接相关，难以对记忆框架或陪伴产品产生直接启发。方法具体，但落地场景与用户研究池匹配度低。",
+      "archive_reason_cn": "可作为模型安全与对齐的参考案例归档，但不对用户当前核心记忆或情感陪伴方向提供直接方法或数据贡献。"
+    }
+  }
+}
