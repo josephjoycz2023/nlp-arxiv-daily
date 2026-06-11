@@ -1,43 +1,93 @@
-# Astro Starter Kit: Minimal
+# Web Dashboard
 
-```sh
-pnpm create astro@latest -- --template minimal
+This directory contains the Astro frontend for the personalized research dashboard.
+It reads build-time data from `../docs/personalized/` and publishes a static site grouped by `Digest`, `L2`, `L1`, and `Archived`.
+
+## Local Development
+
+Requirements:
+
+- Node `>= 22.12`
+- dependencies installed in `web/`
+
+Install dependencies:
+
+```powershell
+cd web
+corepack pnpm install
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Start the local dev server:
 
-## 🚀 Project Structure
+```powershell
+cd web
+corepack pnpm dev
+```
 
-Inside of your Astro project, you'll see the following folders and files:
+Then open:
 
 ```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+http://localhost:4321
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+If PowerShell blocks `pnpm`, you can use the local Astro binary directly:
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+```powershell
+cd web
+.\node_modules\.bin\astro.cmd dev
+```
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Build and Preview
 
-## 🧞 Commands
+Build the static site:
 
-All commands are run from the root of the project, from a terminal:
+```powershell
+cd web
+corepack pnpm build
+```
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+Preview the built site locally:
 
-## 👀 Want to learn more?
+```powershell
+cd web
+corepack pnpm preview
+```
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+If needed, you can also build directly with Astro:
+
+```powershell
+cd web
+.\node_modules\.bin\astro.cmd build
+```
+
+## Why Pagefind Works on GitHub Pages
+
+This project uses `astro-pagefind`.
+
+That means:
+
+- search indexes are generated at build time
+- the final output is fully static
+- no backend search service is required
+- once `dist/` is deployed to GitHub Pages, Pagefind works directly in the browser
+
+So the behavior you saw in `monologg/nlp-arxiv-daily` is not a special GitHub feature.
+It works because Pagefind is a static-search solution and GitHub Pages can host the generated files.
+
+## Data Source
+
+The current frontend reads personalized pipeline outputs from:
+
+- `../docs/personalized/pools/`
+- `../docs/personalized/logs/`
+- `../docs/personalized/l1/`
+- `../docs/personalized/l2/`
+- `../docs/personalized/digest/`
+
+The date selector is based on `pool` snapshots, not each paper's own `published_date`.
+
+## Notes
+
+- `astro.config.mjs` already includes the `astro-pagefind` integration.
+- Search indexes are generated during `build`, not during plain file editing.
+- If you update pipeline outputs under `docs/personalized/`, restart or rebuild the frontend to refresh the rendered snapshot.
