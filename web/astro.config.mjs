@@ -8,7 +8,7 @@ const isProd = process.env.NODE_ENV === "production";
 
 export default defineConfig({
   site: isProd ? "https://josephjoycz2023.github.io" : undefined,
-  base: isProd ? "/nlp-arxiv-daily" : undefined,
+  base: isProd ? "/Personalized-Research-Dashboard" : undefined,
   output: "static",
   integrations: [sitemap(), pagefind()],
   vite: {
