@@ -4,13 +4,13 @@
 
 [中文](README.zh-CN.md) | [English](README.en.md)
 <br/><br/>
-[![Website](https://img.shields.io/badge/WEBSITE-PERSONALIZED--RESEARCH--DASHBOARD-2563eb?style=for-the-badge&labelColor=333333)](https://josephjoycz2023.github.io/nlp-arxiv-daily/)
+[![Website](https://img.shields.io/badge/WEBSITE-PERSONALIZED--RESEARCH--DASHBOARD-2563eb?style=for-the-badge&labelColor=333333)](https://josephjoycz2023.github.io/Personalized-Research-Dashboard/)
 [![RSS Feed](https://img.shields.io/badge/RSS-FEED-e87922?style=for-the-badge&logo=rss&logoColor=white&labelColor=333333)](https://josephjoycz2023.github.io/nlp-arxiv-daily/rss.xml)
 <br/>
 [![Run Personalized Pipeline](https://github.com/josephjoycz2023/nlp-arxiv-daily/actions/workflows/nlp-arxiv-daily.yml/badge.svg)](https://github.com/josephjoycz2023/nlp-arxiv-daily/actions/workflows/nlp-arxiv-daily.yml)
 [![Astro Build & Deploy](https://github.com/josephjoycz2023/nlp-arxiv-daily/actions/workflows/astro-build.yml/badge.svg)](https://github.com/josephjoycz2023/nlp-arxiv-daily/actions/workflows/astro-build.yml)
 <br/>
-[**Browse the dashboard ->**](https://josephjoycz2023.github.io/nlp-arxiv-daily/)
+[**Browse the dashboard ->**](https://josephjoycz2023.github.io/Personalized-Research-Dashboard/)
 </div>
 
 This repository is now a personalized arXiv research workflow rather than a generic keyword digest.
@@ -23,7 +23,7 @@ It builds a fixed daily paper pool, runs weighted L1/L2 review stages around you
 - Stores per-paper L2 outputs under `docs/personalized/l2/YYYY-MM-DD/*.json`
 - Stores the final markdown brief under `docs/personalized/digest/YYYY-MM-DD.md`
 - Publishes a pool-date based Astro dashboard for browsing results:
-  `https://josephjoycz2023.github.io/nlp-arxiv-daily/`
+  `https://josephjoycz2023.github.io/Personalized-Research-Dashboard/`
 - Includes a manual-start background scheduler command for daily personalized runs:
   `uv run python -m nlp_arxiv_daily run-scheduler`
 
