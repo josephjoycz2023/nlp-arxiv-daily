@@ -24,14 +24,13 @@ CANONICAL_SECTION_NAMES = {
     "conclusion": "conclusion",
 }
 
-
 def extract_review_sections(
     paper_text: str,
     *,
     prefer_sections: tuple[str, ...],
     skip_sections: tuple[str, ...],
     max_total_chars: int = 24_000,
-) -> tuple[dict[str, str], str | None, bool]:
+) -> tuple[dict[str, str], dict[str, int], str | None, bool]:
     matches = list(SECTION_PATTERN.finditer(paper_text))
     sections: dict[str, str] = {}
 
@@ -53,15 +52,39 @@ def extract_review_sections(
 
     note: str | None = None
     if not selected:
-        note = "未识别到偏好章节标题，退回为整篇 PDF 文本截断片段。"
+        note = "Preferred sections were not found; using a full-text excerpt instead."
         selected = {"full_text_excerpt": paper_text.strip()}
 
-    total_chars = sum(len(value) for value in selected.values())
-    truncated = total_chars > max_total_chars
+    section_lengths = {name: len(value) for name, value in selected.items()}
+    truncated = sum(section_lengths.values()) > max_total_chars
     if truncated:
-        budget = max(max_total_chars // max(len(selected), 1), 1_200)
-        selected = {name: value[:budget].strip() for name, value in selected.items()}
-        extra_note = "已按提示词预算截断章节内容。"
+        selected = _truncate_selected_sections(selected, max_total_chars)
+        extra_note = "Sections were trimmed to fit the prompt budget."
         note = extra_note if note is None else f"{note} {extra_note}"
 
-    return selected, note, truncated
+    return selected, section_lengths, note, truncated
+
+
+def _truncate_selected_sections(selected: dict[str, str], max_total_chars: int) -> dict[str, str]:
+    remaining = dict(selected)
+    truncated: dict[str, str] = {}
+    remaining_budget = max_total_chars
+
+    while remaining:
+        share = max(remaining_budget // len(remaining), 1)
+        short_sections = {
+            name: value for name, value in remaining.items() if len(value) <= share
+        }
+        if short_sections:
+            for name, value in short_sections.items():
+                truncated[name] = value
+                remaining_budget -= len(value)
+                del remaining[name]
+            continue
+
+        share = max(remaining_budget // len(remaining), 1)
+        for name, value in remaining.items():
+            truncated[name] = value[:share].strip()
+        break
+
+    return truncated

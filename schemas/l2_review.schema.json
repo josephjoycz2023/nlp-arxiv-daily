@@ -28,42 +28,6 @@
     "landing_value_cn": {
       "type": "string"
     },
-    "module_assessments": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "module_id": {
-            "type": "string"
-          },
-          "module_name": {
-            "type": "string"
-          },
-          "relevance": {
-            "type": "string",
-            "enum": ["high", "medium", "low", "none"]
-          },
-          "should_follow": {
-            "type": "boolean"
-          },
-          "reason_cn": {
-            "type": "string"
-          },
-          "evidence_cn": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "module_id",
-          "module_name",
-          "relevance",
-          "should_follow",
-          "reason_cn",
-          "evidence_cn"
-        ]
-      }
-    },
     "scores": {
       "type": "object",
       "additionalProperties": false,
@@ -115,7 +79,6 @@
     "experiment_cn",
     "result_cn",
     "landing_value_cn",
-    "module_assessments",
     "scores",
     "risks_cn",
     "recommended_action_cn"

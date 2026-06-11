@@ -8,10 +8,23 @@ from dataclasses import asdict
 
 from nlp_arxiv_daily.ai_filter.analysis_cache import build_cache_namespace, load_stage_cache, save_stage_cache
 from nlp_arxiv_daily.ai_filter.pdf_loader import download_pdf_text, paper_url_to_pdf_url
-from nlp_arxiv_daily.ai_filter.profile import load_research_profile, render_modules, render_tracks
+from nlp_arxiv_daily.ai_filter.profile import load_research_profile, render_tracks
 from nlp_arxiv_daily.ai_filter.section_extractor import extract_review_sections
 from nlp_arxiv_daily.ai_filter.stage_logging import write_stage_log_bundle
 from nlp_arxiv_daily.openai_client import OpenAIAllKeysFailedError, OpenAIConfigError, OpenAITextClient
+
+
+L2_CACHE_VERSION = 2
+SPARSE_REVIEW_SECTION_MIN_CHARS = 1_000
+SPARSE_REVIEW_SECTIONS = ("method", "experiments")
+SPARSE_RELEVANCE_SCHEMA = {
+    "type": "object",
+    "additionalProperties": False,
+    "properties": {
+        "relevance_analysis_cn": {"type": "string"},
+    },
+    "required": ["relevance_analysis_cn"],
+}
 
 
 def review_level2_for_date(config: dict, run_date: datetime.date) -> list[str]:
@@ -29,6 +42,7 @@ def review_level2_for_date(config: dict, run_date: datetime.date) -> list[str]:
     cache_namespace = build_cache_namespace(
         {
             "stage": "l2",
+            "version": L2_CACHE_VERSION,
             "profile": asdict(profile),
             "prompt_template": prompt_template,
             "schema": schema,
@@ -40,7 +54,7 @@ def review_level2_for_date(config: dict, run_date: datetime.date) -> list[str]:
     candidates = candidates[: profile.level2.max_papers_per_day]
     logging.info("L2 start: %s L1-passed papers queued for %s.", len(candidates), run_date.isoformat())
 
-    review_dir = os.path.join(config["personalized_docs_dir"], "reviews", run_date.isoformat())
+    review_dir = os.path.join(config["personalized_docs_dir"], "l2", run_date.isoformat())
     os.makedirs(review_dir, exist_ok=True)
 
     written_paths: list[str] = []
@@ -65,7 +79,7 @@ def review_level2_for_date(config: dict, run_date: datetime.date) -> list[str]:
                 "l1": candidate["l1"],
                 "analysis_meta": {"from_cache": True},
                 "review_input": cached_payload["review_input"],
-                "review": cached_payload["review"],
+                "review": _normalize_review_output(cached_payload["review"]),
             }
             with open(review_path, "w", encoding="utf-8") as f:
                 json.dump(payload, f, ensure_ascii=False, indent=2)
@@ -82,23 +96,39 @@ def review_level2_for_date(config: dict, run_date: datetime.date) -> list[str]:
             continue
         try:
             paper_text, page_count = download_pdf_text(pdf_url)
-            sections, extraction_note, truncated = extract_review_sections(
+            sections, section_lengths, extraction_note, truncated = extract_review_sections(
                 paper_text,
                 prefer_sections=profile.level2.prefer_sections,
                 skip_sections=profile.level2.skip_sections,
             )
+            sparse_sections = [
+                name for name in SPARSE_REVIEW_SECTIONS if section_lengths.get(name, 0) < SPARSE_REVIEW_SECTION_MIN_CHARS
+            ]
+            supplemental_relevance = ""
+            if sparse_sections:
+                supplemental_relevance = _infer_sparse_section_relevance(
+                    client,
+                    profile.full_profile,
+                    render_tracks(profile),
+                    paper,
+                    sections,
+                    section_lengths,
+                    sparse_sections,
+                )
             prompt = _render_l2_prompt(
                 prompt_template,
                 profile.full_profile,
-                render_modules(profile),
                 render_tracks(profile),
                 sections,
+                supplemental_relevance,
             )
-            model_output = client.complete_json(
-                prompt,
-                schema=schema,
-                schema_name="l2_review",
-                schema_description="Structured output for the full-paper L2 reviewer.",
+            model_output = _normalize_review_output(
+                client.complete_json(
+                    prompt,
+                    schema=schema,
+                    schema_name="l2_review",
+                    schema_description="Structured output for the full-paper L2 reviewer.",
+                )
             )
             payload = {
                 "date": run_date.isoformat(),
@@ -109,9 +139,11 @@ def review_level2_for_date(config: dict, run_date: datetime.date) -> list[str]:
                     "pdf_url": pdf_url,
                     "page_count": page_count,
                     "section_titles": list(sections.keys()),
-                    "section_lengths": {name: len(value) for name, value in sections.items()},
+                    "section_lengths": section_lengths,
                     "section_extraction_note": extraction_note,
                     "truncated_for_prompt": truncated,
+                    "sparse_sections": sparse_sections,
+                    "supplemental_relevance_analysis_cn": supplemental_relevance,
                 },
                 "review": model_output,
             }
@@ -167,7 +199,11 @@ def review_level2_for_date(config: dict, run_date: datetime.date) -> list[str]:
         )
 
     _write_l2_stage_logs(config, run_date, stage_payloads)
-    logging.info("L2 complete: %s papers remained actionable for %s.", len([item for item in stage_payloads if item.get("review", {}).get("decision") != "archive_only"]), run_date.isoformat())
+    logging.info(
+        "L2 complete: %s papers remained actionable for %s.",
+        len([item for item in stage_payloads if item.get("review", {}).get("decision") != "archive_only"]),
+        run_date.isoformat(),
+    )
     return written_paths
 
 
@@ -181,17 +217,74 @@ def _read_json(path: str) -> dict:
         return json.load(f)
 
 
+def _normalize_review_output(review: dict) -> dict:
+    normalized = dict(review)
+    normalized.pop("module_assessments", None)
+    return normalized
+
+
+def _infer_sparse_section_relevance(
+    client: OpenAITextClient,
+    full_profile: str,
+    tracks_text: str,
+    paper: dict,
+    sections: dict[str, str],
+    section_lengths: dict[str, int],
+    sparse_sections: list[str],
+) -> str:
+    prompt = "\n".join(
+        [
+            "You are analyzing whether a paper is relevant to the user's active research focus.",
+            "Method and/or experiments sections are too short for a confident direct read.",
+            "Use the available sections to infer topical relevance, practical fit, and whether the paper is still worth tracking.",
+            "Return concise Chinese reasoning.",
+            "",
+            f"Research profile:\n{full_profile}",
+            "",
+            f"Tracks:\n{tracks_text}",
+            "",
+            "Sparse sections:",
+            ", ".join(sparse_sections),
+            "",
+            "Paper:",
+            json.dumps(
+                {
+                    "paper_id": paper.get("paper_id"),
+                    "title": paper.get("title"),
+                    "matched_topic": paper.get("matched_topic"),
+                    "section_lengths": section_lengths,
+                    "sections": sections,
+                },
+                ensure_ascii=False,
+                indent=2,
+            ),
+        ]
+    )
+    result = client.complete_json(
+        prompt,
+        schema=SPARSE_RELEVANCE_SCHEMA,
+        schema_name="l2_sparse_relevance",
+        schema_description="Focused relevance analysis when method or experiments sections are sparse.",
+    )
+    return str(result["relevance_analysis_cn"]).strip()
+
+
 def _render_l2_prompt(
     template: str,
     full_profile: str,
-    modules_text: str,
     tracks_text: str,
     sections: dict[str, str],
+    supplemental_relevance: str,
 ) -> str:
     prompt = template.replace("{{profile.full}}", full_profile)
-    prompt = prompt.replace("{{modules}}", modules_text)
+    prompt = prompt.replace("{{modules}}", "")
     prompt = prompt.replace("{{tracks}}", tracks_text)
     prompt = prompt.replace("{{paper_sections}}", json.dumps(sections, ensure_ascii=False, indent=2))
+    if supplemental_relevance:
+        prompt = (
+            f"{prompt}\n\nSupplemental relevance reasoning for sparse method/experiments:\n"
+            f"{supplemental_relevance}"
+        )
     return prompt
 
 
@@ -227,7 +320,6 @@ def _write_l2_stage_logs(config: dict, run_date: datetime.date, payloads: list[d
                     "summary_cn": review["summary_cn"],
                     "recommended_action_cn": review["recommended_action_cn"],
                     "relevance": review["scores"]["relevance"],
-                    "module_assessments": review.get("module_assessments", []),
                     "from_cache": item.get("analysis_meta", {}).get("from_cache", False),
                 }
             )

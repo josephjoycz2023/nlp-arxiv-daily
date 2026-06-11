@@ -61,8 +61,8 @@ Artifacts are written under `docs/personalized/` by default:
 
 - `pools/YYYY-MM-DD.json`: the frozen paper pool retrieved in that run
 - `l1/YYYY-MM-DD.json|md`: L1 screening results
-- `reviews/YYYY-MM-DD/*.json`: per-paper L2 review outputs
-- `daily/YYYY-MM-DD.md`: final digest overview and watchlist
+- `l2/YYYY-MM-DD/*.json`: per-paper L2 review outputs
+- `digest/YYYY-MM-DD.md`: final digest overview and watchlist
 - `runs/YYYY-MM-DD.json`: one unified pipeline run record
 - `runs/latest.json`: latest pipeline run summary
 - `cache/`: reusable analysis cache for L1, L2, and digest

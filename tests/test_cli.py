@@ -248,11 +248,13 @@ class TestCmdRunInvocation:
         run_date = datetime.date(2026, 6, 6)
 
         l1_dir = personalized_root / "l1"
-        reviews_dir = personalized_root / "reviews" / run_date.isoformat()
-        daily_dir = personalized_root / "daily"
+        l2_dir = personalized_root / "l2" / run_date.isoformat()
+        digest_dir = personalized_root / "digest"
+        logs_dir = personalized_root / "logs" / run_date.isoformat()
         l1_dir.mkdir(parents=True)
-        reviews_dir.mkdir(parents=True)
-        daily_dir.mkdir(parents=True)
+        l2_dir.mkdir(parents=True)
+        digest_dir.mkdir(parents=True)
+        logs_dir.mkdir(parents=True)
 
         l1_path = l1_dir / f"{run_date.isoformat()}.json"
         l1_path.write_text(
@@ -271,7 +273,7 @@ class TestCmdRunInvocation:
             encoding="utf-8",
         )
 
-        review_path = reviews_dir / "2606.00001.json"
+        review_path = l2_dir / "2606.00001.json"
         review_path.write_text(
             json.dumps(
                 {
@@ -282,15 +284,16 @@ class TestCmdRunInvocation:
             encoding="utf-8",
         )
 
-        digest_path = daily_dir / f"{run_date.isoformat()}.json"
-        digest_path.write_text(
+        digest_path = digest_dir / f"{run_date.isoformat()}.md"
+        digest_path.write_text("# digest", encoding="utf-8")
+        (logs_dir / "digest.json").write_text(
             json.dumps(
                 {
-                    "date": run_date.isoformat(),
-                    "review_failures": [],
-                    "digest": {
-                        "must_read": [{"paper_id": "2606.00001"}],
-                        "worth_archiving": [],
+                    "summary": {
+                        "must_read": 1,
+                        "worth_archiving": 0,
+                        "review_failures": 0,
+                        "must_read_paper_ids": ["2606.00001"],
                     },
                 }
             ),
@@ -328,7 +331,7 @@ class TestCmdRunInvocation:
 
         (personalized_root / "pools").mkdir(parents=True)
         (personalized_root / "l1").mkdir(parents=True)
-        (personalized_root / "reviews" / run_date.isoformat()).mkdir(parents=True)
+        (personalized_root / "l2" / run_date.isoformat()).mkdir(parents=True)
         Path(config["md_readme_path"]).write_text("rendered", encoding="utf-8")
 
         analysis_pool_path = personalized_root / "pools" / f"{run_date.isoformat()}.json"
@@ -396,9 +399,11 @@ class TestCmdRunInvocation:
             encoding="utf-8",
         )
 
-        review_path = personalized_root / "reviews" / run_date.isoformat() / "2606.00001.json"
-        digest_path = personalized_root / "daily" / f"{run_date.isoformat()}.json"
+        review_path = personalized_root / "l2" / run_date.isoformat() / "2606.00001.json"
+        digest_path = personalized_root / "digest" / f"{run_date.isoformat()}.md"
+        digest_log_path = personalized_root / "logs" / run_date.isoformat() / "digest.json"
         digest_path.parent.mkdir(parents=True, exist_ok=True)
+        digest_log_path.parent.mkdir(parents=True, exist_ok=True)
 
         order = []
         monkeypatch.setattr(cli, "cmd_fetch", lambda cfg: pytest.fail("fetch should be skipped"))
@@ -416,12 +421,16 @@ class TestCmdRunInvocation:
             ),
             encoding="utf-8",
         )
-        digest_path.write_text(
+        digest_path.write_text("# digest", encoding="utf-8")
+        digest_log_path.write_text(
             json.dumps(
                 {
-                    "date": run_date.isoformat(),
-                    "review_failures": [],
-                    "digest": {"must_read": [{"paper_id": "2606.00001"}], "worth_archiving": []},
+                    "summary": {
+                        "must_read": 1,
+                        "worth_archiving": 0,
+                        "review_failures": 0,
+                        "must_read_paper_ids": ["2606.00001"],
+                    }
                 }
             ),
             encoding="utf-8",
@@ -500,12 +509,12 @@ class TestCmdRunInvocation:
 
 def test_build_digest_stage_record_prefers_stage_log(tmp_path):
     personalized_root = tmp_path / "personalized"
-    daily_dir = personalized_root / "daily"
+    digest_dir = personalized_root / "digest"
     logs_dir = personalized_root / "logs" / "2026-06-06"
-    daily_dir.mkdir(parents=True)
+    digest_dir.mkdir(parents=True)
     logs_dir.mkdir(parents=True)
 
-    digest_path = daily_dir / "2026-06-06.md"
+    digest_path = digest_dir / "2026-06-06.md"
     digest_path.write_text("# digest", encoding="utf-8")
     (logs_dir / "digest.json").write_text(
         json.dumps(
@@ -530,10 +539,10 @@ def test_build_digest_stage_record_prefers_stage_log(tmp_path):
 
 def test_build_digest_stage_record_falls_back_to_legacy_digest_json(tmp_path):
     personalized_root = tmp_path / "personalized"
-    daily_dir = personalized_root / "daily"
-    daily_dir.mkdir(parents=True)
+    digest_dir = personalized_root / "digest"
+    digest_dir.mkdir(parents=True)
 
-    digest_path = daily_dir / "2026-06-06.json"
+    digest_path = digest_dir / "2026-06-06.json"
     digest_path.write_text(
         json.dumps(
             {

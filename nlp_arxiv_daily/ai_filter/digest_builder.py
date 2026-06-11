@@ -15,7 +15,7 @@ from nlp_arxiv_daily.openai_client import OpenAITextClient
 def build_digest_for_date(config: dict, run_date: datetime.date) -> str:
     profile = load_research_profile(config["research_profile_path"])
     l1_path = os.path.join(config["personalized_docs_dir"], "l1", f"{run_date.isoformat()}.json")
-    review_dir = os.path.join(config["personalized_docs_dir"], "reviews", run_date.isoformat())
+    review_dir = os.path.join(config["personalized_docs_dir"], "l2", run_date.isoformat())
     if not os.path.exists(l1_path):
         raise FileNotFoundError(f"Missing L1 result file: {l1_path}. Run filter-l1 first.")
     if not os.path.isdir(review_dir):
@@ -112,7 +112,7 @@ def build_digest_for_date(config: dict, run_date: datetime.date) -> str:
     else:
         digest = cached_entry["payload"]["digest"]
 
-    output_dir = os.path.join(config["personalized_docs_dir"], "daily")
+    output_dir = os.path.join(config["personalized_docs_dir"], "digest")
     os.makedirs(output_dir, exist_ok=True)
     md_path = os.path.join(output_dir, f"{run_date.isoformat()}.md")
 

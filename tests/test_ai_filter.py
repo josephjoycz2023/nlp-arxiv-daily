@@ -28,21 +28,6 @@ class _FakeClient:
     def complete_json(self, prompt, **kwargs):
         self.calls.append({"prompt": prompt, **kwargs})
         return self._outputs.pop(0)
-
-
-def _module_assessments():
-    return [
-        {
-            "module_id": "memory",
-            "module_name": "Memory",
-            "relevance": "high",
-            "should_follow": True,
-            "reason_cn": "fits memory",
-            "evidence_cn": "memory evidence",
-        }
-    ]
-
-
 @pytest.fixture
 def ai_workspace(tmp_path):
     docs_dir = tmp_path / "docs"
@@ -407,8 +392,13 @@ def test_level1_prefers_analysis_pool_snapshot_over_publish_date_directory(ai_wo
 
 
 def test_extract_review_sections_falls_back_and_truncates():
-    sections, note, truncated = extract_review_sections("plain text only " * 4000, prefer_sections=("abstract",), skip_sections=())
+    sections, section_lengths, note, truncated = extract_review_sections(
+        "plain text only " * 4000,
+        prefer_sections=("abstract",),
+        skip_sections=(),
+    )
     assert "full_text_excerpt" in sections
+    assert section_lengths["full_text_excerpt"] > len(sections["full_text_excerpt"])
     assert note is not None
     assert truncated is True
 
@@ -426,15 +416,41 @@ This is the result.
 Conclusion
 This is the conclusion.
 """
-    sections, note, truncated = extract_review_sections(
+    sections, section_lengths, note, truncated = extract_review_sections(
         text,
         prefer_sections=("abstract", "method", "results", "conclusion"),
         skip_sections=("introduction", "related work"),
     )
     assert sections["abstract"] == "This is the abstract."
     assert sections["method"] == "This is the method."
+    assert section_lengths["method"] == len("This is the method.")
     assert note is None
     assert truncated is False
+
+
+def test_extract_review_sections_keeps_short_method_when_other_sections_are_trimmed():
+    text = "\n".join(
+        [
+            "Abstract",
+            "A" * 10_000,
+            "Method",
+            "short method section",
+            "Results",
+            "B" * 10_000,
+        ]
+    )
+
+    sections, section_lengths, note, truncated = extract_review_sections(
+        text,
+        prefer_sections=("abstract", "method", "results"),
+        skip_sections=(),
+        max_total_chars=3_000,
+    )
+
+    assert truncated is True
+    assert note is not None
+    assert sections["method"] == "short method section"
+    assert section_lengths["method"] == len("short method section")
 
 
 def test_normalize_l1_result_and_daily_cap(ai_workspace):
@@ -679,6 +695,9 @@ def test_l2_review_writes_success_payload(ai_workspace, monkeypatch):
     fake_client = _FakeClient(
         [
             {
+                "relevance_analysis_cn": "paper is still relevant despite sparse method and experiments sections"
+            },
+            {
                 "decision": "highlight",
                 "priority": "must_read",
                 "summary_cn": "summary",
@@ -687,7 +706,6 @@ def test_l2_review_writes_success_payload(ai_workspace, monkeypatch):
                 "experiment_cn": "experiment",
                 "result_cn": "result",
                 "landing_value_cn": "landing",
-                "module_assessments": _module_assessments(),
                 "scores": {
                     "relevance": 90,
                     "credibility": 80,
@@ -712,9 +730,12 @@ def test_l2_review_writes_success_payload(ai_workspace, monkeypatch):
     )
     assert payload["review"]["decision"] == "highlight"
     assert payload["review_input"]["page_count"] == 4
+    assert payload["review_input"]["sparse_sections"] == ["method", "experiments"]
+    assert "relevant" in payload["review_input"]["supplemental_relevance_analysis_cn"]
     assert stage_log["summary"]["passed_l2"] == 1
     assert stage_log["papers"][0]["decision"] == "highlight"
-    assert stage_log["papers"][0]["module_assessments"][0]["module_id"] == "memory"
+    assert "module_assessments" not in payload["review"]
+    assert "module_assessments" not in stage_log["papers"][0]
 
 
 def test_l2_review_reuses_cached_review_for_repeated_paper(ai_workspace, monkeypatch):
@@ -743,6 +764,9 @@ def test_l2_review_reuses_cached_review_for_repeated_paper(ai_workspace, monkeyp
     fake_client = _FakeClient(
         [
             {
+                "relevance_analysis_cn": "paper remains relevant even with sparse method and experiments sections"
+            },
+            {
                 "decision": "highlight",
                 "priority": "must_read",
                 "summary_cn": "summary",
@@ -751,7 +775,6 @@ def test_l2_review_reuses_cached_review_for_repeated_paper(ai_workspace, monkeyp
                 "experiment_cn": "experiment",
                 "result_cn": "result",
                 "landing_value_cn": "landing",
-                "module_assessments": _module_assessments(),
                 "scores": {
                     "relevance": 90,
                     "credibility": 80,
@@ -771,7 +794,7 @@ def test_l2_review_reuses_cached_review_for_repeated_paper(ai_workspace, monkeyp
     first_paths = review_level2_for_date(ai_workspace, datetime.date(2026, 6, 6))
     second_paths = review_level2_for_date(ai_workspace, datetime.date(2026, 6, 7))
 
-    assert len(fake_client.calls) == 1
+    assert len(fake_client.calls) == 2
     assert len(download_calls) == 1
     assert json.loads(Path(first_paths[0]).read_text(encoding="utf-8"))["review"]["decision"] == "highlight"
     assert json.loads(Path(second_paths[0]).read_text(encoding="utf-8"))["review"]["decision"] == "highlight"
@@ -780,7 +803,7 @@ def test_l2_review_reuses_cached_review_for_repeated_paper(ai_workspace, monkeyp
 def test_digest_builder_writes_markdown(ai_workspace, monkeypatch):
     personalized_root = Path(ai_workspace["personalized_docs_dir"])
     (personalized_root / "l1").mkdir(parents=True)
-    (personalized_root / "reviews" / "2026-06-06").mkdir(parents=True)
+    (personalized_root / "l2" / "2026-06-06").mkdir(parents=True)
     (personalized_root / "l1" / "2026-06-06.json").write_text(
         json.dumps(
             {
@@ -792,7 +815,7 @@ def test_digest_builder_writes_markdown(ai_workspace, monkeypatch):
         ),
         encoding="utf-8",
     )
-    (personalized_root / "reviews" / "2026-06-06" / "2606.00001.json").write_text(
+    (personalized_root / "l2" / "2026-06-06" / "2606.00001.json").write_text(
         json.dumps(
             {
                 "date": "2026-06-06",
@@ -826,7 +849,7 @@ def test_digest_builder_writes_markdown(ai_workspace, monkeypatch):
         ),
         encoding="utf-8",
     )
-    (personalized_root / "reviews" / "2026-06-06" / "2606.00002.json").write_text(
+    (personalized_root / "l2" / "2026-06-06" / "2606.00002.json").write_text(
         json.dumps(
             {
                 "date": "2026-06-06",
@@ -877,7 +900,7 @@ def test_digest_builder_reuses_cached_digest_for_repeated_inputs(ai_workspace, m
     personalized_root = Path(ai_workspace["personalized_docs_dir"])
     (personalized_root / "l1").mkdir(parents=True)
     for day in ("2026-06-06", "2026-06-07"):
-        (personalized_root / "reviews" / day).mkdir(parents=True)
+        (personalized_root / "l2" / day).mkdir(parents=True)
         (personalized_root / "l1" / f"{day}.json").write_text(
             json.dumps(
                 {
@@ -889,7 +912,7 @@ def test_digest_builder_reuses_cached_digest_for_repeated_inputs(ai_workspace, m
             ),
             encoding="utf-8",
         )
-        (personalized_root / "reviews" / day / "2606.00001.json").write_text(
+        (personalized_root / "l2" / day / "2606.00001.json").write_text(
             json.dumps(
                 {
                     "date": day,
