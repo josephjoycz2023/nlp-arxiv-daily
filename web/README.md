@@ -1,4 +1,4 @@
-# Web Dashboard
+# Personalized Research Dashboard Web
 
 This directory contains the Astro frontend for the personalized research dashboard.
 It reads build-time data from `../docs/personalized/` and publishes a static site grouped by `Digest`, `L2`, `L1`, and `Archived`.

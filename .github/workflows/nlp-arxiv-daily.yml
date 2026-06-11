@@ -1,4 +1,4 @@
-name: Run Arxiv Papers Daily
+name: Personalized Research Dashboard Pipeline
 
 on:
   workflow_dispatch:
@@ -31,10 +31,10 @@ jobs:
       - name: Install dependencies
         run: make set-dev
 
-      - name: Run daily arxiv
+      - name: Run Personalized Research Dashboard pipeline
         run: uv run --frozen python -m nlp_arxiv_daily run
 
-      - name: Push new nlp-arxiv-daily.md
+      - name: Push updated dashboard artifacts
         uses: github-actions-x/commit@v2.9
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}

@@ -1,4 +1,4 @@
-# Background Scheduler
+# Personalized Research Dashboard Scheduler
 
 这个项目现在提供一个手动启动、可自启动的后台调度命令：
 
@@ -66,7 +66,7 @@ scheduler_lock_path: "./docs/personalized/runs/scheduler.lock"
 
 ```ini
 [Unit]
-Description=nlp-arxiv-daily personalized scheduler
+Description=Personalized Research Dashboard scheduler
 After=network-online.target
 Wants=network-online.target
 
