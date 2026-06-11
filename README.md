@@ -5,23 +5,16 @@
 [中文](README.zh-CN.md) | [English](README.en.md)
 
 **A personalized arXiv research workflow for weighted L1/L2 review, digest generation, and web browsing.**
-
 <br/>
-
 [![Website](https://img.shields.io/badge/WEBSITE-JOSEPHJOYCZ2023.GITHUB.IO%2FNLP--ARXIV--DAILY-2563eb?style=for-the-badge&labelColor=333333)](https://josephjoycz2023.github.io/nlp-arxiv-daily/)
 [![RSS Feed](https://img.shields.io/badge/RSS-FEED-e87922?style=for-the-badge&logo=rss&logoColor=white&labelColor=333333)](https://josephjoycz2023.github.io/nlp-arxiv-daily/rss.xml)
-
 <br/>
 <br/>
-
 [![Run Personalized Pipeline](https://github.com/josephjoycz2023/nlp-arxiv-daily/actions/workflows/nlp-arxiv-daily.yml/badge.svg)](https://github.com/josephjoycz2023/nlp-arxiv-daily/actions/workflows/nlp-arxiv-daily.yml)
 [![Astro Build & Deploy](https://github.com/josephjoycz2023/nlp-arxiv-daily/actions/workflows/astro-build.yml/badge.svg)](https://github.com/josephjoycz2023/nlp-arxiv-daily/actions/workflows/astro-build.yml)
-
 <br/>
 <br/>
-
 [**Browse the dashboard ->**](https://josephjoycz2023.github.io/nlp-arxiv-daily/)
-
 </div>
 
 This repository is now a personalized arXiv research workflow rather than a generic keyword digest.
