@@ -1,5 +1,7 @@
 # Personalized Research Dashboard
 
+[中文](README.zh-CN.md) | [English](README.en.md)
+
 This repository is no longer a generic keyword-based arXiv digest.
 It is now a personalized paper-review workflow built around a weighted research profile, staged review pipeline, and pool-date based dashboard.
 

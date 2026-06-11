@@ -1,7 +1,6 @@
 # Personalized Research Dashboard
 
-中文说明见 [README.zh-CN.md](README.zh-CN.md)  
-English documentation: [README.en.md](README.en.md)
+[中文](README.zh-CN.md) | [English](README.en.md)
 
 This repository is now a personalized arXiv research workflow rather than a generic keyword digest.
 It builds a fixed daily paper pool, runs weighted L1/L2 review stages around your research profile, writes per-paper outputs under `docs/personalized/`, and publishes a web dashboard grouped by `Digest`, `L2`, `L1`, and `Archived`.

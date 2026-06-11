@@ -1,5 +1,7 @@
 # Personalized Research Dashboard
 
+[中文](README.zh-CN.md) | [English](README.en.md)
+
 这是一个面向个人研究方向的 arXiv 论文筛选与复审系统，不再是传统的“按关键词生成日报”的通用项目。
 
 当前仓库的核心目标是：

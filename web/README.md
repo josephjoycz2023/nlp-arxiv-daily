@@ -74,6 +74,24 @@ That means:
 So the behavior you saw in `monologg/nlp-arxiv-daily` is not a special GitHub feature.
 It works because Pagefind is a static-search solution and GitHub Pages can host the generated files.
 
+## GitHub Pages Deployment
+
+This project can be deployed directly to GitHub Pages with Pagefind enabled.
+
+The important point is:
+
+- `Pagefind` is already integrated in the Astro build
+- `pnpm build` generates both the static pages and the search index
+- GitHub Pages only needs to serve the built `web/dist/` directory
+
+Repository settings you need:
+
+1. Go to `Settings -> Pages`
+2. Set `Source` to `GitHub Actions`
+3. Make sure Actions have permission to deploy Pages
+
+The repository workflow `.github/workflows/astro-build.yml` is the deployment workflow.
+
 ## Data Source
 
 The current frontend reads personalized pipeline outputs from:
