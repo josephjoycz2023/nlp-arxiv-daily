@@ -1,165 +1,42 @@
-<div align="center">
+# Personalized Research Dashboard
 
-# 📚 NLP Arxiv Daily
+中文说明见 [README.zh-CN.md](README.zh-CN.md)  
+English documentation: [README.en.md](README.en.md)
 
-**Automatically tracked NLP & LLM papers from arXiv — updated every 12 hours.**
+This repository is now a personalized arXiv research workflow rather than a generic keyword digest.
+It builds a fixed daily paper pool, runs weighted L1/L2 review stages around your research profile, writes per-paper outputs under `docs/personalized/`, and publishes a web dashboard grouped by `Digest`, `L2`, `L1`, and `Archived`.
 
-[![Website](https://img.shields.io/badge/website-monologg.kr/nlp--arxiv--daily-2563eb?style=for-the-badge)](https://monologg.kr/nlp-arxiv-daily)
-[![RSS](https://img.shields.io/badge/RSS-feed-orange?style=for-the-badge&logo=rss)](https://monologg.kr/nlp-arxiv-daily/rss.xml)
+## What It Does
 
-[![Daily update](https://github.com/monologg/nlp-arxiv-daily/actions/workflows/nlp-arxiv-daily.yml/badge.svg)](https://github.com/monologg/nlp-arxiv-daily/actions/workflows/nlp-arxiv-daily.yml)
-[![Astro build](https://github.com/monologg/nlp-arxiv-daily/actions/workflows/astro-build.yml/badge.svg)](https://github.com/monologg/nlp-arxiv-daily/actions/workflows/astro-build.yml)
+- Freezes each run as a pool snapshot: `docs/personalized/pools/YYYY-MM-DD.json`
+- Runs profile-aware L1 relevance filtering and L2 feasibility review
+- Stores per-paper L2 outputs under `docs/personalized/l2/YYYY-MM-DD/*.json`
+- Stores the final markdown brief under `docs/personalized/digest/YYYY-MM-DD.md`
+- Publishes a pool-date based Astro dashboard for browsing results
 
-### 👉 [**Browse papers on the website →**](https://monologg.kr/nlp-arxiv-daily)
-
-<a href="https://monologg.kr/nlp-arxiv-daily">
-  <img src="docs/images/hero.png" alt="NLP Arxiv Daily — website screenshot" width="800" />
-</a>
-
-</div>
-
----
-
-## Features
-
-- 🔎 **Full-text search** across every paper (powered by [Pagefind](https://pagefind.app))
-- 🏷️ **Keyword tabs** — NLP, LLM, RAG, Reasoning, Multimodal, Long Context, Code LLM, …
-- 🗓️ **Monthly archives** going back to launch
-- 📡 **[RSS feed](https://monologg.kr/nlp-arxiv-daily/rss.xml)** for your reader of choice
-- 🌓 Light/dark theme, mobile-friendly, no tracking
-
-## How it works
-
-```
-arXiv API ──► fetcher ──► JSON snapshots ──► Astro static site ──► GitHub Pages
-                              │
-                              └──► docs/nlp-arxiv-daily-web.json + docs/archive-web/*.json
-```
-
-A GitHub Actions cron runs every 12 hours: it queries arXiv per keyword, merges results into the monthly JSON archives, then triggers an Astro rebuild and deploy.
-
-Code lives in `nlp_arxiv_daily/` (Python pipeline) and `web/` (Astro site).
-
-## Personalized AI Pipeline
-
-The repo also supports a one-shot personalized pipeline that runs the full chain for one analysis-pool date:
-
-1. fetch papers and persist snapshots
-2. freeze the current retrieval pool under `docs/personalized/pools/YYYY-MM-DD.json`
-3. render site artifacts
-4. run abstract-level `L1` filtering
-5. run full-paper `L2` review for selected papers
-6. build the final daily digest
-
-Use:
+## Quick Start
 
 ```bash
-uv run python -m nlp_arxiv_daily run-personalized --date 2026-06-06
-```
+uv run python -m nlp_arxiv_daily run-personalized --date 2026-06-11
 
-Artifacts are written under `docs/personalized/` by default:
-
-- `pools/YYYY-MM-DD.json`: the frozen paper pool retrieved in that run
-- `l1/YYYY-MM-DD.json|md`: L1 screening results
-- `l2/YYYY-MM-DD/*.json`: per-paper L2 review outputs
-- `digest/YYYY-MM-DD.md`: final digest overview and watchlist
-- `runs/YYYY-MM-DD.json`: one unified pipeline run record
-- `runs/latest.json`: latest pipeline run summary
-- `cache/`: reusable analysis cache for L1, L2, and digest
-- `logs/YYYY-MM-DD/`: independent stage logs for `pipeline`, `l1`, `l2`, and `digest` in both `.json` and `.log`
-
-If you want to debug a single stage, the stage commands still exist:
-
-```bash
-uv run python -m nlp_arxiv_daily filter-l1 --date 2026-06-06
-uv run python -m nlp_arxiv_daily review-l2 --date 2026-06-06
-uv run python -m nlp_arxiv_daily build-digest --date 2026-06-06
-```
-
-Here `--date` refers to the analysis pool snapshot date, not each paper's `published_date`.
-The pipeline is resumable: after each stage it updates `runs/YYYY-MM-DD.json`, so if the process stops midway, re-running the same date will skip completed stages and continue from the next incomplete one.
-Each LLM request uses `analysis_request_timeout_seconds` as the default timeout for both OpenAI and DeepSeek, so a long-stuck request will fail fast instead of hanging silently for minutes.
-
-## 🍴 Fork & make it yours
-
-Want a daily tracker for *your* keywords (vision, RecSys, robotics, your own niche)? Fork this repo and edit one file.
-
-### 1. Fork the repo
-
-Click **Fork** on GitHub.
-
-### 2. Edit `config.yaml`
-
-Set your GitHub username/repo and replace the `keywords` block with whatever you want to track:
-
-```yaml
-user_name: "your-github-username"
-repo_name: "your-fork-name"
-
-max_results: 10            # papers per keyword per fetch
-publish_gitpage: True      # keep True so the website still builds
-
-keywords:
-  "Recommender Systems":
-    filters: ["Recommender System", "Sequential Recommendation", "Collaborative Filtering"]
-
-  "Graph Neural Networks":
-    filters: ["Graph Neural Network", "GNN", "Graph Transformer"]
-
-  "Diffusion":
-    filters: ["Diffusion Model", "Score-Based Generative", "DDPM"]
-```
-
-Each `filters` entry is an arXiv search query — phrases are quoted and OR'd together. Section order on the site follows the order in this file.
-
-> 💡 **Tip:** start with 5–8 keywords. Too many filters means heavy arXiv traffic and slower runs.
-
-### 3. Update site identity
-
-- `web/public/CNAME` — your custom domain, or delete this file to use `https://<user>.github.io/<repo>`
-- `web/astro.config.mjs` — set `site` and `base` to match your deploy URL
-- `web/src/layouts/Layout.astro` — adjust the page title/description
-
-### 4. Enable Actions & Pages
-
-- **Settings → Actions → General**: allow read/write permissions for workflows
-- **Settings → Pages**: source = "GitHub Actions"
-- Run the **Run Arxiv Papers Daily** workflow once manually to seed the JSON, then push to trigger the Astro build
-
-### 5. (Optional) Backfill historical months
-
-```bash
-uv run python -m nlp_arxiv_daily backfill --start 2024-01 --end 2025-12
-```
-
-Idempotent — safe to re-run.
-
-## Local development
-
-Requires Python 3.13+ and Node 22+. The repo uses [`uv`](https://docs.astral.sh/uv/) and [`pnpm`](https://pnpm.io/).
-
-```bash
-# pipeline
-make set-dev
-uv run python -m nlp_arxiv_daily run        # fetch + persist JSON
-uv run python -m nlp_arxiv_daily fetch      # fetch only
-uv run python -m nlp_arxiv_daily run-personalized --date 2026-06-06
-make test                                   # run unit tests
-make quality                                # ruff lint + format
-
-# website
 cd web
 pnpm install
-pnpm dev                                    # localhost:4321
-pnpm build && pnpm preview
+pnpm dev
 ```
+
+## Core Configuration
+
+- Research profile and direction weights: `configs/research_profile.yaml`
+- General fetch/runtime config: `config.yaml`
+- L1 prompt: `prompts/l1_abstract_filter.md`
+- L2 prompt: `prompts/l2_paper_review.md`
 
 ## Reference
 
-This project is a fork-in-spirit of **[Vincentqyw/cv-arxiv-daily](https://github.com/Vincentqyw/cv-arxiv-daily)** — the original "arxiv-daily" pattern for computer vision. Huge thanks to that repo for the idea and the original `config.yaml`/keyword-filter design.
+To preserve project integrity:
 
-What's different here:
-- NLP/LLM keyword set instead of CV
-- JSON-first pipeline (no giant markdown tables in the repo)
-- Astro static site with Pagefind search, RSS, OG images
-- Monthly archives split into separate JSON files for fast incremental rebuilds
+- This repository has diverged substantially into a personalized review system.
+- Its public project lineage still includes [monologg/nlp-arxiv-daily](https://github.com/monologg/nlp-arxiv-daily), which established the NLP-focused arXiv daily pipeline and Astro publishing pattern.
+- That work also traces back to the broader arXiv-daily idea from [Vincentqyw/cv-arxiv-daily](https://github.com/Vincentqyw/cv-arxiv-daily).
+
+If you want the full current documentation, use the language-specific READMEs above.

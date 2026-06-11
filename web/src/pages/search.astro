@@ -1,14 +1,18 @@
 ---
-import Layout from "../layouts/Layout.astro";
 import Search from "astro-pagefind/components/Search";
+import Layout from "../layouts/Layout.astro";
 ---
 
-<Layout title="Search — NLP Arxiv Daily" current="search">
-  <main class="max-w-3xl mx-auto px-6 py-10">
-    <header class="mb-6">
+<Layout
+  title="Search Personalized Snapshots"
+  description="Full-text search across personalized dashboards, digests, and archived pool snapshots."
+  current="search"
+>
+  <main class="mx-auto max-w-[1100px] px-4 py-8 lg:px-6">
+    <header class="mb-6 rounded-[28px] border border-(--color-border) bg-(--color-surface) p-6 shadow-[var(--shadow-card)]">
       <h1 class="text-4xl font-bold mb-2">Search</h1>
       <p class="text-(--color-muted) text-sm">
-        Full-text across every paper in the archive.
+        Full-text across personalized dashboards, digests, and archived pool-date snapshots.
       </p>
     </header>
 
@@ -25,13 +29,9 @@ import Search from "astro-pagefind/components/Search";
   </main>
 
   <script>
-    // Keep the URL ?q= in sync with the search input — makes results
-    // shareable via plain link copy/paste.
     const sync = () => {
-      const input = document.querySelector<HTMLInputElement>(
-        "#search input[type='text']",
-      );
-      if (!input) return;
+      const input = document.querySelector("#search input[type='text']");
+      if (!(input instanceof HTMLInputElement)) return;
 
       const url = new URL(window.location.href);
       const initial = url.searchParams.get("q");
@@ -40,15 +40,17 @@ import Search from "astro-pagefind/components/Search";
         input.dispatchEvent(new Event("input", { bubbles: true }));
       }
 
-      input.addEventListener("input", (e) => {
-        const v = (e.target as HTMLInputElement).value;
-        const u = new URL(window.location.href);
-        if (v) {
-          u.searchParams.set("q", v);
+      input.addEventListener("input", (event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLInputElement)) return;
+
+        const nextUrl = new URL(window.location.href);
+        if (target.value) {
+          nextUrl.searchParams.set("q", target.value);
         } else {
-          u.searchParams.delete("q");
+          nextUrl.searchParams.delete("q");
         }
-        window.history.replaceState({}, "", u);
+        window.history.replaceState({}, "", nextUrl);
       });
     };
 
@@ -60,7 +62,6 @@ import Search from "astro-pagefind/components/Search";
   </script>
 
   <style is:global>
-    /* Match Pagefind UI to our token palette so it inherits dark mode. */
     :root {
       --pagefind-ui-scale: 0.9;
       --pagefind-ui-primary: var(--color-accent);
@@ -68,7 +69,7 @@ import Search from "astro-pagefind/components/Search";
       --pagefind-ui-background: var(--color-bg);
       --pagefind-ui-border: var(--color-border);
       --pagefind-ui-tag: var(--color-surface);
-      --pagefind-ui-border-radius: 6px;
+      --pagefind-ui-border-radius: 16px;
       --pagefind-ui-font: var(--font-sans);
     }
   </style>

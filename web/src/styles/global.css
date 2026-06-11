@@ -1,47 +1,122 @@
 @import "tailwindcss";
 
-/* Tailwind v4 dark variant — `dark:` utilities resolve when an ancestor has
-   the `dark` class. Layout.astro adds it to <html> based on system pref or
-   stored preference, before first paint. */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Light-mode palette. Referenced via Tailwind v4's CSS-variable shorthand
-   (`bg-(--color-bg)`) — note parens, not brackets. The bracket form
-   `bg-[--color-bg]` is a Tailwind v4 footgun: it emits the literal token
-   `--color-bg` as the property value (invalid CSS) instead of `var(...)`. */
 @theme {
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --color-bg: oklch(0.99 0 0);
-  --color-surface: oklch(0.97 0.005 260);
-  --color-fg: oklch(0.22 0.02 260);
-  --color-muted: oklch(0.5 0.02 260);
-  --color-border: oklch(0.88 0.01 260);
-  --color-accent: oklch(0.5 0.18 260);
-  --color-accent-fg: oklch(0.99 0 0);
+  --font-sans: "IBM Plex Sans", "Segoe UI", "PingFang SC", "Noto Sans SC", sans-serif;
+  --color-bg: oklch(0.97 0.01 95);
+  --color-surface: oklch(0.995 0.006 95);
+  --color-surface-strong: oklch(0.95 0.01 95);
+  --color-fg: oklch(0.23 0.02 60);
+  --color-muted: oklch(0.52 0.02 70);
+  --color-border: oklch(0.89 0.015 80);
+  --color-accent: oklch(0.62 0.15 35);
+  --color-accent-strong: oklch(0.44 0.14 28);
+  --color-accent-soft: oklch(0.95 0.03 40);
+  --color-warning-bg: oklch(0.97 0.03 95);
+  --color-warning-border: oklch(0.84 0.06 92);
+  --color-warning-fg: oklch(0.48 0.08 82);
+  --color-danger-bg: oklch(0.97 0.03 25);
+  --color-danger-border: oklch(0.84 0.06 24);
+  --color-danger-fg: oklch(0.48 0.11 25);
+  --color-hero-glow: color-mix(in oklab, var(--color-accent) 18%, transparent);
+  --shadow-card:
+    0 20px 48px color-mix(in oklab, var(--color-fg) 7%, transparent),
+    0 2px 6px color-mix(in oklab, var(--color-fg) 6%, transparent);
 }
 
-/* Dark-mode overrides. Token *names* stay identical so component code
-   doesn't branch — only the values change.
-   Use `html.dark` (not `:where(.dark)`) so the override has specificity
-   (0,1,1) > the (0,1,0) from `@theme`'s :root rule. With `:where()` the
-   selector specificity collapses to 0 and the override silently loses. */
 html.dark {
-  --color-bg: oklch(0.16 0.015 260);
-  --color-surface: oklch(0.21 0.015 260);
-  --color-fg: oklch(0.95 0.005 260);
-  --color-muted: oklch(0.65 0.02 260);
-  --color-border: oklch(0.32 0.015 260);
-  --color-accent: oklch(0.78 0.16 260);
-  --color-accent-fg: oklch(0.16 0.015 260);
+  --color-bg: oklch(0.18 0.012 80);
+  --color-surface: oklch(0.22 0.014 82);
+  --color-surface-strong: oklch(0.27 0.018 82);
+  --color-fg: oklch(0.95 0.01 90);
+  --color-muted: oklch(0.72 0.015 90);
+  --color-border: oklch(0.33 0.014 82);
+  --color-accent: oklch(0.74 0.16 38);
+  --color-accent-strong: oklch(0.88 0.09 70);
+  --color-accent-soft: oklch(0.3 0.05 38);
+  --color-warning-bg: oklch(0.3 0.04 88);
+  --color-warning-border: oklch(0.47 0.07 88);
+  --color-warning-fg: oklch(0.86 0.06 90);
+  --color-danger-bg: oklch(0.29 0.04 24);
+  --color-danger-border: oklch(0.46 0.07 24);
+  --color-danger-fg: oklch(0.86 0.07 24);
+  --color-hero-glow: color-mix(in oklab, var(--color-accent) 18%, transparent);
 }
 
-/* Smooth color crossfade when toggling theme. */
 html {
   color-scheme: light dark;
+  scroll-behavior: smooth;
 }
+
 html.dark {
   color-scheme: dark;
 }
+
 body {
+  background:
+    radial-gradient(circle at top left, color-mix(in oklab, var(--color-accent) 12%, transparent), transparent 32%),
+    linear-gradient(180deg, color-mix(in oklab, var(--color-surface) 85%, var(--color-bg)) 0%, var(--color-bg) 100%);
   transition: background-color 150ms ease, color 150ms ease;
+}
+
+.digest-prose {
+  color: var(--color-fg);
+}
+
+.digest-prose h1,
+.digest-prose h2,
+.digest-prose h3,
+.digest-prose h4 {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.digest-prose h1 {
+  font-size: 1.15rem;
+}
+
+.digest-prose h2 {
+  font-size: 1rem;
+}
+
+.digest-prose h3,
+.digest-prose h4 {
+  font-size: 0.95rem;
+}
+
+.digest-prose p,
+.digest-prose li {
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
+
+.digest-prose p + p {
+  margin-top: 0.75rem;
+}
+
+.digest-prose ul {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+  padding-left: 1rem;
+  list-style: disc;
+}
+
+.digest-prose li + li {
+  margin-top: 0.3rem;
+}
+
+.digest-prose hr {
+  margin: 1rem 0;
+  border: 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.digest-prose a {
+  color: var(--color-accent-strong);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
 }

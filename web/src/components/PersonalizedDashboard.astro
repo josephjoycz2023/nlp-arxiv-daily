@@ -1,0 +1,295 @@
+---
+import { withBase } from "../utils/url.ts";
+import type { DashboardData } from "../utils/personalizedDashboard.ts";
+
+interface Props {
+  dashboard: DashboardData;
+}
+
+const { dashboard } = Astro.props;
+
+function hrefForDate(date: string): string {
+  return date === dashboard.latestDate ? withBase("/") : withBase(`/archive/${date}/`);
+}
+
+function toneClasses(tone: "accent" | "warning" | "muted" | "danger"): string {
+  if (tone === "accent") {
+    return "border-(--color-accent)/25 bg-(--color-accent-soft) text-(--color-accent-strong)";
+  }
+  if (tone === "warning") {
+    return "border-[color:var(--color-warning-border)] bg-[color:var(--color-warning-bg)] text-[color:var(--color-warning-fg)]";
+  }
+  if (tone === "danger") {
+    return "border-[color:var(--color-danger-border)] bg-[color:var(--color-danger-bg)] text-[color:var(--color-danger-fg)]";
+  }
+  return "border-(--color-border) bg-(--color-surface-strong) text-(--color-muted)";
+}
+---
+
+<main class="mx-auto max-w-[1600px] px-4 py-8 lg:px-6">
+  <div class="grid gap-6 lg:grid-cols-[290px_minmax(0,1fr)]">
+    <aside class="space-y-4 lg:sticky lg:top-6 self-start">
+      <section class="rounded-[28px] border border-(--color-border) bg-(--color-surface) p-5 shadow-[var(--shadow-card)]">
+        <p class="text-xs uppercase tracking-[0.22em] text-(--color-muted)">Pool Date</p>
+        <h1 class="mt-2 text-2xl font-semibold text-(--color-fg)">
+          {dashboard.selectedDate}
+        </h1>
+        <p class="mt-2 text-sm leading-6 text-(--color-muted)">
+          日期筛选基于 `pool` 快照，而不是论文自己的 `published_date`。
+        </p>
+
+        <label class="mt-5 block text-xs font-medium uppercase tracking-[0.18em] text-(--color-muted)" for="date-filter">
+          切换日期
+        </label>
+        <select
+          id="date-filter"
+          class="mt-2 w-full rounded-2xl border border-(--color-border) bg-(--color-bg) px-4 py-3 text-sm text-(--color-fg) outline-none transition focus:border-(--color-accent)"
+          data-date-filter
+        >
+          {dashboard.availableDates.map((date) => (
+            <option value={hrefForDate(date)} selected={date === dashboard.selectedDate}>
+              {date}
+            </option>
+          ))}
+        </select>
+
+        <div class="mt-5 grid grid-cols-2 gap-3">
+          <article class="rounded-2xl bg-(--color-bg) px-4 py-3">
+            <p class="text-xs uppercase tracking-[0.12em] text-(--color-muted)">Pool</p>
+            <p class="mt-1 text-xl font-semibold">{dashboard.stats.poolCount}</p>
+          </article>
+          <article class="rounded-2xl bg-(--color-bg) px-4 py-3">
+            <p class="text-xs uppercase tracking-[0.12em] text-(--color-muted)">L1</p>
+            <p class="mt-1 text-xl font-semibold">{dashboard.stats.l1Count}</p>
+          </article>
+          <article class="rounded-2xl bg-(--color-bg) px-4 py-3">
+            <p class="text-xs uppercase tracking-[0.12em] text-(--color-muted)">L2</p>
+            <p class="mt-1 text-xl font-semibold">{dashboard.stats.l2Count}</p>
+          </article>
+          <article class="rounded-2xl bg-(--color-bg) px-4 py-3">
+            <p class="text-xs uppercase tracking-[0.12em] text-(--color-muted)">Digest</p>
+            <p class="mt-1 text-xl font-semibold">
+              {dashboard.stats.digestMustRead}
+              <span class="text-sm font-normal text-(--color-muted)"> + {dashboard.stats.digestWatchlist}</span>
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="rounded-[28px] border border-(--color-border) bg-(--color-surface) p-5 shadow-[var(--shadow-card)]">
+        <p class="text-xs uppercase tracking-[0.22em] text-(--color-muted)">Quick Notes</p>
+        <ul class="mt-4 space-y-3 text-sm leading-6 text-(--color-muted)">
+          <li>显示顺序固定为 `Digest → L2 → L1 → Archived`。</li>
+          <li>同一篇论文只出现在最深阶段，避免多栏重复。</li>
+          <li>每一栏内部再按研究方向分组，优先级与研究权重一致。</li>
+        </ul>
+      </section>
+
+      <section class="rounded-[28px] border border-(--color-border) bg-(--color-surface) p-5 shadow-[var(--shadow-card)]">
+        <p class="text-xs uppercase tracking-[0.22em] text-(--color-muted)">Available Dates</p>
+        <div class="mt-4 flex flex-wrap gap-2">
+          {dashboard.availableDates.map((date) => (
+            <a
+              class:list={[
+                "rounded-full border px-3 py-1.5 text-xs transition",
+                date === dashboard.selectedDate
+                  ? "border-(--color-accent) bg-(--color-accent-soft) text-(--color-accent-strong)"
+                  : "border-(--color-border) text-(--color-muted) hover:border-(--color-accent) hover:text-(--color-accent-strong)",
+              ]}
+              href={hrefForDate(date)}
+            >
+              {date}
+            </a>
+          ))}
+        </div>
+      </section>
+    </aside>
+
+    <section class="space-y-6">
+      <header class="rounded-[32px] border border-(--color-border) bg-[radial-gradient(circle_at_top_left,var(--color-hero-glow),transparent_55%),var(--color-surface)] p-6 shadow-[var(--shadow-card)]">
+        <p class="text-xs uppercase tracking-[0.24em] text-(--color-muted)">
+          Personalized Research Dashboard
+        </p>
+        <div class="mt-3 flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
+          <div class="max-w-3xl">
+            <h2 class="text-3xl font-semibold tracking-tight text-(--color-fg)">
+              围绕你的研究方向重排每日论文池
+            </h2>
+            <p class="mt-3 text-sm leading-7 text-(--color-muted)">
+              这里展示的是该 pool 日期下的筛选与复审结果。论文的 `published_date`
+              只作为元信息保留，不参与左侧日期筛选。
+            </p>
+          </div>
+          <div class="flex flex-wrap gap-3 text-sm">
+            <span class="rounded-full border border-(--color-border) bg-(--color-surface-strong) px-4 py-2 text-(--color-muted)">
+              Must Read {dashboard.stats.digestMustRead}
+            </span>
+            <span class="rounded-full border border-(--color-border) bg-(--color-surface-strong) px-4 py-2 text-(--color-muted)">
+              Watchlist {dashboard.stats.digestWatchlist}
+            </span>
+            <span class="rounded-full border border-(--color-border) bg-(--color-surface-strong) px-4 py-2 text-(--color-muted)">
+              Archived {dashboard.stats.archivedCount}
+            </span>
+            <span class="rounded-full border border-(--color-border) bg-(--color-surface-strong) px-4 py-2 text-(--color-muted)">
+              Rejected {dashboard.stats.rejectedCount}
+            </span>
+          </div>
+        </div>
+      </header>
+
+      <div class="grid gap-5 2xl:grid-cols-4 xl:grid-cols-2">
+        {dashboard.columns.map((column) => (
+          <section class="flex min-h-[460px] flex-col rounded-[28px] border border-(--color-border) bg-(--color-surface) shadow-[var(--shadow-card)]">
+            <header class="border-b border-(--color-border) px-5 py-4">
+              <div class="flex items-center justify-between gap-3">
+                <h3 class="text-lg font-semibold">{column.title}</h3>
+                <span class="rounded-full border border-(--color-border) bg-(--color-surface-strong) px-3 py-1 text-xs text-(--color-muted)">
+                  {column.groups.reduce((count, group) => count + group.papers.length, 0)}
+                </span>
+              </div>
+              <p class="mt-2 text-sm leading-6 text-(--color-muted)">{column.description}</p>
+            </header>
+
+            <div class="flex-1 space-y-5 px-5 py-5">
+              {column.markdownHtml ? (
+                <article class="digest-prose rounded-[24px] bg-(--color-bg) p-4" set:html={column.markdownHtml} />
+              ) : null}
+
+              {column.groups.length > 0 ? (
+                column.groups.map((group) => (
+                  <section class="space-y-3">
+                    <div class="flex items-center justify-between gap-3">
+                      <h4 class="text-sm font-semibold tracking-wide text-(--color-fg)">
+                        {group.direction.label}
+                      </h4>
+                      <span class="text-xs text-(--color-muted)">L{group.direction.level}</span>
+                    </div>
+
+                    <div class="space-y-3">
+                      {group.papers.map((paper) => (
+                        <article class="rounded-[24px] border border-(--color-border) bg-(--color-bg) p-4">
+                          <div class="flex items-start justify-between gap-3">
+                            <div class="min-w-0">
+                              <h5 class="text-sm font-semibold leading-6 text-(--color-fg)">
+                                <a class="hover:text-(--color-accent-strong)" href={paper.paperUrl ?? paper.pdfUrl ?? "#"} target="_blank" rel="noreferrer">
+                                  {paper.title}
+                                </a>
+                              </h5>
+                              <p class="mt-1 text-xs leading-5 text-(--color-muted)">
+                                {paper.paperId}
+                                {paper.publishedDate ? ` · published ${paper.publishedDate}` : ""}
+                              </p>
+                            </div>
+                            <span class:list={["shrink-0 rounded-full border px-3 py-1 text-[11px] font-medium", toneClasses(paper.statusTone)]}>
+                              {paper.stageBadge}
+                            </span>
+                          </div>
+
+                          {paper.authors.length > 0 ? (
+                            <p class="mt-3 text-xs leading-5 text-(--color-muted)">
+                              {paper.authors.join(", ")}
+                            </p>
+                          ) : null}
+
+                          <div class="mt-3 flex flex-wrap gap-2">
+                            <span class="rounded-full bg-(--color-surface-strong) px-3 py-1 text-[11px] text-(--color-muted)">
+                              主方向：{paper.primaryDirection.shortLabel}
+                            </span>
+                            {paper.relevance !== null ? (
+                              <span class="rounded-full bg-(--color-surface-strong) px-3 py-1 text-[11px] text-(--color-muted)">
+                                Relevance {paper.relevance}
+                              </span>
+                            ) : null}
+                            {paper.totalScore !== null ? (
+                              <span class="rounded-full bg-(--color-surface-strong) px-3 py-1 text-[11px] text-(--color-muted)">
+                                L1 Score {paper.totalScore}
+                              </span>
+                            ) : null}
+                          </div>
+
+                          {paper.trackLabels.length > 0 ? (
+                            <div class="mt-3 flex flex-wrap gap-2">
+                              {paper.trackLabels.map((track) => (
+                                <span class="rounded-full border border-(--color-border) px-3 py-1 text-[11px] text-(--color-muted)">
+                                  {track}
+                                </span>
+                              ))}
+                            </div>
+                          ) : null}
+
+                          {paper.summary ? (
+                            <p class="mt-4 text-sm leading-6 text-(--color-fg)">
+                              {paper.summary}
+                            </p>
+                          ) : null}
+
+                          {paper.whyRelevant ? (
+                            <p class="mt-3 text-sm leading-6 text-(--color-muted)">
+                              <span class="font-medium text-(--color-fg)">Why relevant:</span> {paper.whyRelevant}
+                            </p>
+                          ) : null}
+
+                          {paper.recommendedAction ? (
+                            <p class="mt-3 text-sm leading-6 text-(--color-muted)">
+                              <span class="font-medium text-(--color-fg)">Recommended action:</span> {paper.recommendedAction}
+                            </p>
+                          ) : null}
+
+                          {paper.archiveReason ? (
+                            <p class="mt-3 text-sm leading-6 text-(--color-muted)">
+                              <span class="font-medium text-(--color-fg)">Archive note:</span> {paper.archiveReason}
+                            </p>
+                          ) : null}
+
+                          {paper.failureMessage ? (
+                            <p class="mt-3 text-sm leading-6 text-[color:var(--color-danger-fg)]">
+                              {paper.failureMessage}
+                            </p>
+                          ) : null}
+
+                          <div class="mt-4 flex flex-wrap gap-3 text-xs">
+                            {paper.paperUrl ? (
+                              <a class="text-(--color-accent-strong) hover:underline" href={paper.paperUrl} target="_blank" rel="noreferrer">
+                                arXiv
+                              </a>
+                            ) : null}
+                            {paper.pdfUrl ? (
+                              <a class="text-(--color-accent-strong) hover:underline" href={paper.pdfUrl} target="_blank" rel="noreferrer">
+                                PDF
+                              </a>
+                            ) : null}
+                            {paper.codeLink ? (
+                              <a class="text-(--color-accent-strong) hover:underline" href={paper.codeLink} target="_blank" rel="noreferrer">
+                                Code
+                              </a>
+                            ) : null}
+                          </div>
+                        </article>
+                      ))}
+                    </div>
+                  </section>
+                ))
+              ) : (
+                <div class="rounded-[24px] border border-dashed border-(--color-border) bg-(--color-bg) px-4 py-5 text-sm leading-6 text-(--color-muted)">
+                  这个阶段在 {dashboard.selectedDate} 没有可展示的论文。
+                </div>
+              )}
+            </div>
+          </section>
+        ))}
+      </div>
+    </section>
+  </div>
+
+  <script is:inline>
+    const dateFilter = document.querySelector("[data-date-filter]");
+    if (dateFilter instanceof HTMLSelectElement) {
+      dateFilter.addEventListener("change", (event) => {
+        const nextUrl = event.currentTarget.value;
+        if (nextUrl) {
+          window.location.assign(nextUrl);
+        }
+      });
+    }
+  </script>
+</main>

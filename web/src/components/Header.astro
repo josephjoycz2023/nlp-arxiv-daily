@@ -10,9 +10,9 @@ const { current = "home" } = Astro.props;
 ---
 
 <header class="border-b border-(--color-border)">
-  <div class="max-w-3xl mx-auto px-6 py-4 flex items-center justify-between">
+  <div class="mx-auto flex max-w-[1600px] items-center justify-between px-4 py-4 lg:px-6">
     <a class="font-semibold tracking-tight" href={withBase("/")}>
-      NLP Arxiv Daily
+      Personalized Research Dashboard
     </a>
     <nav class="flex items-center gap-5 text-sm">
       <a
@@ -22,7 +22,7 @@ const { current = "home" } = Astro.props;
         ]}
         href={withBase("/")}
       >
-        Latest
+        Dashboard
       </a>
       <a
         class:list={[
@@ -31,7 +31,7 @@ const { current = "home" } = Astro.props;
         ]}
         href={withBase("/archive/")}
       >
-        Archive
+        Dates
       </a>
       <a
         class:list={[
@@ -58,7 +58,7 @@ const { current = "home" } = Astro.props;
       </a>
       <a
         class="inline-flex items-center justify-center w-9 h-9 rounded border border-(--color-border) hover:border-(--color-accent) hover:text-(--color-accent) transition-colors"
-        href="https://github.com/monologg/nlp-arxiv-daily"
+        href="https://github.com/josephjoycz2023/nlp-arxiv-daily"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="GitHub repository"
