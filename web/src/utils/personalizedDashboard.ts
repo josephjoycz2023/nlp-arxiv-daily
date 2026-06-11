@@ -23,7 +23,7 @@ type DirectionId =
   | "neuro_language_memory"
   | "other";
 
-interface DirectionDefinition {
+export interface DirectionDefinition {
   id: DirectionId;
   label: string;
   shortLabel: string;
@@ -75,7 +75,7 @@ interface DigestEntry {
   message?: string | null;
 }
 
-interface DashboardPaper {
+export interface DashboardPaper {
   paperId: string;
   title: string;
   authors: string[];
@@ -99,12 +99,12 @@ interface DashboardPaper {
   failureMessage: string | null;
 }
 
-interface DashboardGroup {
+export interface DashboardGroup {
   direction: DirectionDefinition;
   papers: DashboardPaper[];
 }
 
-interface DashboardColumn {
+export interface DashboardColumn {
   id: "digest" | "l2" | "l1" | "archived";
   title: string;
   description: string;
@@ -704,7 +704,7 @@ export function getDashboardData(requestedDate?: string): DashboardData {
       .map((entry) =>
         buildPaper(entry.paper_id, paperLookup, l1Lookup, {
           title: entry.title ?? undefined,
-          stageBadge: "Must Read",
+          stageBadge: "重点关注",
           statusTone: "accent",
           summary: entry.summary_cn ?? null,
           whyRelevant: entry.why_relevant_cn ?? null,
@@ -716,7 +716,7 @@ export function getDashboardData(requestedDate?: string): DashboardData {
       .map((entry) =>
         buildPaper(entry.paper_id, paperLookup, l1Lookup, {
           title: entry.title ?? undefined,
-          stageBadge: "Watchlist",
+          stageBadge: "观察列表",
           statusTone: "warning",
           summary: entry.reason_cn ?? null,
         }),
@@ -726,7 +726,7 @@ export function getDashboardData(requestedDate?: string): DashboardData {
       .map((entry) =>
         buildPaper(entry.paper_id, paperLookup, l1Lookup, {
           title: entry.title ?? undefined,
-          stageBadge: "Review Failed",
+          stageBadge: "复审失败",
           statusTone: "danger",
           failureMessage: entry.message ?? null,
         }),
@@ -746,7 +746,7 @@ export function getDashboardData(requestedDate?: string): DashboardData {
 
     const builtPaper = buildPaper(paper.paper_id, paperLookup, l1Lookup, {
       title: paper.title ?? undefined,
-      stageBadge: paper.passed_l2 ? "L2 Passed" : "L2 Error",
+      stageBadge: paper.passed_l2 ? "L2 通过" : "L2 异常",
       statusTone: paper.passed_l2 ? "accent" : "danger",
       summary: paper.summary_cn,
       recommendedAction: paper.recommended_action_cn,
@@ -770,7 +770,7 @@ export function getDashboardData(requestedDate?: string): DashboardData {
 
     if (paper.decision === "level2") {
       const builtPaper = buildPaper(paper.paper_id, paperLookup, l1Lookup, {
-        stageBadge: "L1 Passed",
+        stageBadge: "L1 通过",
         statusTone: "muted",
         summary: paper.reason_cn,
         totalScore: paper.total_score,
@@ -788,7 +788,7 @@ export function getDashboardData(requestedDate?: string): DashboardData {
     const l1Paper = l1Lookup.get(paperId);
     const l2Paper = l2Lookup.get(paperId);
     const builtPaper = buildPaper(paperId, paperLookup, l1Lookup, {
-      stageBadge: "Archived",
+      stageBadge: "已归档",
       statusTone: "warning",
       summary: l1Paper?.reason_cn ?? l2Paper?.summary_cn ?? null,
       archiveReason: l1Paper?.archive_reason_cn ?? null,
