@@ -2,10 +2,15 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-const repoRoot = path.resolve(
-  path.dirname(fileURLToPath(import.meta.url)),
-  "../../../..",
-);
+const currentDir = path.dirname(fileURLToPath(import.meta.url));
+const repoRootCandidates = [
+  path.resolve(currentDir, "../../.."),
+  path.resolve(currentDir, "../../../.."),
+];
+const repoRoot =
+  repoRootCandidates.find((candidate) =>
+    fs.existsSync(path.join(candidate, "docs", "personalized")),
+  ) ?? repoRootCandidates[0];
 const personalizedRoot = path.join(repoRoot, "docs", "personalized");
 const poolsDir = path.join(personalizedRoot, "pools");
 const logsDir = path.join(personalizedRoot, "logs");
